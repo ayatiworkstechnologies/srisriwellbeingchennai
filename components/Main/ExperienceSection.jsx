@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
 
 const sanctuarySlides = [
@@ -100,16 +101,18 @@ export default function ExperienceSection() {
 
         <button
           onClick={prevSlide}
-          className="absolute top-1/2 left-3 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#d0a93d] bg-white/90 text-[20px] text-[#b28b22] backdrop-blur transition hover:bg-[#d0a93d] hover:text-white md:left-5 md:h-11 md:w-11 md:text-[26px]"
+          className="absolute top-1/2 left-3 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#d0a93d]/50 bg-white/95 text-[#b28b22] shadow-[0_4px_12px_rgba(0,0,0,0.15)] backdrop-blur transition-all duration-300 hover:bg-[#d4af37] hover:text-white md:left-6 md:h-14 md:w-14"
+          aria-label="Previous slide"
         >
-          ‹
+          <FaChevronLeft className="text-[18px] md:text-[22px]" />
         </button>
 
         <button
           onClick={nextSlide}
-          className="absolute top-1/2 right-3 z-20 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full border border-[#d0a93d] bg-white/90 text-[20px] text-[#b28b22] backdrop-blur transition hover:bg-[#d0a93d] hover:text-white md:right-5 md:h-11 md:w-11 md:text-[26px]"
+          className="absolute top-1/2 right-3 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#d0a93d]/50 bg-white/95 text-[#b28b22] shadow-[0_4px_12px_rgba(0,0,0,0.15)] backdrop-blur transition-all duration-300 hover:bg-[#d4af37] hover:text-white md:right-6 md:h-14 md:w-14"
+          aria-label="Next slide"
         >
-          ›
+          <FaChevronRight className="text-[18px] md:text-[22px]" />
         </button>
 
         <div className="absolute bottom-5 left-0 right-0 z-20 md:bottom-9">

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
 
 const therapyCards = [
@@ -110,20 +111,20 @@ export default function ServicesSection() {
             type="button"
             onClick={() => canGoPrev && setPage(currentPage - 1)}
             disabled={!canGoPrev}
-            className="absolute left-[2px] top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#d9be69] bg-white text-[20px] text-[#c8a53a] shadow-sm transition hover:bg-[#d0a93d] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 md:left-[-18px] md:h-12 md:w-12"
+            className="absolute left-[2px] top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#d9be69]/60 bg-white/95 text-[#c8a53a] shadow-[0_5px_15px_rgba(0,0,0,0.08)] backdrop-blur-sm transition-all duration-300 hover:bg-[#d0a93d] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 md:left-[-22px] md:h-14 md:w-14"
             aria-label="Previous services"
           >
-            &#8249;
+            <FaChevronLeft className="text-[16px] md:text-[20px]" />
           </button>
 
           <button
             type="button"
             onClick={() => canGoNext && setPage(currentPage + 1)}
             disabled={!canGoNext}
-            className="absolute right-[2px] top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#d9be69] bg-white text-[20px] text-[#c8a53a] shadow-sm transition hover:bg-[#d0a93d] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 md:right-[-18px] md:h-12 md:w-12"
+            className="absolute right-[2px] top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#d9be69]/60 bg-white/95 text-[#c8a53a] shadow-[0_5px_15px_rgba(0,0,0,0.08)] backdrop-blur-sm transition-all duration-300 hover:bg-[#d0a93d] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 md:right-[-22px] md:h-14 md:w-14"
             aria-label="Next services"
           >
-            &#8250;
+            <FaChevronRight className="text-[16px] md:text-[20px]" />
           </button>
 
           <div className="grid gap-5 md:grid-cols-2 md:gap-7 lg:grid-cols-4">

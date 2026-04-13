@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { FaEnvelope, FaPhoneVolume, FaInstagram, FaFacebookF, FaLinkedinIn } from "react-icons/fa6";
+import { FaEnvelope, FaPhoneVolume, FaInstagram, FaFacebookF, FaLinkedinIn, FaChevronRight } from "react-icons/fa6";
 
 export default function Footer() {
   return (
@@ -53,7 +53,7 @@ export default function Footer() {
                     href="#relax"
                     className="flex items-center gap-2 text-base md:text-lg font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
-                    <span>&middot;</span> Relax
+                    <FaChevronRight className="text-[10px] text-[#d4af37]" /> Relax
                   </Link>
                 </li>
                 <li>
@@ -61,7 +61,7 @@ export default function Footer() {
                     href="#heal"
                     className="flex items-center gap-2 text-base md:text-lg font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
-                    <span>&middot;</span> Heal
+                    <FaChevronRight className="text-[10px] text-[#d4af37]" /> Heal
                   </Link>
                 </li>
                 <li>
@@ -69,7 +69,7 @@ export default function Footer() {
                     href="#products"
                     className="flex items-center gap-2 text-base md:text-lg font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
-                    <span>&middot;</span> Products
+                    <FaChevronRight className="text-[10px] text-[#d4af37]" /> Products
                   </Link>
                 </li>
                 <li>
@@ -77,7 +77,7 @@ export default function Footer() {
                     href="#about"
                     className="flex items-center gap-2 text-base md:text-lg font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
-                    <span>&middot;</span> About
+                    <FaChevronRight className="text-[10px] text-[#d4af37]" /> About
                   </Link>
                 </li>
                 <li>
@@ -85,7 +85,7 @@ export default function Footer() {
                     href="#specialties"
                     className="flex items-center gap-2 text-base md:text-lg font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
-                    <span>&middot;</span> Specialties
+                    <FaChevronRight className="text-[10px] text-[#d4af37]" /> Specialties
                   </Link>
                 </li>
                 <li>
@@ -93,7 +93,7 @@ export default function Footer() {
                     href="#testimonial"
                     className="flex items-center gap-2 text-base md:text-lg font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
-                    <span>&middot;</span> Testimonial
+                    <FaChevronRight className="text-[10px] text-[#d4af37]" /> Testimonial
                   </Link>
                 </li>
               </ul>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import { FaArrowRight } from "react-icons/fa6";
 
 const navItems = [
   { label: "Home", href: "#home" },
@@ -74,9 +75,10 @@ export default function Header() {
         <div className="flex items-center gap-3 relative z-50">
           <Link
             href="/contact"
-            className="hidden sm:inline-flex h-10 items-center justify-center rounded-full bg-[#D4AF37] px-8 text-base md:text-lg font-semibold tracking-wide text-white! transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-md"
+            className="hidden sm:inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-8 text-base md:text-lg font-semibold tracking-wide text-white! transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-md"
           >
             Contact
+            <FaArrowRight className="text-[14px]" />
           </Link>
 
           {/* Hamburger Button */}
@@ -132,9 +134,10 @@ export default function Header() {
             <Link
               href="/contact"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="flex h-12 w-full items-center justify-center rounded-[14px] bg-[#D4AF37] text-base md:text-lg font-medium text-white! shadow-md transition hover:bg-[#b8952b]"
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-[14px] bg-[#D4AF37] text-base md:text-lg font-medium text-white! shadow-md transition hover:bg-[#b8952b]"
             >
               Contact Us
+              <FaArrowRight className="text-[15px]" />
             </Link>
           </li>
         </ul>

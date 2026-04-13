@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { FaArrowRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
 
 const products = [
@@ -82,9 +83,10 @@ export default function CollectionSection() {
                   </p>
 
                   <button
-                    className="mt-auto mx-auto inline-flex w-fit items-center justify-center rounded-full bg-[#D4AF37] px-8 py-3 text-[14px] font-medium tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-md md:py-3.5 md:text-[15px]"
+                    className="mt-auto mx-auto inline-flex w-fit items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-8 py-4 text-[15px] font-bold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-lg"
                   >
                     View Product
+                    <FaArrowRight className="text-[14px]" />
                   </button>
                 </div>
               </div>

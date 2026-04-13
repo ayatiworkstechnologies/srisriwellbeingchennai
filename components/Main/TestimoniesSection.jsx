@@ -1,5 +1,6 @@
 "use client";
 
+import { FaStar } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
 
 const testimonies = [
@@ -59,9 +60,7 @@ export default function TestimoniesSection() {
                 >
                   <div className="mb-5 flex gap-1">
                     {[...Array(5)].map((_, i) => (
-                      <span key={i} className="text-[15px] text-[#d0a93d]">
-                        ★
-                      </span>
+                      <FaStar key={i} className="text-[13px] md:text-[14px] text-[#d0a93d]" />
                     ))}
                   </div>
 

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { FaArrowRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
 
 const learningItems = [
@@ -88,7 +89,16 @@ function LearningCard({ item, index, progress, total }) {
                 {item.desc}
               </p>
 
-              <div className="mt-7 h-[2px] w-16 bg-linear-to-r from-[#e5cf86] to-[#c08f20]" />
+              <div className="mt-6 flex flex-col gap-5">
+                <Link
+                  href="/contact"
+                  className="inline-flex items-center gap-2 text-[14px] font-bold uppercase tracking-wider text-[#b88621] transition hover:text-[#d4af37]"
+                >
+                  Explore Pathway
+                  <FaArrowRight className="text-[14px]" />
+                </Link>
+                <div className="h-[2.5px] w-16 bg-linear-to-r from-[#e5cf86] to-[#c08f20]" />
+              </div>
             </div>
           </div>
 
@@ -178,7 +188,16 @@ export default function TailoredPathwaysSection() {
                   <p className="mt-3 text-base md:text-lg leading-7 text-[#5f5852]">
                     {item.desc}
                   </p>
-                  <div className="mt-5 h-[2px] w-14 bg-linear-to-r from-[#e5cf86] to-[#c08f20]" />
+                  <div className="mt-5 flex flex-col gap-4">
+                    <Link
+                      href="/contact"
+                      className="inline-flex items-center gap-2 text-[13px] font-bold uppercase tracking-wider text-[#b88621] transition hover:text-[#d4af37]"
+                    >
+                      Explore Pathway
+                      <FaArrowRight className="text-[13px]" />
+                    </Link>
+                    <div className="h-[2.5px] w-14 bg-linear-to-r from-[#e5cf86] to-[#c08f20]" />
+                  </div>
                 </div>
               </article>
             ))}

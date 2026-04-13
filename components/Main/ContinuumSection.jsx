@@ -9,29 +9,29 @@ const pathways = [
     tag: "Deep Relaxation Therapies",
     title: "Relax",
     desc: "Signature Ayurvedic experiences designed to release physical and mental fatigue, restoring deep calm.",
-    image: "/images/img-01.png",
+    image: "/images/img-1.png",
   },
   {
     number: "02",
     tag: "Therapeutic Healing Programs",
     title: "Heal",
     desc: "Targeted treatments guided by Ayurvedic diagnostics to address chronic imbalances and lifestyle conditions.",
-    image: "/images/img-02.png",
+    image: "/images/img-2.png",
   },
   {
     number: "03",
     tag: "Guided Wellness Sessions",
     title: "Webinars",
     desc: "Expert-led knowledge sessions to deepen awareness of holistic health and sustainable living.",
-    image: "/images/Image-01.png",
+    image: "/images/img-3.png",
   },
-  {
-    number: "04",
-    tag: "Transformational Training Experiences",
-    title: "Trainings",
-    desc: "Immersive programs that empower long-term lifestyle shifts through ancient wisdom and modern application.",
-    image: "/images/img-01.png",
-  },
+  // {
+  //   number: "04",
+  //   tag: "Transformational Training Experiences",
+  //   title: "Trainings",
+  //   desc: "Immersive programs that empower long-term lifestyle shifts through ancient wisdom and modern application.",
+  //   image: "/images/img-01.png",
+  // },
 ];
 
 const marqueeItems = [...pathways, ...pathways];

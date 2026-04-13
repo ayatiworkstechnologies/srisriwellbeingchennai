@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { FaArrowRight } from "react-icons/fa6";
 
 export default function HeroSection() {
   const videoRef = useRef(null);
@@ -101,20 +102,7 @@ export default function HeroSection() {
                   className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#D4AF37] px-6 py-3.5 text-base font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-lg md:mt-10 md:px-10 md:py-4.5 md:text-lg"
                 >
                   Begin Your Wellness Journey
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="16"
-                    height="16"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 12h14" />
-                    <path d="m12 5 7 7-7 7" />
-                  </svg>
+                  <FaArrowRight className="text-[18px] md:text-[20px]" />
                 </Link>
               </motion.div>
 
