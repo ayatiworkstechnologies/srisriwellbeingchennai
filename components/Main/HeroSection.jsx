@@ -21,7 +21,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="h-screen w-full overflow-hidden bg-black">
+    <section id="home" className="h-screen w-full overflow-hidden bg-black">
       <video
         ref={videoRef}
         className="h-full w-full object-cover"

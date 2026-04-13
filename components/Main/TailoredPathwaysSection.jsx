@@ -6,41 +6,36 @@ import { useRef } from "react";
 
 const learningItems = [
   {
-    title: "Reflexology",
-    desc: "A focused practice that activates the body's natural healing responses through precise pressure techniques.",
+    title: "Children's Wellbeing",
+    desc: "Gentle, nurturing therapies designed to support growth, strengthen immunity, and cultivate balance from an early age.",
     image: "/images/img-01.png",
   },
   {
-    title: "Marma Therapy",
-    desc: "A restorative therapy that works on vital energy points to support circulation, relaxation, and internal balance.",
-    image: "/images/Image-01.png",
+    title: "Women's Wellness",
+    desc: "Holistic care that supports hormonal harmony, vitality, and overall wellbeing through every phase of life.",
+    image: "/images/img-02.png",
   },
   {
-    title: "Abhyanga Learning",
-    desc: "Experience the therapeutic value of rhythmic oil application designed to soothe the body and calm the nervous system.",
-    image: "/images/img-02.png",
+    title: "Mental Wellbeing",
+    desc: "Restorative therapies that calm the mind, ease emotional fatigue, and bring clarity to modern, high-paced living.",
+    image: "/images/Image-01.png",
   },
 ];
 
 function LearningCard({ item, index, progress, total }) {
-  const transitions = total - 1;
-  const domain = Array.from({ length: total }, (_, i) => i * (1 / transitions));
+  const segment = 1 / total;
 
-  const y = useTransform(progress, domain, domain.map((dp, i) => {
-    if (i < index) return 1000;
-    if (i === index) return 0;
-    return -40 * (i - index);
-  }));
+  const start = index * segment;
+  const center = start + segment * 0.45;
+  const end = start + segment * 0.95;
 
-  const scale = useTransform(progress, domain, domain.map((dp, i) => {
-    if (i <= index) return 1;
-    return 1 - (0.05 * (i - index));
-  }));
-
-  const opacity = useTransform(progress, domain, domain.map((dp, i) => {
-    if (i <= index) return 1;
-    return 1 - (0.15 * (i - index));
-  }));
+  const y = useTransform(progress, [start, center, end], [140, 0, -40]);
+  const scale = useTransform(progress, [start, center, end], [0.92, 1, 0.96]);
+  const opacity = useTransform(
+    progress,
+    [start, start + 0.08, center, end],
+    [0, 1, 1, 0.85]
+  );
 
   return (
     <motion.div
@@ -81,7 +76,7 @@ function LearningCard({ item, index, progress, total }) {
               </div>
 
               <div className="mb-3 text-[11px] font-bold uppercase tracking-[0.22em] text-[#b88621]">
-                Module 0{index + 1}
+                Pathway 0{index + 1}
               </div>
 
               <h3 className="text-[28px] font-bold leading-tight text-[#171310] md:text-[40px]">
@@ -113,7 +108,7 @@ function LearningCard({ item, index, progress, total }) {
   );
 }
 
-export default function LearningSection() {
+export default function TailoredPathwaysSection() {
   const sectionRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -129,7 +124,7 @@ export default function LearningSection() {
 
   return (
     <section ref={sectionRef} className="relative overflow-hidden bg-[#f5f2ec]">
-      <div className="relative h-[180vh] md:h-[180vh]">
+      <div className="relative h-[120vh] md:h-[120vh]">
         <div className="sticky top-0 flex h-screen items-center overflow-hidden">
           {/* background */}
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(192,143,32,0.08),transparent_35%),radial-gradient(circle_at_80%_80%,rgba(192,143,32,0.06),transparent_35%)]" />
@@ -138,8 +133,11 @@ export default function LearningSection() {
             {/* heading */}
             <div className="mb-6 text-center md:mb-10">
               <h2 className="text-[24px] font-bold uppercase tracking-[0.06em] text-[#111] md:text-[42px]">
-                Signature Learning Experiences
+                Tailored Pathways of Care
               </h2>
+              <p className="mx-auto mt-4 max-w-[600px] text-[14px] leading-6 text-[#5e5751] md:text-[15px]">
+                Thoughtfully designed approaches that honour individual needs, life stages, and evolving wellbeing.
+              </p>
               <div className="mx-auto mt-3 h-[3px] w-[74px] rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
             </div>
 

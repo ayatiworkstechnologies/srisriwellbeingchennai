@@ -1,12 +1,13 @@
-
 import HeroSection from "@/components/Main/HeroSection";
 import IntroSection from "@/components/Main/IntroSection";
-import PathwaysSection from "@/components/Main/PathwaysSection";
-import TherapiesSection from "@/components/Main/TherapiesSection";
-import SanctuarySection from "@/components/Main/SanctuarySection";
-import LearningSection from "@/components/Main/LearningSection";
+import ContinuumSection from "@/components/Main/ContinuumSection";
+import ServicesSection from "@/components/Main/ServicesSection";
+import CollectionSection from "@/components/Main/CollectionSection";
+import ExperienceSection from "@/components/Main/ExperienceSection";
+import TailoredPathwaysSection from "@/components/Main/TailoredPathwaysSection";
+import TestimoniesSection from "@/components/Main/TestimoniesSection";
 import SectionReveal from "@/components/Main/SectionReveal";
-
+import LearningSection from "@/components/Main/LearningSection";
 
 export default function HomePage() {
   return (
@@ -18,16 +19,21 @@ export default function HomePage() {
         <IntroSection />
       </SectionReveal>
       <SectionReveal delay={0.08}>
-        <PathwaysSection />
+        <ContinuumSection />
       </SectionReveal>
       <SectionReveal delay={0.1}>
-        <TherapiesSection />
+        <ServicesSection />
       </SectionReveal>
       <SectionReveal delay={0.1}>
-        <SanctuarySection />
+        <CollectionSection />
       </SectionReveal>
       <SectionReveal delay={0.12}>
-        <LearningSection />
+        <ExperienceSection />
+      </SectionReveal>
+      <TailoredPathwaysSection />
+      {/* <LearningSection /> */}
+      <SectionReveal delay={0.12}>
+        <TestimoniesSection />
       </SectionReveal>
     </>
   );

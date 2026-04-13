@@ -4,11 +4,13 @@ import Image from "next/image";
 import Link from "next/link";
 
 const navItems = [
-  { label: "Home", href: "/" },
-  { label: "Relax", href: "/relax" },
-  { label: "Heal", href: "/heal" },
-  { label: "Webinars", href: "/webinars" },
-  { label: "Trainings", href: "/trainings" },
+  { label: "Home", href: "/#home" },
+  { label: "Relax", href: "/#relax" },
+  { label: "Heal", href: "/#heal" },
+  { label: "Products", href: "/#products" },
+  { label: "About", href: "/#about" },
+  { label: "specialities", href: "/#specialities" },
+  { label: "Testimonial", href: "/#testimonial" },
 ];
 
 export default function Header() {
@@ -16,7 +18,7 @@ export default function Header() {
     <header className="fixed top-3 left-0 z-50 w-full md:top-4">
       <div className="mx-auto flex w-[min(1200px,calc(100%-24px))] items-center justify-between gap-2 md:w-[min(1200px,calc(100%-40px))] md:gap-4">
         <Link
-          href="/"
+          href="/#home"
           className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-full bg-white/85 shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-md md:h-14 md:w-14"
         >
           <Image

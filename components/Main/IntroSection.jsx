@@ -4,7 +4,10 @@ import Image from "next/image";
 
 export default function IntroSection() {
   return (
-    <section className="relative overflow-hidden py-16 md:py-20">
+    <section
+      id="about"
+      className="relative overflow-hidden py-16 md:py-20"
+    >
       {/* Full background pattern image */}
       <div className="absolute inset-0">
         <Image
@@ -34,11 +37,12 @@ export default function IntroSection() {
           for Modern Living.
         </h2>
 
-        <p className="mx-auto mt-4 max-w-[720px] text-[13px] leading-7 text-white/80 md:mt-5 md:text-[15px] md:leading-8">
-          Sri Sri Wellbeing is a refined Ayurvedic sanctuary where timeless
-          healing meets modern living. Guided by centuries-old wisdom and
-          elevated through thoughtful care, each therapy is designed to restore
-          balance, vitality, and quiet clarity.
+        <p className="mx-auto mt-4 max-w-[760px] text-[13px] leading-7 text-white/80 md:mt-5 md:text-[15px] md:leading-8">
+          Sri Sri Wellbeing is an elevated Ayurvedic sanctuary where ancient wisdom is reinterpreted for the discerning modern lifestyle. Guided by accomplished Ayurveda physicians and master therapists, each therapy is meticulously tailored to restore equilibrium, elevate vitality, and cultivate inner stillness.
+          <br /><br />
+          In the heart of the city, step into an environment of quiet sophistication, where every element is intentionally curated to soothe the senses and recalibrate the self.
+          <br /><br />
+          Beyond treatment, it is a deeply personalised journey, one that harmonises health, enhances clarity, and nurtures a sustained sense of wellbeing, with uncompromising care and discretion.
         </p>
       </div>
     </section>
