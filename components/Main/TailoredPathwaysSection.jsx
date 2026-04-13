@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import RevealOnScroll from "./RevealOnScroll";
 
 const learningItems = [
   {
@@ -79,11 +80,11 @@ function LearningCard({ item, index, progress, total }) {
                 Pathway 0{index + 1}
               </div>
 
-              <h3 className="text-[28px] font-bold leading-tight text-[#171310] md:text-[40px]">
+              <h3 className="text-xl md:text-2xl font-bold leading-tight text-[#171310]">
                 {item.title}
               </h3>
 
-              <p className="mt-4 text-[15px] leading-relaxed text-[#5f5852] md:text-[17px]">
+              <p className="mt-4 text-base md:text-lg leading-relaxed text-[#5f5852]">
                 {item.desc}
               </p>
 
@@ -140,10 +141,10 @@ export default function TailoredPathwaysSection() {
 
         <div className="relative z-10 mx-auto w-[min(1200px,calc(100%-24px))]">
           <div className="mb-8 text-center">
-            <h2 className="text-[24px] font-bold uppercase tracking-[0.06em] text-[#111]">
+            <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-[0.06em] text-[#111]">
               Tailored Pathways of Care
             </h2>
-            <p className="mx-auto mt-3 max-w-[560px] text-[14px] leading-6 text-[#5e5751]">
+            <p className="mx-auto mt-3 max-w-[560px] text-base md:text-lg leading-6 text-[#5e5751]">
               Thoughtfully designed approaches that honour individual needs,
               life stages, and evolving wellbeing.
             </p>
@@ -171,10 +172,10 @@ export default function TailoredPathwaysSection() {
                   <div className="mb-3 inline-flex rounded-full border border-[#d8bb6b]/40 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[#b88621]">
                     Pathway 0{index + 1}
                   </div>
-                  <h3 className="text-[24px] font-bold leading-tight text-[#171310]">
+                  <h3 className="text-xl md:text-2xl font-bold leading-tight text-[#171310]">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-[14px] leading-7 text-[#5f5852]">
+                  <p className="mt-3 text-base md:text-lg leading-7 text-[#5f5852]">
                     {item.desc}
                   </p>
                   <div className="mt-5 h-[2px] w-14 bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
@@ -195,19 +196,19 @@ export default function TailoredPathwaysSection() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(192,143,32,0.08),transparent_35%),radial-gradient(circle_at_80%_80%,rgba(192,143,32,0.06),transparent_35%)]" />
 
       <div className="relative z-10 mx-auto w-full max-w-[1240px] px-4 md:px-6">
-        <div className="mb-8 text-center md:mb-10">
-          <h2 className="text-[24px] font-bold uppercase tracking-[0.06em] text-[#111] md:text-[42px]">
+        <RevealOnScroll className="mb-8 text-center md:mb-10">
+          <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-[0.06em] text-[#111]">
             Tailored Pathways of Care
           </h2>
-          <p className="mx-auto mt-4 max-w-[600px] text-[14px] leading-6 text-[#5e5751] md:text-[15px]">
+          <p className="mx-auto mt-4 max-w-[600px] text-base md:text-lg leading-6 text-[#5e5751]">
             Thoughtfully designed approaches that honour individual needs, life
             stages, and evolving wellbeing.
           </p>
           <div className="mx-auto mt-3 h-[3px] w-[74px] rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
-        </div>
+        </RevealOnScroll>
       </div>
 
-      <div className="relative h-100vh] md:h-[100vh] lg:h-[100vh]">
+      <div className="relative h-[100vh] md:h-[100vh] lg:h-[100vh]">
         <div className="sticky top-[76px] flex h-[calc(100vh-76px)] items-center overflow-hidden md:top-[92px] md:h-[calc(100vh-92px)]">
           <div className="relative z-10 mx-auto w-full max-w-[1240px] px-4 md:px-6">
             <div className="relative h-[500px] md:h-[520px] lg:h-[540px]">

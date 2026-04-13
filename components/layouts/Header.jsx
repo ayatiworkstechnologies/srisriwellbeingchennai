@@ -27,7 +27,7 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="fixed top-3 left-0 z-50 w-full md:top-4">
+    <header className="fixed top-4 left-0 z-50 w-full md:top-6">
       <div className="mx-auto flex w-[min(1200px,calc(100%-24px))] items-center justify-between gap-4 md:w-[min(1200px,calc(100%-40px))]">
 
         {/* Logo */}
@@ -37,7 +37,7 @@ export default function Header() {
             alt="Sri Sri Wellbeing"
             width={56}
             height={56}
-            className="h-[48px] w-[48px] object-contain md:h-[56px] md:w-[56px]"
+            className="h-[48px] w-[48px] object-contain md:h-[60px] md:w-[60px]"
             priority
           />
         </Link>
@@ -49,13 +49,10 @@ export default function Header() {
               <li key={item.label}>
                 <Link
                   href={item.href}
-                  className={`inline-flex h-10 items-center justify-center rounded-full px-5 text-[14px] font-medium transition-all duration-300 ${index === 0
-                      ? "text-white shadow-[0_6px_16px_rgba(142,106,30,0.4)]"
-                      : "text-[#222] hover:bg-[#d0a93d]/10 hover:text-[#4b1f12]"
+                  className={`inline-flex h-10 items-center justify-center rounded-full px-5 text-base md:text-lg font-medium transition-all duration-300 ${index === 0
+                    ? "bg-[#D4AF37] text-white shadow-sm font-semibold tracking-wide"
+                    : "text-[#222] hover:bg-[#d0a93d]/10 hover:text-[#4b1f12]"
                     }`}
-                  style={
-                    index === 0 ? { background: "var(--gold-gradient)" } : undefined
-                  }
                 >
                   {item.label}
                 </Link>
@@ -68,8 +65,7 @@ export default function Header() {
         <div className="flex items-center gap-3 relative z-50">
           <Link
             href="/contact"
-            className="hidden sm:inline-flex h-10 items-center justify-center rounded-full px-6 text-[14px] font-medium text-white shadow-[0_6px_16px_rgba(142,106,30,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(142,106,30,0.5)]"
-            style={{ background: "var(--gold-gradient)" }}
+            className="hidden sm:inline-flex h-10 items-center justify-center rounded-full bg-[#D4AF37] px-8 text-base md:text-lg font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-md"
           >
             Contact
           </Link>
@@ -104,8 +100,8 @@ export default function Header() {
       />
       <div
         className={`absolute left-4 right-4 top-[80px] z-40 rounded-[24px] bg-white p-5 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-400 ease-[cubic-bezier(0.25,1,0.5,1)] lg:hidden ${isMobileMenuOpen
-            ? "translate-y-0 opacity-100 pointer-events-auto"
-            : "-translate-y-4 opacity-0 pointer-events-none"
+          ? "translate-y-0 opacity-100 pointer-events-auto"
+          : "-translate-y-4 opacity-0 pointer-events-none"
           }`}
       >
         <ul className="flex flex-col gap-2">
@@ -114,13 +110,10 @@ export default function Header() {
               <Link
                 href={item.href}
                 onClick={() => setIsMobileMenuOpen(false)}
-                className={`flex h-12 w-full items-center rounded-[14px] px-4 text-[15px] font-medium transition-colors ${index === 0
-                    ? "text-white"
-                    : "text-[#361A0D] hover:bg-[#f6f3ee]"
+                className={`flex h-12 w-full items-center rounded-[14px] px-4 text-base md:text-lg font-medium transition-colors ${index === 0
+                  ? "bg-[#D4AF37] text-white"
+                  : "text-[#361A0D] hover:bg-[#f6f3ee]"
                   }`}
-                style={
-                  index === 0 ? { background: "var(--gold-gradient)" } : undefined
-                }
               >
                 {item.label}
               </Link>
@@ -130,8 +123,7 @@ export default function Header() {
             <Link
               href="/contact"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="flex h-12 w-full items-center justify-center rounded-[14px] text-[15px] font-medium text-white shadow-md"
-              style={{ background: "var(--gold-gradient)" }}
+              className="flex h-12 w-full items-center justify-center rounded-[14px] bg-[#D4AF37] text-base md:text-lg font-medium text-white shadow-md transition hover:bg-[#b8952b]"
             >
               Contact Us
             </Link>

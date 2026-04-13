@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
+import RevealOnScroll from "./RevealOnScroll";
 
 const therapyCards = [
   {
@@ -89,22 +90,22 @@ export default function ServicesSection() {
     >
       <div className="absolute inset-0">
         <Image
-          src="/images/therapy-bg-pattern.svg"
+          src="/images/bg.svg"
           alt="Background pattern"
           fill
-          className="object-cover opacity-70"
+          className="object-cover"
         />
       </div>
 
       <div className="relative z-10 mx-auto w-[min(1380px,calc(100%-24px))] md:w-[min(1380px,calc(100%-40px))]">
-        <div className="mb-10 text-center md:mb-14">
-          <h2 className="text-[28px] font-bold leading-tight text-[#1f1a17] md:text-[52px]">
+        <RevealOnScroll className="mb-10 text-center md:mb-14">
+          <h2 className="text-4xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
             Precision Therapies. Profound Impact.
           </h2>
           <div className="mx-auto mt-4 h-[3px] w-[82px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
-        </div>
+        </RevealOnScroll>
 
-        <div className="relative mx-auto max-w-[1320px] rounded-[30px] bg-white/90 px-5 py-6 shadow-[0_20px_50px_rgba(0,0,0,0.08)] backdrop-blur-sm md:px-8 md:py-8 lg:px-10 lg:py-10">
+        <RevealOnScroll delay={0.2} className="relative mx-auto max-w-[1320px] rounded-[30px] bg-white/90 px-5 py-6 shadow-[0_20px_50px_rgba(0,0,0,0.08)] backdrop-blur-sm md:px-8 md:py-8 lg:px-10 lg:py-10">
           <button
             type="button"
             onClick={() => canGoPrev && setPage(currentPage - 1)}
@@ -144,11 +145,11 @@ export default function ServicesSection() {
                 </div>
 
                 <div className="flex flex-1 flex-col px-4 pb-5 pt-4 md:px-5 md:pb-6 md:pt-5">
-                  <h3 className="text-[17px] font-bold leading-tight text-[#231c17] md:text-[22px]">
+                  <h3 className="text-xl md:text-2xl font-bold leading-tight text-[#231c17]">
                     {card.title}
                   </h3>
 
-                  <p className="mt-3 text-[12px] leading-6 text-[#7a726c] md:text-[13px] md:leading-7">
+                  <p className="mt-3 text-base md:text-lg leading-7 text-[#7a726c]">
                     {card.desc}
                   </p>
 
@@ -175,7 +176,7 @@ export default function ServicesSection() {
               />
             ))}
           </div>
-        </div>
+        </RevealOnScroll>
       </div>
     </section>
   );

@@ -12,32 +12,13 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-
-      <RevealOnScroll>
-        <IntroSection />
-      </RevealOnScroll>
-
-      <RevealOnScroll delay={0.1}>
-        <ContinuumSection />
-      </RevealOnScroll>
-
-      <RevealOnScroll delay={0.1}>
-        <ServicesSection />
-      </RevealOnScroll>
-
-      <RevealOnScroll delay={0.15}>
-        <CollectionSection />
-      </RevealOnScroll>
-
-      <RevealOnScroll delay={0.1}>
-        <ExperienceSection />
-      </RevealOnScroll>
-
+      <IntroSection />
+      <ContinuumSection />
+      <ServicesSection />
+      <CollectionSection />
+      <ExperienceSection />
       {/* <TailoredPathwaysSection /> */}
-
-      <RevealOnScroll delay={0.1}>
-        <TestimoniesSection />
-      </RevealOnScroll>
+      <TestimoniesSection />
     </>
   );
 }

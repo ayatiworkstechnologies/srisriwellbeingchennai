@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import RevealOnScroll from "./RevealOnScroll";
 
 const sanctuarySlides = [
   {
@@ -112,27 +113,27 @@ export default function ExperienceSection() {
         </button>
 
         <div className="absolute bottom-5 left-0 right-0 z-20 md:bottom-9">
-          <div className="mx-auto w-[min(1200px,calc(100%-24px))] md:w-[min(1200px,calc(100%-40px))]">
+          <RevealOnScroll className="mx-auto w-[min(1200px,calc(100%-24px))] md:w-[min(1200px,calc(100%-40px))]">
             <div className="max-w-[520px]">
               <div
                 key={current}
                 className="animate-[fadeUp_.7s_ease]"
               >
-                <p className="mb-2 text-[12px] font-bold uppercase tracking-[0.2em] text-[#e7d58f] drop-shadow-md">
+                <p className="mb-2 text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-[#e7d58f] drop-shadow-md">
                   The Experience of Care
                 </p>
-                <h2 className="text-[26px] leading-tight font-bold text-white md:text-[46px]">
+                <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white">
                   {sanctuarySlides[current].title}
                 </h2>
 
                 <div className="mt-3 h-[3px] w-[72px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
 
-                <p className="mt-3 max-w-[430px] text-[13px] leading-7 text-white/90 md:text-[14px]">
+                <p className="mt-3 max-w-[430px] text-base md:text-lg leading-7 text-white/90">
                   {sanctuarySlides[current].desc}
                 </p>
               </div>
             </div>
-          </div>
+          </RevealOnScroll>
         </div>
 
         <div className="absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-2 md:bottom-5">

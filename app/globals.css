@@ -10,7 +10,7 @@
   --gold: #d0a93d;
   --gold-soft: #e1c870;
   --border: rgba(255, 255, 255, 0.12);
-  --gold-gradient: linear-gradient(180deg, #6E4B12 0%, #B8860B 35%, #FFD700 55%, #E6C35C 75%, #8A6A1E 100%);
+
 }
 
 * {
@@ -26,23 +26,37 @@ body {
 }
 
 body {
-  font-family: var(--font-helmet), Arial, Helvetica, sans-serif;
+  font-family: var(--font-helmet);
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-cocogoose), var(--font-helmet), sans-serif;
 }
 
-nav, button, a, input, select, textarea, label, p, span, li {
-  font-family: var(--font-helmet), Arial, Helvetica, sans-serif;
+nav,
+button,
+a,
+input,
+select,
+textarea,
+label,
+p,
+span,
+li {
+  font-family: var(--font-helmet);
 }
 
 .font-primary {
-  font-family: var(--font-cocogoose), var(--font-helmet), sans-serif;
+  font-family: var(--font-cocogoose), var(--font-helmet);
 }
 
 .font-secondary {
-  font-family: var(--font-helmet), Arial, Helvetica, sans-serif;
+  font-family: var(--font-helmet);
 }
 
 img {
@@ -54,6 +68,7 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
 .pathways-marquee {
   animation: pathwaysMarquee 28s linear infinite;
   will-change: transform;
@@ -76,6 +91,7 @@ a {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -85,6 +101,7 @@ a {
   0% {
     transform: translateX(0);
   }
+
   100% {
     transform: translateX(-50%);
   }
@@ -95,6 +112,7 @@ a {
     opacity: 0;
     transform: translateY(18px);
   }
+
   100% {
     opacity: 1;
     transform: translateY(0);
@@ -106,13 +124,24 @@ a {
     opacity: 0;
     transform: scale(1.04);
   }
+
   100% {
     opacity: 1;
     transform: scale(1);
   }
 }
 
+@keyframes videoZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.15);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
+
   html,
   body {
     scroll-behavior: auto;
