@@ -43,12 +43,12 @@ export default function TestimoniesSection() {
           <h2 className="text-4xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
             Voices of Wellbeing
           </h2>
-          <div className="mx-auto mt-6 h-[3px] w-[72px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
+          <div className="mx-auto mt-6 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
         </RevealOnScroll>
 
         <div className="relative overflow-hidden pb-4">
-          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-10 bg-gradient-to-r from-[#f6f3ee] to-transparent md:w-20" />
-          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-10 bg-gradient-to-l from-[#f6f3ee] to-transparent md:w-20" />
+          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-10 bg-linear-to-r from-[#f6f3ee] to-transparent md:w-20" />
+          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-10 bg-linear-to-l from-[#f6f3ee] to-transparent md:w-20" />
 
           <RevealOnScroll direction="left" delay={0.2}>
             <div className="testimonies-marquee flex min-w-max gap-6">

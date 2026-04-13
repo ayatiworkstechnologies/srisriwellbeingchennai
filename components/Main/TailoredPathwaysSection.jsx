@@ -63,7 +63,7 @@ function LearningCard({ item, index, progress, total }) {
         <div className="relative z-10 grid overflow-hidden rounded-[26px] bg-white shadow-[0_30px_80px_rgba(0,0,0,0.12)] md:grid-cols-[1.02fr_1fr]">
           {/* left content */}
           <div className="relative flex flex-col justify-center bg-[#f8f6f2] px-6 py-8 md:min-h-[460px] md:px-14 md:py-12">
-            <div className="absolute inset-x-0 top-0 h-[130px] bg-[radial-gradient(circle_at_18px_18px,#f3ede3_12px,transparent_13px)] bg-[length:54px_42px] opacity-70" />
+            <div className="absolute inset-x-0 top-0 h-[130px] bg-[radial-gradient(circle_at_18px_18px,#f3ede3_12px,transparent_13px)] bg-size-[54px_42px] opacity-70" />
 
             <div className="relative z-10 max-w-[430px]">
               <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#d8bb6b]/40 bg-white shadow-sm">
@@ -88,7 +88,7 @@ function LearningCard({ item, index, progress, total }) {
                 {item.desc}
               </p>
 
-              <div className="mt-7 h-[2px] w-16 bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
+              <div className="mt-7 h-[2px] w-16 bg-linear-to-r from-[#e5cf86] to-[#c08f20]" />
             </div>
           </div>
 
@@ -148,7 +148,7 @@ export default function TailoredPathwaysSection() {
               Thoughtfully designed approaches that honour individual needs,
               life stages, and evolving wellbeing.
             </p>
-            <div className="mx-auto mt-3 h-[3px] w-[74px] rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
+            <div className="mx-auto mt-3 h-[3px] w-[74px] rounded-full bg-linear-to-r from-[#e5cf86] to-[#c08f20]" />
           </div>
 
           <div className="space-y-5">
@@ -178,7 +178,7 @@ export default function TailoredPathwaysSection() {
                   <p className="mt-3 text-base md:text-lg leading-7 text-[#5f5852]">
                     {item.desc}
                   </p>
-                  <div className="mt-5 h-[2px] w-14 bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
+                  <div className="mt-5 h-[2px] w-14 bg-linear-to-r from-[#e5cf86] to-[#c08f20]" />
                 </div>
               </article>
             ))}
@@ -204,7 +204,7 @@ export default function TailoredPathwaysSection() {
             Thoughtfully designed approaches that honour individual needs, life
             stages, and evolving wellbeing.
           </p>
-          <div className="mx-auto mt-3 h-[3px] w-[74px] rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
+          <div className="mx-auto mt-3 h-[3px] w-[74px] rounded-full bg-linear-to-r from-[#e5cf86] to-[#c08f20]" />
         </RevealOnScroll>
       </div>
 

@@ -102,7 +102,7 @@ export default function ServicesSection() {
           <h2 className="text-4xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
             Precision Therapies. Profound Impact.
           </h2>
-          <div className="mx-auto mt-4 h-[3px] w-[82px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
+          <div className="mx-auto mt-4 h-[3px] w-[82px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
         </RevealOnScroll>
 
         <RevealOnScroll delay={0.2} className="relative mx-auto max-w-[1320px] rounded-[30px] bg-white/90 px-5 py-6 shadow-[0_20px_50px_rgba(0,0,0,0.08)] backdrop-blur-sm md:px-8 md:py-8 lg:px-10 lg:py-10">

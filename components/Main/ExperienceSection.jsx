@@ -69,10 +69,10 @@ export default function ExperienceSection() {
           <div
             key={index}
             className={`absolute inset-0 transition-all duration-700 ease-in-out ${index === current
-                ? "translate-x-0 opacity-100"
-                : index < current
-                  ? "-translate-x-full opacity-0"
-                  : "translate-x-full opacity-0"
+              ? "translate-x-0 opacity-100"
+              : index < current
+                ? "-translate-x-full opacity-0"
+                : "translate-x-full opacity-0"
               }`}
           >
             {/* Desktop Image */}
@@ -126,7 +126,7 @@ export default function ExperienceSection() {
                   {sanctuarySlides[current].title}
                 </h2>
 
-                <div className="mt-3 h-[3px] w-[72px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
+                <div className="mt-3 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
 
                 <p className="mt-3 max-w-[430px] text-base md:text-lg leading-7 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                   {sanctuarySlides[current].desc}
@@ -142,8 +142,8 @@ export default function ExperienceSection() {
               key={index}
               onClick={() => setCurrent(index)}
               className={`h-2.5 rounded-full transition-all duration-300 ${current === index
-                  ? "w-8 bg-[#d0a93d]"
-                  : "w-2.5 bg-white/70"
+                ? "w-8 bg-[#d0a93d]"
+                : "w-2.5 bg-white/70"
                 }`}
             />
           ))}

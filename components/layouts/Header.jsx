@@ -59,7 +59,7 @@ export default function Header() {
                     }
                   }}
                   className={`inline-flex h-10 items-center justify-center rounded-full px-5 text-base md:text-lg font-medium transition-all duration-300 ${index === 0 && pathname === "/"
-                    ? "bg-[#D4AF37] !text-white shadow-sm font-semibold tracking-wide"
+                    ? "bg-[#D4AF37] text-white! shadow-sm font-semibold tracking-wide"
                     : "text-[#222] hover:bg-[#d0a93d]/10 hover:text-[#4b1f12]"
                     }`}
                 >
@@ -74,7 +74,7 @@ export default function Header() {
         <div className="flex items-center gap-3 relative z-50">
           <Link
             href="/contact"
-            className="hidden sm:inline-flex h-10 items-center justify-center rounded-full bg-[#D4AF37] px-8 text-base md:text-lg font-semibold tracking-wide !text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-md"
+            className="hidden sm:inline-flex h-10 items-center justify-center rounded-full bg-[#D4AF37] px-8 text-base md:text-lg font-semibold tracking-wide text-white! transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-md"
           >
             Contact
           </Link>
@@ -120,7 +120,7 @@ export default function Header() {
                 href={item.href === "#home" ? "/" : `/${item.href}`}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex h-12 w-full items-center rounded-[14px] px-4 text-base md:text-lg font-medium transition-colors ${index === 0 && pathname === "/"
-                  ? "bg-[#D4AF37] !text-white"
+                  ? "bg-[#D4AF37] text-white!"
                   : "text-[#361A0D] hover:bg-[#f6f3ee]"
                   }`}
               >
@@ -132,7 +132,7 @@ export default function Header() {
             <Link
               href="/contact"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="flex h-12 w-full items-center justify-center rounded-[14px] bg-[#D4AF37] text-base md:text-lg font-medium !text-white shadow-md transition hover:bg-[#b8952b]"
+              className="flex h-12 w-full items-center justify-center rounded-[14px] bg-[#D4AF37] text-base md:text-lg font-medium text-white! shadow-md transition hover:bg-[#b8952b]"
             >
               Contact Us
             </Link>
