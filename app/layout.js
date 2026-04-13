@@ -16,8 +16,9 @@ const helmet = localFont({
 });
 
 export const metadata = {
-  title: "Sri Sri Wellbeing",
-  description: "Rooted in Tradition. Refined for Modern Living.",
+  title: "Sri Sri Wellbeing | Ayurvedic & Holistic Health Centre in Chennai",
+  description: "Experience authentic Ayurvedic healing at Sri Sri Wellbeing Chennai. Offering personalised therapies, expert consultations, and holistic wellness products rooted in tradition for modern wellbeing.",
+  keywords: ["Ayurveda Chennai", "Sri Sri Wellbeing", "Holistic Health Chennai", "Ayurvedic Spa Chennai", "Wellness Center Chennai", "Ayurvedic Treatment"],
 };
 
 export default function RootLayout({ children }) {

@@ -62,7 +62,7 @@ export default function CollectionSection() {
               className="group flex h-full flex-col overflow-hidden rounded-[18px] bg-[#fdfdfd] shadow-[0_14px_35px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1"
             >
               <div className="flex h-full flex-col p-3 md:p-4">
-                <div className="overflow-hidden  p-5">
+                <div className="overflow-hidden p-5">
                   <Image
                     src={card.image}
                     alt={card.title}
@@ -77,12 +77,12 @@ export default function CollectionSection() {
                     {card.title}
                   </h3>
 
-                  <p className="mt-3 text-base md:text-lg leading-5 text-[#6b6b6b]">
+                  <p className="mt-3 mb-3 text-base md:text-lg leading-5 text-[#6b6b6b]">
                     {card.desc}
                   </p>
 
                   <button
-                    className="mt-auto inline-flex w-fit items-center justify-center rounded-full bg-[#D4AF37] px-8 py-3 text-[14px] font-medium tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-md md:py-3.5 md:text-[15px]"
+                    className="mt-auto mx-auto inline-flex w-fit items-center justify-center rounded-full bg-[#D4AF37] px-8 py-3 text-[14px] font-medium tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-md md:py-3.5 md:text-[15px]"
                   >
                     View Product
                   </button>

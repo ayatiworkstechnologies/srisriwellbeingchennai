@@ -110,7 +110,7 @@ export default function ServicesSection() {
             type="button"
             onClick={() => canGoPrev && setPage(currentPage - 1)}
             disabled={!canGoPrev}
-            className="absolute left-[-8px] top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#d9be69] bg-white text-[20px] text-[#c8a53a] shadow-sm transition hover:bg-[#d0a93d] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 md:left-[-18px] md:h-12 md:w-12"
+            className="absolute left-[2px] top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#d9be69] bg-white text-[20px] text-[#c8a53a] shadow-sm transition hover:bg-[#d0a93d] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 md:left-[-18px] md:h-12 md:w-12"
             aria-label="Previous services"
           >
             &#8249;
@@ -120,7 +120,7 @@ export default function ServicesSection() {
             type="button"
             onClick={() => canGoNext && setPage(currentPage + 1)}
             disabled={!canGoNext}
-            className="absolute right-[-8px] top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#d9be69] bg-white text-[20px] text-[#c8a53a] shadow-sm transition hover:bg-[#d0a93d] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 md:right-[-18px] md:h-12 md:w-12"
+            className="absolute right-[2px] top-1/2 z-20 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-[#d9be69] bg-white text-[20px] text-[#c8a53a] shadow-sm transition hover:bg-[#d0a93d] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 md:right-[-18px] md:h-12 md:w-12"
             aria-label="Next services"
           >
             &#8250;

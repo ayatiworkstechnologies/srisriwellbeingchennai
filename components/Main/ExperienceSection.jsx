@@ -64,7 +64,7 @@ export default function ExperienceSection() {
 
   return (
     <section id="specialties" className="relative bg-[#f6f3ee]">
-      <div className="relative min-h-[420px] overflow-hidden md:min-h-[620px]">
+      <div className="relative h-[85vh] min-h-[500px] overflow-hidden md:h-[85vh] md:min-h-[620px]">
         {sanctuarySlides.map((slide, index) => (
           <div
             key={index}
@@ -81,7 +81,7 @@ export default function ExperienceSection() {
               alt={slide.title}
               width={1600}
               height={900}
-              className="hidden h-[620px] w-full object-cover md:block"
+              className="hidden h-full w-full object-cover md:block"
               priority={index === 0}
             />
             {/* Mobile Image */}
@@ -90,13 +90,13 @@ export default function ExperienceSection() {
               alt={slide.title}
               width={800}
               height={1000}
-              className="block h-[420px] w-full object-cover md:hidden"
+              className="block h-full w-full object-cover md:hidden"
               priority={index === 0}
             />
           </div>
         ))}
 
-        <div className="absolute inset-0 bg-gradient-to-t from-[#120c08]/30 via-[#120c08]/10 to-transparent" />
+
 
         <button
           onClick={prevSlide}
@@ -122,13 +122,13 @@ export default function ExperienceSection() {
                 <p className="mb-2 text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-[#e7d58f] drop-shadow-md">
                   The Experience of Care
                 </p>
-                <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white">
+                <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                   {sanctuarySlides[current].title}
                 </h2>
 
                 <div className="mt-3 h-[3px] w-[72px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
 
-                <p className="mt-3 max-w-[430px] text-base md:text-lg leading-7 text-white/90">
+                <p className="mt-3 max-w-[430px] text-base md:text-lg leading-7 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                   {sanctuarySlides[current].desc}
                 </p>
               </div>

@@ -101,7 +101,7 @@ function LearningCard({ item, index, progress, total }) {
               priority={index === 0}
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent" />
+
           </div>
         </div>
       </div>
@@ -165,7 +165,7 @@ export default function TailoredPathwaysSection() {
                     priority={index === 0}
                     className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
+
                 </div>
 
                 <div className="bg-[#f8f6f2] px-5 py-6">

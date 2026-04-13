@@ -26,15 +26,15 @@ export default function Footer() {
 
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-8">
                   <div className="flex items-center gap-3 text-base md:text-lg font-medium text-white">
-                    <FaEnvelope className="text-[16px] text-white" />
-                    <a href="mailto:care@srisriwellbeing.com" className="transition hover:text-[#d0a93d]">
+                    <FaEnvelope className="shrink-0 text-[16px] text-white" />
+                    <a href="mailto:care@srisriwellbeing.com" className="whitespace-nowrap transition hover:text-[#d0a93d]">
                       care@srisriwellbeing.com
                     </a>
                   </div>
 
                   <div className="flex items-center gap-3 text-base md:text-lg font-medium text-white">
-                    <FaPhoneVolume className="text-[16px] text-white" />
-                    <a href="tel:+917856236558" className="transition hover:text-[#d0a93d]">
+                    <FaPhoneVolume className="shrink-0 text-[16px] text-white" />
+                    <a href="tel:+917856236558" className="whitespace-nowrap transition hover:text-[#d0a93d]">
                       +91 78562 36558
                     </a>
                   </div>
@@ -123,13 +123,31 @@ export default function Footer() {
             <div className="flex flex-col items-center justify-between gap-6 md:flex-row md:gap-0">
               {/* Social Icons - Left */}
               <div className="flex items-center gap-5">
-                <a href="#" className="text-white/80 transition hover:text-[#d0a93d]">
+                <a
+                  href="https://instagram.com/srisriwellbeingchennai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/80 transition hover:-translate-y-0.5 hover:text-[#d0a93d]"
+                  aria-label="Instagram"
+                >
                   <FaInstagram className="text-[18px]" />
                 </a>
-                <a href="#" className="text-white/80 transition hover:text-[#d0a93d]">
+                <a
+                  href="https://facebook.com/srisriwellbeingchennai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/80 transition hover:-translate-y-0.5 hover:text-[#d0a93d]"
+                  aria-label="Facebook"
+                >
                   <FaFacebookF className="text-[17px]" />
                 </a>
-                <a href="#" className="text-white/80 transition hover:text-[#d0a93d]">
+                <a
+                  href="https://linkedin.com/company/srisriwellbeingchennai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/80 transition hover:-translate-y-0.5 hover:text-[#d0a93d]"
+                  aria-label="LinkedIn"
+                >
                   <FaLinkedinIn className="text-[18px]" />
                 </a>
               </div>

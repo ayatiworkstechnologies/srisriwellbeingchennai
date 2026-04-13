@@ -40,7 +40,7 @@ export default function HeroSection() {
       {/* Background Video */}
       <video
         ref={videoRef}
-        className="absolute inset-0 h-full w-full object-cover object-center animate-[videoZoom_20s_infinite_alternate_ease-in-out] opacity-90 transition-opacity duration-1000"
+        className="absolute inset-0 h-full w-full object-cover object-center animate-[videoZoom_20s_infinite_alternate_ease-in-out] transition-opacity duration-1000"
         autoPlay
         loop
         playsInline
@@ -98,7 +98,7 @@ export default function HeroSection() {
               >
                 <Link
                   href="/contact"
-                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#D4AF37] px-10 py-4 text-lg font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-lg md:mt-10 md:px-12 md:py-4.5"
+                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#D4AF37] px-6 py-3.5 text-base font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-lg md:mt-10 md:px-10 md:py-4.5 md:text-lg"
                 >
                   Begin Your Wellness Journey
                   <svg
