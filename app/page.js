@@ -12,29 +12,24 @@ import LearningSection from "@/components/Main/LearningSection";
 export default function HomePage() {
   return (
     <>
-      <SectionReveal y={0}>
+    
         <HeroSection />
-      </SectionReveal>
-      <SectionReveal delay={0.05}>
+      
         <IntroSection />
-      </SectionReveal>
-      <SectionReveal delay={0.08}>
+    
         <ContinuumSection />
-      </SectionReveal>
-      <SectionReveal delay={0.1}>
+   
         <ServicesSection />
-      </SectionReveal>
-      <SectionReveal delay={0.1}>
+    
         <CollectionSection />
-      </SectionReveal>
-      <SectionReveal delay={0.12}>
+      
         <ExperienceSection />
-      </SectionReveal>
-      <TailoredPathwaysSection />
+      <TailoredPathwaysSection/>
       {/* <LearningSection /> */}
-      <SectionReveal delay={0.12}>
+    
         <TestimoniesSection />
-      </SectionReveal>
+     
+
     </>
   );
 }

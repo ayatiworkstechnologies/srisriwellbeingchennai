@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const learningItems = [
   {
@@ -34,7 +34,7 @@ function LearningCard({ item, index, progress, total }) {
   const opacity = useTransform(
     progress,
     [start, start + 0.08, center, end],
-    [0, 1, 1, 0.85]
+    index === 0 ? [1, 1, 1, 0.9] : [0, 1, 1, 0.85]
   );
 
   return (
@@ -43,7 +43,7 @@ function LearningCard({ item, index, progress, total }) {
         y,
         scale,
         opacity,
-        zIndex: index, // Reverse stacking so newer cards lay on top!
+        zIndex: index,
       }}
       className="absolute inset-0 flex items-center justify-center px-4 md:px-6"
     >
@@ -67,7 +67,7 @@ function LearningCard({ item, index, progress, total }) {
             <div className="relative z-10 max-w-[430px]">
               <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#d8bb6b]/40 bg-white shadow-sm">
                 <Image
-                  src="/logo.png"
+                  src="/logo.jpeg"
                   alt="icon"
                   width={30}
                   height={30}
@@ -110,6 +110,17 @@ function LearningCard({ item, index, progress, total }) {
 
 export default function TailoredPathwaysSection() {
   const sectionRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const setMode = () => setIsMobile(mediaQuery.matches);
+
+    setMode();
+    mediaQuery.addEventListener("change", setMode);
+
+    return () => mediaQuery.removeEventListener("change", setMode);
+  }, []);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -119,30 +130,87 @@ export default function TailoredPathwaysSection() {
   const smoothProgress = useSpring(scrollYProgress, {
     stiffness: 70,
     damping: 20,
-    restDelta: 0.001
+    restDelta: 0.001,
   });
 
+  if (isMobile) {
+    return (
+      <section className="relative overflow-hidden bg-[#f5f2ec] py-14">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(192,143,32,0.08),transparent_35%),radial-gradient(circle_at_80%_80%,rgba(192,143,32,0.06),transparent_35%)]" />
+
+        <div className="relative z-10 mx-auto w-[min(1200px,calc(100%-24px))]">
+          <div className="mb-8 text-center">
+            <h2 className="text-[24px] font-bold uppercase tracking-[0.06em] text-[#111]">
+              Tailored Pathways of Care
+            </h2>
+            <p className="mx-auto mt-3 max-w-[560px] text-[14px] leading-6 text-[#5e5751]">
+              Thoughtfully designed approaches that honour individual needs,
+              life stages, and evolving wellbeing.
+            </p>
+            <div className="mx-auto mt-3 h-[3px] w-[74px] rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
+          </div>
+
+          <div className="space-y-5">
+            {learningItems.map((item, index) => (
+              <article
+                key={item.title}
+                className="overflow-hidden rounded-[20px] bg-white shadow-[0_18px_40px_rgba(0,0,0,0.1)]"
+              >
+                <div className="relative h-[250px]">
+                  <Image
+                    src={item.image}
+                    alt={item.title}
+                    fill
+                    priority={index === 0}
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
+                </div>
+
+                <div className="bg-[#f8f6f2] px-5 py-6">
+                  <div className="mb-3 inline-flex rounded-full border border-[#d8bb6b]/40 bg-white px-3 py-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[#b88621]">
+                    Pathway 0{index + 1}
+                  </div>
+                  <h3 className="text-[24px] font-bold leading-tight text-[#171310]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-3 text-[14px] leading-7 text-[#5f5852]">
+                    {item.desc}
+                  </p>
+                  <div className="mt-5 h-[2px] w-14 bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-[#f5f2ec]">
-      <div className="relative h-[120vh] md:h-[120vh]">
-        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-          {/* background */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(192,143,32,0.08),transparent_35%),radial-gradient(circle_at_80%_80%,rgba(192,143,32,0.06),transparent_35%)]" />
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden bg-[#f5f2ec] py-14 md:py-20"
+    >
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(192,143,32,0.08),transparent_35%),radial-gradient(circle_at_80%_80%,rgba(192,143,32,0.06),transparent_35%)]" />
 
+      <div className="relative z-10 mx-auto w-full max-w-[1240px] px-4 md:px-6">
+        <div className="mb-8 text-center md:mb-10">
+          <h2 className="text-[24px] font-bold uppercase tracking-[0.06em] text-[#111] md:text-[42px]">
+            Tailored Pathways of Care
+          </h2>
+          <p className="mx-auto mt-4 max-w-[600px] text-[14px] leading-6 text-[#5e5751] md:text-[15px]">
+            Thoughtfully designed approaches that honour individual needs, life
+            stages, and evolving wellbeing.
+          </p>
+          <div className="mx-auto mt-3 h-[3px] w-[74px] rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
+        </div>
+      </div>
+
+      <div className="relative h-100vh] md:h-[100vh] lg:h-[100vh]">
+        <div className="sticky top-[76px] flex h-[calc(100vh-76px)] items-center overflow-hidden md:top-[92px] md:h-[calc(100vh-92px)]">
           <div className="relative z-10 mx-auto w-full max-w-[1240px] px-4 md:px-6">
-            {/* heading */}
-            <div className="mb-6 text-center md:mb-10">
-              <h2 className="text-[24px] font-bold uppercase tracking-[0.06em] text-[#111] md:text-[42px]">
-                Tailored Pathways of Care
-              </h2>
-              <p className="mx-auto mt-4 max-w-[600px] text-[14px] leading-6 text-[#5e5751] md:text-[15px]">
-                Thoughtfully designed approaches that honour individual needs, life stages, and evolving wellbeing.
-              </p>
-              <div className="mx-auto mt-3 h-[3px] w-[74px] rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
-            </div>
-
-            {/* cards */}
-            <div className="relative h-[520px] md:h-[540px]">
+            <div className="relative h-[500px] md:h-[520px] lg:h-[540px]">
               {learningItems.map((item, index) => (
                 <LearningCard
                   key={item.title}

@@ -46,7 +46,25 @@ a {
   animation-play-state: paused;
 }
 
+.testimonies-marquee {
+  animation: testimoniesMarquee 36s linear infinite;
+  will-change: transform;
+}
+
+.testimonies-marquee:hover {
+  animation-play-state: paused;
+}
+
 @keyframes pathwaysMarquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes testimoniesMarquee {
   0% {
     transform: translateX(0);
   }

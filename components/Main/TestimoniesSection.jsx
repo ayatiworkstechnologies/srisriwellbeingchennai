@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 const testimonies = [
   {
@@ -28,12 +28,11 @@ const testimonies = [
   },
 ];
 
+const marqueeTestimonies = [...testimonies, ...testimonies];
+
 export default function TestimoniesSection() {
   return (
-    <section
-      id="testimonial"
-      className="bg-[#f6f3ee] py-16 md:py-24"
-    >
+    <section id="testimonial" className="bg-[#f6f3ee] py-16 md:py-24">
       <div className="mx-auto w-[min(1320px,calc(100%-24px))] md:w-[min(1320px,calc(100%-40px))]">
         <div className="mb-12 text-center md:mb-16">
           <p className="mb-3 text-[12px] font-bold uppercase tracking-[0.2em] text-[#c29a2f]">
@@ -45,11 +44,14 @@ export default function TestimoniesSection() {
           <div className="mx-auto mt-6 h-[3px] w-[72px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
         </div>
 
-        <div className="overflow-x-auto pb-4 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          <div className="flex gap-6 min-w-max">
-            {testimonies.map((item, index) => (
+        <div className="relative overflow-hidden pb-4">
+          <div className="pointer-events-none absolute left-0 top-0 z-10 h-full w-10 bg-gradient-to-r from-[#f6f3ee] to-transparent md:w-20" />
+          <div className="pointer-events-none absolute right-0 top-0 z-10 h-full w-10 bg-gradient-to-l from-[#f6f3ee] to-transparent md:w-20" />
+
+          <div className="testimonies-marquee flex min-w-max gap-6">
+            {marqueeTestimonies.map((item, index) => (
               <div
-                key={index}
+                key={`${item.name}-${index}`}
                 className="flex min-h-[320px] w-[280px] flex-col rounded-[22px] bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)] md:w-[320px] md:p-8"
               >
                 <div className="mb-5 flex gap-1">
@@ -61,7 +63,7 @@ export default function TestimoniesSection() {
                 </div>
 
                 <p className="mb-8 flex-1 text-[14px] leading-7 text-[#5e5751] italic">
-                  “{item.review}”
+                  &ldquo;{item.review}&rdquo;
                 </p>
 
                 <div className="flex items-center gap-4 border-t border-[#eee7de] pt-5">
