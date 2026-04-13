@@ -34,7 +34,7 @@ export default function HeroSection() {
         controls
         preload="auto"
       >
-        <source src="/ssw-video.mp4" type="video/mp4" />
+        <source src="/ssw-video-1.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
     </section>
