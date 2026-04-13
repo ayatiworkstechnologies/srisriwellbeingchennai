@@ -6,17 +6,17 @@ const products = [
   {
     title: "Amruth",
     desc: "A time-honoured formulation designed to support immunity and restore natural vitality. Crafted to gently strengthen the body's internal resilience.",
-    image: "/images/img-01.png",
+    image: "/images/1.jpg",
   },
   {
     title: "Liv-On",
     desc: "A carefully balanced blend formulated to support metabolic function and internal detox. Designed to promote lightness, clarity, and digestive ease.",
-    image: "/images/img-02.png",
+    image: "/images/2.jpg",
   },
   {
     title: "Ashwagandha",
     desc: "A revered adaptogenic formulation known to restore energy and calm the nervous system. Ideal for enhancing strength, focus, and overall well-being.",
-    image: "/images/Image-01.png",
+    image: "/images/3.jpg",
   },
 ];
 
@@ -44,20 +44,20 @@ export default function CollectionSection() {
           {products.map((card) => (
             <div
               key={card.title}
-              className="overflow-hidden rounded-[18px] bg-[#fdfdfd] shadow-[0_14px_35px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1"
+              className="group flex h-full flex-col overflow-hidden rounded-[18px] bg-[#fdfdfd] shadow-[0_14px_35px_rgba(0,0,0,0.08)] transition-all duration-300 hover:-translate-y-1"
             >
-              <div className="p-3 md:p-4">
+              <div className="flex h-full flex-col p-3 md:p-4">
                 <div className="overflow-hidden rounded-[12px] bg-[#4b240f] p-5">
                   <Image
                     src={card.image}
                     alt={card.title}
                     width={400}
                     height={400}
-                    className="h-[165px] w-full rounded-[10px] object-cover md:h-[235px]"
+                    className="h-[165px] w-full rounded-[10px] object-cover transition duration-500 group-hover:scale-[1.05] md:h-[235px]"
                   />
                 </div>
 
-                <div className="px-1 pb-2 pt-4">
+                <div className="flex flex-1 flex-col px-1 pb-2 pt-4">
                   <h3 className="text-[18px] font-bold text-[#111] md:text-[34px] md:leading-none">
                     {card.title}
                   </h3>
@@ -66,8 +66,11 @@ export default function CollectionSection() {
                     {card.desc}
                   </p>
 
-                  <button className="mt-5 inline-flex rounded-full bg-[#4b240f] px-6 py-3 text-[14px] font-medium text-white transition duration-300 hover:scale-[1.03]">
-                    Add to Cart
+                  <button
+                    className="mt-auto inline-flex w-fit items-center justify-center rounded-full px-6 py-2.5 text-[13px] font-medium text-white shadow-[0_6px_16px_rgba(142,106,30,0.35)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_10px_24px_rgba(142,106,30,0.5)] md:py-3 md:text-[14px]"
+                    style={{ background: "var(--gold-gradient)" }}
+                  >
+                    View Product
                   </button>
                 </div>
               </div>

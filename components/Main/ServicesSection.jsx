@@ -6,43 +6,43 @@ import { useEffect, useMemo, useState } from "react";
 const therapyCards = [
   {
     title: "Nadi Pariksha",
-    desc: "A refined diagnostic ritual that reveals subtle imbalances.",
-    image: "/images/therapy-01.png",
+    desc: "A refined diagnostic ritual that reveals subtle imbalances, guiding deeply personalised pathways to restore internal harmony.",
+    image: "/images/ser-1.jpg",
   },
   {
     title: "Panchakarma Rituals",
-    desc: "A classical detox immersion designed to cleanse, recalibrate.",
-    image: "/images/therapy-02.png",
+    desc: "A classical detox immersion designed to cleanse, recalibrate, and awaken the body's innate intelligence for renewal.",
+    image: "/images/ser-2.jpg",
   },
   {
     title: "Marma Therapy",
-    desc: "An ancient energy-based technique that activates vital points.",
-    image: "/images/therapy-03.png",
+    desc: "An ancient energy-based technique that activates vital points to release stagnation and enhance overall vitality.",
+    image: "/images/ser-3.jpg",
   },
   {
     title: "Osteopathic Alignment",
-    desc: "A gentle, hands-on approach that restores structural balance.",
-    image: "/images/Image-01.png",
+    desc: "A gentle, hands-on approach that restores structural balance, improving mobility, ease, and functional wellbeing.",
+    image: "/images/ser-4.jpg",
   },
   {
     title: "Ozone Therapy",
-    desc: "An advanced restorative therapy that revitalises cellular function.",
-    image: "/images/img-01.png",
+    desc: "An advanced restorative therapy that revitalises cellular function, supporting recovery and systemic rejuvenation.",
+    image: "/images/ser-5.jpg",
   },
   {
     title: "Meru Alignment Therapy",
-    desc: "A specialised spinal care experience that refines posture.",
-    image: "/images/img-02.png",
+    desc: "A specialised spinal care experience that refines posture, releases deep tension, and restores fluid movement.",
+    image: "/images/ser-6.jpg",
   },
   {
     title: "Craniosacral Therapy",
-    desc: "A subtle, meditative therapy that harmonises the nervous system.",
-    image: "/images/therapy-01.png",
+    desc: "A subtle, meditative therapy that harmonises the nervous system, promoting deep relaxation and inner balance.",
+    image: "/images/ser-7.jpg",
   },
   {
-    title: "Pain Management",
-    desc: "Targeted therapeutic interventions designed to ease chronic discomfort.",
-    image: "/images/therapy-02.png",
+    title: "Pain Management Therapies",
+    desc: "Targeted therapeutic interventions designed to ease chronic discomfort and restore natural movement with precision.",
+    image: "/images/ser-8.jpg",
   },
 ];
 
@@ -154,9 +154,9 @@ export default function ServicesSection() {
 
                   <button
                     type="button"
-                    className="mt-5 inline-flex w-fit items-center rounded-full border border-[#d9be69] px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#b88621] transition hover:bg-[#d0a93d] hover:text-white"
+                    className="mt-auto inline-flex w-fit items-center rounded-full border border-[#d9be69] px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#b88621] transition hover:bg-[#d0a93d] hover:text-white"
                   >
-                    Explore
+                    Explore Therapy
                   </button>
                 </div>
               </div>
@@ -169,9 +169,8 @@ export default function ServicesSection() {
                 key={`page-dot-${idx}`}
                 type="button"
                 onClick={() => setPage(idx)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
-                  idx === currentPage ? "w-8 bg-[#c79f31]" : "w-2.5 bg-[#d8c8a2]"
-                }`}
+                className={`h-2.5 rounded-full transition-all duration-300 ${idx === currentPage ? "w-8 bg-[#c79f31]" : "w-2.5 bg-[#d8c8a2]"
+                  }`}
                 aria-label={`Go to services page ${idx + 1}`}
               />
             ))}

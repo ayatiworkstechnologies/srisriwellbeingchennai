@@ -10,6 +10,7 @@
   --gold: #d0a93d;
   --gold-soft: #e1c870;
   --border: rgba(255, 255, 255, 0.12);
+  --gold-gradient: linear-gradient(180deg, #6E4B12 0%, #B8860B 35%, #FFD700 55%, #E6C35C 75%, #8A6A1E 100%);
 }
 
 * {
@@ -25,7 +26,23 @@ body {
 }
 
 body {
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-helmet), Arial, Helvetica, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-cocogoose), var(--font-helmet), sans-serif;
+}
+
+nav, button, a, input, select, textarea, label, p, span, li {
+  font-family: var(--font-helmet), Arial, Helvetica, sans-serif;
+}
+
+.font-primary {
+  font-family: var(--font-cocogoose), var(--font-helmet), sans-serif;
+}
+
+.font-secondary {
+  font-family: var(--font-helmet), Arial, Helvetica, sans-serif;
 }
 
 img {

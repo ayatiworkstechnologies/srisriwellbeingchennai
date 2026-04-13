@@ -1,13 +1,18 @@
 import Header from "@/components/layouts/Header";
 import "./globals.css";
 import Footer from "@/components/layouts/Footer";
-import { Poppins } from "next/font/google";
+import localFont from "next/font/local";
 
-const poppins = Poppins({
-  weight: ["300", "400", "500", "600", "700", "800"],
-  subsets: ["latin"],
+const cocogoose = localFont({
+  src: "../public/fonts/Cocogoose Pro Regular Trial.ttf",
   display: "swap",
-  variable: "--font-poppins",
+  variable: "--font-cocogoose",
+});
+
+const helmet = localFont({
+  src: "../public/fonts/Helmet-Regular.ttf",
+  display: "swap",
+  variable: "--font-helmet",
 });
 
 export const metadata = {
@@ -17,7 +22,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={poppins.variable}>
+    <html lang="en" className={`${cocogoose.variable} ${helmet.variable}`}>
       <body>
         <Header />
         <main>{children}</main>

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 const testimonies = [
   {
@@ -14,7 +14,7 @@ const testimonies = [
   {
     name: "Meera Venkatesh",
     review:
-      "What stood out was the level of personalisation. Beginning with Nadi Pariksha, every therapy felt aligned to my body's needs. The experience was unhurried, intuitive, and deeply restorative.",
+      "What stood out was the level of personalisation. Beginning with Nadi Pariksha, every therapy felt aligned to my body’s needs. The experience was unhurried, intuitive, and deeply restorative.",
   },
   {
     name: "Rohit Subramanian",
@@ -24,7 +24,7 @@ const testimonies = [
   {
     name: "Priya Narayanan",
     review:
-      "I arrived seeking relief, but discovered something far more profound, a sense of stillness. Therapies like Shirodhara brought a quiet calm that stayed long after the session ended. A space where healing feels effortless.",
+      "I arrived seeking relief, but discovered something far more profound, a sense of stillness. Therapies like Shirodhara brought a quiet calm that stayed long after the session ended. A space where healing feels effortless",
   },
 ];
 

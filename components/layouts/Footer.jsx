@@ -1,115 +1,157 @@
 "use client";
 
 import Link from "next/link";
-import { FaEnvelope, FaPhoneVolume } from "react-icons/fa6";
+import { FaEnvelope, FaPhoneVolume, FaInstagram, FaFacebookF, FaLinkedinIn } from "react-icons/fa6";
 
 export default function Footer() {
   return (
     <footer id="contact" className="bg-[#f5f2ec] pb-10 pt-4 md:pb-12">
       <div className="mx-auto w-[min(1200px,calc(100%-24px))] md:w-[min(1200px,calc(100%-40px))]">
-        <div className="rounded-[30px] bg-[#4a1d09] px-7 py-8 text-white shadow-[0_16px_45px_rgba(53,20,11,0.2)] md:px-10 md:py-9">
-          <div className="grid gap-8 md:grid-cols-[1.2fr_0.8fr_1fr] md:gap-10">
-            <div>
-              <h4 className="mb-3 text-[30px] font-bold leading-none md:text-[29px]">
+        <div className="rounded-[40px] bg-[#361A0D] px-8 py-10 text-white shadow-[0_16px_45px_rgba(53,20,11,0.2)] md:px-14 md:py-14">
+          <div className="grid gap-10 md:grid-cols-[1fr_0.5fr_0.9fr] md:gap-14">
+
+            {/* Column 1: Mission & Contact */}
+            <div className="flex flex-col">
+              <h4 className="mb-4 text-[22px] font-bold text-white md:text-[24px]">
                 Our Mission:
               </h4>
-              <p className="max-w-[330px] text-[12px] leading-5 text-white/80">
-                Enabling a holistic approach towards health and wellbeing in
-                mind, lifestyle. Providing authentic and effective products and
-                services of the highest quality standards.
+              <p className="max-w-[400px] text-[13px] leading-[1.8] text-white/80 md:text-[14px]">
+                Enabling a holistic approach towards health and wellbeing in modern lifestyles. Providing authentic and effective products and services of the highest quality standards.
               </p>
 
-              <div className="mt-7">
-                <h5 className="mb-3 text-[30px] font-bold leading-none md:text-[29px]">
+              <div className="mt-8 md:mt-12">
+                <h5 className="mb-4 text-[22px] font-bold text-white md:text-[24px]">
                   Contact
                 </h5>
 
-                <div className="flex flex-col gap-3 md:flex-row md:flex-wrap md:items-center md:gap-6">
-                  <div className="flex items-center gap-2 text-[11px] text-white/90">
-                    <FaEnvelope className="text-[12px] text-white" />
-                    <a href="mailto:care@srisriwellbeing.com">
+                <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-8">
+                  <div className="flex items-center gap-3 text-[13px] font-medium text-white md:text-[14px]">
+                    <FaEnvelope className="text-[16px] text-white" />
+                    <a href="mailto:care@srisriwellbeing.com" className="transition hover:text-[#d0a93d]">
                       care@srisriwellbeing.com
                     </a>
                   </div>
 
-                  <div className="flex items-center gap-2 text-[11px] text-white/90">
-                    <FaPhoneVolume className="text-[11px] text-white" />
-                    <a href="tel:+917858623658">+91 78582 36558</a>
+                  <div className="flex items-center gap-3 text-[13px] font-medium text-white md:text-[14px]">
+                    <FaPhoneVolume className="text-[16px] text-white" />
+                    <a href="tel:+917856236558" className="transition hover:text-[#d0a93d]">
+                      +91 78562 36558
+                    </a>
                   </div>
                 </div>
               </div>
             </div>
 
+            {/* Column 2: Quick Links */}
             <div>
-              <h4 className="mb-4 text-[30px] font-bold leading-none md:text-[29px]">
+              <h4 className="mb-5 text-[22px] font-bold text-white md:text-[24px]">
                 Quick Links
               </h4>
-              <ul className="space-y-3">
+              <ul className="space-y-4">
                 <li>
                   <Link
-                    href="/#relax"
-                    className="text-[24px] text-white/90 transition hover:pl-1 hover:text-[#e1c870] md:text-[20px]"
+                    href="#relax"
+                    className="flex items-center gap-2 text-[15px] font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d] md:text-[16px]"
                   >
-                    &middot; Relax
+                    <span>&middot;</span> Relax
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/#heal"
-                    className="text-[24px] text-white/90 transition hover:pl-1 hover:text-[#e1c870] md:text-[20px]"
+                    href="#heal"
+                    className="flex items-center gap-2 text-[15px] font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d] md:text-[16px]"
                   >
-                    &middot; Heal
+                    <span>&middot;</span> Heal
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/#webinars"
-                    className="text-[24px] text-white/90 transition hover:pl-1 hover:text-[#e1c870] md:text-[20px]"
+                    href="#products"
+                    className="flex items-center gap-2 text-[15px] font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d] md:text-[16px]"
                   >
-                    &middot; Webinars
+                    <span>&middot;</span> Products
                   </Link>
                 </li>
                 <li>
                   <Link
-                    href="/#trainings"
-                    className="text-[24px] text-white/90 transition hover:pl-1 hover:text-[#e1c870] md:text-[20px]"
+                    href="#about"
+                    className="flex items-center gap-2 text-[15px] font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d] md:text-[16px]"
                   >
-                    &middot; Trainings
+                    <span>&middot;</span> About
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="#specialties"
+                    className="flex items-center gap-2 text-[15px] font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d] md:text-[16px]"
+                  >
+                    <span>&middot;</span> Specialties
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="#testimonial"
+                    className="flex items-center gap-2 text-[15px] font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d] md:text-[16px]"
+                  >
+                    <span>&middot;</span> Testimonial
                   </Link>
                 </li>
               </ul>
             </div>
 
+            {/* Column 3: Location */}
             <div>
-              <h4 className="mb-4 text-[30px] font-bold leading-none md:text-[29px]">
+              <h4 className="mb-5 text-[22px] font-bold text-white md:text-[24px]">
                 Location
               </h4>
-              <div className="overflow-hidden rounded-[8px] border border-white/10">
+              <div className="overflow-hidden rounded-[16px]">
                 <iframe
                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d971.5871486254812!2d80.23289638266331!3d13.077079876095443!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5267da1c867203%3A0x796c52276b379c45!2sSri%20Sri%20Wellbeing%20Holistic%20Health%20Mruthunjaya%20Ayur!5e0!3m2!1sen!2sin!4v1776087225095!5m2!1sen!2sin"
                   title="Sri Sri Wellbeing location map"
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   allowFullScreen
-                  className="h-[160px] w-full border-0 md:h-[170px]"
+                  className="h-[180px] w-full border-0 md:h-[200px]"
                 />
               </div>
             </div>
+
           </div>
 
-          <div className="mt-7 border-t border-white/30 pt-5 text-center">
-            <p className="text-[10px] leading-6 text-white/85 md:text-[11px]">
-              Copyright &copy;2026 srisriwellbeing - All right reserved |
-              Designed &amp; Developed by{" "}
-              <a
-                href="https://www.ayatiworks.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="font-semibold text-white"
-              >
-                Ayatiworks
-              </a>
-            </p>
+          {/* Bottom Copyright Area */}
+          <div className="mt-12 border-t border-white/20 pt-6">
+            <div className="flex flex-col items-center justify-between gap-6 md:flex-row md:gap-0">
+              {/* Social Icons - Left */}
+              <div className="flex items-center gap-5">
+                <a href="#" className="text-white/80 transition hover:text-[#d0a93d]">
+                  <FaInstagram className="text-[18px]" />
+                </a>
+                <a href="#" className="text-white/80 transition hover:text-[#d0a93d]">
+                  <FaFacebookF className="text-[17px]" />
+                </a>
+                <a href="#" className="text-white/80 transition hover:text-[#d0a93d]">
+                  <FaLinkedinIn className="text-[18px]" />
+                </a>
+              </div>
+
+              {/* Copyright - Center */}
+              <p className="text-[12px] font-medium text-white/90 md:text-[13px] text-center">
+                Copyright &copy;2026 srisriwellbeingchennai - All right reserved
+              </p>
+
+              {/* Developer Credit - Right */}
+              <p className="text-[12px] font-medium text-white/90 md:text-[13px]">
+                Designed & Developed by{" "}
+                <a
+                  href="https://www.ayatiworks.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-bold transition hover:text-[#d0a93d]"
+                >
+                  Ayatiworks
+                </a>
+              </p>
+            </div>
           </div>
         </div>
       </div>

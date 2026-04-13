@@ -5,19 +5,34 @@ import { useEffect, useState } from "react";
 
 const sanctuarySlides = [
   {
-    image: "/images/Image-01.png",
+    desktopImage: "/images/gallery-1.jpg",
+    mobileImage: "/images/gallery-mob-1.jpg",
     title: "Private Therapy Suites",
     desc: "Ten thoughtfully designed therapy rooms offering space, privacy, and an atmosphere of uninterrupted calm.",
   },
   {
-    image: "/images/Image-01.png",
+    desktopImage: "/images/gallery-2.jpg",
+    mobileImage: "/images/gallery-mob-2.jpg",
     title: "Expert-Led Care",
     desc: "Guided by experienced Ayurveda doctors and trained therapists, ensuring precision, discretion, and personalised attention.",
   },
   {
-     image: "/images/Image-01.png",
+    desktopImage: "/images/gallery-3.jpg",
+    mobileImage: "/images/gallery-mob-3.jpg",
     title: "Serene Ambience",
     desc: "A soothing environment where natural elements, gentle aromas, and quiet design come together to restore inner balance.",
+  },
+  {
+    desktopImage: "/images/gallery-4.jpg",
+    mobileImage: "/images/gallery-mob-4.jpg",
+    title: "Authentic Rituals",
+    desc: "Traditional preparations and classical techniques applied with uncompromising dedication to authentic healing.",
+  },
+  {
+    desktopImage: "/images/gallery-5.jpg",
+    mobileImage: "/images/gallery-mob-5.jpg",
+    title: "Holistic Rejuvenation",
+    desc: "An integrated approach that addresses physical alignment, mental clarity, and energetic harmony simultaneously.",
   },
 ];
 
@@ -41,31 +56,40 @@ export default function ExperienceSection() {
       setCurrent((prev) =>
         prev === sanctuarySlides.length - 1 ? 0 : prev + 1
       );
-    }, 3500);
+    }, 4000);
 
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <section className="relative bg-[#f6f3ee]">
+    <section id="specialties" className="relative bg-[#f6f3ee]">
       <div className="relative min-h-[420px] overflow-hidden md:min-h-[620px]">
         {sanctuarySlides.map((slide, index) => (
           <div
             key={index}
-            className={`absolute inset-0 transition-all duration-700 ease-in-out ${
-              index === current
+            className={`absolute inset-0 transition-all duration-700 ease-in-out ${index === current
                 ? "translate-x-0 opacity-100"
                 : index < current
-                ? "-translate-x-full opacity-0"
-                : "translate-x-full opacity-0"
-            }`}
+                  ? "-translate-x-full opacity-0"
+                  : "translate-x-full opacity-0"
+              }`}
           >
+            {/* Desktop Image */}
             <Image
-              src={slide.image}
+              src={slide.desktopImage}
               alt={slide.title}
               width={1600}
               height={900}
-              className="h-[420px] w-full object-cover md:h-[620px]"
+              className="hidden h-[620px] w-full object-cover md:block"
+              priority={index === 0}
+            />
+            {/* Mobile Image */}
+            <Image
+              src={slide.mobileImage}
+              alt={slide.title}
+              width={800}
+              height={1000}
+              className="block h-[420px] w-full object-cover md:hidden"
               priority={index === 0}
             />
           </div>
@@ -116,11 +140,10 @@ export default function ExperienceSection() {
             <button
               key={index}
               onClick={() => setCurrent(index)}
-              className={`h-2.5 rounded-full transition-all duration-300 ${
-                current === index
+              className={`h-2.5 rounded-full transition-all duration-300 ${current === index
                   ? "w-8 bg-[#d0a93d]"
                   : "w-2.5 bg-white/70"
-              }`}
+                }`}
             />
           ))}
         </div>
