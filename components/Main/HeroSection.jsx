@@ -9,26 +9,24 @@ export default function HeroSection() {
     const video = videoRef.current;
     if (!video) return;
 
-    video.muted = false;
-    video.volume = 1;
-
-    const tryPlay = async () => {
+    const playVideo = async () => {
       try {
         await video.play();
       } catch (error) {
-        console.log("Autoplay with sound blocked by browser:", error);
+        console.log("Autoplay blocked:", error);
       }
     };
 
-    tryPlay();
+    playVideo();
   }, []);
 
   return (
-    <section className="relative h-screen w-full overflow-hidden bg-black">
+    <section className="h-screen w-full overflow-hidden bg-black">
       <video
         ref={videoRef}
         className="h-full w-full object-cover"
         autoPlay
+        muted
         loop
         playsInline
         controls
