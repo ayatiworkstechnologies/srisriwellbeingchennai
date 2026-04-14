@@ -111,7 +111,7 @@ export default function HeroSection() {
                 </button>
 
                 <a
-                  href="https://maps.app.goo.gl/r6V8Fj1Vd7X5Qy8G6"
+                  href="https://www.google.com/maps/dir/?api=1&destination=Sri+Sri+Wellbeing+Holistic+Health+Mruthunjaya+Ayur,+Kilpauk,+Chennai"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="group flex h-14 items-center justify-center gap-3 rounded-full border-2 border-white/30 bg-white/10 px-8 text-lg font-bold tracking-wide text-white backdrop-blur-md transition-all duration-300 hover:border-white/60 hover:bg-white/20 active:outline-none"
