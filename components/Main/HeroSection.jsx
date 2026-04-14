@@ -48,7 +48,7 @@ export default function HeroSection() {
         playsInline
         preload="auto"
       >
-        <source src="/ssw-video.mp4" type="video/mp4" />
+        <source src="https://ayatiworks-storage.s3.us-east-1.amazonaws.com/ssw-video.MP4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
