@@ -7,7 +7,7 @@ export default function CollectionSection() {
   return (
     <section
       id="products"
-      className="relative overflow-hidden bg-[#f5f5f5] pt-10 md:pt-12 min-h-[500px] md:min-h-[700px] flex flex-col items-center"
+      className="relative overflow-hidden bg-[#f5f5f5] pt-10 md:pt-12 min-h-[600px] md:min-h-[700px] flex flex-col items-center"
     >
       {/* Background Image - Desktop */}
       <div className="pointer-events-none absolute inset-0 hidden md:block">

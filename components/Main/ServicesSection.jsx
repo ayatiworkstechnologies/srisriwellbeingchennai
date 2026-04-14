@@ -151,7 +151,7 @@ export default function ServicesSection() {
                       alt={card.title}
                       width={520}
                       height={520}
-                      className="h-[270px] w-full object-cover object-top md:object-center transition duration-500 group-hover:scale-[1.05] md:h-[270px]"
+                      className="h-[350px] w-full object-cover object-top transition duration-500 group-hover:scale-[1.05] md:h-[270px] md:object-center"
                     />
                   </div>
                 </div>
