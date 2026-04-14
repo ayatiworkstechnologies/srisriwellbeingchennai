@@ -124,7 +124,7 @@ export default function Footer() {
               {/* Social Icons - Left */}
               <div className="flex items-center gap-5">
                 <a
-                  href="https://instagram.com/srisriwellbeingchennai"
+                  href="https://www.instagram.com/ssw_chennai/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white/80 transition hover:-translate-y-0.5 hover:text-[#d0a93d]"
