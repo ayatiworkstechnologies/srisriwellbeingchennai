@@ -283,7 +283,7 @@ export default function ContactPageRedesign() {
                   title="Direct Contact"
                   content={
                     <a href="tel:+919943013111" className="hover:text-[#D4AF37] transition">
-                      +91 73552 59588
+                      +91 9943013111
                     </a>
                   }
                 />
