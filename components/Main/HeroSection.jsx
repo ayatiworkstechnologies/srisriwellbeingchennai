@@ -4,6 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa6";
+import RevealOnScroll from "./RevealOnScroll";
 
 export default function HeroSection() {
   const videoRef = useRef(null);
@@ -47,7 +48,7 @@ export default function HeroSection() {
         playsInline
         preload="auto"
       >
-        <source src="/ssw-video.mp4" type="video/mp4" />
+        <source src="/ssw-video-1.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
 
@@ -96,14 +97,28 @@ export default function HeroSection() {
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
+                className="mt-8 flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row md:mt-10"
               >
-                <Link
-                  href="/contact"
-                  className="mt-8 inline-flex items-center gap-2 rounded-full bg-[#D4AF37] px-6 py-3.5 text-base font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-lg md:mt-10 md:px-10 md:py-4.5 md:text-lg"
+                <button
+                  onClick={() => {
+                    const el = document.getElementById("relax");
+                    if (el) el.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  className="group flex h-14 items-center justify-center gap-3 rounded-full bg-[#D4AF37] px-8 text-lg font-bold tracking-wide text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#b8952b] hover:shadow-[0_10px_20px_rgba(212,175,55,0.3)] active:outline-none"
                 >
-                  Begin Your Wellness Journey
-                  <FaArrowRight className="text-[18px] md:text-[20px]" />
-                </Link>
+                  Plan Your Visit
+                  <FaArrowRight className="text-[16px] transition-transform duration-300 group-hover:translate-x-1" />
+                </button>
+
+                <a
+                  href="https://maps.app.goo.gl/r6V8Fj1Vd7X5Qy8G6"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex h-14 items-center justify-center gap-3 rounded-full border-2 border-white/30 bg-white/10 px-8 text-lg font-bold tracking-wide text-white backdrop-blur-md transition-all duration-300 hover:border-white/60 hover:bg-white/20 active:outline-none"
+                >
+                  Get Directions
+                  <FaArrowRight className="text-[16px] transition-transform duration-300 group-hover:translate-x-1" />
+                </a>
               </motion.div>
 
               {/* Scroll indicator & Audio Toggle Container */}

@@ -4,7 +4,6 @@ import { useEffect, useMemo, useState } from "react";
 import { FaStar, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import RevealOnScroll from "./RevealOnScroll";
-import MagneticEffect from "./MagneticEffect";
 
 const testimonies = [
   {
@@ -76,33 +75,29 @@ export default function TestimoniesSection() {
         <div className="relative">
           {/* Navigation Buttons */}
           <div className="absolute top-1/2 left-[-10px] z-20 -translate-y-1/2 md:left-[-30px]">
-            <MagneticEffect strength={0.4}>
-              <button
-                onClick={() => canGoPrev && setPage(currentPage - 1)}
-                disabled={!canGoPrev}
-                className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-30 md:h-14 md:w-14"
-                aria-label="Previous testimonies"
-              >
-                <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
-                <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
-                <FaChevronLeft className="relative z-10 text-[16px] md:text-[20px]" />
-              </button>
-            </MagneticEffect>
+            <button
+              onClick={() => canGoPrev && setPage(currentPage - 1)}
+              disabled={!canGoPrev}
+              className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-30 md:h-14 md:w-14"
+              aria-label="Previous testimonies"
+            >
+              <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
+              <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
+              <FaChevronLeft className="relative z-10 text-[16px] md:text-[20px]" />
+            </button>
           </div>
 
           <div className="absolute top-1/2 right-[-10px] z-20 -translate-y-1/2 md:right-[-30px]">
-            <MagneticEffect strength={0.4}>
-              <button
-                onClick={() => canGoNext && setPage(currentPage + 1)}
-                disabled={!canGoNext}
-                className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-30 md:h-14 md:w-14"
-                aria-label="Next testimonies"
-              >
-                <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
-                <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
-                <FaChevronRight className="relative z-10 text-[16px] md:text-[20px]" />
-              </button>
-            </MagneticEffect>
+            <button
+              onClick={() => canGoNext && setPage(currentPage + 1)}
+              disabled={!canGoNext}
+              className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-30 md:h-14 md:w-14"
+              aria-label="Next testimonies"
+            >
+              <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
+              <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
+              <FaChevronRight className="relative z-10 text-[16px] md:text-[20px]" />
+            </button>
           </div>
 
           <div className="relative overflow-hidden px-4 md:px-0">

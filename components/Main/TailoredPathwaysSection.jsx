@@ -112,7 +112,6 @@ function LearningCard({ item, index, progress, total }) {
               priority={index === 0}
               className="object-cover"
             />
-
           </div>
         </div>
       </div>
@@ -176,7 +175,6 @@ export default function TailoredPathwaysSection() {
                     priority={index === 0}
                     className="object-cover"
                   />
-
                 </div>
 
                 <div className="bg-[#f8f6f2] px-5 py-6">
@@ -211,37 +209,38 @@ export default function TailoredPathwaysSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-[#f5f2ec] py-14 md:py-20"
+      className="relative bg-[#f5f2ec]"
+      style={{ height: "300vh" }} // ← FIX: was '100vh'. Needs 300vh so scrollYProgress
+    //   has ~200vh of travel for the 3-card animation.
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(192,143,32,0.08),transparent_35%),radial-gradient(circle_at_80%_80%,rgba(192,143,32,0.06),transparent_35%)]" />
+      <div className="sticky top-0 h-screen overflow-hidden">
+        {/* Background glow kept within sticky container */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(192,143,32,0.08),transparent_35%),radial-gradient(circle_at_80%_80%,rgba(192,143,32,0.06),transparent_35%)]" />
 
-      <div className="relative z-10 mx-auto w-full max-w-[1240px] px-4 md:px-6">
-        <RevealOnScroll className="mb-8 text-center md:mb-10">
-          <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-[0.06em] text-[#111]">
-            Tailored Pathways of Care
-          </h2>
-          <p className="mx-auto mt-4 max-w-[600px] text-base md:text-lg leading-6 text-[#5e5751]">
-            Thoughtfully designed approaches that honour individual needs, life
-            stages, and evolving wellbeing.
-          </p>
-          <div className="mx-auto mt-3 h-[3px] w-[74px] rounded-full bg-linear-to-r from-[#e5cf86] to-[#c08f20]" />
-        </RevealOnScroll>
-      </div>
+        <div className="relative z-10 mx-auto pt-24 w-full max-w-[1240px] px-4 md:px-6">
+          <RevealOnScroll className="mb-8 text-center md:mb-10">
+            <h2 className="text-4xl md:text-5xl font-bold uppercase tracking-[0.06em] text-[#111]">
+              Tailored Pathways of Care
+            </h2>
+            <p className="mx-auto mt-4 max-w-[600px] text-base md:text-lg leading-6 text-[#5e5751]">
+              Thoughtfully designed approaches that honour individual needs, life
+              stages, and evolving wellbeing.
+            </p>
+            <div className="mx-auto mt-3 h-[3px] w-[74px] rounded-full bg-linear-to-r from-[#e5cf86] to-[#c08f20]" />
+          </RevealOnScroll>
+        </div>
 
-      <div className="relative h-[100vh] md:h-[100vh] lg:h-[100vh]">
-        <div className="sticky top-[76px] flex h-[calc(100vh-76px)] items-center overflow-hidden md:top-[92px] md:h-[calc(100vh-92px)]">
-          <div className="relative z-10 mx-auto w-full max-w-[1240px] px-4 md:px-6">
-            <div className="relative h-[500px] md:h-[520px] lg:h-[540px]">
-              {learningItems.map((item, index) => (
-                <LearningCard
-                  key={item.title}
-                  item={item}
-                  index={index}
-                  progress={smoothProgress}
-                  total={learningItems.length}
-                />
-              ))}
-            </div>
+        <div className="relative mx-auto w-full max-w-[1240px] px-4 md:px-6">
+          <div className="relative h-[550px]">
+            {learningItems.map((item, index) => (
+              <LearningCard
+                key={item.title}
+                item={item}
+                index={index}
+                progress={smoothProgress}
+                total={learningItems.length}
+              />
+            ))}
           </div>
         </div>
       </div>

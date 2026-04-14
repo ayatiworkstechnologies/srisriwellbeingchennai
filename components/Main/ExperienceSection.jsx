@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
-import MagneticEffect from "./MagneticEffect";
 
 const sanctuarySlides = [
   {
@@ -101,37 +100,33 @@ export default function ExperienceSection() {
 
 
         <div className="absolute top-1/2 left-4 z-30 -translate-y-1/2 md:left-10">
-          <MagneticEffect strength={0.4}>
-            <button
-              onClick={prevSlide}
-              className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 md:h-14 md:w-14"
-              aria-label="Previous slide"
-            >
-              {/* Ripple Rings */}
-              <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
-              <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
-              <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
+          <button
+            onClick={prevSlide}
+            className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 md:h-14 md:w-14"
+            aria-label="Previous slide"
+          >
+            {/* Ripple Rings */}
+            <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
+            <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
+            <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
 
-              <FaChevronLeft className="relative z-10 text-[18px] md:text-[22px]" />
-            </button>
-          </MagneticEffect>
+            <FaChevronLeft className="relative z-10 text-[18px] md:text-[22px]" />
+          </button>
         </div>
 
         <div className="absolute top-1/2 right-4 z-30 -translate-y-1/2 md:right-10">
-          <MagneticEffect strength={0.4}>
-            <button
-              onClick={nextSlide}
-              className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 md:h-14 md:w-14"
-              aria-label="Next slide"
-            >
-              {/* Ripple Rings */}
-              <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
-              <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
-              <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
+          <button
+            onClick={nextSlide}
+            className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 md:h-14 md:w-14"
+            aria-label="Next slide"
+          >
+            {/* Ripple Rings */}
+            <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
+            <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
+            <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
 
-              <FaChevronRight className="relative z-10 text-[18px] md:text-[22px]" />
-            </button>
-          </MagneticEffect>
+            <FaChevronRight className="relative z-10 text-[18px] md:text-[22px]" />
+          </button>
         </div>
 
         <div className="absolute bottom-5 left-0 right-0 z-20 md:bottom-9">

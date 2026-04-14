@@ -4,9 +4,11 @@ import ContinuumSection from "@/components/Main/ContinuumSection";
 import ServicesSection from "@/components/Main/ServicesSection";
 import CollectionSection from "@/components/Main/CollectionSection";
 import ExperienceSection from "@/components/Main/ExperienceSection";
-import TailoredPathwaysSection from "@/components/Main/TailoredPathwaysSection";
+import SignatureLearningSection from "@/components/Main/SignatureLearningSection";
 import TestimoniesSection from "@/components/Main/TestimoniesSection";
-import RevealOnScroll from "@/components/Main/RevealOnScroll";
+import ScrollStackSections from "@/components/Main/ScrollStackSections";
+import TailoredPathwaysSection from "@/components/Main/TailoredPathwaysSection";
+
 
 export default function HomePage() {
   return (
@@ -17,6 +19,8 @@ export default function HomePage() {
       <ServicesSection />
       <CollectionSection />
       <ExperienceSection />
+      <SignatureLearningSection />
+      {/* <ScrollStackSections /> */}
       {/* <TailoredPathwaysSection /> */}
       <TestimoniesSection />
     </>

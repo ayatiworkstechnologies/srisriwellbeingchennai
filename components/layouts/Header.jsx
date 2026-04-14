@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa6";
+import Link from "next/link";
 
 const navItems = [
   { label: "Home", href: "#home" },
