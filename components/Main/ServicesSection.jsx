@@ -9,42 +9,42 @@ import RevealOnScroll from "./RevealOnScroll";
 const therapyCards = [
   {
     title: "Nadi Pariksha",
-    desc: "A refined diagnostic ritual that reveals subtle imbalances, guiding deeply personalised pathways to restore internal harmony.",
+    desc: "A non-invasive Ayurvedic pulse diagnosis technique used by our practitioners to assess your doshas and identify imbalances, serving as the starting point for your personalized wellness journey.",
     image: "/images/ser-1.jpg",
   },
   {
     title: "Panchakarma Rituals",
-    desc: "A classical detox immersion designed to cleanse, recalibrate, and awaken the body's innate intelligence for renewal.",
+    desc: "A comprehensive Ayurvedic detoxification and cleansing program designed to eliminate deep-seated toxins and effectively restore balance to the body and mind.",
     image: "/images/ser-2.jpg",
   },
   {
     title: "Marma Therapy",
-    desc: "An ancient energy-based technique that activates vital points to release stagnation and enhance overall vitality.",
+    desc: "An Ayurvedic technique involving gentle stimulation of specific vital energy points on the body to improve energy flow, reduce stress, and support deep healing.",
     image: "/images/ser-3.jpg",
   },
   {
     title: "Osteopathic Therapy",
-    desc: "A gentle, hands-on approach that restores structural balance, improving mobility, ease, and functional wellbeing.",
+    desc: "A manual therapy focused on the body's musculoskeletal system, aiming to improve overall health by strengthening the framework of the body and managing pain.",
     image: "/images/ser-4.jpg",
   },
   {
     title: "Ozone Therapy",
-    desc: "An advanced restorative therapy that revitalises cellular function, supporting recovery and systemic rejuvenation.",
+    desc: "An advanced restorative treatment utilized to address various chronic conditions and enhance overall systemic vitality through the healing properties of ozone.",
     image: "/images/ser-5.jpg",
   },
   {
     title: "Meru Therapy",
-    desc: "A specialised spinal care experience that refines posture, releases deep tension, and restores fluid movement.",
+    desc: "A specialized therapy deeply focused on spinal health and alignment, aiming to restore harmony and balance to the body's structural and energetic systems.",
     image: "/images/ser-6.jpg",
   },
   {
     title: "Craniosacral Therapy",
-    desc: "A subtle, meditative therapy that harmonises the nervous system, promoting deep relaxation and inner balance.",
+    desc: "A gentle, hands-on technique that monitors the rhythm of cerebrospinal fluid to release tensions deep in the body, relieving pain and dysfunction.",
     image: "/images/ser-7.jpg",
   },
   {
     title: "Pain Management Therapies",
-    desc: "Targeted therapeutic interventions designed to ease chronic discomfort and restore natural movement with precision.",
+    desc: "Integrative treatments combining classical and contemporary therapies, including L&B pain management, to address chronic discomfort and restore natural mobility.",
     image: "/images/ser-8.jpg",
   },
 ];

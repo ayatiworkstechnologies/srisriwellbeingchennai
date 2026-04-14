@@ -185,14 +185,13 @@ export default function SignatureLearningSection() {
 
         <RevealOnScroll delay={0.1}>
           <h2 className="text-3xl font-bold leading-tight text-[#1a1612] md:text-5xl">
-            Master the Art of Healing
+            The Art of Living Healing
           </h2>
         </RevealOnScroll>
 
         <RevealOnScroll className="mx-auto max-w-[620px]" delay={0.15}>
           <p className="mt-3 text-sm leading-relaxed text-[#6b6158] md:text-base">
-            For those who seek more than restoration, step into a deeper
-            understanding of Ayurvedic therapies, guided by experts.
+            Sri Sri Wellbeing, a holistic wellness initiative associated with the Art of Living foundation, offers a range of traditional and modern pain management therapies focusing on non-invasive, drug-free relief.
           </p>
           <div className="mx-auto mt-3 h-[3px] w-[60px] rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
         </RevealOnScroll>
