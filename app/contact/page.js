@@ -17,20 +17,57 @@ import {
 export default function ContactPageRedesign() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage("");
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    const formData = new FormData(e.target);
+    const payload = {
+      data: {
+        name: formData.get("name"),
+        phone: formData.get("phone"),
+        email: formData.get("email"),
+        topic: formData.get("topic"),
+        message: formData.get("message"),
+      },
+    };
+
+    try {
+      const response = await fetch(
+        "https://api.ayatiworks.com/api/v1/public/ayatiwork/srisri/records",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-Key": "3bc72efc00a99a7ad1d1e31225c6a3f833218dfb34d88cc6ecb4c2b9562ab0fd",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error("API Error Response:", errorData);
+        throw new Error(`Failed to submit form. Status: ${response.status}`);
+      }
+
       setIsSuccess(true);
+      e.target.reset();
 
       setTimeout(() => {
         setIsSuccess(false);
-        e.target.reset();
-      }, 4000);
-    }, 1200);
+      }, 5000);
+    } catch (error) {
+      console.error("Submission error:", error);
+      setErrorMessage(
+        "There was an error sending your message. Please try again or contact us directly."
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -140,6 +177,11 @@ export default function ContactPageRedesign() {
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="grid gap-5">
+                {errorMessage && (
+                  <div className="rounded-[16px] bg-red-50 p-4 text-[14px] text-red-600 border border-red-100">
+                    {errorMessage}
+                  </div>
+                )}
                 <div className="grid gap-5 md:grid-cols-2">
                   <Field label="Full Name">
                     <input
