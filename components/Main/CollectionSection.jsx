@@ -43,7 +43,7 @@ export default function CollectionSection() {
 
           <div className="mx-auto mt-3 h-[3px] w-[78px] rounded-full bg-[#d8b03f]" />
 
-          <p className="mx-auto mt-4 max-w-[650px] text-base leading-6 text-white md:text-black md:text-lg">
+          <p className="mx-auto mt-4 max-w-[650px] text-base leading-6 text-black md:text-white md:text-lg">
             A refined selection of Ayurvedic formulations crafted to complement your wellness
             journey, designed for daily balance, vitality, and sustained inner harmony.
           </p>
