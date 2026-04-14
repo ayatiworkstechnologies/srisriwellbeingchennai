@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useRef } from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
@@ -109,13 +109,13 @@ function HorizontalCard({ item, index, total }) {
               {item.desc}
             </p>
 
-            <Link
+            {/* <Link
               href="/contact"
               className="inline-flex items-center gap-2 rounded-full border border-[#d8bb6b]/50 bg-white px-6 py-2.5 text-[13px] font-bold uppercase tracking-wider text-[#b88621] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d0a93d]/70 hover:shadow-md"
             >
               Explore Therapy
               <FaArrowRight className="text-[11px]" />
-            </Link>
+            </Link> */}
 
             <div className="mt-5 h-[2.5px] w-12 rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
           </div>
@@ -160,11 +160,18 @@ export default function SignatureLearningSection() {
   });
 
   // Map vertical scroll to horizontal movement
-  // Cards container needs to slide left by (totalCards - 1) * cardWidth
   const totalCards = experiences.length;
+
+  // Smooth spring for buttery horizontal scrolling
+  const smoothProgress = useSpring(scrollYProgress, {
+    stiffness: 60,
+    damping: 28,
+    restDelta: 0.0005,
+  });
+
   const x = useTransform(
-    scrollYProgress,
-    [0.05, 0.95],
+    smoothProgress,
+    [0.05, 0.92],
     ["0%", `-${(totalCards - 1) * 88}vw`]
   );
 
@@ -172,7 +179,7 @@ export default function SignatureLearningSection() {
     <section
       ref={sectionRef}
       className="relative bg-[#f5f2ec]"
-      style={{ height: `${totalCards * 30}vh` }}
+      style={{ height: "100vh" }}
     >
       <div className="sticky overflow-hidden" style={{ top: '-10vh', height: '110vh' }}>
         {/* Background */}
@@ -197,13 +204,9 @@ export default function SignatureLearningSection() {
         {/* Header — stays fixed in sticky */}
         <div className="relative z-10 mx-auto w-full max-w-[1300px] px-5 pt-12 text-center md:px-8 md:pt-16">
           <RevealOnScroll className="mb-3">
-            <div className="inline-flex items-center gap-3 rounded-full border border-[#d8bb6b]/30 bg-white/70 px-5 py-2 shadow-sm backdrop-blur-sm">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#c9a644]" />
-              <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#b88621]">
-                Signature Learning Experiences
-              </span>
-              <span className="h-1.5 w-1.5 rounded-full bg-[#c9a644]" />
-            </div>
+            <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#c9a644] md:text-base">
+              Signature Learning Experiences
+            </p>
           </RevealOnScroll>
 
           <RevealOnScroll delay={0.1}>
