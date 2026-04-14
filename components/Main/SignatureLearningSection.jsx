@@ -1,9 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
-import { useRef } from "react";
-import { FaArrowRight } from "react-icons/fa6";
+import { useRef, useState, useEffect } from "react";
+import { FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
 import Link from "next/link";
 
@@ -45,43 +44,39 @@ const experiences = [
 /* ------------------------------------------------------------------ */
 /*  Horizontal scroll card                                             */
 /* ------------------------------------------------------------------ */
-function HorizontalCard({ item, index, total }) {
+function HorizontalCard({ item }) {
   return (
-    <div
-      className="flex h-full w-[85vw] max-w-[1100px] flex-shrink-0 snap-center items-center px-3 md:px-6"
-    >
-      <div className="group relative grid h-[420px] w-full overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_rgba(0,0,0,0.10)] md:h-[480px] md:grid-cols-[1.1fr_1fr]">
+    <div className="w-[85vw] max-w-[1100px] flex-shrink-0 snap-center px-3 md:px-5">
+      <div className="group relative grid h-[400px] w-full overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_rgba(0,0,0,0.10)] md:h-[440px] md:grid-cols-[1.1fr_1fr]">
         {/* Left — Image */}
-        <div className="relative h-[200px] overflow-hidden md:h-full">
+        <div className="relative h-[180px] overflow-hidden md:h-full">
           <Image
             src={item.image}
             alt={item.title}
             fill
             className="object-cover transition-transform duration-700 group-hover:scale-105"
           />
-          {/* Dark gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/10 via-transparent to-black/20 md:bg-gradient-to-r md:from-transparent md:via-transparent md:to-black/10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/5 via-transparent to-black/15" />
 
-          {/* Number — large watermark */}
-          <div className="absolute bottom-4 left-5 text-[64px] font-black leading-none text-white/10 md:bottom-6 md:left-8 md:text-[96px]">
+          {/* Number watermark */}
+          <div className="absolute bottom-3 left-4 text-[56px] font-black leading-none text-white/10 md:bottom-6 md:left-8 md:text-[96px]">
             {item.num}
           </div>
 
           {/* Icon badge */}
-          <div className="absolute right-4 top-4 flex h-[48px] w-[48px] items-center justify-center rounded-full border-2 border-white/30 bg-white/85 shadow-lg backdrop-blur-sm md:bottom-6 md:right-6 md:top-auto md:h-[56px] md:w-[56px]">
+          <div className="absolute right-3 top-3 flex h-[44px] w-[44px] items-center justify-center rounded-full border-2 border-white/30 bg-white/85 shadow-lg backdrop-blur-sm md:bottom-6 md:right-6 md:top-auto md:h-[56px] md:w-[56px]">
             <Image
               src={item.icon}
               alt={`${item.title} icon`}
-              width={30}
-              height={30}
+              width={28}
+              height={28}
               className="object-contain"
             />
           </div>
         </div>
 
         {/* Right — Content */}
-        <div className="relative flex flex-col justify-center bg-[#faf8f3] px-6 py-6 md:px-12 md:py-10">
-          {/* Dot pattern */}
+        <div className="relative flex flex-col justify-center bg-[#faf8f3] px-5 py-5 md:px-12 md:py-10">
           <div
             className="pointer-events-none absolute right-4 top-4 hidden h-[80px] w-[80px] opacity-[0.05] md:block"
             style={{
@@ -89,9 +84,10 @@ function HorizontalCard({ item, index, total }) {
               backgroundSize: "12px 12px",
             }}
           />
-
-          {/* Top accent stripe */}
-          <div className="absolute left-0 top-0 hidden h-full w-[4px] md:block" style={{ background: `linear-gradient(to bottom, ${item.accent}40, ${item.accent}, ${item.accent}40)` }} />
+          <div
+            className="absolute left-0 top-0 hidden h-full w-[4px] md:block"
+            style={{ background: `linear-gradient(to bottom, ${item.accent}40, ${item.accent}, ${item.accent}40)` }}
+          />
 
           <div className="relative z-10">
             <div className="mb-2 flex items-center gap-3">
@@ -101,47 +97,17 @@ function HorizontalCard({ item, index, total }) {
               <span className="h-px flex-1 max-w-[40px] bg-[#d8bb6b]/40" />
             </div>
 
-            <h3 className="mb-4 text-2xl font-bold leading-tight text-[#1a1612] md:text-3xl">
+            <h3 className="mb-3 text-xl font-bold leading-tight text-[#1a1612] md:mb-4 md:text-3xl">
               {item.title}
             </h3>
 
-            <p className="mb-6 max-w-[400px] text-[15px] leading-relaxed text-[#6b6158] md:text-base">
+            <p className="max-w-[400px] text-[14px] leading-relaxed text-[#6b6158] md:text-base">
               {item.desc}
             </p>
 
-            {/* <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 rounded-full border border-[#d8bb6b]/50 bg-white px-6 py-2.5 text-[13px] font-bold uppercase tracking-wider text-[#b88621] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d0a93d]/70 hover:shadow-md"
-            >
-              Explore Therapy
-              <FaArrowRight className="text-[11px]" />
-            </Link> */}
-
-            <div className="mt-5 h-[2.5px] w-12 rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
+            <div className="mt-4 h-[2.5px] w-12 rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20] md:mt-5" />
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-/* ------------------------------------------------------------------ */
-/*  Progress Indicator                                                 */
-/* ------------------------------------------------------------------ */
-function ScrollIndicator({ progress, total }) {
-  const width = useTransform(progress, [0, 1], ["0%", "100%"]);
-
-  return (
-    <div className="mx-auto mt-8 w-[200px] md:mt-10">
-      <div className="relative h-[3px] w-full overflow-hidden rounded-full bg-[#e0d5be]/50">
-        <motion.div
-          className="absolute inset-y-0 left-0 rounded-full bg-gradient-to-r from-[#e5cf86] to-[#b88621]"
-          style={{ width }}
-        />
-      </div>
-      <div className="mt-2 flex justify-between text-[11px] font-semibold tracking-wider text-[#b88621]/50">
-        <span>01</span>
-        <span>0{total}</span>
       </div>
     </div>
   );
@@ -151,129 +117,145 @@ function ScrollIndicator({ progress, total }) {
 /*  Main Section                                                       */
 /* ------------------------------------------------------------------ */
 export default function SignatureLearningSection() {
-  const sectionRef = useRef(null);
-  const scrollContainerRef = useRef(null);
-
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start start", "end end"],
-  });
-
-  // Map vertical scroll to horizontal movement
+  const scrollRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const totalCards = experiences.length;
 
-  // Smooth spring for buttery horizontal scrolling
-  const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 60,
-    damping: 28,
-    restDelta: 0.0005,
-  });
+  // Track scroll position for progress indicator
+  useEffect(() => {
+    const container = scrollRef.current;
+    if (!container) return;
 
-  const x = useTransform(
-    smoothProgress,
-    [0.05, 0.92],
-    ["0%", `-${(totalCards - 1) * 88}vw`]
-  );
+    const handleScroll = () => {
+      const { scrollLeft, scrollWidth, clientWidth } = container;
+      const maxScroll = scrollWidth - clientWidth;
+      if (maxScroll <= 0) return;
+
+      const progress = scrollLeft / maxScroll;
+      const index = Math.round(progress * (totalCards - 1));
+      setActiveIndex(index);
+    };
+
+    container.addEventListener("scroll", handleScroll, { passive: true });
+    return () => container.removeEventListener("scroll", handleScroll);
+  }, [totalCards]);
+
+  const scrollToCard = (index) => {
+    const container = scrollRef.current;
+    if (!container) return;
+
+    const cardWidth = container.scrollWidth / totalCards;
+    container.scrollTo({
+      left: cardWidth * index,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollPrev = () => scrollToCard(Math.max(0, activeIndex - 1));
+  const scrollNext = () => scrollToCard(Math.min(totalCards - 1, activeIndex + 1));
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative bg-[#f5f2ec]"
-      style={{ height: "100vh" }}
-    >
-      <div className="sticky overflow-hidden" style={{ top: '-10vh', height: '110vh' }}>
-        {/* Background */}
-        <div className="pointer-events-none absolute inset-0">
-          <Image
-            src="/images/bg.svg"
-            alt="Background pattern"
-            fill
-            className="object-cover opacity-30"
-          />
-        </div>
-
-        {/* Radial glows */}
-        <div className="pointer-events-none absolute inset-0">
-          <div className="absolute left-[-5%] top-[20%] h-[400px] w-[400px] rounded-full bg-[radial-gradient(circle,rgba(200,160,50,0.06),transparent_60%)]" />
-          <div className="absolute bottom-[10%] right-[-3%] h-[350px] w-[350px] rounded-full bg-[radial-gradient(circle,rgba(200,160,50,0.04),transparent_60%)]" />
-        </div>
-
-        {/* Top line */}
-        <div className="absolute left-0 right-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-[#d8bb6b]/25 to-transparent" />
-
-        {/* Header — stays fixed in sticky */}
-        <div className="relative z-10 mx-auto w-full max-w-[1300px] px-5 pt-12 text-center md:px-8 md:pt-16">
-          <RevealOnScroll className="mb-3">
-            <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#c9a644] md:text-base">
-              Signature Learning Experiences
-            </p>
-          </RevealOnScroll>
-
-          <RevealOnScroll delay={0.1}>
-            <h2 className="text-3xl font-bold leading-tight text-[#1a1612] md:text-5xl">
-              Master the Art of Healing
-            </h2>
-          </RevealOnScroll>
-
-          <RevealOnScroll className="mx-auto max-w-[620px]" delay={0.15}>
-            <p className="mt-3 text-sm leading-relaxed text-[#6b6158] md:text-base">
-              For those who seek more than restoration, step into a deeper
-              understanding of Ayurvedic therapies, guided by experts.
-            </p>
-            <div className="mx-auto mt-3 h-[3px] w-[60px] rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
-          </RevealOnScroll>
-        </div>
-
-        {/* Horizontal scrolling cards */}
-        <div className="relative z-10 mt-6 flex h-[calc(100vh-280px)] items-center md:mt-8 md:h-[calc(100vh-300px)]">
-          <motion.div
-            ref={scrollContainerRef}
-            style={{ x }}
-            className="flex items-center pl-[7.5vw]"
-          >
-            {experiences.map((item, index) => (
-              <HorizontalCard
-                key={item.title}
-                item={item}
-                index={index}
-                total={totalCards}
-              />
-            ))}
-
-            {/* End CTA card */}
-            <div className="flex h-full w-[60vw] max-w-[500px] flex-shrink-0 items-center justify-center px-6">
-              <div className="text-center">
-                <div className="mb-5 flex items-center justify-center gap-4">
-                  <div className="h-px w-10 bg-gradient-to-r from-transparent to-[#d8bb6b]/40" />
-                  <div className="h-3 w-3 rotate-45 border border-[#d8bb6b]/40 bg-[#faf7f0]" />
-                  <div className="h-px w-10 bg-gradient-to-l from-transparent to-[#d8bb6b]/40" />
-                </div>
-                <p className="mb-6 text-sm text-[#8a7f74] md:text-base">
-                  Ready to begin your healing journey?
-                </p>
-                <Link
-                  href="/contact"
-                  className="group inline-flex items-center gap-3 rounded-full border border-[#d8bb6b]/40 bg-white px-7 py-3 text-[13px] font-bold uppercase tracking-[0.18em] text-[#b88621] shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d0a93d]/60 hover:bg-[#fdf9f0] hover:shadow-md"
-                >
-                  Begin Your Journey
-                  <FaArrowRight className="text-[12px] transition-transform duration-300 group-hover:translate-x-1" />
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Scroll progress indicator */}
-        <div className="relative z-10">
-          <ScrollIndicator progress={scrollYProgress} total={totalCards} />
-        </div>
-
-        {/* Bottom line */}
-        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d8bb6b]/25 to-transparent" />
+    <section className="relative overflow-hidden bg-[#f5f2ec] pb-14 pt-16 md:pb-20 md:pt-24">
+      {/* Background */}
+      <div className="pointer-events-none absolute inset-0">
+        <Image
+          src="/images/bg.svg"
+          alt="Background pattern"
+          fill
+          className="object-cover opacity-30"
+        />
       </div>
 
-      {/* Bottom spacing */}
-      <div className="pointer-events-none h-[10vh]" />
+      {/* Radial glows */}
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-[-5%] top-[20%] h-[400px] w-[400px] rounded-full bg-[radial-gradient(circle,rgba(200,160,50,0.06),transparent_60%)]" />
+        <div className="absolute bottom-[10%] right-[-3%] h-[350px] w-[350px] rounded-full bg-[radial-gradient(circle,rgba(200,160,50,0.04),transparent_60%)]" />
+      </div>
+
+      {/* Top line */}
+      <div className="absolute left-0 right-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-[#d8bb6b]/25 to-transparent" />
+
+      {/* Header */}
+      <div className="relative z-10 mx-auto w-full max-w-[1300px] px-5 text-center md:px-8">
+        <RevealOnScroll className="mb-3">
+          <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#c9a644] md:text-base">
+            Signature Experiences
+          </p>
+        </RevealOnScroll>
+
+        <RevealOnScroll delay={0.1}>
+          <h2 className="text-3xl font-bold leading-tight text-[#1a1612] md:text-5xl">
+            Master the Art of Healing
+          </h2>
+        </RevealOnScroll>
+
+        <RevealOnScroll className="mx-auto max-w-[620px]" delay={0.15}>
+          <p className="mt-3 text-sm leading-relaxed text-[#6b6158] md:text-base">
+            For those who seek more than restoration, step into a deeper
+            understanding of Ayurvedic therapies, guided by experts.
+          </p>
+          <div className="mx-auto mt-3 h-[3px] w-[60px] rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
+        </RevealOnScroll>
+      </div>
+
+      {/* Horizontal scrolling cards */}
+      <div className="relative z-10 mt-8 md:mt-10">
+        {/* Navigation arrows */}
+        <button
+          onClick={scrollPrev}
+          disabled={activeIndex === 0}
+          className="absolute left-2 top-1/2 z-30 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 disabled:opacity-30 md:flex md:h-12 md:w-12"
+          aria-label="Previous card"
+        >
+          <FaChevronLeft className="text-[16px] text-[#b88621]" />
+        </button>
+
+        <button
+          onClick={scrollNext}
+          disabled={activeIndex === totalCards - 1}
+          className="absolute right-2 top-1/2 z-30 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 disabled:opacity-30 md:flex md:h-12 md:w-12"
+          aria-label="Next card"
+        >
+          <FaChevronRight className="text-[16px] text-[#b88621]" />
+        </button>
+
+        {/* Scrollable container */}
+        <div
+          ref={scrollRef}
+          className="flex snap-x snap-mandatory gap-0 overflow-x-auto scroll-smooth pb-2 pl-[7.5vw] pr-[7.5vw] scrollbar-hide"
+          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+        >
+          {experiences.map((item) => (
+            <HorizontalCard key={item.title} item={item} />
+          ))}
+        </div>
+      </div>
+
+      {/* Progress dots + indicator */}
+      <div className="relative z-10 mt-6 flex flex-col items-center gap-4 md:mt-8">
+        {/* Dots */}
+        <div className="flex items-center gap-2.5">
+          {experiences.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => scrollToCard(idx)}
+              className={`h-2.5 rounded-full transition-all duration-300 ${idx === activeIndex
+                  ? "w-8 bg-gradient-to-r from-[#e5cf86] to-[#b88621]"
+                  : "w-2.5 bg-[#d8c8a2]"
+                }`}
+              aria-label={`Go to card ${idx + 1}`}
+            />
+          ))}
+        </div>
+
+        {/* Counter */}
+        <p className="text-[12px] font-semibold tracking-wider text-[#b88621]/50">
+          0{activeIndex + 1} / 0{totalCards}
+        </p>
+      </div>
+
+      {/* Bottom line */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d8bb6b]/25 to-transparent" />
     </section>
   );
 }

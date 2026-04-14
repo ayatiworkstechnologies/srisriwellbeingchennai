@@ -34,8 +34,8 @@ export default function Footer() {
 
                   <div className="flex items-center gap-3 text-base md:text-lg font-medium text-white">
                     <FaPhoneVolume className="shrink-0 text-[16px] text-white" />
-                    <a href="tel:+917856236558" className="whitespace-nowrap transition hover:text-[#d0a93d]">
-                      +91 78562 36558
+                    <a href="tel:+919943013111" className="whitespace-nowrap transition hover:text-[#d0a93d]">
+                      +91 9943013111
                     </a>
                   </div>
                 </div>

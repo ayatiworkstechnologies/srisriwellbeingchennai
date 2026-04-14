@@ -15,7 +15,7 @@ const therapyCards = [
   {
     title: "Panchakarma Rituals",
     desc: "A classical detox immersion designed to cleanse, recalibrate, and awaken the body's innate intelligence for renewal.",
-    image: "/images/ser-2.jpg",
+    image: "/images/ser-8.jpg",
   },
   {
     title: "Marma Therapy",
@@ -23,7 +23,7 @@ const therapyCards = [
     image: "/images/ser-3.jpg",
   },
   {
-    title: "Osteopathic Alignment",
+    title: "Osteopathic Therapy",
     desc: "A gentle, hands-on approach that restores structural balance, improving mobility, ease, and functional wellbeing.",
     image: "/images/ser-4.jpg",
   },
@@ -33,9 +33,9 @@ const therapyCards = [
     image: "/images/ser-5.jpg",
   },
   {
-    title: "Meru Alignment Therapy",
+    title: "Meru Therapy",
     desc: "A specialised spinal care experience that refines posture, releases deep tension, and restores fluid movement.",
-    image: "/images/ser-6.jpg",
+    image: "/images/ser-2.jpg",
   },
   {
     title: "Craniosacral Therapy",
@@ -45,7 +45,7 @@ const therapyCards = [
   {
     title: "Pain Management Therapies",
     desc: "Targeted therapeutic interventions designed to ease chronic discomfort and restore natural movement with precision.",
-    image: "/images/ser-8.jpg",
+    image: "/images/ser-6.jpg",
   },
 ];
 
@@ -119,7 +119,7 @@ export default function ServicesSection() {
             <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
             <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
             <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
-            
+
             <FaChevronLeft className="relative z-10 text-[16px] md:text-[20px]" />
           </button>
 

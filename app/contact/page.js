@@ -85,7 +85,7 @@ export default function ContactPageRedesign() {
 
             <div className="mt-10 flex flex-wrap gap-4">
               <Link
-                href="tel:+917355259588"
+                href="tel:+919943013111"
                 className="inline-flex items-center gap-2 rounded-full bg-[#D4AF37] px-7 py-3.5 text-[15px] font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#bb9629]"
               >
                 <FaPhoneVolume className="text-[14px]" />
@@ -282,7 +282,7 @@ export default function ContactPageRedesign() {
                   icon={FaPhoneVolume}
                   title="Direct Contact"
                   content={
-                    <a href="tel:+917355259588" className="hover:text-[#D4AF37] transition">
+                    <a href="tel:+919943013111" className="hover:text-[#D4AF37] transition">
                       +91 73552 59588
                     </a>
                   }
@@ -363,7 +363,7 @@ export default function ContactPageRedesign() {
                 </a>
 
                 <a
-                  href="tel:+917355259588"
+                  href="tel:+919943013111"
                   className="inline-flex items-center gap-2 rounded-full border border-[#d9c7ae] px-8 py-4 text-[15px] font-bold text-[#31180d] transition hover:border-[#D4AF37] hover:text-[#D4AF37]"
                 >
                   Call Before Visit
