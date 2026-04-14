@@ -64,13 +64,13 @@ function HorizontalCard({ item }) {
           </div>
 
           {/* Icon badge */}
-          <div className="absolute right-3 top-3 flex h-[44px] w-[44px] items-center justify-center rounded-full border-2 border-white/30 bg-white/85 shadow-lg backdrop-blur-sm md:bottom-6 md:right-6 md:top-auto md:h-[56px] md:w-[56px]">
+          <div className="absolute right-3 top-3 flex h-[56px] w-[56px] items-center justify-center rounded-full bg-white/85 md:bottom-6 md:right-6 md:top-auto md:h-[72px] md:w-[72px]">
             <Image
               src={item.icon}
               alt={`${item.title} icon`}
-              width={28}
-              height={28}
-              className="object-contain"
+              width={72}
+              height={72}
+              className=""
             />
           </div>
         </div>
@@ -162,7 +162,7 @@ export default function SignatureLearningSection() {
           src="/images/bg.svg"
           alt="Background pattern"
           fill
-          className="object-cover opacity-30"
+          className="object-cover"
         />
       </div>
 
@@ -240,8 +240,8 @@ export default function SignatureLearningSection() {
               key={idx}
               onClick={() => scrollToCard(idx)}
               className={`h-2.5 rounded-full transition-all duration-300 ${idx === activeIndex
-                  ? "w-8 bg-gradient-to-r from-[#e5cf86] to-[#b88621]"
-                  : "w-2.5 bg-[#d8c8a2]"
+                ? "w-8 bg-gradient-to-r from-[#e5cf86] to-[#b88621]"
+                : "w-2.5 bg-[#d8c8a2]"
                 }`}
               aria-label={`Go to card ${idx + 1}`}
             />

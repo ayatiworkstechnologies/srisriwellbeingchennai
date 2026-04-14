@@ -15,7 +15,7 @@ const therapyCards = [
   {
     title: "Panchakarma Rituals",
     desc: "A classical detox immersion designed to cleanse, recalibrate, and awaken the body's innate intelligence for renewal.",
-    image: "/images/ser-8.jpg",
+    image: "/images/ser-2.jpg",
   },
   {
     title: "Marma Therapy",
@@ -35,7 +35,7 @@ const therapyCards = [
   {
     title: "Meru Therapy",
     desc: "A specialised spinal care experience that refines posture, releases deep tension, and restores fluid movement.",
-    image: "/images/ser-2.jpg",
+    image: "/images/ser-6.jpg",
   },
   {
     title: "Craniosacral Therapy",
@@ -45,7 +45,7 @@ const therapyCards = [
   {
     title: "Pain Management Therapies",
     desc: "Targeted therapeutic interventions designed to ease chronic discomfort and restore natural movement with precision.",
-    image: "/images/ser-6.jpg",
+    image: "/images/ser-8.jpg",
   },
 ];
 

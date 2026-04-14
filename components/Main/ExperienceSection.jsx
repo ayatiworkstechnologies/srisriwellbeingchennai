@@ -9,32 +9,32 @@ const sanctuarySlides = [
   {
     desktopImage: "/images/gallery-1.jpg",
     mobileImage: "/images/gallery-mob-1.jpg",
-    // title: "Private Therapy Suites",
-    // desc: "Ten thoughtfully designed therapy rooms offering space, privacy, and an atmosphere of uninterrupted calm.",
+    title: "Private Therapy Suites",
+    desc: "Ten thoughtfully designed therapy rooms offering space, privacy, and an atmosphere of uninterrupted calm.",
   },
   {
     desktopImage: "/images/gallery-2.jpg",
     mobileImage: "/images/gallery-mob-2.jpg",
-    // title: "Expert-Led Care",
-    // desc: "Guided by experienced Ayurveda doctors and trained therapists, ensuring precision, discretion, and personalised attention.",
+    title: "Expert-Led Care",
+    desc: "Guided by experienced Ayurveda doctors and trained therapists, ensuring precision, discretion, and personalised attention.",
   },
   {
     desktopImage: "/images/gallery-3.jpg",
     mobileImage: "/images/gallery-mob-3.jpg",
-    // title: "Serene Ambience",
-    // desc: "A soothing environment where natural elements, gentle aromas, and quiet design come together to restore inner balance.",
+    title: "Serene Ambience",
+    desc: "A soothing environment where natural elements, gentle aromas, and quiet design come together to restore inner balance.",
   },
   {
     desktopImage: "/images/gallery-4.jpg",
     mobileImage: "/images/gallery-mob-4.jpg",
-    // title: "Authentic Rituals",
-    // desc: "Traditional preparations and classical techniques applied with uncompromising dedication to authentic healing.",
+    title: "Authentic Rituals",
+    desc: "Traditional preparations and classical techniques applied with uncompromising dedication to authentic healing.",
   },
   {
     desktopImage: "/images/gallery-5.jpg",
     mobileImage: "/images/gallery-mob-5.jpg",
-    // title: "Holistic Rejuvenation",
-    // desc: "An integrated approach that addresses physical alignment, mental clarity, and energetic harmony simultaneously.",
+    title: "Holistic Rejuvenation",
+    desc: "An integrated approach that addresses physical alignment, mental clarity, and energetic harmony simultaneously.",
   },
 ];
 
@@ -140,13 +140,13 @@ export default function ExperienceSection() {
                   The Experience of Care
                 </p> */}
                 <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white/80 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                  A Glimpse Into Your Sanctuary
+                  {sanctuarySlides[current].title}
                 </h2>
 
                 <div className="mt-3 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
 
                 <p className="mt-3 max-w-[430px] text-base md:text-lg leading-7 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                  Experience the calming environment, thoughtfully designed spaces, and immersive healing atmosphere at our Kilpauk centre.
+                  {sanctuarySlides[current].desc}
                 </p>
               </div>
             </div>

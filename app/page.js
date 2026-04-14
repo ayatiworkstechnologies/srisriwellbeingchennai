@@ -6,9 +6,6 @@ import CollectionSection from "@/components/Main/CollectionSection";
 import ExperienceSection from "@/components/Main/ExperienceSection";
 import SignatureLearningSection from "@/components/Main/SignatureLearningSection";
 import TestimoniesSection from "@/components/Main/TestimoniesSection";
-import ScrollStackSections from "@/components/Main/ScrollStackSections";
-import TailoredPathwaysSection from "@/components/Main/TailoredPathwaysSection";
-
 
 export default function HomePage() {
   return (
@@ -20,8 +17,6 @@ export default function HomePage() {
       <CollectionSection />
       <ExperienceSection />
       <SignatureLearningSection />
-      {/* <ScrollStackSections /> */}
-      {/* <TailoredPathwaysSection /> */}
       <TestimoniesSection />
     </>
   );
