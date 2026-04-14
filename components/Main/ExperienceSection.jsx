@@ -4,37 +4,38 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
+import MagneticEffect from "./MagneticEffect";
 
 const sanctuarySlides = [
   {
     desktopImage: "/images/gallery-1.jpg",
     mobileImage: "/images/gallery-mob-1.jpg",
-    title: "Private Therapy Suites",
-    desc: "Ten thoughtfully designed therapy rooms offering space, privacy, and an atmosphere of uninterrupted calm.",
+    // title: "Private Therapy Suites",
+    // desc: "Ten thoughtfully designed therapy rooms offering space, privacy, and an atmosphere of uninterrupted calm.",
   },
   {
     desktopImage: "/images/gallery-2.jpg",
     mobileImage: "/images/gallery-mob-2.jpg",
-    title: "Expert-Led Care",
-    desc: "Guided by experienced Ayurveda doctors and trained therapists, ensuring precision, discretion, and personalised attention.",
+    // title: "Expert-Led Care",
+    // desc: "Guided by experienced Ayurveda doctors and trained therapists, ensuring precision, discretion, and personalised attention.",
   },
   {
     desktopImage: "/images/gallery-3.jpg",
     mobileImage: "/images/gallery-mob-3.jpg",
-    title: "Serene Ambience",
-    desc: "A soothing environment where natural elements, gentle aromas, and quiet design come together to restore inner balance.",
+    // title: "Serene Ambience",
+    // desc: "A soothing environment where natural elements, gentle aromas, and quiet design come together to restore inner balance.",
   },
   {
     desktopImage: "/images/gallery-4.jpg",
     mobileImage: "/images/gallery-mob-4.jpg",
-    title: "Authentic Rituals",
-    desc: "Traditional preparations and classical techniques applied with uncompromising dedication to authentic healing.",
+    // title: "Authentic Rituals",
+    // desc: "Traditional preparations and classical techniques applied with uncompromising dedication to authentic healing.",
   },
   {
     desktopImage: "/images/gallery-5.jpg",
     mobileImage: "/images/gallery-mob-5.jpg",
-    title: "Holistic Rejuvenation",
-    desc: "An integrated approach that addresses physical alignment, mental clarity, and energetic harmony simultaneously.",
+    // title: "Holistic Rejuvenation",
+    // desc: "An integrated approach that addresses physical alignment, mental clarity, and energetic harmony simultaneously.",
   },
 ];
 
@@ -99,40 +100,58 @@ export default function ExperienceSection() {
 
 
 
-        <button
-          onClick={prevSlide}
-          className="absolute top-1/2 left-3 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#d0a93d]/50 bg-white/95 text-[#b28b22] shadow-[0_4px_12px_rgba(0,0,0,0.15)] backdrop-blur transition-all duration-300 hover:bg-[#d4af37] hover:text-white md:left-6 md:h-14 md:w-14"
-          aria-label="Previous slide"
-        >
-          <FaChevronLeft className="text-[18px] md:text-[22px]" />
-        </button>
+        <div className="absolute top-1/2 left-4 z-30 -translate-y-1/2 md:left-10">
+          <MagneticEffect strength={0.4}>
+            <button
+              onClick={prevSlide}
+              className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 md:h-14 md:w-14"
+              aria-label="Previous slide"
+            >
+              {/* Ripple Rings */}
+              <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
+              <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
+              <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
 
-        <button
-          onClick={nextSlide}
-          className="absolute top-1/2 right-3 z-30 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#d0a93d]/50 bg-white/95 text-[#b28b22] shadow-[0_4px_12px_rgba(0,0,0,0.15)] backdrop-blur transition-all duration-300 hover:bg-[#d4af37] hover:text-white md:right-6 md:h-14 md:w-14"
-          aria-label="Next slide"
-        >
-          <FaChevronRight className="text-[18px] md:text-[22px]" />
-        </button>
+              <FaChevronLeft className="relative z-10 text-[18px] md:text-[22px]" />
+            </button>
+          </MagneticEffect>
+        </div>
+
+        <div className="absolute top-1/2 right-4 z-30 -translate-y-1/2 md:right-10">
+          <MagneticEffect strength={0.4}>
+            <button
+              onClick={nextSlide}
+              className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 md:h-14 md:w-14"
+              aria-label="Next slide"
+            >
+              {/* Ripple Rings */}
+              <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
+              <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
+              <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
+
+              <FaChevronRight className="relative z-10 text-[18px] md:text-[22px]" />
+            </button>
+          </MagneticEffect>
+        </div>
 
         <div className="absolute bottom-5 left-0 right-0 z-20 md:bottom-9">
           <RevealOnScroll className="mx-auto w-[min(1200px,calc(100%-24px))] md:w-[min(1200px,calc(100%-40px))]">
-            <div className="max-w-[520px]">
+            <div className="max-w-[540px]">
               <div
                 key={current}
                 className="animate-[fadeUp_.7s_ease]"
               >
-                <p className="mb-2 text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-[#e7d58f] drop-shadow-md">
+                {/* <p className="mb-2 text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-[#e7d58f] drop-shadow-md">
                   The Experience of Care
-                </p>
-                <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                  {sanctuarySlides[current].title}
+                </p> */}
+                <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white/80 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                  A Glimpse Into Your Sanctuary
                 </h2>
 
                 <div className="mt-3 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
 
                 <p className="mt-3 max-w-[430px] text-base md:text-lg leading-7 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
-                  {sanctuarySlides[current].desc}
+                  Experience the calming environment, thoughtfully designed spaces, and immersive healing atmosphere at our Kilpauk centre.
                 </p>
               </div>
             </div>

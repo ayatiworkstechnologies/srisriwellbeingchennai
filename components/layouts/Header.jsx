@@ -36,11 +36,11 @@ export default function Header() {
         {/* Logo */}
         <Link href="/" className="relative z-50 shrink-0">
           <Image
-            src="/logo.png"
+            src="/logo.svg"
             alt="Sri Sri Wellbeing"
-            width={56}
-            height={56}
-            className="h-[48px] w-[48px] object-contain md:h-[60px] md:w-[60px]"
+            width={72}
+            height={72}
+            className="h-[56px] w-[56px] object-contain md:h-[72px] md:w-[72px]"
             priority
           />
         </Link>

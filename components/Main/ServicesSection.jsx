@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
+import MagneticEffect from "./MagneticEffect";
 
 const therapyCards = [
   {
@@ -107,25 +108,43 @@ export default function ServicesSection() {
         </RevealOnScroll>
 
         <RevealOnScroll delay={0.2} className="relative mx-auto max-w-[1320px] rounded-[30px] bg-white/90 px-5 py-6 shadow-[0_20px_50px_rgba(0,0,0,0.08)] backdrop-blur-sm md:px-8 md:py-8 lg:px-10 lg:py-10">
-          <button
-            type="button"
-            onClick={() => canGoPrev && setPage(currentPage - 1)}
-            disabled={!canGoPrev}
-            className="absolute left-[2px] top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#d9be69]/60 bg-white/95 text-[#c8a53a] shadow-[0_5px_15px_rgba(0,0,0,0.08)] backdrop-blur-sm transition-all duration-300 hover:bg-[#d0a93d] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 md:left-[-22px] md:h-14 md:w-14"
-            aria-label="Previous services"
-          >
-            <FaChevronLeft className="text-[16px] md:text-[20px]" />
-          </button>
+          <div className="absolute left-[8px] top-1/2 z-20 -translate-y-1/2 md:left-[-22px]">
+            <MagneticEffect strength={0.4}>
+              <button
+                type="button"
+                onClick={() => canGoPrev && setPage(currentPage - 1)}
+                disabled={!canGoPrev}
+                className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:h-14 md:w-14"
+                aria-label="Previous services"
+              >
+                {/* Ripple Rings */}
+                <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
+                <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
+                <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
+                
+                <FaChevronLeft className="relative z-10 text-[16px] md:text-[20px]" />
+              </button>
+            </MagneticEffect>
+          </div>
 
-          <button
-            type="button"
-            onClick={() => canGoNext && setPage(currentPage + 1)}
-            disabled={!canGoNext}
-            className="absolute right-[2px] top-1/2 z-20 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-[#d9be69]/60 bg-white/95 text-[#c8a53a] shadow-[0_5px_15px_rgba(0,0,0,0.08)] backdrop-blur-sm transition-all duration-300 hover:bg-[#d0a93d] hover:text-white disabled:cursor-not-allowed disabled:opacity-40 md:right-[-22px] md:h-14 md:w-14"
-            aria-label="Next services"
-          >
-            <FaChevronRight className="text-[16px] md:text-[20px]" />
-          </button>
+          <div className="absolute right-[8px] top-1/2 z-20 -translate-y-1/2 md:right-[-22px]">
+            <MagneticEffect strength={0.4}>
+              <button
+                type="button"
+                onClick={() => canGoNext && setPage(currentPage + 1)}
+                disabled={!canGoNext}
+                className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:h-14 md:w-14"
+                aria-label="Next services"
+              >
+                {/* Ripple Rings */}
+                <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
+                <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
+                <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
+
+                <FaChevronRight className="relative z-10 text-[16px] md:text-[20px]" />
+              </button>
+            </MagneticEffect>
+          </div>
 
           <div className="grid gap-5 md:grid-cols-2 md:gap-7 lg:grid-cols-4">
             {visibleCards.map((card) => (
@@ -134,13 +153,13 @@ export default function ServicesSection() {
                 className="group flex h-full min-h-[470px] flex-col overflow-hidden rounded-[22px] bg-white shadow-[0_12px_30px_rgba(0,0,0,0.06)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)]"
               >
                 <div className="p-4 pb-0">
-                  <div className="overflow-hidden rounded-[18px]">
+                  <div className="overflow-hidden">
                     <Image
                       src={card.image}
                       alt={card.title}
                       width={520}
                       height={520}
-                      className="h-[240px] w-full object-cover transition duration-500 group-hover:scale-[1.05] md:h-[270px]"
+                      className="h-[270px] w-full object-cover object-top md:object-center transition duration-500 group-hover:scale-[1.05] md:h-[270px]"
                     />
                   </div>
                 </div>
@@ -156,7 +175,7 @@ export default function ServicesSection() {
 
                   <button
                     type="button"
-                    className="mt-auto inline-flex w-fit items-center rounded-full border border-[#d9be69] px-5 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#b88621] transition hover:bg-[#d0a93d] hover:text-white"
+                    className="mt-auto inline-flex w-fit items-center rounded-full border border-[#d9be69] px-5 py-2 text-[14px] font-semibold uppercase tracking-[0.12em] text-[#b88621] transition hover:bg-[#d0a93d] hover:text-white"
                   >
                     Explore Therapy
                   </button>

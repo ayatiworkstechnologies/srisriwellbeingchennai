@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
+import Link from "next/link";
 
 const learningItems = [
   {
@@ -67,12 +68,12 @@ function LearningCard({ item, index, progress, total }) {
             <div className="absolute inset-x-0 top-0 h-[130px] bg-[radial-gradient(circle_at_18px_18px,#f3ede3_12px,transparent_13px)] bg-size-[54px_42px] opacity-70" />
 
             <div className="relative z-10 max-w-[430px]">
-              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#d8bb6b]/40 bg-white shadow-sm">
+              <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-full border border-[#d8bb6b]/40 bg-white shadow-sm overflow-visible">
                 <Image
-                  src="/logo.jpeg"
+                  src="/logo.png"
                   alt="icon"
-                  width={30}
-                  height={30}
+                  width={40}
+                  height={40}
                   className="object-contain"
                 />
               </div>

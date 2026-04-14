@@ -6,23 +6,23 @@ import RevealOnScroll from "./RevealOnScroll";
 const pathways = [
   {
     number: "01",
-    tag: "Deep Relaxation Therapies",
-    title: "Relax",
-    desc: "Signature Ayurvedic experiences designed to release physical and mental fatigue, restoring deep calm.",
+    tag: "A gentle initiation into profound restoration",
+    title: "Immerse",
+    desc: "Step into a curated Ayurvedic experience designed to dissolve accumulated fatigue and restore a sense of effortless calm. A refined introduction to holistic wellbeing.",
     image: "/images/img-1.png",
   },
   {
     number: "02",
-    tag: "Therapeutic Healing Programs",
-    title: "Heal",
-    desc: "Targeted treatments guided by Ayurvedic diagnostics to address chronic imbalances and lifestyle conditions.",
+    tag: "A deeper realignment of body, mind, and energy",
+    title: "Evolve",
+    desc: "Through sustained, guided therapies, the body begins to recalibrate, releasing long-held imbalances and moving toward a more aligned, resilient state of being. ",
     image: "/images/img-2.png",
   },
   {
     number: "03",
-    tag: "Guided Wellness Sessions",
-    title: "Webinars",
-    desc: "Expert-led knowledge sessions to deepen awareness of holistic health and sustainable living.",
+    tag: "The art of sustaining elevated living",
+    title: "Endure",
+    desc: "Wellbeing transitions from experience to lifestyle, where balance, clarity, and vitality are not moments, but a way of being, seamlessly integrated into everyday life.",
     image: "/images/img-3.png",
   },
   // {
@@ -55,7 +55,7 @@ export default function ContinuumSection() {
 
       <RevealOnScroll className="relative z-10 mx-auto mb-10 w-[min(1200px,calc(100%-24px))] md:mb-12 md:w-[min(1200px,calc(100%-40px))]">
         <h2 className="text-4xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
-          Curated Pathways to Restoration
+          The Continuum of True Wellbeing
         </h2>
         <div className="mt-3 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
       </RevealOnScroll>
@@ -98,7 +98,7 @@ export default function ContinuumSection() {
                     alt={item.title}
                     width={300}
                     height={380}
-                    className="h-[200px] w-full object-cover md:h-[300px]"
+                    className="h-[220px] w-full object-cover object-top md:object-center md:h-[390px]"
                   />
                 </div>
               </div>

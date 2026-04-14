@@ -7,7 +7,7 @@ export default function IntroSection() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden py-16 md:py-20"
+      className="relative py-16 md:py-24"
     >
       {/* Full background pattern image */}
       <div className="absolute inset-0">
@@ -22,13 +22,13 @@ export default function IntroSection() {
 
       {/* Content */}
       <RevealOnScroll className="relative mx-auto w-[min(900px,calc(100%-24px))] text-center text-white md:w-[min(900px,calc(100%-40px))]">
-        <div className="mx-auto mb-5 flex h-20 w-20 items-center justify-center overflow-hidden  md:h-24 md:w-24">
+        <div className="mx-auto mb-8 flex h-28 w-28 items-center justify-center md:h-40 md:w-40">
           <Image
-            src="/logo.png"
+            src="/logo.svg"
             alt="Sri Sri Wellbeing"
-            width={84}
-            height={84}
-            className="object-contain"
+            width={160}
+            height={160}
+            className="h-full w-full object-contain"
           />
         </div>
 

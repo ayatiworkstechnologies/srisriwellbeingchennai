@@ -8,17 +8,17 @@ const products = [
   {
     title: "Amruth",
     desc: "A time-honoured formulation designed to support immunity and restore natural vitality. Crafted to gently strengthen the body's internal resilience.",
-    image: "/images/1.jpg",
+    image: "/images/3.jpg",
   },
   {
     title: "Liv-On",
     desc: "A carefully balanced blend formulated to support metabolic function and internal detox. Designed to promote lightness, clarity, and digestive ease.",
-    image: "/images/2.jpg",
+    image: "/images/1.jpg",
   },
   {
     title: "Ashwagandha",
     desc: "A revered adaptogenic formulation known to restore energy and calm the nervous system. Ideal for enhancing strength, focus, and overall well-being.",
-    image: "/images/3.jpg",
+    image: "/images/2.jpg",
   },
 ];
 
@@ -69,7 +69,7 @@ export default function CollectionSection() {
                     alt={card.title}
                     width={400}
                     height={400}
-                    className="h-[165px] w-full rounded-[10px] object-cover transition duration-500 group-hover:scale-[1.05] md:h-[235px]"
+                    className="h-[220px] w-full rounded-[10px] object-contain transition duration-500 group-hover:scale-[1.05] md:h-[235px]"
                   />
                 </div>
 
