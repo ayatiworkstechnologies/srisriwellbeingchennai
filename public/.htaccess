@@ -1,0 +1,18 @@
+RewriteEngine On
+
+# 1. Map /contact-us to the /contact page (handles the user's "contact us" wording)
+RewriteRule ^contact-us$ /contact [L,R=301]
+
+# 2. Redirect to remove trailing slash if it's not a directory
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} (.+)/$
+RewriteRule ^ %1 [L,R=301]
+
+# 3. Rewrite extensionless URLs to .html files (e.g. /contact -> contact.html)
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}.html -f
+RewriteRule ^(.*)$ $1.html [L]
+
+# 4. Handle 404
+ErrorDocument 404 /404.html
