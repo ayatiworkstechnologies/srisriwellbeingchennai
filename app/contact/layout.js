@@ -1,6 +1,6 @@
 export const metadata = {
-  title: "Contact Us | Sri Sri Wellbeing Chennai - Ayurvedic Wellness",
-  description: "Connect with Sri Sri Wellbeing in Chennai and start your restorative healing journey. Reach out for Ayurvedic therapy appointments, product guidance, and expert wellness consultations.",
+  title: "Sri Sri Wellbeing Chennai Contact | Book Ayurveda & Panchakarma Consultation",
+  description: "Reach Sri Sri Wellbeing Chennai for expert Ayurveda treatments, Panchakarma therapies & wellness programs. Call now or visit our Kilpauk center.",
 };
 
 export default function ContactLayout({ children }) {

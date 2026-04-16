@@ -34,7 +34,7 @@ export default function CollectionSection() {
           src="/images/sec-4bg.svg"
           alt="Background Pattern"
           fill
-          className="object-cover opacity-60"
+          className="object-cover"
           priority={false}
         />
       </div>
