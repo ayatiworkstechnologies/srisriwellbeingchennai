@@ -27,8 +27,8 @@ export default function Footer() {
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-8">
                   <div className="flex items-center gap-3 text-base md:text-lg font-medium text-white">
                     <FaEnvelope className="shrink-0 text-[16px] text-white" />
-                    <a href="mailto:care@srisriwellbeing.com" className="whitespace-nowrap transition hover:text-[#d0a93d]">
-                      care@srisriwellbeing.com
+                    <a href="mailto:chennai.reception@srisritattva.com" className="whitespace-nowrap transition hover:text-[#d0a93d]">
+                      chennai.reception@srisritattva.com
                     </a>
                   </div>
 

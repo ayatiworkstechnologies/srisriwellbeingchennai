@@ -130,7 +130,7 @@ export default function ContactPageRedesign() {
               </Link>
 
               <Link
-                href="mailto:care@srisriwellbeing.com"
+                href="mailto:chennai.reception@srisritattva.com"
                 className="inline-flex items-center gap-2 rounded-full border border-white/20 px-7 py-3.5 text-[15px] font-semibold text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-[#D4AF37] hover:text-[#D4AF37]"
               >
                 <FaEnvelope className="text-[14px]" />
@@ -313,7 +313,7 @@ export default function ContactPageRedesign() {
                 <VisitRow
                   icon={FaLocationDot}
                   title="Address"
-                  content="Chennai, Tamil Nadu, India"
+                  content="Mruthunjaya Ayur, New Avadi Rd, Alagappa Nagar, Kilpauk, Chennai, Tamil Nadu 600010"
                 />
                 <VisitRow
                   icon={FaClock}
@@ -334,10 +334,10 @@ export default function ContactPageRedesign() {
                   title="Email Support"
                   content={
                     <a
-                      href="mailto:care@srisriwellbeing.com"
+                      href="mailto:chennai.reception@srisritattva.com"
                       className="hover:text-[#D4AF37] transition"
                     >
-                      care@srisriwellbeing.com
+                      chennai.reception@srisritattva.com
                     </a>
                   }
                 />
