@@ -28,7 +28,7 @@ export default function RootLayout({ children }) {
       <body>
         <Script
           id="google-tag"
-          src="https://www.googletagmanager.com/gtag/js?id=G-KR56VJ4D2M"
+          src="https://www.googletagmanager.com/gtag/js?id=G-58P101B0TJ"
           strategy="afterInteractive"
         />
         <Script
@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 
-gtag('config', 'G-KR56VJ4D2M', {
+gtag('config', 'G-58P101B0TJ', {
   send_page_view: true,
   page_path: window.location.pathname,
   cookie_flags: 'SameSite=None;Secure'
