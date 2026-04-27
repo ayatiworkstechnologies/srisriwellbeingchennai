@@ -30,7 +30,7 @@ export default function ThankYouPage() {
             className="mb-10 flex justify-center"
           >
             <div className="relative w-32 h-32 md:w-40 md:h-40">
-              <div className="absolute inset-0 bg-[#D4AF37]/20 rounded-full animate-pulse" />
+              <div className="absolute inset-0 bg-[#c29a2f]/20 rounded-full animate-pulse" />
               <div className="absolute inset-4 bg-white rounded-full flex items-center justify-center shadow-lg">
                 <span className="text-5xl md:text-6xl">🙏</span>
               </div>
@@ -44,7 +44,7 @@ export default function ThankYouPage() {
             className="text-4xl md:text-6xl font-bold text-[#1f1a17] mb-6 font-primary leading-tight"
           >
             Thank You for <br />
-            <span className="text-[#D4AF37] italic font-light">
+            <span className="text-[#c29a2f] italic font-light">
               Choosing Wellbeing
             </span>
           </motion.h1>
@@ -66,8 +66,8 @@ export default function ThankYouPage() {
             transition={{ duration: 0.8, delay: 0.6 }}
           >
             <Link
-              href="/authentic-spa"
-              className="inline-flex items-center justify-center rounded-full border border-[#D4AF37] bg-transparent px-10 py-4 text-sm md:text-base font-bold uppercase tracking-widest text-[#D4AF37] transition-all duration-300 hover:bg-[#D4AF37] hover:text-white active:scale-95"
+              href="/ayurvedic-spa"
+              className="inline-flex items-center justify-center rounded-full border border-[#c29a2f] bg-transparent px-10 py-4 text-sm md:text-base font-bold uppercase tracking-widest text-[#c29a2f] transition-all duration-300 hover:bg-[#c29a2f] hover:text-white active:scale-95"
             >
               Back to Sanctuary
             </Link>

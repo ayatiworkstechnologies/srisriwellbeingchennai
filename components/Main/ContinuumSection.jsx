@@ -57,7 +57,7 @@ export default function ContinuumSection() {
         <h2 className="text-4xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
           The Continuum of True Wellbeing
         </h2>
-        <div className="mt-3 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
+        <div className="mt-3 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#c29a2f] to-[#c29a2f]" />
       </RevealOnScroll>
 
       <div className="relative z-10">
@@ -77,7 +77,7 @@ export default function ContinuumSection() {
                   </div>
 
                   <div className="-mt-2 mb-4 flex items-center gap-2 md:mb-6 md:gap-3">
-                    <span className="h-[2px] w-10 rounded-full bg-[#d0a93d] md:w-12" />
+                    <span className="h-[2px] w-10 rounded-full bg-[#c29a2f] md:w-12" />
                     <p className="text-2xl md:text-3xl font-medium text-[#c29a2f]">
                       {item.title}
                     </p>

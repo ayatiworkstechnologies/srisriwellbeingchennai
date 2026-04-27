@@ -41,7 +41,7 @@ export default function AuthenticSpaContact() {
       );
 
       if (response.ok) {
-        router.push("/authentic-spa/thank-you");
+        router.push("/ayurvedic-spa/thank-you");
       } else {
         alert("Something went wrong. Please try again.");
       }
@@ -74,18 +74,18 @@ export default function AuthenticSpaContact() {
       </div>
 
       {/* Top accent line */}
-      <div className="absolute left-0 right-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-[#d8bb6b]/25 to-transparent" />
+      <div className="absolute left-0 right-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-[#c29a2f]/25 to-transparent" />
 
       <div className="relative z-10 mx-auto w-[min(1320px,calc(100%-24px))] md:w-[min(1320px,calc(100%-40px))]">
         {/* Section Header */}
         <RevealOnScroll className="mb-12 text-center md:mb-16">
-          <p className="mb-3 text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-[#c29a2f]">
+          <p className="mb-3 text-lg md:text-3xl font-bold uppercase tracking-[0.2em] text-[#c29a2f]">
             Begin Your Journey
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
+          <h2 className="text-3xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
             Visit Our Sanctuary
           </h2>
-          <div className="mx-auto mt-6 h-[3px] w-[72px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
+          <div className="mx-auto mt-6 h-[3px] w-[72px] rounded-full bg-gradient-to-r from-[#c29a2f] to-[#c29a2f]" />
         </RevealOnScroll>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-stretch">
@@ -113,7 +113,7 @@ export default function AuthenticSpaContact() {
                   <h3 className="text-xl font-bold text-[#1f1a17] md:text-2xl">
                     Sri Sri Wellbeing
                   </h3>
-                  <p className="text-sm text-[#b88621] font-semibold tracking-wider uppercase">
+                  <p className="text-sm text-[#c29a2f] font-semibold tracking-wider uppercase">
                     Chennai
                   </p>
                 </div>
@@ -122,7 +122,7 @@ export default function AuthenticSpaContact() {
               <div className="space-y-6 text-[#5e5751]">
                 {/* Address */}
                 <div className="group flex items-start gap-4 rounded-2xl bg-[#faf8f3] p-5 transition-all duration-300 hover:shadow-[0_6px_20px_rgba(0,0,0,0.04)]">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#e7d58f] to-[#c79f31] text-white shadow-sm">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#c29a2f] to-[#c29a2f] text-white shadow-sm">
                     <FaLocationDot className="text-[16px]" />
                   </div>
                   <div>
@@ -139,14 +139,14 @@ export default function AuthenticSpaContact() {
 
                 {/* Phone */}
                 <div className="group flex items-start gap-4 rounded-2xl bg-[#faf8f3] p-5 transition-all duration-300 hover:shadow-[0_6px_20px_rgba(0,0,0,0.04)]">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#e7d58f] to-[#c79f31] text-white shadow-sm">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#c29a2f] to-[#c29a2f] text-white shadow-sm">
                     <FaPhone className="text-[14px]" />
                   </div>
                   <div>
                     <p className="font-bold text-[#1f1a17] mb-1">Phone</p>
                     <a
                       href="tel:+919943013111"
-                      className="text-sm font-medium hover:text-[#D4AF37] transition-colors"
+                      className="text-sm font-medium hover:text-[#c29a2f] transition-colors"
                     >
                       +91 99430 13111
                     </a>
@@ -155,14 +155,14 @@ export default function AuthenticSpaContact() {
 
                 {/* Email */}
                 <div className="group flex items-start gap-4 rounded-2xl bg-[#faf8f3] p-5 transition-all duration-300 hover:shadow-[0_6px_20px_rgba(0,0,0,0.04)]">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#e7d58f] to-[#c79f31] text-white shadow-sm">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#c29a2f] to-[#c29a2f] text-white shadow-sm">
                     <FaEnvelope className="text-[14px]" />
                   </div>
                   <div>
                     <p className="font-bold text-[#1f1a17] mb-1">Email</p>
                     <a
                       href="mailto:chennai.reception@srisritattva.com"
-                      className="text-sm font-medium hover:text-[#D4AF37] transition-colors"
+                      className="text-sm font-medium hover:text-[#c29a2f] transition-colors"
                     >
                       chennai.reception@srisritattva.com
                     </a>
@@ -171,7 +171,7 @@ export default function AuthenticSpaContact() {
 
                 {/* Working Hours */}
                 <div className="group flex items-start gap-4 rounded-2xl bg-[#faf8f3] p-5 transition-all duration-300 hover:shadow-[0_6px_20px_rgba(0,0,0,0.04)]">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#e7d58f] to-[#c79f31] text-white shadow-sm">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#c29a2f] to-[#c29a2f] text-white shadow-sm">
                     <FaClock className="text-[14px]" />
                   </div>
                   <div>
@@ -199,19 +199,19 @@ export default function AuthenticSpaContact() {
                 className="pointer-events-none absolute right-4 top-4 hidden h-[80px] w-[80px] opacity-[0.05] md:block"
                 style={{
                   backgroundImage:
-                    "radial-gradient(circle, #8a6a1e 1.5px, transparent 1.5px)",
+                    "radial-gradient(circle, #c29a2f 1.5px, transparent 1.5px)",
                   backgroundSize: "12px 12px",
                 }}
               />
               {/* Left accent bar */}
-              <div className="absolute left-0 top-0 hidden h-full w-[4px] md:block bg-gradient-to-b from-[#e7d58f]/40 via-[#c79f31] to-[#e7d58f]/40" />
+              <div className="absolute left-0 top-0 hidden h-full w-[4px] md:block bg-gradient-to-b from-[#c29a2f]/40 via-[#c29a2f] to-[#c29a2f]/40" />
 
               <div className="relative z-10">
                 <div className="mb-2 flex items-center gap-3">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#b88621]">
+                  <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#c29a2f]">
                     Book Now
                   </span>
-                  <span className="h-px flex-1 max-w-[40px] bg-[#d8bb6b]/40" />
+                  <span className="h-px flex-1 max-w-[40px] bg-[#c29a2f]/40" />
                 </div>
 
                 <h3 className="text-xl font-bold text-[#1f1a17] mb-1 md:text-2xl">
@@ -221,7 +221,7 @@ export default function AuthenticSpaContact() {
                   Take the first step towards your holistic healing journey.
                 </p>
 
-                <div className="mt-3 h-[2.5px] w-12 rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20] mb-6" />
+                <div className="mt-3 h-[2.5px] w-12 rounded-full bg-gradient-to-r from-[#c29a2f] to-[#c29a2f] mb-6" />
 
                 <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -235,7 +235,7 @@ export default function AuthenticSpaContact() {
                         value={formData.name}
                         onChange={handleChange}
                         placeholder="John Doe"
-                        className="w-full h-12 rounded-2xl border border-[#eee7de] bg-[#faf8f3] px-4 text-[#1f1a17] placeholder:text-[#b5ab9e] focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37]/30 transition-all text-sm"
+                        className="w-full h-12 rounded-2xl border border-[#eee7de] bg-[#faf8f3] px-4 text-[#1f1a17] placeholder:text-[#b5ab9e] focus:border-[#c29a2f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#c29a2f]/30 transition-all text-sm"
                         required
                       />
                     </div>
@@ -249,7 +249,7 @@ export default function AuthenticSpaContact() {
                         value={formData.phone}
                         onChange={handleChange}
                         placeholder="+91 99430 13111"
-                        className="w-full h-12 rounded-2xl border border-[#eee7de] bg-[#faf8f3] px-4 text-[#1f1a17] placeholder:text-[#b5ab9e] focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37]/30 transition-all text-sm"
+                        className="w-full h-12 rounded-2xl border border-[#eee7de] bg-[#faf8f3] px-4 text-[#1f1a17] placeholder:text-[#b5ab9e] focus:border-[#c29a2f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#c29a2f]/30 transition-all text-sm"
                         required
                       />
                     </div>
@@ -265,7 +265,7 @@ export default function AuthenticSpaContact() {
                       value={formData.email}
                       onChange={handleChange}
                       placeholder="john@example.com"
-                      className="w-full h-12 rounded-2xl border border-[#eee7de] bg-[#faf8f3] px-4 text-[#1f1a17] placeholder:text-[#b5ab9e] focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37]/30 transition-all text-sm"
+                      className="w-full h-12 rounded-2xl border border-[#eee7de] bg-[#faf8f3] px-4 text-[#1f1a17] placeholder:text-[#b5ab9e] focus:border-[#c29a2f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#c29a2f]/30 transition-all text-sm"
                       required
                     />
                   </div>
@@ -278,7 +278,7 @@ export default function AuthenticSpaContact() {
                       name="service"
                       value={formData.service}
                       onChange={handleChange}
-                      className="w-full h-12 rounded-2xl border border-[#eee7de] bg-[#faf8f3] px-4 text-[#1f1a17] focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37]/30 transition-all appearance-none text-sm"
+                      className="w-full h-12 rounded-2xl border border-[#eee7de] bg-[#faf8f3] px-4 text-[#1f1a17] focus:border-[#c29a2f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#c29a2f]/30 transition-all appearance-none text-sm"
                       required
                     >
                       <option value="" disabled className="text-[#b5ab9e]">
@@ -307,16 +307,19 @@ export default function AuthenticSpaContact() {
                       onChange={handleChange}
                       placeholder="How can we help you?"
                       rows="3"
-                      className="w-full rounded-2xl border border-[#eee7de] bg-[#faf8f3] px-4 py-3 text-[#1f1a17] placeholder:text-[#b5ab9e] focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37]/30 transition-all resize-none text-sm"
+                      className="w-full rounded-2xl border border-[#eee7de] bg-[#faf8f3] px-4 py-3 text-[#1f1a17] placeholder:text-[#b5ab9e] focus:border-[#c29a2f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#c29a2f]/30 transition-all resize-none text-sm"
                     ></textarea>
                   </div>
 
                   <button
                     type="submit"
                     disabled={loading}
-                    className="mt-2 w-full inline-flex items-center justify-center rounded-full border border-[#D4AF37] bg-transparent py-4 text-sm font-bold uppercase tracking-widest text-[#D4AF37] transition-all duration-300 hover:bg-[#D4AF37] hover:text-white active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="group relative mt-2 w-full overflow-hidden rounded-full border border-[#c29a2f] bg-transparent py-4 text-sm font-bold uppercase tracking-widest text-[#c29a2f] transition-all duration-300 hover:text-white active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    {loading ? "Submitting..." : "Request Appointment"}
+                    <span className="absolute inset-0 z-0 translate-y-full bg-[#c29a2f] transition-transform duration-300 ease-out group-hover:translate-y-0" />
+                    <span className="relative z-10">
+                      {loading ? "Submitting..." : "Request Appointment"}
+                    </span>
                   </button>
                 </form>
               </div>
@@ -326,7 +329,7 @@ export default function AuthenticSpaContact() {
       </div>
 
       {/* Bottom accent line */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d8bb6b]/25 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#c29a2f]/25 to-transparent" />
     </section>
   );
 }

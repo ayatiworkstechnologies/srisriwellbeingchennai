@@ -31,13 +31,13 @@ export default function AuthenticSpaHeader() {
       }`}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        <Link href="/authentic-spa" className="group flex items-center gap-2">
+        <Link href="/ayurvedic-spa" className="group flex items-center gap-2">
           <Image
             src="/logo.svg"
             alt="Sri Sri Wellbeing"
             width={72}
             height={72}
-            className="h-[48px] w-[48px] object-contain md:h-[72px] md:w-[72px] transition-all duration-500 group-hover:scale-110 group-hover:drop-shadow-[0_0_15px_rgba(212,175,55,0.3)]"
+            className="h-[48px] w-[48px] object-contain md:h-[72px] md:w-[72px] transition-all duration-500 group-hover:scale-110 group-hover:drop-shadow-[0_0_15px_rgba(194,154,47,0.3)]"
             priority
           />
         </Link>
@@ -45,12 +45,12 @@ export default function AuthenticSpaHeader() {
         <div className="flex items-center gap-3 md:gap-6">
           <a
             href="tel:+919943013111"
-            className="group hidden md:flex items-center gap-2.5 text-[#b8952b] hover:text-[#D4AF37] transition-all duration-300"
+            className="group hidden md:flex items-center gap-2.5 transition-all duration-300 text-[#c29a2f] hover:text-[#c29a2f]"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#D4AF37]/10 transition-all duration-300 group-hover:bg-[#D4AF37] group-hover:text-white group-hover:shadow-[0_0_15px_rgba(212,175,55,0.4)]">
+            <div className="flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 bg-[#c29a2f]/10 group-hover:bg-[#c29a2f] group-hover:text-white group-hover:shadow-[0_0_15px_rgba(194,154,47,0.4)]">
               <FaPhone className="text-[12px] transition-transform duration-300 group-hover:rotate-12" />
             </div>
-            <span className="font-bold tracking-wide text-sm transition-colors duration-300 group-hover:text-[#D4AF37]">
+            <span className="font-bold tracking-wide text-lg text-[#c29a2f]">
               +91 99430 13111
             </span>
           </a>
@@ -60,9 +60,10 @@ export default function AuthenticSpaHeader() {
               const el = document.getElementById("contact-section");
               if (el) el.scrollIntoView({ behavior: "smooth" });
             }}
-            className="inline-flex items-center justify-center rounded-full border border-[#D4AF37] bg-transparent px-5 py-2 md:px-7 md:py-2.5 text-[10px] md:text-xs font-bold uppercase tracking-widest text-[#D4AF37] transition-all duration-300 hover:bg-[#D4AF37] hover:text-white active:scale-95"
+            className="group relative overflow-hidden rounded-full border border-[#c29a2f] bg-transparent px-5 py-2 md:px-7 md:py-2.5 text-[10px] md:text-xs font-bold uppercase tracking-widest text-[#c29a2f] transition-all duration-300 hover:text-white active:scale-95"
           >
-            Book Now
+            <span className="absolute inset-0 z-0 translate-y-full bg-[#c29a2f] transition-transform duration-300 ease-out group-hover:translate-y-0" />
+            <span className="relative z-10">Book Now</span>
           </button>
         </div>
       </div>

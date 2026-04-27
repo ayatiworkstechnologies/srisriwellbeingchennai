@@ -26,7 +26,7 @@ export default function AuthenticSpaPage() {
         <ContinuumSection />
         <ServicesSection />
         {/* <CollectionSection /> */}
-        <ExperienceSection />
+        {/* <ExperienceSection /> */}
         <SignatureLearningSection />
         <TestimoniesSection />
         <AuthenticSpaContact />

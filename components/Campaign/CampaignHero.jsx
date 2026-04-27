@@ -39,7 +39,7 @@ export default function CampaignHero() {
       );
 
       if (response.ok) {
-        router.push("/authentic-spa/thank-you");
+        router.push("/ayurvedic-spa/thank-you");
       } else {
         alert("Something went wrong. Please try again.");
       }
@@ -52,15 +52,23 @@ export default function CampaignHero() {
   };
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-[#f8f6f1] flex items-center pt-28 pb-10 md:pt-32 md:pb-12 lg:pt-32 lg:pb-12">
-      {/* Background Image */}
+      {/* Background Video */}
       <div className="absolute inset-0 z-0">
-        <img
-          src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80"
-          alt="Premium Ayurvedic spa treatment"
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
           className="w-full h-full object-cover object-center"
-        />
-        {/* Subtle vignette to ensure readability */}
-        <div className="absolute inset-0 bg-white/10" />
+        >
+          <source 
+            src="https://ayatiworks-storage.s3.us-east-1.amazonaws.com/ssw-video.MP4" 
+            type="video/mp4" 
+          />
+        </video>
+        {/* Cinematic Vignette (Top and Bottom Black Gradients) */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50 z-10" />
+        <div className="absolute inset-0 bg-white/5 z-20" />
       </div>
 
       <div className="container mx-auto px-4 md:px-6 relative z-20 flex flex-col lg:flex-row items-center justify-between gap-8 md:gap-12 lg:gap-8 mt-4 md:mt-12 lg:mt-0">
@@ -75,10 +83,10 @@ export default function CampaignHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full border border-[#D4AF37]/30 bg-white/60 backdrop-blur-md w-max mb-5 md:mb-8 shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full border border-[#c29a2f]/30 bg-white/60 backdrop-blur-md w-max mb-5 md:mb-8 shadow-sm"
           >
-            <span className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
-            <span className="text-[11px] md:text-sm font-bold tracking-[0.15em] md:tracking-[0.2em] text-[#b8952b] uppercase">
+            <span className="w-2 h-2 rounded-full bg-[#c29a2f] animate-pulse" />
+            <span className="text-[11px] md:text-sm font-bold tracking-[0.15em] md:tracking-[0.2em] text-[#c29a2f] uppercase">
               Authentic Ayurvedic Spa
             </span>
           </motion.div>
@@ -87,10 +95,10 @@ export default function CampaignHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-[2.5rem] md:text-6xl lg:text-7xl font-bold leading-[1.08] text-[#1f1a17] mb-4 md:mb-6 font-primary"
+            className="text-[2rem] md:text-6xl lg:text-7xl font-bold leading-[1.1] text-white mb-4 md:mb-6 font-primary"
           >
             Awaken Your <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4AF37] via-[#c79f31] to-[#b8952b] italic font-light pr-4">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#c29a2f] via-[#c29a2f] to-[#c29a2f] italic font-light pr-4">
               Deepest Vitality
             </span>
           </motion.h1>
@@ -99,7 +107,7 @@ export default function CampaignHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-base md:text-xl lg:text-2xl leading-relaxed text-[#5e5751] mb-6 md:mb-10 max-w-[650px] font-light"
+            className="text-base md:text-xl lg:text-2xl leading-relaxed text-white/90 mb-6 md:mb-10 max-w-[650px] font-light"
           >
             Step into a sanctuary of stillness in Chennai. Our master Vaidyas
             blend ancient wisdom with pristine, natural therapies to restore
@@ -117,12 +125,13 @@ export default function CampaignHero() {
                 const el = document.getElementById("contact-section");
                 if (el) el.scrollIntoView({ behavior: "smooth" });
               }}
-              className="inline-flex items-center justify-center rounded-full border border-[#D4AF37] bg-transparent px-8 py-4 text-sm md:text-base font-bold uppercase tracking-widest text-[#D4AF37] transition-all duration-300 hover:bg-[#D4AF37] hover:text-white active:scale-95 w-full sm:w-auto"
+              className="group relative overflow-hidden rounded-full border border-[#c29a2f] bg-transparent px-8 py-4 text-sm md:text-base font-bold uppercase tracking-widest text-[#c29a2f] transition-all duration-300 hover:text-white active:scale-95 w-full sm:w-auto"
             >
-              Claim Offer
+              <span className="absolute inset-0 z-0 translate-y-full bg-[#c29a2f] transition-transform duration-300 ease-out group-hover:translate-y-0" />
+              <span className="relative z-10">Claim Offer</span>
             </button>
-            <div className="flex items-center gap-4 text-[#1f1a17] px-4">
-              <span className="text-[#D4AF37] font-bold text-xl">✓</span>
+            <div className="flex items-center gap-4 text-white px-4">
+              <span className="text-[#c29a2f] font-bold text-xl">✓</span>
               <div className="flex flex-col">
                 <span className="text-sm font-semibold">
                   Limited Slots Available
@@ -165,7 +174,7 @@ export default function CampaignHero() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="John Doe"
-                    className="w-full h-11 rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 text-[#1f1a17] placeholder:text-gray-400 focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
+                    className="w-full h-11 rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 text-[#1f1a17] placeholder:text-gray-400 focus:border-[#c29a2f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#c29a2f] transition-all text-sm"
                     required
                   />
                 </div>
@@ -179,7 +188,7 @@ export default function CampaignHero() {
                     value={formData.phone}
                     onChange={handleChange}
                     placeholder="+91 99430 13111"
-                    className="w-full h-11 rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 text-[#1f1a17] placeholder:text-gray-400 focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
+                    className="w-full h-11 rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 text-[#1f1a17] placeholder:text-gray-400 focus:border-[#c29a2f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#c29a2f] transition-all text-sm"
                     required
                   />
                 </div>
@@ -195,7 +204,7 @@ export default function CampaignHero() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="john@example.com"
-                  className="w-full h-11 rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 text-[#1f1a17] placeholder:text-gray-400 focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
+                  className="w-full h-11 rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 text-[#1f1a17] placeholder:text-gray-400 focus:border-[#c29a2f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#c29a2f] transition-all text-sm"
                   required
                 />
               </div>
@@ -208,7 +217,7 @@ export default function CampaignHero() {
                   name="service"
                   value={formData.service}
                   onChange={handleChange}
-                  className="w-full h-11 rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 text-[#1f1a17] focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all appearance-none text-sm"
+                  className="w-full h-11 rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 text-[#1f1a17] focus:border-[#c29a2f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#c29a2f] transition-all appearance-none text-sm"
                   required
                 >
                   <option value="" disabled className="text-gray-400">
@@ -237,16 +246,19 @@ export default function CampaignHero() {
                   onChange={handleChange}
                   placeholder="How can we help you?"
                   rows="2"
-                  className="w-full rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 py-2 text-[#1f1a17] placeholder:text-gray-400 focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all resize-none text-sm"
+                  className="w-full rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 py-2 text-[#1f1a17] placeholder:text-gray-400 focus:border-[#c29a2f] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#c29a2f] transition-all resize-none text-sm"
                 ></textarea>
               </div>
 
               <button
                 type="submit"
                 disabled={loading}
-                className="mt-2 w-full inline-flex items-center justify-center rounded-full border border-[#D4AF37] bg-transparent py-4 text-sm font-bold uppercase tracking-widest text-[#D4AF37] transition-all duration-300 hover:bg-[#D4AF37] hover:text-white active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="group relative mt-2 w-full overflow-hidden rounded-full border border-[#c29a2f] bg-transparent py-4 text-sm font-bold uppercase tracking-widest text-[#c29a2f] transition-all duration-300 hover:text-white active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? "Submitting..." : "Request Appointment"}
+                <span className="absolute inset-0 z-0 translate-y-full bg-[#c29a2f] transition-transform duration-300 ease-out group-hover:translate-y-0" />
+                <span className="relative z-10">
+                  {loading ? "Submitting..." : "Request Appointment"}
+                </span>
               </button>
             </form>
           </div>

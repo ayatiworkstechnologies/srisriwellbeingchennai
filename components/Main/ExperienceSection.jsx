@@ -102,13 +102,13 @@ export default function ExperienceSection() {
         <div className="absolute top-1/2 left-4 z-30 -translate-y-1/2 md:left-10">
           <button
             onClick={prevSlide}
-            className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 md:h-14 md:w-14"
+            className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#c29a2f] shadow-lg transition-all duration-300 hover:scale-110 md:h-14 md:w-14"
             aria-label="Previous slide"
           >
             {/* Ripple Rings */}
-            <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
-            <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
-            <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
+            <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#c29a2f]/30" style={{ animationDelay: '0s' }} />
+            <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#c29a2f]/20" style={{ animationDelay: '0.4s' }} />
+            <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#c29a2f]/10" style={{ animationDelay: '0.8s' }} />
 
             <FaChevronLeft className="relative z-10 text-[18px] md:text-[22px]" />
           </button>
@@ -117,13 +117,13 @@ export default function ExperienceSection() {
         <div className="absolute top-1/2 right-4 z-30 -translate-y-1/2 md:right-10">
           <button
             onClick={nextSlide}
-            className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 md:h-14 md:w-14"
+            className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#c29a2f] shadow-lg transition-all duration-300 hover:scale-110 md:h-14 md:w-14"
             aria-label="Next slide"
           >
             {/* Ripple Rings */}
-            <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
-            <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
-            <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
+            <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#c29a2f]/30" style={{ animationDelay: '0s' }} />
+            <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#c29a2f]/20" style={{ animationDelay: '0.4s' }} />
+            <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#c29a2f]/10" style={{ animationDelay: '0.8s' }} />
 
             <FaChevronRight className="relative z-10 text-[18px] md:text-[22px]" />
           </button>
@@ -136,14 +136,14 @@ export default function ExperienceSection() {
                 key={current}
                 className="animate-[fadeUp_.7s_ease]"
               >
-                {/* <p className="mb-2 text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-[#e7d58f] drop-shadow-md">
+                {/* <p className="mb-2 text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-[#c29a2f] drop-shadow-md">
                   The Experience of Care
                 </p> */}
                 <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white/80 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                   {sanctuarySlides[current].title}
                 </h2>
 
-                <div className="mt-3 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
+                <div className="mt-3 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#c29a2f] to-[#c29a2f]" />
 
                 <p className="mt-3 max-w-[430px] text-base md:text-lg leading-7 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                   {sanctuarySlides[current].desc}
@@ -159,7 +159,7 @@ export default function ExperienceSection() {
               key={index}
               onClick={() => setCurrent(index)}
               className={`h-2.5 rounded-full transition-all duration-300 ${current === index
-                ? "w-8 bg-[#d0a93d]"
+                ? "w-8 bg-[#c29a2f]"
                 : "w-2.5 bg-white/70"
                 }`}
             />

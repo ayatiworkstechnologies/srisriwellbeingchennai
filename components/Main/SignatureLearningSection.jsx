@@ -29,7 +29,7 @@ const experiences = [
     num: "03",
     image: "/images/sig-3.jpg",
     icon: "/images/ico-3.svg",
-    accent: "#b88621",
+    accent: "#c29a2f",
   },
   {
     title: "Meru Chikitsa",
@@ -80,7 +80,7 @@ function HorizontalCard({ item }) {
           <div
             className="pointer-events-none absolute right-4 top-4 hidden h-[80px] w-[80px] opacity-[0.05] md:block"
             style={{
-              backgroundImage: "radial-gradient(circle, #8a6a1e 1.5px, transparent 1.5px)",
+              backgroundImage: "radial-gradient(circle, #c29a2f 1.5px, transparent 1.5px)",
               backgroundSize: "12px 12px",
             }}
           />
@@ -91,10 +91,10 @@ function HorizontalCard({ item }) {
 
           <div className="relative z-10">
             <div className="mb-2 flex items-center gap-3">
-              <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#b88621]">
+              <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#c29a2f]">
                 Pathway {item.num}
               </span>
-              <span className="h-px flex-1 max-w-[40px] bg-[#d8bb6b]/40" />
+              <span className="h-px flex-1 max-w-[40px] bg-[#c29a2f]/40" />
             </div>
 
             <h3 className="mb-3 text-xl font-bold leading-tight text-[#1a1612] md:mb-4 md:text-3xl">
@@ -105,7 +105,7 @@ function HorizontalCard({ item }) {
               {item.desc}
             </p>
 
-            <div className="mt-4 h-[2.5px] w-12 rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20] md:mt-5" />
+            <div className="mt-4 h-[2.5px] w-12 rounded-full bg-gradient-to-r from-[#c29a2f] to-[#c29a2f] md:mt-5" />
           </div>
         </div>
       </div>
@@ -173,7 +173,7 @@ export default function SignatureLearningSection() {
       </div>
 
       {/* Top line */}
-      <div className="absolute left-0 right-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-[#d8bb6b]/25 to-transparent" />
+      <div className="absolute left-0 right-0 top-0 z-20 h-px bg-gradient-to-r from-transparent via-[#c29a2f]/25 to-transparent" />
 
       {/* Header */}
       <div className="relative z-10 mx-auto w-full max-w-[1300px] px-5 text-center md:px-8">
@@ -193,7 +193,7 @@ export default function SignatureLearningSection() {
           <p className="mt-3 text-sm leading-relaxed text-[#6b6158] md:text-base">
             Sri Sri Wellbeing, a holistic wellness initiative associated with the Art of Living foundation, offers a range of traditional and modern pain management therapies focusing on non-invasive, drug-free relief.
           </p>
-          <div className="mx-auto mt-3 h-[3px] w-[60px] rounded-full bg-gradient-to-r from-[#e5cf86] to-[#c08f20]" />
+          <div className="mx-auto mt-3 h-[3px] w-[60px] rounded-full bg-gradient-to-r from-[#c29a2f] to-[#c29a2f]" />
         </RevealOnScroll>
       </div>
 
@@ -206,7 +206,7 @@ export default function SignatureLearningSection() {
           className="absolute left-2 top-1/2 z-30 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 disabled:opacity-30 md:flex md:h-12 md:w-12"
           aria-label="Previous card"
         >
-          <FaChevronLeft className="text-[16px] text-[#b88621]" />
+          <FaChevronLeft className="text-[16px] text-[#c29a2f]" />
         </button>
 
         <button
@@ -215,7 +215,7 @@ export default function SignatureLearningSection() {
           className="absolute right-2 top-1/2 z-30 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 disabled:opacity-30 md:flex md:h-12 md:w-12"
           aria-label="Next card"
         >
-          <FaChevronRight className="text-[16px] text-[#b88621]" />
+          <FaChevronRight className="text-[16px] text-[#c29a2f]" />
         </button>
 
         {/* Scrollable container */}
@@ -239,8 +239,8 @@ export default function SignatureLearningSection() {
               key={idx}
               onClick={() => scrollToCard(idx)}
               className={`h-2.5 rounded-full transition-all duration-300 ${idx === activeIndex
-                ? "w-8 bg-gradient-to-r from-[#e5cf86] to-[#b88621]"
-                : "w-2.5 bg-[#d8c8a2]"
+                ? "w-8 bg-gradient-to-r from-[#c29a2f] to-[#c29a2f]"
+                : "w-2.5 bg-[#c29a2f]"
                 }`}
               aria-label={`Go to card ${idx + 1}`}
             />
@@ -248,13 +248,13 @@ export default function SignatureLearningSection() {
         </div>
 
         {/* Counter */}
-        <p className="text-[12px] font-semibold tracking-wider text-[#b88621]/50">
+        <p className="text-[12px] font-semibold tracking-wider text-[#c29a2f]/50">
           0{activeIndex + 1} / 0{totalCards}
         </p>
       </div>
 
       {/* Bottom line */}
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#d8bb6b]/25 to-transparent" />
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#c29a2f]/25 to-transparent" />
     </section>
   );
 }

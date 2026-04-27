@@ -100,10 +100,10 @@ export default function ServicesSection() {
 
       <div className="relative z-10 mx-auto w-[min(1380px,calc(100%-24px))] md:w-[min(1380px,calc(100%-40px))]">
         <RevealOnScroll className="mb-10 text-center md:mb-14">
-          <h2 className="text-4xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
-            Precision Therapies. Profound Impact.
+          <h2 className="text-3xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
+            Precision Therapies. <br className="block md:hidden" /> Profound Impact.
           </h2>
-          <div className="mx-auto mt-4 h-[3px] w-[82px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
+          <div className="mx-auto mt-4 h-[3px] w-[82px] rounded-full bg-linear-to-r from-[#c29a2f] to-[#c29a2f]" />
         </RevealOnScroll>
 
         <RevealOnScroll
@@ -114,20 +114,20 @@ export default function ServicesSection() {
             type="button"
             onClick={() => canGoPrev && setPage(currentPage - 1)}
             disabled={!canGoPrev}
-            className="absolute left-[8px] top-1/2 z-20 group ripple-container flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:left-[-22px] md:h-14 md:w-14"
+            className="absolute left-[8px] top-1/2 z-20 group ripple-container flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#c29a2f] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:left-[-22px] md:h-14 md:w-14"
             aria-label="Previous services"
           >
             {/* Ripple Rings */}
             <span
-              className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30"
+              className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#c29a2f]/30"
               style={{ animationDelay: "0s" }}
             />
             <span
-              className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20"
+              className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#c29a2f]/20"
               style={{ animationDelay: "0.4s" }}
             />
             <span
-              className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10"
+              className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#c29a2f]/10"
               style={{ animationDelay: "0.8s" }}
             />
 
@@ -138,20 +138,20 @@ export default function ServicesSection() {
             type="button"
             onClick={() => canGoNext && setPage(currentPage + 1)}
             disabled={!canGoNext}
-            className="absolute right-[8px] top-1/2 z-20 group ripple-container flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:right-[-22px] md:h-14 md:w-14"
+            className="absolute right-[8px] top-1/2 z-20 group ripple-container flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#c29a2f] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:right-[-22px] md:h-14 md:w-14"
             aria-label="Next services"
           >
             {/* Ripple Rings */}
             <span
-              className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30"
+              className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#c29a2f]/30"
               style={{ animationDelay: "0s" }}
             />
             <span
-              className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20"
+              className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#c29a2f]/20"
               style={{ animationDelay: "0.4s" }}
             />
             <span
-              className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10"
+              className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#c29a2f]/10"
               style={{ animationDelay: "0.8s" }}
             />
 
@@ -197,8 +197,8 @@ export default function ServicesSection() {
                 onClick={() => setPage(idx)}
                 className={`h-2.5 rounded-full transition-all duration-300 ${
                   idx === currentPage
-                    ? "w-8 bg-[#c79f31]"
-                    : "w-2.5 bg-[#d8c8a2]"
+                    ? "w-8 bg-[#c29a2f]"
+                    : "w-2.5 bg-[#c29a2f]"
                 }`}
                 aria-label={`Go to services page ${idx + 1}`}
               />

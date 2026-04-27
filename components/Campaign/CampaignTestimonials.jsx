@@ -48,7 +48,7 @@ export default function CampaignTestimonials() {
           transition={{ duration: 0.8 }}
           className="text-center max-w-3xl mx-auto mb-16"
         >
-          <h2 className="text-[#D4AF37] font-semibold tracking-widest uppercase text-sm mb-3">
+          <h2 className="text-[#c29a2f] font-semibold tracking-widest uppercase text-sm mb-3">
             Client Stories
           </h2>
           <h3 className="text-3xl md:text-4xl font-bold text-[#35140b] font-primary mb-6">
@@ -67,9 +67,9 @@ export default function CampaignTestimonials() {
             <motion.div
               key={index}
               variants={itemVariants}
-              className="bg-[#f5f2ec] rounded-2xl p-8 relative border border-transparent hover:border-[#D4AF37]/20 transition-all duration-300"
+              className="bg-[#f5f2ec] rounded-2xl p-8 relative border border-transparent hover:border-[#c29a2f]/20 transition-all duration-300"
             >
-              <div className="flex gap-1 mb-4 text-[#D4AF37] text-xl items-center">
+              <div className="flex gap-1 mb-4 text-[#c29a2f] text-xl items-center">
                 {[...Array(testimonial.rating)].map((_, i) => (
                   <span key={i}>★</span>
                 ))}
@@ -80,7 +80,7 @@ export default function CampaignTestimonials() {
               </p>
 
               <div className="flex items-center gap-4 mt-auto">
-                <div className="w-10 h-10 rounded-full bg-[#D4AF37]/20 flex items-center justify-center font-bold text-[#35140b] font-primary">
+                <div className="w-10 h-10 rounded-full bg-[#c29a2f]/20 flex items-center justify-center font-bold text-[#35140b] font-primary">
                   {testimonial.name.charAt(0)}
                 </div>
                 <span className="font-bold text-[#35140b]">
