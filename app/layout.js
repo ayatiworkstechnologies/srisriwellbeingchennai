@@ -1,6 +1,4 @@
-import Header from "@/components/layouts/Header";
 import "./globals.css";
-import Footer from "@/components/layouts/Footer";
 import localFont from "next/font/local";
 import Script from "next/script";
 
@@ -46,9 +44,7 @@ gtag('config', 'G-58P101B0TJ', {
 });`,
           }}
         />
-        <Header />
-        <main>{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );
