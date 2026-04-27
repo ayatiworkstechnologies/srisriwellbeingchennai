@@ -31,7 +31,7 @@ export default function AuthenticSpaHeader() {
       }`}
     >
       <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
-        <Link href="/" className="group flex items-center gap-2">
+        <Link href="/authentic-spa" className="group flex items-center gap-2">
           <Image
             src="/logo.svg"
             alt="Sri Sri Wellbeing"

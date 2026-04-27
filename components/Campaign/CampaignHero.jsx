@@ -2,15 +2,53 @@
 
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 // removed react-icons
 
 export default function CampaignHero() {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    service: "",
+    message: "",
+  });
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Simulate form submission
-    router.push("/authentic-spa/thank-you");
+    setLoading(true);
+
+    try {
+      const response = await fetch(
+        "https://api.ayatiworks.com/api/v1/public/srisriwelbeing-chennai/sri_sri_campain/records",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "X-API-Key": "cdbdf7f07d5395cdeac637f9c65d2925d04cf5cdd7a7d6a93f892daed491c46a",
+          },
+          body: JSON.stringify({ data: formData }),
+        }
+      );
+
+      if (response.ok) {
+        router.push("/authentic-spa/thank-you");
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      console.error("Submission error:", error);
+      alert("Network error. Please check your connection.");
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <section className="relative min-h-screen w-full overflow-hidden bg-[#f8f6f1] flex items-center pt-28 pb-10 md:pt-32 md:pb-12 lg:pt-32 lg:pb-12">
@@ -123,7 +161,9 @@ export default function CampaignHero() {
                     Full Name
                   </label>
                   <input
-                    type="text"
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
                     placeholder="John Doe"
                     className="w-full h-11 rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 text-[#1f1a17] placeholder:text-gray-400 focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
                     required
@@ -135,8 +175,10 @@ export default function CampaignHero() {
                     Phone Number
                   </label>
                   <input
-                    type="tel"
-                    placeholder="+91 98765 43210"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="+91 99430 13111"
                     className="w-full h-11 rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 text-[#1f1a17] placeholder:text-gray-400 focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
                     required
                   />
@@ -149,6 +191,9 @@ export default function CampaignHero() {
                 </label>
                 <input
                   type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
                   placeholder="john@example.com"
                   className="w-full h-11 rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 text-[#1f1a17] placeholder:text-gray-400 focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all text-sm"
                   required
@@ -160,7 +205,9 @@ export default function CampaignHero() {
                   Select Service
                 </label>
                 <select
-                  defaultValue=""
+                  name="service"
+                  value={formData.service}
+                  onChange={handleChange}
                   className="w-full h-11 rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 text-[#1f1a17] focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all appearance-none text-sm"
                   required
                 >
@@ -185,6 +232,9 @@ export default function CampaignHero() {
                   Your Message (Optional)
                 </label>
                 <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
                   placeholder="How can we help you?"
                   rows="2"
                   className="w-full rounded-xl border border-gray-200 bg-[#f8f6f1] px-4 py-2 text-[#1f1a17] placeholder:text-gray-400 focus:border-[#D4AF37] focus:bg-white focus:outline-none focus:ring-1 focus:ring-[#D4AF37] transition-all resize-none text-sm"
@@ -193,9 +243,10 @@ export default function CampaignHero() {
 
               <button
                 type="submit"
-                className="mt-2 w-full inline-flex items-center justify-center rounded-full border border-[#D4AF37] bg-transparent py-4 text-sm font-bold uppercase tracking-widest text-[#D4AF37] transition-all duration-300 hover:bg-[#D4AF37] hover:text-white active:scale-95"
+                disabled={loading}
+                className="mt-2 w-full inline-flex items-center justify-center rounded-full border border-[#D4AF37] bg-transparent py-4 text-sm font-bold uppercase tracking-widest text-[#D4AF37] transition-all duration-300 hover:bg-[#D4AF37] hover:text-white active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Request Appointment
+                {loading ? "Submitting..." : "Request Appointment"}
               </button>
             </form>
           </div>

@@ -37,12 +37,12 @@ export default function ContactPageRedesign() {
 
     try {
       const response = await fetch(
-        "https://api.ayatiworks.com/api/v1/public/ayatiwork/srisri/records",
+        "https://api.ayatiworks.com/api/v1/public/srisriwelbeing-chennai/contact_us/records",
         {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "X-API-Key": "3bc72efc00a99a7ad1d1e31225c6a3f833218dfb34d88cc6ecb4c2b9562ab0fd",
+            "X-API-Key": "cdbdf7f07d5395cdeac637f9c65d2925d04cf5cdd7a7d6a93f892daed491c46a",
           },
           body: JSON.stringify(payload),
         }
