@@ -204,7 +204,7 @@ export default function CampaignHero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-[2rem] md:text-6xl lg:text-7xl font-bold leading-[1.1] text-white mb-4 md:mb-6 font-primary"
+              className="text-[2rem] md:text-6xl lg:text-7xl font-bold leading-[1.1] text-white mb-4 md:mb-6 font-primary drop-shadow-[0_4px_8px_rgba(0,0,0,0.6)]"
             >
               Awaken Your <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#c29a2f] via-[#c29a2f] to-[#c29a2f] italic font-light pr-4">
@@ -216,7 +216,7 @@ export default function CampaignHero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
-              className="text-base md:text-xl lg:text-2xl leading-relaxed text-white/90 mb-6 md:mb-10 max-w-[650px] font-light"
+              className="text-base md:text-xl lg:text-2xl leading-relaxed text-white/90 mb-6 md:mb-10 max-w-[650px] font-light drop-shadow-md"
             >
               Step into a sanctuary of stillness in Chennai. Our master Vaidyas
               blend ancient wisdom with pristine, natural therapies to restore

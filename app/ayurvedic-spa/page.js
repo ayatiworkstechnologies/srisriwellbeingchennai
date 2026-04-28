@@ -2,7 +2,7 @@ import AuthenticSpaHeader from "@/components/Campaign/AuthenticSpaHeader";
 import AuthenticSpaFooter from "@/components/Campaign/AuthenticSpaFooter";
 import AuthenticSpaContact from "@/components/Campaign/AuthenticSpaContact";
 import CampaignHero from "@/components/Campaign/CampaignHero";
-import IntroSection from "@/components/Main/IntroSection";
+import IntroSection from "@/components/Campaign/IntroSection";
 import ContinuumSection from "@/components/Main/ContinuumSection";
 import CollectionSection from "@/components/Main/CollectionSection";
 import ExperienceSection from "@/components/Main/ExperienceSection";
