@@ -60,13 +60,16 @@ export default function TestimoniesSection() {
   const canGoNext = currentPage < totalPages - 1;
 
   return (
-    <section id="testimonial" className="relative overflow-hidden bg-[#f6f3ee] py-16 md:py-24">
+    <section
+      id="testimonial"
+      className="relative overflow-hidden bg-[#f6f3ee] py-16 md:py-24"
+    >
       <div className="mx-auto w-[min(1320px,calc(100%-24px))] md:w-[min(1320px,calc(100%-40px))]">
         <RevealOnScroll className="mb-12 text-center md:mb-16">
-          <p className="mb-3 text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-[#c29a2f]">
+          <p className="mb-3 text-sm md:text-base font-bold uppercase tracking-[0.22em] text-[#c29a2f]">
             Journeys of Restoration
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
+          <h2 className="text-2xl md:text-4xl font-bold leading-tight text-[#1f1a17]">
             Voices of Wellbeing
           </h2>
           <div className="mx-auto mt-6 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
@@ -81,8 +84,14 @@ export default function TestimoniesSection() {
               className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-30 md:h-14 md:w-14"
               aria-label="Previous testimonies"
             >
-              <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
-              <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
+              <span
+                className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30"
+                style={{ animationDelay: "0s" }}
+              />
+              <span
+                className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20"
+                style={{ animationDelay: "0.4s" }}
+              />
               <FaChevronLeft className="relative z-10 text-[16px] md:text-[20px]" />
             </button>
           </div>
@@ -94,8 +103,14 @@ export default function TestimoniesSection() {
               className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-30 md:h-14 md:w-14"
               aria-label="Next testimonies"
             >
-              <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
-              <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
+              <span
+                className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30"
+                style={{ animationDelay: "0s" }}
+              />
+              <span
+                className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20"
+                style={{ animationDelay: "0.4s" }}
+              />
               <FaChevronRight className="relative z-10 text-[16px] md:text-[20px]" />
             </button>
           </div>
@@ -114,7 +129,10 @@ export default function TestimoniesSection() {
                 >
                   <div className="mb-5 flex gap-1">
                     {[...Array(5)].map((_, i) => (
-                      <FaStar key={i} className="text-[13px] md:text-[14px] text-[#d0a93d]" />
+                      <FaStar
+                        key={i}
+                        className="text-[13px] md:text-[14px] text-[#d0a93d]"
+                      />
                     ))}
                   </div>
 
@@ -128,7 +146,7 @@ export default function TestimoniesSection() {
                     </div>
 
                     <div>
-                      <h4 className="text-xl md:text-2xl font-bold text-[#1f1a17]">
+                      <h4 className="text-xl md:text-xl font-bold text-[#1f1a17]">
                         {item.name}
                       </h4>
                       <p className="text-[12px] text-[#857b72]">Guest</p>
@@ -146,8 +164,9 @@ export default function TestimoniesSection() {
             <button
               key={`page-dot-${idx}`}
               onClick={() => setPage(idx)}
-              className={`h-2.5 rounded-full transition-all duration-300 ${idx === currentPage ? "w-8 bg-[#c79f31]" : "w-2.5 bg-[#d8c8a2]"
-                }`}
+              className={`h-2.5 rounded-full transition-all duration-300 ${
+                idx === currentPage ? "w-8 bg-[#c79f31]" : "w-2.5 bg-[#d8c8a2]"
+              }`}
               aria-label={`Go to page ${idx + 1}`}
             />
           ))}

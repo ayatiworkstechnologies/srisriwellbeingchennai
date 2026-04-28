@@ -139,7 +139,7 @@ export default function ExperienceSection() {
                 {/* <p className="mb-2 text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-[#c29a2f] drop-shadow-md">
                   The Experience of Care
                 </p> */}
-                <h2 className="text-4xl md:text-5xl font-bold leading-tight text-white/80 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                <h2 className="text-2xl md:text-4xl font-bold leading-tight text-white/80 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                   {sanctuarySlides[current].title}
                 </h2>
 

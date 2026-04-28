@@ -54,7 +54,7 @@ export default function ContinuumSection() {
       </div>
 
       <RevealOnScroll className="relative z-10 mx-auto mb-10 w-[min(1200px,calc(100%-24px))] md:mb-12 md:w-[min(1200px,calc(100%-40px))]">
-        <h2 className="text-4xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
+        <h2 className="text-2xl md:text-4xl font-bold leading-tight text-[#1f1a17]">
           The Continuum of True Wellbeing
         </h2>
         <div className="mt-3 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#c29a2f] to-[#c29a2f]" />

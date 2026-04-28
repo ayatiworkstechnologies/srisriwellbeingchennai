@@ -32,7 +32,7 @@ export default function IntroSection() {
           />
         </div>
 
-        <h2 className="text-4xl md:text-5xl leading-[1.18] font-bold">
+        <h2 className="text-2xl md:text-4xl leading-[1.18] font-bold">
           Rooted in Tradition. Refined
           <br />
           for Modern Living.

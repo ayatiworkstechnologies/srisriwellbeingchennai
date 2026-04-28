@@ -78,7 +78,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="max-w-[900px] text-4xl md:text-5xl font-bold leading-[1.15] text-white"
+                className="max-w-[900px] text-2xl md:text-4xl font-bold leading-[1.15] text-white"
               >
                 Where Stillness Becomes a Lifestyle
               </motion.h1>

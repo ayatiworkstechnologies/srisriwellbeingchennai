@@ -41,22 +41,26 @@ export default function CollectionSection() {
 
       <div className="relative z-10 mx-auto w-[min(1200px,calc(100%-24px))] md:w-[min(1200px,calc(100%-40px))]">
         <RevealOnScroll className="mb-10 text-center md:mb-14">
-          <p className="mb-3 text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-[#c29a2f]">
+          <p className="mb-3 text-lg md:text-xl font-bold uppercase tracking-[0.2em] text-[#c29a2f]">
             The Healing Collection
           </p>
-          <h2 className="text-4xl md:text-5xl font-bold leading-tight text-[#111]">
+          <h2 className="text-2xl md:text-4xl font-bold leading-tight text-[#111]">
             Curated Wellness Formulations
           </h2>
 
           <div className="mx-auto mt-3 h-[3px] w-[78px] rounded-full bg-[#d8b03f]" />
 
           <p className="mx-auto mt-6 max-w-[620px] text-base md:text-lg leading-6 text-[#555]">
-            A refined selection of Ayurvedic formulations crafted to complement your wellness
-            journey, designed for daily balance, vitality, and sustained inner harmony.
+            A refined selection of Ayurvedic formulations crafted to complement
+            your wellness journey, designed for daily balance, vitality, and
+            sustained inner harmony.
           </p>
         </RevealOnScroll>
 
-        <RevealOnScroll delay={0.2} className="grid gap-6 md:grid-cols-3 md:gap-10">
+        <RevealOnScroll
+          delay={0.2}
+          className="grid gap-6 md:grid-cols-3 md:gap-10"
+        >
           {products.map((card) => (
             <div
               key={card.title}
@@ -82,9 +86,7 @@ export default function CollectionSection() {
                     {card.desc}
                   </p>
 
-                  <button
-                    className="mt-auto mx-auto inline-flex w-fit items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-8 py-4 text-[15px] font-bold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-lg"
-                  >
+                  <button className="mt-auto mx-auto inline-flex w-fit items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-8 py-4 text-[15px] font-bold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-lg">
                     View Product
                     <FaArrowRight className="text-[14px]" />
                   </button>

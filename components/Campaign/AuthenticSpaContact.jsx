@@ -79,10 +79,10 @@ export default function AuthenticSpaContact() {
       <div className="relative z-10 mx-auto w-[min(1320px,calc(100%-24px))] md:w-[min(1320px,calc(100%-40px))]">
         {/* Section Header */}
         <RevealOnScroll className="mb-12 text-center md:mb-16">
-          <p className="mb-3 text-lg md:text-3xl font-bold uppercase tracking-[0.2em] text-[#c29a2f]">
+          <p className="mb-3 text-sm md:text-base font-bold uppercase tracking-[0.22em] text-[#c29a2f]">
             Begin Your Journey
           </p>
-          <h2 className="text-3xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
+          <h2 className="text-2xl md:text-4xl font-bold leading-tight text-[#1f1a17]">
             Visit Our Sanctuary
           </h2>
           <div className="mx-auto mt-6 h-[3px] w-[72px] rounded-full bg-gradient-to-r from-[#c29a2f] to-[#c29a2f]" />

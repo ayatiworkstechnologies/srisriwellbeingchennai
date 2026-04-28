@@ -5,7 +5,6 @@ import { useEffect, useMemo, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
 
-
 const therapyCards = [
   {
     title: "Nadi Pariksha",
@@ -101,13 +100,16 @@ export default function ServicesSection() {
 
       <div className="relative z-10 mx-auto w-[min(1380px,calc(100%-24px))] md:w-[min(1380px,calc(100%-40px))]">
         <RevealOnScroll className="mb-10 text-center md:mb-14">
-          <h2 className="text-4xl md:text-5xl font-bold leading-tight text-[#1f1a17]">
+          <h2 className="text-2xl md:text-4xl font-bold leading-tight text-[#1f1a17]">
             Precision Therapies. Profound Impact.
           </h2>
           <div className="mx-auto mt-4 h-[3px] w-[82px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
         </RevealOnScroll>
 
-        <RevealOnScroll delay={0.2} className="relative mx-auto max-w-[1320px] rounded-[30px] bg-white/90 px-5 py-6 shadow-[0_20px_50px_rgba(0,0,0,0.08)] backdrop-blur-sm md:px-8 md:py-8 lg:px-10 lg:py-10">
+        <RevealOnScroll
+          delay={0.2}
+          className="relative mx-auto max-w-[1320px] rounded-[30px] bg-white/90 px-5 py-6 shadow-[0_20px_50px_rgba(0,0,0,0.08)] backdrop-blur-sm md:px-8 md:py-8 lg:px-10 lg:py-10"
+        >
           <button
             type="button"
             onClick={() => canGoPrev && setPage(currentPage - 1)}
@@ -116,9 +118,18 @@ export default function ServicesSection() {
             aria-label="Previous services"
           >
             {/* Ripple Rings */}
-            <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
-            <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
-            <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
+            <span
+              className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30"
+              style={{ animationDelay: "0s" }}
+            />
+            <span
+              className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20"
+              style={{ animationDelay: "0.4s" }}
+            />
+            <span
+              className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10"
+              style={{ animationDelay: "0.8s" }}
+            />
 
             <FaChevronLeft className="relative z-10 text-[16px] md:text-[20px]" />
           </button>
@@ -131,9 +142,18 @@ export default function ServicesSection() {
             aria-label="Next services"
           >
             {/* Ripple Rings */}
-            <span className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30" style={{ animationDelay: '0s' }} />
-            <span className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20" style={{ animationDelay: '0.4s' }} />
-            <span className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10" style={{ animationDelay: '0.8s' }} />
+            <span
+              className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30"
+              style={{ animationDelay: "0s" }}
+            />
+            <span
+              className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20"
+              style={{ animationDelay: "0.4s" }}
+            />
+            <span
+              className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10"
+              style={{ animationDelay: "0.8s" }}
+            />
 
             <FaChevronRight className="relative z-10 text-[16px] md:text-[20px]" />
           </button>
@@ -157,7 +177,7 @@ export default function ServicesSection() {
                 </div>
 
                 <div className="flex flex-1 flex-col px-4 pb-5 pt-4 md:px-5 md:pb-6 md:pt-5">
-                  <h3 className="text-xl md:text-2xl font-bold leading-tight text-[#231c17]">
+                  <h3 className="text-lg md:text-xl font-bold leading-tight text-[#231c17]">
                     {card.title}
                   </h3>
 
@@ -182,8 +202,11 @@ export default function ServicesSection() {
                 key={`page-dot-${idx}`}
                 type="button"
                 onClick={() => setPage(idx)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${idx === currentPage ? "w-8 bg-[#c79f31]" : "w-2.5 bg-[#d8c8a2]"
-                  }`}
+                className={`h-2.5 rounded-full transition-all duration-300 ${
+                  idx === currentPage
+                    ? "w-8 bg-[#c79f31]"
+                    : "w-2.5 bg-[#d8c8a2]"
+                }`}
                 aria-label={`Go to services page ${idx + 1}`}
               />
             ))}
