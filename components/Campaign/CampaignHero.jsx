@@ -131,6 +131,20 @@ export default function CampaignHero() {
               <span className="absolute inset-0 z-0 translate-y-full bg-[#c29a2f] transition-transform duration-300 ease-out group-hover:translate-y-0" />
               <span className="relative z-10">Claim Offer</span>
             </button>
+
+            <div className="flex items-center gap-4 text-white px-4">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-[#c29a2f]/20 text-[#c29a2f] font-bold text-xl shadow-[0_0_15px_rgba(194,154,47,0.3)]">
+                ✓
+              </span>
+              <div className="flex flex-col">
+                <span className="text-sm font-semibold">
+                  Trusted by 5000+ Customers
+                </span>
+                <span className="text-xs text-white/60 uppercase tracking-widest">
+                  in Chennai
+                </span>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
 

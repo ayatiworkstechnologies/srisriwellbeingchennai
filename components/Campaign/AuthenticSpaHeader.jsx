@@ -47,8 +47,8 @@ export default function AuthenticSpaHeader() {
             href="tel:+919943013111"
             className="group hidden md:flex items-center gap-2.5 transition-all duration-300 text-[#c29a2f] hover:text-[#c29a2f]"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full transition-all duration-300 bg-[#c29a2f]/10 group-hover:bg-[#c29a2f] group-hover:text-white group-hover:shadow-[0_0_15px_rgba(194,154,47,0.4)]">
-              <FaPhone className="text-[12px] text-[#c29a2f] group-hover:text-white transition-transform duration-300 group-hover:rotate-12" />
+            <div className="flex h-10 w-10 items-center justify-center rounded-full transition-all duration-300 bg-[#c29a2f]/20 group-hover:bg-[#c29a2f] group-hover:text-white group-hover:shadow-[0_0_20px_rgba(194,154,47,0.5)]">
+              <FaPhone className="text-[14px] text-[#c29a2f] group-hover:text-white transition-transform duration-300 group-hover:rotate-12" />
             </div>
             <span className="font-bold tracking-wide text-lg text-[#c29a2f]">
               +91 99430 13111
