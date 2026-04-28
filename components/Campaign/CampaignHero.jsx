@@ -186,6 +186,7 @@ export default function CampaignHero() {
               priority
               className="object-cover object-center"
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent z-10" />
           </div>
           {/* Cinematic Vignette (Top and Bottom Black Gradients) */}
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50 z-10" />
