@@ -32,10 +32,11 @@ export default function CampaignHero() {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "X-API-Key": "cdbdf7f07d5395cdeac637f9c65d2925d04cf5cdd7a7d6a93f892daed491c46a",
+            "X-API-Key":
+              "cdbdf7f07d5395cdeac637f9c65d2925d04cf5cdd7a7d6a93f892daed491c46a",
           },
           body: JSON.stringify({ data: formData }),
-        }
+        },
       );
 
       if (response.ok) {
@@ -61,9 +62,9 @@ export default function CampaignHero() {
           playsInline
           className="w-full h-full object-cover object-center"
         >
-          <source 
-            src="https://ayatiworks-storage.s3.us-east-1.amazonaws.com/ssw-video.MP4" 
-            type="video/mp4" 
+          <source
+            src="https://ayatiworks-storage.s3.us-east-1.amazonaws.com/ssw-video.MP4"
+            type="video/mp4"
           />
         </video>
         {/* Cinematic Vignette (Top and Bottom Black Gradients) */}
@@ -83,9 +84,9 @@ export default function CampaignHero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full border border-[#c29a2f]/30 bg-white/60 backdrop-blur-md w-max mb-5 md:mb-8 shadow-sm"
+            className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-xl w-max mb-5 md:mb-8 shadow-[0_0_20px_rgba(194,154,47,0.15)]"
           >
-            <span className="w-2 h-2 rounded-full bg-[#c29a2f] animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-[#c29a2f] shadow-[0_0_10px_#c29a2f]" />
             <span className="text-[11px] md:text-sm font-bold tracking-[0.15em] md:tracking-[0.2em] text-[#c29a2f] uppercase">
               Authentic Ayurvedic Spa
             </span>
@@ -130,17 +131,6 @@ export default function CampaignHero() {
               <span className="absolute inset-0 z-0 translate-y-full bg-[#c29a2f] transition-transform duration-300 ease-out group-hover:translate-y-0" />
               <span className="relative z-10">Claim Offer</span>
             </button>
-            <div className="flex items-center gap-4 text-white px-4">
-              <span className="text-[#c29a2f] font-bold text-xl">✓</span>
-              <div className="flex flex-col">
-                <span className="text-sm font-semibold">
-                  Limited Slots Available
-                </span>
-                <span className="text-xs text-[#5e5751]">
-                  Bookings close this week
-                </span>
-              </div>
-            </div>
           </motion.div>
         </motion.div>
 
