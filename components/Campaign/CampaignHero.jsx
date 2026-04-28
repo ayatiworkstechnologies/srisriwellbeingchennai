@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
 // removed react-icons
 
 export default function CampaignHero() {
@@ -55,18 +56,13 @@ export default function CampaignHero() {
     <section className="relative min-h-screen w-full overflow-hidden bg-[#f8f6f1] flex items-center pt-28 pb-10 md:pt-32 md:pb-12 lg:pt-32 lg:pb-12">
       {/* Background Video */}
       <div className="absolute inset-0 z-0">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
+        <Image
+          src="/images/ayurveda-banner.jpg"
+          alt="Ayurvedic Spa Campaign Hero"
+          fill
+          priority
           className="w-full h-full object-cover object-center"
-        >
-          <source
-            src="https://ayatiworks-storage.s3.us-east-1.amazonaws.com/ssw-video.MP4"
-            type="video/mp4"
-          />
-        </video>
+        />
         {/* Cinematic Vignette (Top and Bottom Black Gradients) */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/50 z-10" />
         <div className="absolute inset-0 bg-white/5 z-20" />
@@ -80,18 +76,6 @@ export default function CampaignHero() {
           transition={{ duration: 1, ease: "easeOut" }}
           className="w-full lg:w-[55%] flex flex-col justify-center text-left"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="inline-flex items-center gap-2 px-4 py-2 md:px-5 md:py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-xl w-max mb-5 md:mb-8 shadow-[0_0_20px_rgba(194,154,47,0.15)]"
-          >
-            <span className="w-2 h-2 rounded-full bg-[#c29a2f] shadow-[0_0_10px_#c29a2f]" />
-            <span className="text-[11px] md:text-sm font-bold tracking-[0.15em] md:tracking-[0.2em] text-[#c29a2f] uppercase">
-              Authentic Ayurvedic Spa
-            </span>
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
