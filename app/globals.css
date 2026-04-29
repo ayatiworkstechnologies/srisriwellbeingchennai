@@ -32,6 +32,22 @@
   .title-center {
     @apply mx-auto max-w-3xl text-center;
   }
+
+  .btn-primary {
+    @apply inline-flex h-12 md:h-14 items-center justify-center gap-2.5 rounded-full bg-[#d0a93d] px-7 md:px-10 text-base md:text-lg font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-[0_12px_36px_rgba(208,169,61,0.35)];
+  }
+
+  .btn-dark {
+    @apply inline-flex h-12 md:h-14 items-center justify-center gap-2.5 rounded-full bg-[#3b2218] px-7 md:px-10 text-base md:text-lg font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#2e1a12] hover:shadow-[0_12px_36px_rgba(59,34,24,0.30)];
+  }
+
+  .btn-outline {
+    @apply inline-flex h-12 md:h-14 items-center justify-center gap-2.5 rounded-full border-2 border-white/30 px-7 md:px-10 text-base md:text-lg font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/10;
+  }
+
+  .btn-small {
+    @apply inline-flex h-10 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold tracking-wide transition-all duration-300;
+  }
 }
 
 
@@ -374,3 +390,66 @@ a {
   z-index: 10;
 }
 
+/* ── Wellness Button Design ── */
+@layer components {
+  .btn-wellness {
+    @apply relative inline-flex items-center justify-center gap-3 rounded-full px-8 py-3.5 text-base font-bold tracking-wide text-white transition-all duration-400 isolation-auto;
+    background: #D4AF37;
+    box-shadow: 0 14px 35px rgba(212, 175, 55, 0.25), 0 6px 18px rgba(212, 175, 55, 0.15);
+    text-decoration: none !important;
+  }
+
+  .btn-wellness::before {
+    content: "";
+    @apply absolute top-0 -left-[90%] h-full w-[58%] -skew-x-[25deg] rounded-[inherit] transition-all duration-700;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.48), transparent);
+    z-index: 1;
+  }
+
+  .btn-wellness:hover::before {
+    @apply left-[135%];
+  }
+
+  .btn-wellness::after {
+    content: "";
+    @apply absolute -inset-[7px] rounded-[inherit] border border-[#D4AF37]/40;
+    animation: wellnessMixedPulse 1.9s ease-out infinite;
+    z-index: -1;
+  }
+
+  .btn-wellness:hover {
+    @apply -translate-y-1 scale-[1.03];
+    background: #c29a2f;
+    box-shadow: 0 20px 45px rgba(212, 175, 55, 0.35), 0 10px 25px rgba(212, 175, 55, 0.25);
+  }
+
+  .btn-wellness-icon {
+    @apply flex h-[30px] w-[30px] min-w-[30px] items-center justify-center rounded-full text-[15px] backdrop-blur-[6px];
+    background: rgba(255, 255, 255, 0.22);
+    animation: wellnessLeafFloat 2.5s ease-in-out infinite;
+    z-index: 2;
+  }
+
+  .btn-wellness-text {
+    @apply relative z-10;
+  }
+
+  .btn-wellness-arrow {
+    @apply relative z-10 text-lg transition-transform duration-400;
+  }
+
+  .btn-wellness:hover .btn-wellness-arrow {
+    @apply translate-x-1.5;
+  }
+}
+
+@keyframes wellnessLeafFloat {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-3px) rotate(-8deg); }
+}
+
+@keyframes wellnessMixedPulse {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  70% { transform: scale(1.1); opacity: 0.18; }
+  100% { transform: scale(1.17); opacity: 0; }
+}

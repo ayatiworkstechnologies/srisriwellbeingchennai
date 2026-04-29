@@ -253,9 +253,11 @@ export default function RelaxationTherapies() {
                   <div className="mt-auto">
                     <button
                       onClick={() => setSelectedTherapy(therapy)}
-                      className="w-full rounded-full bg-[#c29a2f] px-5 py-3 text-center text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:bg-[#a88528] hover:shadow-[0_10px_20px_rgba(194,154,47,0.3)] active:scale-95 md:px-6 md:py-3.5 md:text-sm"
+                      className="btn-wellness w-full scale-90"
                     >
-                      Book Now
+                      <span className="btn-wellness-icon">☘</span>
+                      <span className="btn-wellness-text">Book Now</span>
+                      <span className="btn-wellness-arrow">→</span>
                     </button>
                   </div>
                 </div>

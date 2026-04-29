@@ -55,7 +55,7 @@ export default function NetraTejasLocations({ featuredDoctor }) {
             <div className="mt-8">
               <Link
                 href="/contact"
-                className="inline-flex h-12 md:h-14 items-center justify-center gap-2.5 rounded-full bg-[#d0a93d] px-8 md:px-10 text-base font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-[0_12px_36px_rgba(208,169,61,0.35)]"
+                className="btn-primary"
               >
                 Book a Consultation
               </Link>

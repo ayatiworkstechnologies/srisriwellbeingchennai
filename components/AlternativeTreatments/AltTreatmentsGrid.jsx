@@ -164,10 +164,11 @@ export default function AltTreatmentsGrid({ treatments }) {
               </p>
               <a
                 href="/contact"
-                className="mt-8 inline-flex h-14 items-center justify-center gap-2.5 rounded-full bg-[#d0a93d] px-10 text-base font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-[0_12px_36px_rgba(208,169,61,0.35)]"
+                className="btn-wellness mt-8"
               >
-                Book a Free Consultation
-                <FaChevronRight className="text-xs" />
+                <span className="btn-wellness-icon">☘</span>
+                <span className="btn-wellness-text">Book a Free Consultation</span>
+                <span className="btn-wellness-arrow">→</span>
               </a>
             </div>
           </div>

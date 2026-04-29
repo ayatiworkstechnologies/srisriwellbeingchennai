@@ -91,7 +91,7 @@ export default function NadiCampsSection() {
             {/* Reset Button */}
             <button
               type="button"
-              className="w-full md:w-auto rounded-full bg-[#d0a93d] px-8 py-3 md:py-3.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#b8952b] hover:shadow-lg"
+              className="btn-small w-full md:w-auto bg-[#d0a93d] text-white shadow-md hover:bg-[#b8952b]"
             >
               Reset
             </button>

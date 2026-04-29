@@ -150,10 +150,11 @@ export default function Header() {
         <div className="flex items-center gap-3 relative z-50">
           <Link
             href="/contact"
-            className="hidden sm:inline-flex h-10 items-center justify-center gap-2 rounded-full bg-[#D4AF37] px-8 text-base md:text-lg font-semibold tracking-wide text-white! transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-md"
+            className="btn-wellness hidden sm:inline-flex scale-90"
           >
-            Contact
-            <FaArrowRight className="text-[14px]" />
+            <span className="btn-wellness-icon">☘</span>
+            <span className="btn-wellness-text">Contact</span>
+            <span className="btn-wellness-arrow">→</span>
           </Link>
 
           {/* Hamburger Button */}
@@ -244,10 +245,11 @@ export default function Header() {
             <Link
               href="/contact"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="flex h-12 w-full items-center justify-center gap-2 rounded-[14px] bg-[#D4AF37] text-base md:text-lg font-medium text-white! shadow-md transition hover:bg-[#b8952b]"
+              className="btn-wellness flex h-12 w-full"
             >
-              Contact Us
-              <FaArrowRight className="text-[15px]" />
+              <span className="btn-wellness-icon">☘</span>
+              <span className="btn-wellness-text">Contact Us</span>
+              <span className="btn-wellness-arrow">→</span>
             </Link>
           </li>
         </ul>

@@ -86,29 +86,18 @@ export default function PageHero({
                 {primaryButton && (
                   <Link
                     href={primaryButton.href || "/contact"}
-                    className="group inline-flex h-12 md:h-14 items-center justify-center gap-2.5 rounded-full bg-[#d0a93d] px-7 md:px-9 text-base md:text-lg font-semibold tracking-wide text-white transition-all duration-400 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-[0_12px_36px_rgba(208,169,61,0.35)]"
+                    className="btn-wellness"
                   >
-                    {primaryButton.label}
-                    <svg
-                      className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                      strokeWidth={2.5}
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"
-                      />
-                    </svg>
+                    <span className="btn-wellness-icon">☘</span>
+                    <span className="btn-wellness-text">{primaryButton.label}</span>
+                    <span className="btn-wellness-arrow">→</span>
                   </Link>
                 )}
 
                 {secondaryButton && (
                   <Link
                     href={secondaryButton.href || "#"}
-                    className="inline-flex h-12 md:h-14 items-center justify-center gap-2 rounded-full border-2 border-white/30 px-7 md:px-9 text-base md:text-lg font-semibold tracking-wide text-white transition-all duration-400 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/10"
+                    className="btn-outline"
                   >
                     {secondaryButton.label}
                   </Link>
