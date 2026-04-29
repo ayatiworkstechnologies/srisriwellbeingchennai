@@ -1,13 +1,9 @@
 import PageHero from "@/components/layouts/PageHero";
 import NadiStatsSection from "@/components/NadiPariksha/NadiStatsSection";
-import NadiBenefitsSection from "@/components/NadiPariksha/NadiBenefitsSection";
 import NadiConditionsSection from "@/components/NadiPariksha/NadiConditionsSection";
 import NadiTestimonialSection from "@/components/NadiPariksha/NadiTestimonialSection";
-import NadiGallerySection from "@/components/NadiPariksha/NadiGallerySection";
-import NadiProcessSection from "@/components/NadiPariksha/NadiProcessSection";
-import NadiExpertsSection from "@/components/NadiPariksha/NadiExpertsSection";
+import NadiCampsSection from "@/components/NadiPariksha/NadiCampsSection";
 import NadiFAQSection from "@/components/NadiPariksha/NadiFAQSection";
-import NadiCTASection from "@/components/NadiPariksha/NadiCTASection";
 
 export const metadata = {
   title:
@@ -30,13 +26,9 @@ export default function NadiParikshaPage() {
       />
       <NadiStatsSection />
       <NadiConditionsSection />
-      <NadiProcessSection />
-      <NadiExpertsSection />
       <NadiTestimonialSection />
-      <NadiGallerySection />
+      <NadiCampsSection />
       <NadiFAQSection />
-      <NadiCTASection />
-      <NadiBenefitsSection />
     </>
   );
 }

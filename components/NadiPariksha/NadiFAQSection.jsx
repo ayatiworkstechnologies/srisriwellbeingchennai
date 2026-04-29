@@ -1,33 +1,34 @@
 "use client";
 
 import { useState } from "react";
-import { FaPlus, FaMinus } from "react-icons/fa6";
+import Image from "next/image";
+import { FaPlus, FaTimes } from "react-icons/fa";
 import RevealOnScroll from "../Main/RevealOnScroll";
 
 const faqs = [
   {
-    q: "What is Nadi Pariksha?",
-    a: "Nadi Pariksha is an ancient Ayurvedic technique of pulse diagnosis. By reading the subtle pulse vibrations at the wrist, a trained Nadi Vaidya can assess your dosha constitution (Vata, Pitta, Kapha), identify imbalances, and evaluate the functional status of vital organs.",
+    q: "What is Nadi Pariksha and how does it help?",
+    a: "Nadi Pariksha is an ancient pulse diagnosis technique used to assess the balance of doshas in the body. It helps detect imbalances in physical, mental and emotional health—often before symptoms appear.",
   },
   {
-    q: "Is Nadi Pariksha painful or invasive?",
-    a: "Not at all. Nadi Pariksha is completely non-invasive and painless. The practitioner simply places three fingers on your wrist and reads the pulse patterns. It requires no needles, blood tests, or any physical discomfort.",
+    q: "How is your treatment approach different from modern medicine?",
+    a: "Unlike modern medicine which often treats symptoms, Ayurveda addresses the root cause of the problem using natural remedies, lifestyle changes, and personalized diet plans.",
   },
   {
-    q: "How long does a Nadi Pariksha session take?",
-    a: "A typical Nadi Pariksha session takes between 20 to 40 minutes. This includes the pulse reading, discussion of findings, and a personalised treatment or lifestyle recommendation plan.",
+    q: "What can I expect in my first consultation?",
+    a: "Your first consultation will involve a detailed pulse diagnosis (Nadi Pariksha), a discussion about your medical history, lifestyle, and diet, followed by a personalized Ayurvedic treatment plan.",
   },
   {
-    q: "How accurate is Nadi Pariksha diagnosis?",
-    a: "When performed by an experienced Nadi Vaidya, the accuracy is remarkably high. It can detect imbalances at a sub-clinical level — often identifying health concerns before they manifest as visible symptoms, making it an excellent preventive health tool.",
+    q: "Can Ayurveda help with chronic health issues?",
+    a: "Yes, Ayurveda is highly effective in managing and treating chronic conditions like diabetes, arthritis, asthma, and digestive disorders by restoring the body's natural balance.",
   },
   {
-    q: "Do I need to prepare anything before a session?",
-    a: "It is recommended to avoid heavy meals, caffeine, and intense exercise at least 2 hours before your appointment. Come with a calm and relaxed mind for the most accurate pulse reading.",
+    q: "Can I continue allopathic medicine with Ayurvedic treatment?",
+    a: "In most cases, yes. However, it is crucial to inform your Nadi Vaidya about all your current medications so they can tailor your Ayurvedic treatment safely without adverse interactions.",
   },
   {
-    q: "Can Nadi Pariksha help with chronic conditions?",
-    a: "Yes. Nadi Pariksha is particularly effective for understanding the root cause of chronic conditions like diabetes, digestive issues, stress-related disorders, hormonal imbalances, and joint pain, enabling targeted Ayurvedic treatment.",
+    q: "Is Ayurvedic treatment safe for all age groups?",
+    a: "Absolutely. Ayurvedic treatments are natural and can be safely customized for children, adults, and the elderly based on their specific body constitution and health needs.",
   },
 ];
 
@@ -39,77 +40,75 @@ export default function NadiFAQSection() {
   };
 
   return (
-    <section className="relative bg-[#f5f2ec] py-16 md:py-24">
-      <div className="mx-auto w-[min(900px,calc(100%-24px))] md:w-[min(900px,calc(100%-40px))]">
-        {/* Heading */}
-        <RevealOnScroll className="text-center mb-10 md:mb-14">
-          <p className="text-sm md:text-base font-semibold uppercase tracking-[0.2em] text-[#c29a2f]">
-            Common Questions
-          </p>
-          <h2 className="mt-3 text-2xl md:text-4xl lg:text-[42px] font-bold leading-tight text-[#1f1a17]">
-            Frequently Asked Questions
-          </h2>
-          <div className="mx-auto mt-4 h-[3px] w-[82px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
-        </RevealOnScroll>
+    <section className="relative bg-white section-padding">
+      <div className="container-width">
+        <div className="flex flex-col gap-12 md:flex-row md:items-start md:gap-16 lg:gap-24">
+          {/* Left Side: Image */}
+          <RevealOnScroll className="w-full md:w-[40%] flex-shrink-0">
+            <div className="relative rounded-[24px] bg-white p-3 shadow-[0_12px_40px_rgba(0,0,0,0.12)]">
+              <div className="overflow-hidden rounded-[18px] border-8 border-[#3b2218]">
+                <Image
+                  src="/images/ser-1.jpg" // Assuming this is the facial treatment image
+                  alt="Ayurvedic Treatment"
+                  width={600}
+                  height={800}
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </div>
+          </RevealOnScroll>
 
-        {/* FAQ Items */}
-        <div className="space-y-3 md:space-y-4">
-          {faqs.map((faq, idx) => {
-            const isOpen = openIndex === idx;
-            return (
-              <RevealOnScroll key={idx} delay={idx * 0.06}>
-                <div
-                  className={`overflow-hidden rounded-[18px] bg-white shadow-[0_4px_20px_rgba(0,0,0,0.04)] transition-all duration-400 md:rounded-[22px] ${
-                    isOpen
-                      ? "shadow-[0_12px_36px_rgba(0,0,0,0.08)]"
-                      : "hover:shadow-[0_8px_28px_rgba(0,0,0,0.06)]"
-                  }`}
-                >
-                  <button
-                    type="button"
-                    onClick={() => toggle(idx)}
-                    className="flex w-full items-center justify-between gap-4 px-6 py-5 text-left md:px-8 md:py-6"
-                  >
-                    <h3
-                      className={`text-base md:text-lg font-semibold transition-colors duration-300 ${
-                        isOpen ? "text-[#3b2218]" : "text-[#1f1a17]"
-                      }`}
-                    >
-                      {faq.q}
-                    </h3>
-                    <span
-                      className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-400 ${
-                        isOpen
-                          ? "bg-[#3b2218] text-white rotate-0"
-                          : "bg-[#f0ebe3] text-[#7a726c] rotate-0"
-                      }`}
-                    >
-                      {isOpen ? (
-                        <FaMinus className="text-[11px]" />
-                      ) : (
-                        <FaPlus className="text-[11px]" />
-                      )}
-                    </span>
-                  </button>
+          {/* Right Side: FAQ Accordion */}
+          <RevealOnScroll delay={0.2} className="w-full flex-1">
+            <h2 className="section-title text-[#1f1a17]">
+              Frequently Asked Questions
+            </h2>
+            <div className="mt-4 mb-8 md:mb-10 h-[2px] w-[60px] bg-[#d0a93d]" />
 
-                  <div
-                    className="overflow-hidden transition-all duration-400"
-                    style={{
-                      maxHeight: isOpen ? "300px" : "0px",
-                      opacity: isOpen ? 1 : 0,
-                    }}
-                  >
-                    <div className="px-6 pb-5 md:px-8 md:pb-6">
-                      <div className="mb-3 h-px w-full bg-[#e8e1d6]" />
-                      <p className="text-base leading-7 text-[#5e5751]">
+            <div className="space-y-4 md:space-y-6">
+              {faqs.map((faq, idx) => {
+                const isOpen = openIndex === idx;
+                return (
+                  <div key={idx} className="border-b border-gray-200 pb-4">
+                    <button
+                      type="button"
+                      onClick={() => toggle(idx)}
+                      className="flex w-full items-start justify-between gap-4 text-left"
+                    >
+                      <h3
+                        className={`text-[15px] md:text-[16px] transition-colors duration-300 ${
+                          isOpen
+                            ? "font-bold text-[#1f1a17]"
+                            : "font-semibold text-gray-600"
+                        }`}
+                      >
+                        {faq.q}
+                      </h3>
+                      <span className="mt-1 flex-shrink-0 text-[#d0a93d]">
+                        {isOpen ? (
+                          <FaTimes className="text-[14px]" />
+                        ) : (
+                          <FaPlus className="text-[14px]" />
+                        )}
+                      </span>
+                    </button>
+
+                    <div
+                      className="overflow-hidden transition-all duration-500 ease-in-out"
+                      style={{
+                        maxHeight: isOpen ? "200px" : "0px",
+                        opacity: isOpen ? 1 : 0,
+                      }}
+                    >
+                      <p className="mt-3 small-text text-gray-600 pr-8">
                         {faq.a}
                       </p>
                     </div>
                   </div>
-                </div>
-              </RevealOnScroll>
-            );
-          })}
+                );
+              })}
+            </div>
+          </RevealOnScroll>
         </div>
       </div>
     </section>

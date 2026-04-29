@@ -2,19 +2,25 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import {
-  GiKidneys,
-  GiHeartBeats,
-  GiLungs,
-  GiDroplets,
-} from "react-icons/gi";
+import { GiKidneys } from "react-icons/gi";
+import { FaPlus } from "react-icons/fa6";
 import RevealOnScroll from "../Main/RevealOnScroll";
 
+// The exact icon from the design: A golden kidney with a white plus on top-left
+const KidneyPlusIcon = () => (
+  <div className="relative inline-flex items-center justify-center mr-2">
+    <GiKidneys className="text-[32px] text-[#c79f31]" />
+    <div className="absolute -top-1 -left-1 rounded-full bg-[#3b2218] p-[1px]">
+      <FaPlus className="text-[10px] text-white stroke-2" />
+    </div>
+  </div>
+);
+
 const conditions = [
-  { label: "Kidney Care", Icon: GiKidneys },
-  { label: "Diabetes", Icon: GiDroplets },
-  { label: "Cardiac Care", Icon: GiHeartBeats },
-  { label: "Asthma", Icon: GiLungs },
+  { label: "Kidney Care" },
+  { label: "Diabetes" },
+  { label: "Cardiac Care" },
+  { label: "Asthma" },
 ];
 
 const therapyCards = [
@@ -32,37 +38,37 @@ export default function NadiConditionsSection() {
   const [hoveredCard, setHoveredCard] = useState(null);
 
   return (
-    <section className="relative overflow-hidden bg-[#3b2218] py-14 md:py-20 lg:py-24">
-      {/* Dot pattern */}
+    <section className="section-padding relative overflow-hidden bg-[#3b2218]">
+      {/* Exact Grid Pattern */}
       <div
-        className="absolute inset-0 opacity-[0.07]"
+        className="absolute inset-0 opacity-[0.06]"
         style={{
           backgroundImage:
-            "radial-gradient(circle, #d0a93d 1.2px, transparent 1.2px)",
-          backgroundSize: "22px 22px",
+            "linear-gradient(#e7d58f 1px, transparent 1px), linear-gradient(90deg, #e7d58f 1px, transparent 1px)",
+          backgroundSize: "64px 64px",
+          backgroundPosition: "center top"
         }}
       />
 
       <div className="relative z-10 mx-auto w-[min(1100px,calc(100%-24px))] md:w-[min(1100px,calc(100%-40px))]">
-        <div className="flex flex-col items-center gap-10 md:flex-row md:items-center md:justify-between md:gap-12">
+        <div className="flex flex-col items-center gap-12 md:flex-row md:items-center md:justify-between md:gap-16">
           {/* ── Left: Title + Conditions ── */}
-          <RevealOnScroll className="flex-shrink-0">
-            <h2 className="text-[22px] md:text-[28px] lg:text-[34px] font-bold leading-[1.2] text-white">
+          <RevealOnScroll className="flex-shrink-0 pt-4 md:pt-0">
+            <h2 className="section-title leading-[1.2] text-white tracking-wide lg:text-[42px]">
               Find Ayurveda Solutions
               <br />
               For Conditions Like
             </h2>
+            <div className="mt-4 h-[2px] w-[60px] bg-[#c79f31] md:mt-5" />
 
-            <ul className="mt-7 space-y-5 md:mt-9 md:space-y-6">
-              {conditions.map((item, idx) => (
+            <ul className="mt-8 space-y-6 md:mt-10 md:space-y-7">
+              {conditions.map((item) => (
                 <li
                   key={item.label}
-                  className="flex items-center gap-3.5"
+                  className="flex items-center"
                 >
-                  <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#d0a93d] text-white">
-                    <item.Icon className="text-[18px]" />
-                  </span>
-                  <span className="text-[15px] md:text-[17px] font-medium text-white/90">
+                  <KidneyPlusIcon />
+                  <span className="section-subtitle ml-1 text-white tracking-wide">
                     {item.label}
                   </span>
                 </li>
@@ -73,7 +79,7 @@ export default function NadiConditionsSection() {
           {/* ── Right: Stacked Cards ── */}
           <RevealOnScroll
             delay={0.2}
-            className="relative flex items-center justify-center"
+            className="relative flex items-center justify-center mt-8 md:mt-0"
           >
             <div className="relative h-[340px] w-[300px] md:h-[400px] md:w-[360px]">
               {/* Back card */}
@@ -83,52 +89,52 @@ export default function NadiConditionsSection() {
                   transform:
                     hoveredCard === 0
                       ? "rotate(0deg) scale(1.03)"
-                      : "rotate(6deg)",
+                      : "rotate(8deg)",
                 }}
                 onMouseEnter={() => setHoveredCard(0)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <div className="overflow-hidden rounded-[16px] bg-white p-[6px] shadow-[0_14px_44px_rgba(0,0,0,0.30)] md:rounded-[20px] md:p-2">
+                <div className="overflow-hidden rounded-[16px] bg-white p-3 shadow-[0_14px_44px_rgba(0,0,0,0.30)] md:rounded-[20px] md:p-4">
+                  <p className="section-subtitle mb-3 pl-1 text-left text-black">
+                    {therapyCards[0].title}
+                  </p>
                   <div className="overflow-hidden rounded-[12px] md:rounded-[16px]">
                     <Image
                       src={therapyCards[0].image}
                       alt={therapyCards[0].title}
                       width={280}
                       height={320}
-                      className="h-[220px] w-[200px] object-cover object-center md:h-[280px] md:w-[250px]"
+                      className="h-[180px] w-[200px] object-cover object-center md:h-[240px] md:w-[250px]"
                     />
                   </div>
-                  <p className="py-2 text-center text-[13px] md:text-[15px] font-semibold text-[#3b2218] italic">
-                    {therapyCards[0].title}
-                  </p>
                 </div>
               </div>
 
               {/* Front card */}
               <div
-                className="absolute top-[50px] left-0 z-20 transition-all duration-500 ease-out cursor-pointer md:top-[60px]"
+                className="absolute top-[40px] left-0 z-20 transition-all duration-500 ease-out cursor-pointer md:top-[50px]"
                 style={{
                   transform:
                     hoveredCard === 1
                       ? "rotate(0deg) scale(1.03)"
-                      : "rotate(-5deg)",
+                      : "rotate(-6deg)",
                 }}
                 onMouseEnter={() => setHoveredCard(1)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <div className="overflow-hidden rounded-[16px] bg-white p-[6px] shadow-[0_18px_50px_rgba(0,0,0,0.35)] md:rounded-[20px] md:p-2">
+                <div className="overflow-hidden rounded-[16px] bg-white p-3 shadow-[0_18px_50px_rgba(0,0,0,0.35)] md:rounded-[20px] md:p-4">
+                  <p className="section-subtitle mb-3 pl-1 text-left text-black">
+                    {therapyCards[1].title}
+                  </p>
                   <div className="overflow-hidden rounded-[12px] md:rounded-[16px]">
                     <Image
                       src={therapyCards[1].image}
                       alt={therapyCards[1].title}
                       width={280}
                       height={320}
-                      className="h-[220px] w-[200px] object-cover object-center md:h-[280px] md:w-[250px]"
+                      className="h-[180px] w-[200px] object-cover object-center md:h-[240px] md:w-[250px]"
                     />
                   </div>
-                  <p className="py-2 text-center text-[13px] md:text-[15px] font-semibold text-[#3b2218] italic">
-                    {therapyCards[1].title}
-                  </p>
                 </div>
               </div>
             </div>

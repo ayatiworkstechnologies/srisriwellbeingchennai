@@ -40,7 +40,7 @@ export default function ContinuumSection() {
   return (
     <section
       id="relax"
-      className="relative overflow-hidden bg-[#f6f3ee] py-14 md:py-20"
+      className="section-padding relative overflow-hidden bg-[#f6f3ee]"
     >
       {/* Background Image */}
       <div className="absolute inset-0 pointer-events-none">
@@ -53,8 +53,8 @@ export default function ContinuumSection() {
         />
       </div>
 
-      <RevealOnScroll className="relative z-10 mx-auto mb-10 w-[min(1200px,calc(100%-24px))] md:mb-12 md:w-[min(1200px,calc(100%-40px))]">
-        <h2 className="text-2xl md:text-4xl font-bold leading-tight text-[#1f1a17]">
+      <RevealOnScroll className="container-width relative z-10 mb-10 md:mb-12">
+        <h2 className="section-title text-[#1f1a17]">
           The Continuum of True Wellbeing
         </h2>
         <div className="mt-3 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#c29a2f] to-[#c29a2f]" />
@@ -78,16 +78,16 @@ export default function ContinuumSection() {
 
                   <div className="-mt-2 mb-4 flex items-center gap-2 md:mb-6 md:gap-3">
                     <span className="h-[2px] w-10 rounded-full bg-[#c29a2f] md:w-12" />
-                    <p className="text-2xl md:text-3xl font-medium text-[#c29a2f]">
+                    <p className="eyebrow-text text-[#c29a2f] ">
                       {item.title}
                     </p>
                   </div>
 
-                  <h3 className="max-w-[220px] text-xl md:text-2xl font-bold leading-tight text-[#191512] md:max-w-[280px]">
+                  <h3 className="section-subtitle max-w-[220px] text-[#191512] md:max-w-[280px]">
                     {item.tag}
                   </h3>
 
-                  <p className="mt-3 max-w-[230px] text-base md:text-lg leading-6 text-[#5e5751] md:mt-4 md:max-w-[300px]">
+                  <p className="para-text mt-3 max-w-[230px] text-[#5e5751] md:mt-4 md:max-w-[300px]">
                     {item.desc}
                   </p>
                 </div>
@@ -108,7 +108,7 @@ export default function ContinuumSection() {
       </div>
 
       {/* bottom pattern image */}
-      <div className="relative z-10 mx-auto mt-8 w-[min(1200px,calc(100%-24px))] md:mt-10 md:w-[min(1200px,calc(100%-40px))]">
+      <div className="container-width relative z-10 mt-8 md:mt-10">
         <Image
           src="/images/pathway-patten.svg"
           alt="Bottom pattern"

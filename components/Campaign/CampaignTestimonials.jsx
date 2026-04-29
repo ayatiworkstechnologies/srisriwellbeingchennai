@@ -46,12 +46,12 @@ export default function CampaignTestimonials() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="title-center mb-16"
         >
-          <h2 className="text-[#c29a2f] font-semibold tracking-widest uppercase text-sm mb-3">
+          <h2 className="eyebrow-text mb-3 text-[#c29a2f]">
             Client Stories
           </h2>
-          <h3 className="text-3xl md:text-4xl font-bold text-[#35140b] font-primary mb-6">
+          <h3 className="section-title text-[#35140b] font-primary mb-6">
             Healing Journeys That Inspire
           </h3>
         </motion.div>

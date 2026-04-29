@@ -103,7 +103,7 @@ export default function ContactPageRedesign() {
 
         <div className="relative mx-auto max-w-[1280px] px-4 pb-16 pt-28 md:px-6 md:pb-20 md:pt-36 lg:px-8 lg:pb-24 lg:pt-44">
           <div>
-            <p className="text-[12px] font-semibold uppercase tracking-[0.28em] text-[#D4AF37]">
+            <p className="eyebrow-text text-[#D4AF37]">
               Connect With Sri Sri Wellbeing
             </p>
 
@@ -149,7 +149,7 @@ export default function ContactPageRedesign() {
           {/* FORM */}
           <div className="rounded-[32px] border border-[#eadfce] bg-white p-7 shadow-[0_14px_32px_rgba(32,18,10,0.05)] md:p-10 lg:p-12">
             <div className="mb-8">
-              <p className="text-[12px] font-semibold uppercase tracking-[0.24em] text-[#b88f28]">
+              <p className="eyebrow-text text-[#b88f28]">
                 Enquiry Form
               </p>
               <h2 className="mt-4 text-[28px] font-bold leading-tight text-[#14110f] md:text-[40px]">
@@ -297,7 +297,7 @@ export default function ContactPageRedesign() {
           <div className="flex flex-col gap-8">
             <div className="rounded-[32px] overflow-hidden border border-[#eadfce] bg-[#fdf9f3]">
               <div className="border-b border-[#eadfce] px-7 py-7 md:px-10">
-                <p className="text-[12px] font-semibold uppercase tracking-[0.24em] text-[#b88f28]">
+                <p className="eyebrow-text text-[#b88f28]">
                   Visit The Centre
                 </p>
                 <h3 className="mt-4 text-[28px] font-bold leading-tight text-[#14110f] md:text-[34px]">
@@ -345,7 +345,7 @@ export default function ContactPageRedesign() {
             </div>
 
             <div className="rounded-[32px] bg-[#31180d] p-7 text-white shadow-[0_16px_40px_rgba(30,16,8,0.12)] md:p-10">
-              <p className="text-[12px] font-semibold uppercase tracking-[0.24em] text-[#D4AF37]">
+              <p className="eyebrow-text text-[#D4AF37]">
                 Need Directions?
               </p>
               <h3 className="mt-4 text-[26px] font-bold leading-tight md:text-[32px]">
@@ -381,7 +381,7 @@ export default function ContactPageRedesign() {
               className="h-[400px] w-full border-0 grayscale transition duration-700 hover:grayscale-0 md:h-[480px] lg:h-[520px]"
             />
             <div className="flex flex-col justify-center px-7 py-10 md:px-10 lg:px-16">
-              <p className="text-[12px] font-semibold uppercase tracking-[0.24em] text-[#b88f28]">
+              <p className="eyebrow-text text-[#b88f28]">
                 Plan Your Visit
               </p>
               <h3 className="mt-4 text-[26px] font-bold leading-tight text-[#14110f] md:text-[32px]">
@@ -433,7 +433,7 @@ function InfoStripItem({ title, text }) {
 function Field({ label, children }) {
   return (
     <label className="block">
-      <span className="mb-3 block text-[12px] font-semibold uppercase tracking-[0.18em] text-[#3a1d11]">
+      <span className="eyebrow-text mb-3 block text-[#3a1d11]">
         {label}
       </span>
       {children}

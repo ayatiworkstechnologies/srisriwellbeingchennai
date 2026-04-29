@@ -55,7 +55,7 @@ export default function AuthenticSpaContact() {
   return (
     <section
       id="contact-section"
-      className="relative overflow-hidden bg-[#f5f2ec] py-16 md:py-24"
+      className="section-padding relative overflow-hidden bg-[#f5f2ec]"
     >
       {/* Background pattern */}
       <div className="pointer-events-none absolute inset-0">
@@ -78,11 +78,11 @@ export default function AuthenticSpaContact() {
 
       <div className="relative z-10 mx-auto w-[min(1320px,calc(100%-24px))] md:w-[min(1320px,calc(100%-40px))]">
         {/* Section Header */}
-        <RevealOnScroll className="mb-12 text-center md:mb-16">
-          <p className="mb-3 text-sm md:text-base font-bold uppercase tracking-[0.22em] text-[#c29a2f]">
+        <RevealOnScroll className="title-center mb-12 md:mb-16">
+          <p className="eyebrow-text mb-3 text-[#c29a2f]">
             Begin Your Journey
           </p>
-          <h2 className="text-2xl md:text-4xl font-bold leading-tight text-[#1f1a17]">
+          <h2 className="section-title text-[#1f1a17]">
             Visit Our Sanctuary
           </h2>
           <div className="mx-auto mt-6 h-[3px] w-[72px] rounded-full bg-gradient-to-r from-[#c29a2f] to-[#c29a2f]" />
@@ -110,10 +110,10 @@ export default function AuthenticSpaContact() {
                   />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-[#1f1a17] md:text-2xl">
+                  <h3 className="section-subtitle text-[#1f1a17]">
                     Sri Sri Wellbeing
                   </h3>
-                  <p className="text-sm text-[#c29a2f] font-semibold tracking-wider uppercase">
+                  <p className="small-text text-[#c29a2f] font-semibold tracking-wider uppercase">
                     Chennai
                   </p>
                 </div>
@@ -127,7 +127,7 @@ export default function AuthenticSpaContact() {
                   </div>
                   <div>
                     <p className="font-bold text-[#1f1a17] mb-1">Address</p>
-                    <p className="text-sm leading-relaxed">
+                    <p className="small-text leading-relaxed">
                       Mruthunjaya Ayur, New Avadi Rd,
                       <br />
                       Alagappa Nagar, Kilpauk,
@@ -146,7 +146,7 @@ export default function AuthenticSpaContact() {
                     <p className="font-bold text-[#1f1a17] mb-1">Phone</p>
                     <a
                       href="tel:+919943013111"
-                      className="text-sm font-medium hover:text-[#c29a2f] transition-colors"
+                      className="small-text transition-colors hover:text-[#c29a2f]"
                     >
                       +91 99430 13111
                     </a>
@@ -162,7 +162,7 @@ export default function AuthenticSpaContact() {
                     <p className="font-bold text-[#1f1a17] mb-1">Email</p>
                     <a
                       href="mailto:chennai.reception@srisritattva.com"
-                      className="text-sm font-medium hover:text-[#c29a2f] transition-colors"
+                      className="small-text transition-colors hover:text-[#c29a2f]"
                     >
                       chennai.reception@srisritattva.com
                     </a>
@@ -178,7 +178,7 @@ export default function AuthenticSpaContact() {
                     <p className="font-bold text-[#1f1a17] mb-1">
                       Availability
                     </p>
-                    <p className="text-sm">Open daily by appointment</p>
+                    <p className="small-text">Open daily by appointment</p>
                   </div>
                 </div>
               </div>
@@ -208,16 +208,16 @@ export default function AuthenticSpaContact() {
 
               <div className="relative z-10">
                 <div className="mb-2 flex items-center gap-3">
-                  <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#c29a2f]">
+                  <span className="eyebrow-text text-[#c29a2f]">
                     Book Now
                   </span>
                   <span className="h-px flex-1 max-w-[40px] bg-[#c29a2f]/40" />
                 </div>
 
-                <h3 className="text-xl font-bold text-[#1f1a17] mb-1 md:text-2xl">
+                <h3 className="section-subtitle mb-1 text-[#1f1a17]">
                   Book Your Consultation
                 </h3>
-                <p className="text-[#6b6158] mb-6 text-sm leading-relaxed">
+                <p className="small-text text-[#6b6158] mb-6">
                   Take the first step towards your holistic healing journey.
                 </p>
 

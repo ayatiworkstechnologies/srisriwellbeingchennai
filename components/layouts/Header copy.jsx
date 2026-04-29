@@ -31,7 +31,7 @@ export default function Header() {
 
   return (
     <header className="fixed top-4 left-0 z-50 w-full md:top-6">
-      <div className="mx-auto flex w-[min(1200px,calc(100%-24px))] items-center justify-between gap-4 md:w-[min(1200px,calc(100%-40px))]">
+      <div className="container-width flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="relative z-50 shrink-0">
           <Image

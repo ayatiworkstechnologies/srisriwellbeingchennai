@@ -87,7 +87,7 @@ export default function ServicesSection() {
   return (
     <section
       id="heal"
-      className="relative overflow-hidden bg-[#f8f6f1] py-16 md:py-24"
+      className="section-padding relative overflow-hidden bg-[#f8f6f1]"
     >
       <div className="absolute inset-0">
         <Image
@@ -99,8 +99,8 @@ export default function ServicesSection() {
       </div>
 
       <div className="relative z-10 mx-auto w-[min(1380px,calc(100%-24px))] md:w-[min(1380px,calc(100%-40px))]">
-        <RevealOnScroll className="mb-10 text-center md:mb-14">
-          <h2 className="text-2xl md:text-4xl font-bold leading-tight text-[#1f1a17]">
+        <RevealOnScroll className="title-center mb-10 md:mb-14">
+          <h2 className="section-title text-[#1f1a17]">
             Precision Therapies. Profound Impact.
           </h2>
           <div className="mx-auto mt-4 h-[3px] w-[82px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
@@ -177,11 +177,11 @@ export default function ServicesSection() {
                 </div>
 
                 <div className="flex flex-1 flex-col px-4 pb-5 pt-4 md:px-5 md:pb-6 md:pt-5">
-                  <h3 className="text-lg md:text-xl font-bold leading-tight text-[#231c17]">
+                  <h3 className="section-subtitle text-[#231c17]">
                     {card.title}
                   </h3>
 
-                  <p className="mt-3 text-base md:text-lg leading-7 text-[#7a726c]">
+                  <p className="para-text mt-3 text-[#7a726c]">
                     {card.desc}
                   </p>
 

@@ -69,7 +69,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="mb-4 text-2xl md:text-3xl font-semibold uppercase tracking-[0.3em] text-[#e6ce84]"
+                className="section-subtitle mb-4 uppercase tracking-[0.3em] text-[#e6ce84]"
               >
                 Sri Sri Wellbeing Chennai
               </motion.p>
@@ -78,7 +78,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="max-w-[900px] text-2xl md:text-4xl font-bold leading-[1.15] text-white"
+                className="section-title max-w-[900px] leading-[1.15] text-white"
               >
                 Where Stillness Becomes a Lifestyle
               </motion.h1>
@@ -87,7 +87,7 @@ export default function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.6 }}
-                className="mx-auto mt-5 max-w-[640px] text-base md:text-lg leading-7 text-white/80 md:mt-6"
+                className="para-text mx-auto mt-5 max-w-[640px] text-white/80 md:mt-6"
               >
                 Personalised Ayurvedic therapies, crafted for those who carry the
                 weight of high-performance living.

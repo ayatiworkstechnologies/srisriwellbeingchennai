@@ -91,17 +91,17 @@ function HorizontalCard({ item }) {
 
           <div className="relative z-10">
             <div className="mb-2 flex items-center gap-3">
-              <span className="text-[11px] font-bold uppercase tracking-[0.25em] text-[#c29a2f]">
+              <span className="eyebrow-text text-[#c29a2f]">
                 Pathway {item.num}
               </span>
               <span className="h-px flex-1 max-w-[40px] bg-[#c29a2f]/40" />
             </div>
 
-            <h3 className="mb-3 text-xl font-bold leading-tight text-[#1a1612] md:mb-4 md:text-3xl">
+          <h3 className="section-title mb-3 text-[#1a1612] md:mb-4">
               {item.title}
             </h3>
 
-            <p className="max-w-[400px] text-[14px] leading-relaxed text-[#6b6158] md:text-base">
+            <p className="small-text max-w-[400px] text-[#6b6158]">
               {item.desc}
             </p>
 
@@ -178,19 +178,19 @@ export default function SignatureLearningSection() {
       {/* Header */}
       <div className="relative z-10 mx-auto w-full max-w-[1300px] px-5 text-center md:px-8">
         <RevealOnScroll className="mb-3">
-          <p className="text-sm font-bold uppercase tracking-[0.22em] text-[#c9a644] md:text-base">
+          <p className="eyebrow-text text-[#c9a644]">
             Signature Experiences
           </p>
         </RevealOnScroll>
 
         <RevealOnScroll delay={0.1}>
-          <h2 className="text-3xl font-bold leading-tight text-[#1a1612] md:text-5xl">
+          <h2 className="section-title text-[#1a1612]">
             The Art of Living Healing
           </h2>
         </RevealOnScroll>
 
         <RevealOnScroll className="mx-auto max-w-[620px]" delay={0.15}>
-          <p className="mt-3 text-sm leading-relaxed text-[#6b6158] md:text-base">
+          <p className="small-text mt-3 text-[#6b6158]">
             Sri Sri Wellbeing, a holistic wellness initiative associated with the Art of Living foundation, offers a range of traditional and modern pain management therapies focusing on non-invasive, drug-free relief.
           </p>
           <div className="mx-auto mt-3 h-[3px] w-[60px] rounded-full bg-gradient-to-r from-[#c29a2f] to-[#c29a2f]" />

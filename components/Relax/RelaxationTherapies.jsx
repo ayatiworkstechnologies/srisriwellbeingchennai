@@ -197,13 +197,16 @@ export default function RelaxationTherapies() {
 
   return (
     <>
-      <section className="py-20 bg-white relative overflow-hidden">
-        <div className=" mx-auto px-4 md:px-6">
-          <RevealOnScroll className="text-center max-w-3xl mx-auto mb-16">
-            <h2 className="text-2xl md:text-4xl font-bold text-[#1f1a17] font-primary mb-6">
+      <section
+        id="relax-therapies"
+        className="section-padding relative overflow-hidden bg-white"
+      >
+        <div className="container-width">
+          <RevealOnScroll className="title-center mb-16">
+            <h2 className="section-title mb-6 text-[#1f1a17] font-primary">
               Unveil Inner Peace
             </h2>
-            <p className="text-[#5e5751] text-lg leading-relaxed">
+            <p className="para-text text-[#5e5751]">
               Elevate Your Mind, Rejuvenate Your Soul, and Radiate Beauty with
               Our Blissful Blend of Ayurveda Therapies, Beauty Treatments, and
               Hair Care.
@@ -211,7 +214,7 @@ export default function RelaxationTherapies() {
             <div className="mx-auto mt-8 h-[3px] w-20 rounded-full bg-[#c29a2f]" />
           </RevealOnScroll>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
+          <div className="grid grid-cols-1 gap-6 md:gap-8 lg:grid-cols-2 lg:gap-10">
             {therapies.map((therapy, index) => (
               <motion.div
                 key={therapy.id || index}
@@ -219,7 +222,7 @@ export default function RelaxationTherapies() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: (index % 2) * 0.1 }}
-                className="group relative h-[380px] md:h-[320px] rounded-[40px] overflow-hidden shadow-[0_20px_60px_rgba(0,0,0,0.07)] transition-all duration-500 hover:shadow-[0_30px_80px_rgba(0,0,0,0.12)] hover:-translate-y-2 bg-white"
+                className="group relative min-h-[360px] rounded-[28px] overflow-hidden bg-white shadow-[0_20px_60px_rgba(0,0,0,0.07)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_30px_80px_rgba(0,0,0,0.12)] md:min-h-[340px] md:rounded-[36px]"
               >
                 {/* Background Image */}
                 <div className="absolute inset-0 w-full h-full overflow-hidden">
@@ -233,27 +236,29 @@ export default function RelaxationTherapies() {
                 </div>
 
                 {/* Glassy Content Panel */}
-                <div className="absolute top-4 bottom-4 right-4 left-[30%] md:left-[40%] lg:left-[45%] rounded-[32px] bg-white/40 backdrop-blur-md p-6 md:p-8 flex flex-col justify-between shadow-[0_8px_32px_rgba(0,0,0,0.15)] border border-white/60">
+                <div className="absolute inset-x-3 bottom-3 top-auto rounded-[24px] border border-white/60 bg-white/65 p-5 shadow-[0_8px_32px_rgba(0,0,0,0.15)] backdrop-blur-md md:inset-y-4 md:right-4 md:left-[42%] md:rounded-[30px] md:p-6 lg:left-[45%]">
+                  <div className="flex h-full flex-col justify-between gap-4">
                   <div>
-                    <h3 className="text-2xl md:text-3xl font-bold text-[#1f1a17] mb-2 font-primary">
+                    <h3 className="section-title mb-2 text-[#1f1a17] font-primary">
                       {therapy.title}
                     </h3>
-                    <p className="text-[#5e5751] text-xs md:text-sm leading-relaxed mb-4 line-clamp-3">
+                    <p className="small-text mb-4 text-[#5e5751] line-clamp-3">
                       {therapy.shortDescription}
                     </p>
-                    <div className="text-[#c29a2f] font-bold text-sm md:text-base uppercase tracking-widest">
+                    <div className="small-text text-[#c29a2f] uppercase tracking-widest">
                       {therapy.duration}
                     </div>
                   </div>
 
-                  <div className="mt-4">
+                  <div className="mt-auto">
                     <button
                       onClick={() => setSelectedTherapy(therapy)}
-                      className="w-full bg-[#c29a2f] text-white px-6 py-3.5 rounded-full text-xs md:text-sm font-bold uppercase tracking-widest transition-all duration-300 hover:bg-[#a88528] hover:shadow-[0_10px_20px_rgba(194,154,47,0.3)] active:scale-95 text-center"
+                      className="w-full rounded-full bg-[#c29a2f] px-5 py-3 text-center text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:bg-[#a88528] hover:shadow-[0_10px_20px_rgba(194,154,47,0.3)] active:scale-95 md:px-6 md:py-3.5 md:text-sm"
                     >
                       Book Now
                     </button>
                   </div>
+                </div>
                 </div>
               </motion.div>
             ))}

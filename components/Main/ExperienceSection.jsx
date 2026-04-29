@@ -130,7 +130,7 @@ export default function ExperienceSection() {
         </div>
 
         <div className="absolute bottom-5 left-0 right-0 z-20 md:bottom-9">
-          <RevealOnScroll className="mx-auto w-[min(1200px,calc(100%-24px))] md:w-[min(1200px,calc(100%-40px))]">
+          <RevealOnScroll className="container-width">
             <div className="max-w-[540px]">
               <div
                 key={current}
@@ -139,13 +139,13 @@ export default function ExperienceSection() {
                 {/* <p className="mb-2 text-2xl md:text-3xl font-bold uppercase tracking-[0.2em] text-[#c29a2f] drop-shadow-md">
                   The Experience of Care
                 </p> */}
-                <h2 className="text-2xl md:text-4xl font-bold leading-tight text-white/80 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                <h2 className="section-title text-white/80 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                   {sanctuarySlides[current].title}
                 </h2>
 
                 <div className="mt-3 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#c29a2f] to-[#c29a2f]" />
 
-                <p className="mt-3 max-w-[430px] text-base md:text-lg leading-7 text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                <p className="para-text mt-3 max-w-[430px] text-white/90 drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                   {sanctuarySlides[current].desc}
                 </p>
               </div>

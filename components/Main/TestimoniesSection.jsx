@@ -62,14 +62,14 @@ export default function TestimoniesSection() {
   return (
     <section
       id="testimonial"
-      className="relative overflow-hidden bg-[#f6f3ee] py-16 md:py-24"
+      className="section-padding relative overflow-hidden bg-[#f6f3ee]"
     >
       <div className="mx-auto w-[min(1320px,calc(100%-24px))] md:w-[min(1320px,calc(100%-40px))]">
-        <RevealOnScroll className="mb-12 text-center md:mb-16">
-          <p className="mb-3 text-sm md:text-base font-bold uppercase tracking-[0.22em] text-[#c29a2f]">
+        <RevealOnScroll className="title-center mb-12 md:mb-16">
+          <p className="eyebrow-text mb-3 text-[#c29a2f]">
             Journeys of Restoration
           </p>
-          <h2 className="text-2xl md:text-4xl font-bold leading-tight text-[#1f1a17]">
+          <h2 className="section-title text-[#1f1a17]">
             Voices of Wellbeing
           </h2>
           <div className="mx-auto mt-6 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
@@ -136,7 +136,7 @@ export default function TestimoniesSection() {
                     ))}
                   </div>
 
-                  <p className="mb-8 flex-1 text-base md:text-lg leading-7 text-[#5e5751] italic">
+                  <p className="para-text mb-8 flex-1 text-[#5e5751] italic">
                     &ldquo;{item.review}&rdquo;
                   </p>
 
@@ -146,7 +146,7 @@ export default function TestimoniesSection() {
                     </div>
 
                     <div>
-                      <h4 className="text-xl md:text-xl font-bold text-[#1f1a17]">
+                      <h4 className="section-subtitle text-[#1f1a17]">
                         {item.name}
                       </h4>
                       <p className="text-[12px] text-[#857b72]">Guest</p>

@@ -6,33 +6,33 @@ import { FaEnvelope, FaPhoneVolume, FaInstagram, FaFacebookF, FaLinkedinIn, FaCh
 export default function Footer() {
   return (
     <footer id="contact" className="bg-[#f5f2ec] pb-10 pt-4 md:pb-12">
-      <div className="mx-auto w-[min(1200px,calc(100%-24px))] md:w-[min(1200px,calc(100%-40px))]">
+      <div className="container-width">
         <div className="rounded-[40px] bg-[#361A0D] px-8 py-10 text-white shadow-[0_16px_45px_rgba(53,20,11,0.2)] md:px-14 md:py-14">
           <div className="grid gap-10 md:grid-cols-[1fr_0.5fr_0.9fr] md:gap-14">
 
             {/* Column 1: Mission & Contact */}
             <div className="flex flex-col">
-              <h4 className="mb-4 text-2xl md:text-3xl font-bold text-white">
+              <h4 className="section-subtitle mb-4 text-white">
                 Our Mission:
               </h4>
-              <p className="max-w-[400px] text-base md:text-lg leading-[1.8] text-white/80">
+              <p className="small-text max-w-[400px] text-white/80">
                 Enabling a holistic approach towards health and wellbeing in modern lifestyles. Providing authentic and effective products and services of the highest quality standards.
               </p>
 
               <div className="mt-8 md:mt-12">
-                <h5 className="mb-4 text-2xl md:text-3xl font-bold text-white">
+                <h5 className="section-subtitle mb-4 text-white">
                   Contact
                 </h5>
 
                 <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-8">
-                  <div className="flex items-center gap-3 text-base md:text-lg font-medium text-white">
+                  <div className="small-text flex items-center gap-3 text-white">
                     <FaEnvelope className="shrink-0 text-[16px] text-white" />
                     <a href="mailto:chennai.reception@srisritattva.com" className="whitespace-nowrap transition hover:text-[#d0a93d]">
                       chennai.reception@srisritattva.com
                     </a>
                   </div>
 
-                  <div className="flex items-center gap-3 text-base md:text-lg font-medium text-white">
+                  <div className="small-text flex items-center gap-3 text-white">
                     <FaPhoneVolume className="shrink-0 text-[16px] text-white" />
                     <a href="tel:+919943013111" className="whitespace-nowrap transition hover:text-[#d0a93d]">
                       +91 9943013111
@@ -44,14 +44,14 @@ export default function Footer() {
 
             {/* Column 2: Quick Links */}
             <div>
-              <h4 className="mb-5 text-2xl md:text-3xl font-bold text-white">
+              <h4 className="section-subtitle mb-5 text-white">
                 Quick Links
               </h4>
               <ul className="space-y-4">
                 <li>
                   <Link
                     href="#relax"
-                    className="flex items-center gap-2 text-base md:text-lg font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
+                    className="small-text flex items-center gap-2 text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
                     <FaChevronRight className="text-[10px] text-[#d4af37]" /> Relax
                   </Link>
@@ -59,7 +59,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="#heal"
-                    className="flex items-center gap-2 text-base md:text-lg font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
+                    className="small-text flex items-center gap-2 text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
                     <FaChevronRight className="text-[10px] text-[#d4af37]" /> Heal
                   </Link>
@@ -67,7 +67,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="#products"
-                    className="flex items-center gap-2 text-base md:text-lg font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
+                    className="small-text flex items-center gap-2 text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
                     <FaChevronRight className="text-[10px] text-[#d4af37]" /> Products
                   </Link>
@@ -75,7 +75,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="#about"
-                    className="flex items-center gap-2 text-base md:text-lg font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
+                    className="small-text flex items-center gap-2 text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
                     <FaChevronRight className="text-[10px] text-[#d4af37]" /> About
                   </Link>
@@ -83,7 +83,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="#specialties"
-                    className="flex items-center gap-2 text-base md:text-lg font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
+                    className="small-text flex items-center gap-2 text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
                     <FaChevronRight className="text-[10px] text-[#d4af37]" /> Specialties
                   </Link>
@@ -91,7 +91,7 @@ export default function Footer() {
                 <li>
                   <Link
                     href="#testimonial"
-                    className="flex items-center gap-2 text-base md:text-lg font-medium text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
+                    className="small-text flex items-center gap-2 text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
                     <FaChevronRight className="text-[10px] text-[#d4af37]" /> Testimonial
                   </Link>
@@ -101,7 +101,7 @@ export default function Footer() {
 
             {/* Column 3: Location */}
             <div>
-              <h4 className="mb-5 text-2xl md:text-3xl font-bold text-white">
+              <h4 className="section-subtitle mb-5 text-white">
                 Location
               </h4>
               <div className="overflow-hidden rounded-[16px]">
@@ -153,12 +153,12 @@ export default function Footer() {
               </div>
 
               {/* Copyright - Center */}
-              <p className="text-base md:text-lg font-medium text-white/90 text-center">
-                Copyright &copy;2026 srisriwellbeingchennai - All right reserved
+              <p className="small-text text-center text-white/90">
+                Copyright &copy;2026 Sri Sri Well Being Chennai  - All right reserved
               </p>
 
               {/* Developer Credit - Right */}
-              <p className="text-base md:text-lg font-medium text-white/90">
+              <p className="small-text text-white/90">
                 Designed & Developed by{" "}
                 <a
                   href="https://www.ayatiworks.com/"

@@ -56,11 +56,11 @@ export default function NadiTestimonialSection() {
   const t = testimonials[current];
 
   return (
-    <section className="relative bg-[#f5f2ec] py-16 md:py-24">
+    <section className="section-padding relative bg-[#f5f2ec]">
       <div className="mx-auto w-[min(900px,calc(100%-24px))] md:w-[min(900px,calc(100%-40px))]">
         {/* Heading */}
-        <RevealOnScroll className="text-center mb-10 md:mb-14">
-          <h2 className="text-2xl md:text-4xl lg:text-[42px] font-bold leading-tight text-[#1f1a17]">
+        <RevealOnScroll className="title-center mb-10 md:mb-14">
+          <h2 className="section-title text-[#1f1a17] lg:text-[42px]">
             Testimonial
           </h2>
           <div className="mx-auto mt-4 h-[3px] w-[82px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
@@ -79,7 +79,7 @@ export default function NadiTestimonialSection() {
 
             {/* Quote text */}
             <p
-              className="text-base md:text-lg leading-7 text-[#5e5751] transition-opacity duration-500"
+              className="para-text text-[#5e5751] transition-opacity duration-500"
               style={{
                 animation: "fadeUp 0.5s ease-out forwards",
               }}
@@ -93,7 +93,7 @@ export default function NadiTestimonialSection() {
             {/* Author */}
             <div className="flex items-center justify-center gap-2">
               <FaLocationDot className="text-[14px] text-[#d0a93d]" />
-              <p className="text-base md:text-lg font-bold text-[#3b2218]">
+              <p className="section-subtitle text-[#3b2218]">
                 {t.name},{" "}
                 <span className="font-normal text-[#7a726c]">
                   {t.location}

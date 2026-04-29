@@ -55,7 +55,7 @@ export default function CampaignHero() {
 
   const leadFormCard = (
     <div className="rounded-2xl border border-black/5 bg-white p-5 md:p-8 shadow-[0_15px_40px_rgba(0,0,0,0.08)] relative overflow-hidden">
-      <h3 className="text-2xl font-bold text-[#1f1a17] mb-2 font-primary">
+      <h3 className="section-title mb-2 text-[#1f1a17] font-primary">
         Book Your Consultation
       </h3>
       <p className="text-[#5e5751] mb-6 text-sm">

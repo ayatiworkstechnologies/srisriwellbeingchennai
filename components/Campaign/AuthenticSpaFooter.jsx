@@ -7,7 +7,7 @@ export default function AuthenticSpaFooter() {
         <p className="text-[#5e5751] text-sm">
           &copy; 2026 Sri Sri Wellbeing Chennai
         </p>
-        <p className="text-[#857b72] text-[10px] uppercase tracking-widest">
+        <p className="eyebrow-text text-[#857b72]">
           Design and Developed by{" "}
           <a 
             href="https://ayatiworks.com" 

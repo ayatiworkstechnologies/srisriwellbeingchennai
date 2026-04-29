@@ -39,18 +39,18 @@ export default function CollectionSection() {
         />
       </div>
 
-      <div className="relative z-10 mx-auto w-[min(1200px,calc(100%-24px))] md:w-[min(1200px,calc(100%-40px))]">
-        <RevealOnScroll className="mb-10 text-center md:mb-14">
-          <p className="mb-3 text-lg md:text-xl font-bold uppercase tracking-[0.2em] text-[#c29a2f]">
+      <div className="container-width relative z-10">
+        <RevealOnScroll className="title-center mb-10 md:mb-14">
+          <p className="eyebrow-text mb-3 text-[#c29a2f]">
             The Healing Collection
           </p>
-          <h2 className="text-2xl md:text-4xl font-bold leading-tight text-[#111]">
+          <h2 className="section-title text-[#111]">
             Curated Wellness Formulations
           </h2>
 
           <div className="mx-auto mt-3 h-[3px] w-[78px] rounded-full bg-[#d8b03f]" />
 
-          <p className="mx-auto mt-6 max-w-[620px] text-base md:text-lg leading-6 text-[#555]">
+          <p className="para-text mx-auto mt-6 max-w-[620px] text-[#555]">
             A refined selection of Ayurvedic formulations crafted to complement
             your wellness journey, designed for daily balance, vitality, and
             sustained inner harmony.
@@ -78,7 +78,7 @@ export default function CollectionSection() {
                 </div>
 
                 <div className="flex flex-1 flex-col px-1 pb-2 pt-4">
-                  <h3 className="text-xl md:text-2xl font-bold text-[#111] md:leading-none">
+                  <h3 className="section-title text-[#111] md:leading-none">
                     {card.title}
                   </h3>
 

@@ -52,10 +52,10 @@ export default function CampaignFeatures() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          className="title-center mb-16"
         >
-          <h2 className="text-[#c29a2f] font-semibold tracking-widest uppercase text-sm mb-3">Why Choose Us</h2>
-          <h3 className="text-3xl md:text-4xl font-bold text-[#35140b] font-primary mb-6">
+          <h2 className="eyebrow-text mb-3 text-[#c29a2f]">Why Choose Us</h2>
+          <h3 className="section-title text-[#35140b] font-primary mb-6">
             The Sri Sri Wellbeing Difference
           </h3>
           <p className="text-[#4b1f12]/80 text-lg">
@@ -83,7 +83,7 @@ export default function CampaignFeatures() {
                 <div className="w-14 h-14 rounded-full bg-[#f5f2ec] flex items-center justify-center text-[#c29a2f] text-2xl mb-6 group-hover:scale-110 group-hover:bg-[#c29a2f] group-hover:text-white transition-all duration-300 shadow-sm">
                   {feature.icon}
                 </div>
-                <h4 className="text-xl font-bold text-[#35140b] mb-3 font-primary">{feature.title}</h4>
+                <h4 className="section-subtitle mb-3 text-[#35140b] font-primary">{feature.title}</h4>
                 <p className="text-[#4b1f12]/70 leading-relaxed text-sm">
                   {feature.description}
                 </p>

@@ -45,14 +45,14 @@ export default function PageHero({
 
       {/* ── Content Area ── */}
       <div
-        className="py-14 md:py-20 lg:py-24"
+        className="section-padding lg:py-24"
         style={{ backgroundColor: bgColor }}
       >
         <div className="mx-auto w-[min(900px,calc(100%-24px))] text-center md:w-[min(900px,calc(100%-40px))]">
           {/* Subtitle */}
           {subtitle && (
             <RevealOnScroll>
-              <p className="text-sm md:text-base font-semibold uppercase tracking-[0.2em] text-[#d0a93d] mb-3 md:mb-4">
+              <p className="eyebrow-text mb-3 text-[#d0a93d] md:mb-4">
                 {subtitle}
               </p>
             </RevealOnScroll>
@@ -60,7 +60,7 @@ export default function PageHero({
 
           {/* Title */}
           <RevealOnScroll delay={0.1}>
-            <h1 className="text-3xl md:text-5xl lg:text-[56px] font-bold leading-tight text-white tracking-wide">
+            <h1 className="section-title text-white tracking-wide md:text-5xl lg:text-[56px]">
               {title}
             </h1>
             <div className="mx-auto mt-4 h-[3px] w-[100px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31] md:mt-5 md:w-[120px]" />
@@ -70,7 +70,7 @@ export default function PageHero({
           {paragraphs.map((text, idx) => (
             <RevealOnScroll key={idx} delay={0.15 * (idx + 1)}>
               <p
-                className={`mx-auto mt-5 max-w-[760px] text-base md:text-lg leading-7 md:mt-6 ${
+                className={`para-text mx-auto mt-5 max-w-[760px] md:mt-6 ${
                   idx === 0 ? "text-white/80" : "text-white/60"
                 }`}
               >

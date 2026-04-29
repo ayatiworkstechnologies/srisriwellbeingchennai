@@ -13,10 +13,10 @@ const navItems = [
     label: "Heal",
     href: "/heal",
     subItems: [
-      { label: "Nadi Pariksha", href: "/nadi-pariksha" },
-      { label: "Netratejas (Eye Care)", href: "/netratejas" },
-      { label: "Alternative Treatments", href: "/alternative-treatments" },
-      { label: "Panchakarma", href: "/panchakarma" },
+      { label: "Nadi Pariksha", href: "/heal/nadi-pariksha" },
+      { label: "Netratejas (Eye Care)", href: "/heal/netratejas" },
+      { label: "Alternative Treatments", href: "/heal/alternative-treatments" },
+      { label: "Panchakarma", href: "/heal/panchakarma" },
     ],
   },
   { label: "Products", href: "#products" },
@@ -39,8 +39,8 @@ export default function Header() {
   }, []);
 
   return (
-    <header className="fixed top-4 left-0 z-50 w-full md:top-6">
-      <div className="mx-auto flex w-[min(1200px,calc(100%-24px))] items-center justify-between gap-4 md:w-[min(1200px,calc(100%-40px))]">
+    <header className="fixed left-0 top-0 z-50 w-full border-b border-black/5 bg-white py-3 shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
+      <div className="container-width flex items-center justify-between gap-4">
         {/* Logo */}
         <Link href="/" className="relative z-50 shrink-0">
           <Image
@@ -54,7 +54,7 @@ export default function Header() {
         </Link>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:block rounded-full bg-white/95 px-3 py-2 shadow-[0_10px_35px_rgba(0,0,0,0.08)] backdrop-blur-md">
+        <nav className="hidden lg:block rounded-full border border-black/5 bg-white px-3 py-2 shadow-[0_8px_24px_rgba(0,0,0,0.06)]">
           <ul className="flex items-center gap-2">
             {navItems.map((item, index) => (
               <li key={item.label} className="relative group">
@@ -130,7 +130,7 @@ export default function Header() {
           <button
             title="Menu toggle"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full bg-white/95 shadow-[0_4px_20px_rgba(0,0,0,0.08)] backdrop-blur-md lg:hidden"
+            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-black/5 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] lg:hidden"
           >
             <span
               className={`h-[2px] w-5 bg-[#361A0D] transition-all duration-300 ${
@@ -161,7 +161,7 @@ export default function Header() {
         onClick={() => setIsMobileMenuOpen(false)}
       />
       <div
-        className={`absolute left-4 right-4 top-[80px] z-40 rounded-[24px] bg-white p-5 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-400 ease-[cubic-bezier(0.25,1,0.5,1)] lg:hidden ${
+        className={`absolute left-4 right-4 top-[78px] z-40 rounded-[24px] border border-black/5 bg-white p-5 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-400 ease-[cubic-bezier(0.25,1,0.5,1)] lg:hidden ${
           isMobileMenuOpen
             ? "translate-y-0 opacity-100 pointer-events-auto"
             : "-translate-y-4 opacity-0 pointer-events-none"

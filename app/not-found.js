@@ -21,11 +21,11 @@ export default function NotFound() {
         
         <div className="mb-8 mt-4 h-[3px] w-[82px] rounded-full bg-[#c29a2f]" />
 
-        <h2 className="mb-4 text-2xl md:text-4xl font-bold text-[#35140b] font-primary">
+        <h2 className="section-title mb-4 text-[#35140b] font-primary">
           Page Not Found
         </h2>
         
-        <p className="mb-10 max-w-[500px] text-base md:text-lg text-[#5e5751]">
+        <p className="para-text mb-10 max-w-[500px] text-[#5e5751]">
           The sanctuary you are looking for seems to have faded into the mist. Let us guide you back to your journey of wellness.
         </p>
 

@@ -84,7 +84,7 @@ export default function ServicesSection() {
   return (
     <section
       id="heal"
-      className="relative overflow-hidden bg-[#f8f6f1] py-16 md:py-24"
+      className="section-padding relative overflow-hidden bg-[#f8f6f1]"
     >
       <div className="absolute inset-0">
         <Image
@@ -100,8 +100,8 @@ export default function ServicesSection() {
           delay={0.2}
           className="relative mx-auto max-w-[1320px] rounded-[30px] bg-white/90 px-5 py-6 shadow-[0_20px_50px_rgba(0,0,0,0.08)] backdrop-blur-sm md:px-8 md:py-8 lg:px-10 lg:py-10"
         >
-          <div className="mb-10 text-center md:mb-12">
-            <h2 className="text-2xl md:text-4xl font-bold leading-tight text-[#1f1a17]">
+          <div className="title-center mb-10 md:mb-12">
+            <h2 className="section-title text-[#1f1a17]">
               Precision Therapies. <br className="block md:hidden" /> Profound
               Impact.
             </h2>
@@ -190,7 +190,7 @@ export default function ServicesSection() {
                         {card.title}
                       </h3>
 
-                      <p className="mt-3 text-base md:text-lg leading-7 text-[#7a726c]">
+                      <p className="para-text mt-3 text-[#7a726c]">
                         {card.desc}
                       </p>
                     </div>

@@ -65,7 +65,7 @@ function StatItem({ stat, startCounting, index }) {
         {count}
         <span className="text-[#1f1a17]">{stat.suffix}</span>
       </div>
-      <h3 className="mt-3 text-lg md:text-xl font-bold text-[#1f1a17] tracking-wide">
+      <h3 className="section-subtitle mt-3 text-[#1f1a17] tracking-wide">
         {stat.label}
       </h3>
       <p className="mt-2 text-sm md:text-base leading-relaxed text-[#7a726c] whitespace-pre-line">
@@ -102,7 +102,7 @@ export default function NadiStatsSection() {
       ref={sectionRef}
       className="relative bg-[#f5f2ec]"
     >
-      <div className="mx-auto w-[min(1200px,calc(100%-24px))] md:w-[min(1200px,calc(100%-40px))] py-12 md:py-16">
+      <div className="container-width py-12 md:py-16">
         {/* Top divider line */}
         <div className="mb-8 md:mb-10 h-px w-full bg-[#d9d0c3]" />
 
