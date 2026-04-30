@@ -5,8 +5,8 @@ export const relaxHero = {
     "Step into a world of profound stillness. Our ancient Ayurvedic protocols are meticulously designed to dissolve stress and awaken your inner vitality.",
   ctaLabel: "Experience Bliss",
   ctaHref: "/contact",
-  image: "/banner/srisri-relax-web.png",
-  mobimage: "/banner/srisri-relax-mob.png",
+  image: "/banner/srisri-relax-mob.png",
+  mobimage: "/banner/srisri-relax-web.png",
 };
 
 export const relaxationTherapies = [
