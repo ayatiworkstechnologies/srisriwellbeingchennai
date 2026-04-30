@@ -19,7 +19,7 @@ const testimonies = [
   {
     name: "Meera Venkatesh",
     review:
-      "What stood out was the level of personalisation. Beginning with Nadi Pariksha, every therapy felt aligned to my body’s needs. The experience was unhurried, intuitive, and deeply restorative.",
+      "What stood out was the level of personalisation. Beginning with Nadi Pariksha, every therapy felt aligned to my body's needs. The experience was unhurried, intuitive, and deeply restorative.",
   },
   {
     name: "Rohit Subramanian",
@@ -76,39 +76,40 @@ export default function TestimoniesSection() {
         </RevealOnScroll>
 
         <div className="relative">
-          {/* Navigation Buttons */}
+          {/* Prev button */}
           <div className="absolute top-1/2 left-[-10px] z-20 -translate-y-1/2 md:left-[-30px]">
             <button
               onClick={() => canGoPrev && setPage(currentPage - 1)}
               disabled={!canGoPrev}
-              className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-30 md:h-14 md:w-14"
+              className="group relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#c29a2f] shadow-[0_4px_15px_rgba(0,0,0,0.08)] transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:h-14 md:w-14"
               aria-label="Previous testimonies"
             >
               <span
-                className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30"
+                className="hover-pulse-ring absolute inset-0 rounded-full border border-[#c29a2f]/30"
                 style={{ animationDelay: "0s" }}
               />
               <span
-                className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20"
+                className="hover-pulse-ring absolute inset-[-8px] rounded-full border border-[#c29a2f]/20"
                 style={{ animationDelay: "0.4s" }}
               />
               <FaChevronLeft className="relative z-10 text-[16px] md:text-[20px]" />
             </button>
           </div>
 
+          {/* Next button */}
           <div className="absolute top-1/2 right-[-10px] z-20 -translate-y-1/2 md:right-[-30px]">
             <button
               onClick={() => canGoNext && setPage(currentPage + 1)}
               disabled={!canGoNext}
-              className="group ripple-container relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-30 md:h-14 md:w-14"
+              className="group relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#c29a2f] shadow-[0_4px_15px_rgba(0,0,0,0.08)] transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:h-14 md:w-14"
               aria-label="Next testimonies"
             >
               <span
-                className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30"
+                className="hover-pulse-ring absolute inset-0 rounded-full border border-[#c29a2f]/30"
                 style={{ animationDelay: "0s" }}
               />
               <span
-                className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20"
+                className="hover-pulse-ring absolute inset-[-8px] rounded-full border border-[#c29a2f]/20"
                 style={{ animationDelay: "0.4s" }}
               />
               <FaChevronRight className="relative z-10 text-[16px] md:text-[20px]" />

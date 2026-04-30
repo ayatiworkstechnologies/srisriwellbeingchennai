@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import RevealOnScroll from "../Main/RevealOnScroll";
+import WellnessButton from "../layouts/WellnessButton";
 
 export default function NetraTejasLocations({ featuredDoctor }) {
   return (
@@ -53,12 +54,10 @@ export default function NetraTejasLocations({ featuredDoctor }) {
             </p>
 
             <div className="mt-8">
-              <Link
+              <WellnessButton
                 href="/contact"
-                className="btn-primary"
-              >
-                Book a Consultation
-              </Link>
+                label="Book a Consultation"
+              />
             </div>
           </RevealOnScroll>
         </div>

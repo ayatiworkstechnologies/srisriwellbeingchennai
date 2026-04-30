@@ -22,7 +22,6 @@ export const coreTherapies = [
   {
     id: "vamana",
     name: "Vamana",
-    sanskrit: "वमन",
     dosha: "Kapha",
     doshaColor: "text-[#1a7a6a]",
     doshaBg: "bg-[#edfaf4]",
@@ -35,7 +34,6 @@ export const coreTherapies = [
   {
     id: "virechana",
     name: "Virechana",
-    sanskrit: "विरेचन",
     dosha: "Pitta",
     doshaColor: "text-[#c07030]",
     doshaBg: "bg-[#fdf4eb]",
@@ -48,7 +46,6 @@ export const coreTherapies = [
   {
     id: "vasti",
     name: "Vasti",
-    sanskrit: "वस्ति",
     dosha: "Vata",
     doshaColor: "text-[#6350c0]",
     doshaBg: "bg-[#f3f0fb]",
@@ -61,7 +58,6 @@ export const coreTherapies = [
   {
     id: "nasya",
     name: "Nasya",
-    sanskrit: "नस्य",
     dosha: "Head & Neck",
     doshaColor: "text-[#2c6fad]",
     doshaBg: "bg-[#eef4fb]",
@@ -74,7 +70,6 @@ export const coreTherapies = [
   {
     id: "raktamokshana",
     name: "Raktamokshana",
-    sanskrit: "रक्तमोक्षण",
     dosha: "Rakta / Blood",
     doshaColor: "text-[#a03030]",
     doshaBg: "bg-[#fef4f4]",

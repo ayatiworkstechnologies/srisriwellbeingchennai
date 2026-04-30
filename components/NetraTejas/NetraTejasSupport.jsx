@@ -24,46 +24,35 @@ const factorColors = [
 
 export default function NetraTejasSupport({ youngEyesFactors }) {
   return (
-    <section className="section-padding bg-white">
+    <section className="section-padding bg-[#faf9f6]">
       <div className="container-width">
-        <div className="flex flex-col gap-12 md:flex-row md:items-center md:gap-16 lg:gap-24">
-          {/* Left: Heading + Description */}
-          <RevealOnScroll className="flex-shrink-0 md:max-w-[420px]">
-            <p className="eyebrow-text text-[#d0a93d]">Eye Health Awareness</p>
-            <h2 className="section-title mt-4 text-[#191412] leading-snug">
-              Addressing a Spectrum of Eye Disorders
+        <div className="flex flex-col gap-10">
+          {/* Top: Heading + Description */}
+          <RevealOnScroll className="max-w-[800px]">
+            <h2 className="section-title text-[#191412] leading-snug">
+              Addressing a Spectrum of Eye Diseases
             </h2>
             <div className="mt-4 h-[3px] w-[60px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
             <p className="para-text mt-6 text-[#6e6662]">
-              In today&apos;s digital age, children and adults are facing
-              unprecedented challenges in their eye health. Poor sleep habits,
-              prolonged screen time, and academic pressure are affecting visual
-              comfort at an alarming rate.
-            </p>
-            <p className="small-text mt-4 text-[#6e6662]">
-              As visual health issues rise, we understand the importance of
-              early intervention and preventive eye care. Our care model
-              supports eye health through lifestyle guidance, natural therapies,
-              and personalised wellness consultation.
+              In today&apos;s digital age, children are facing unprecedented challenges in their eye
+              health. Few factors that cause eye-related issues among children:
             </p>
           </RevealOnScroll>
 
-          {/* Right: Factor Cards Grid */}
-          <div className="flex-1 grid grid-cols-1 gap-5 sm:grid-cols-2">
+          {/* Middle: Factor Cards Grid */}
+          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
             {youngEyesFactors.map((item, index) => {
               const Icon = factorIcons[index] || FaMoon;
-              const colors = factorColors[index] || factorColors[0];
               return (
                 <RevealOnScroll key={item} delay={index * 0.1}>
                   <div
-                    className={`rounded-[20px] border ${colors.border} ${colors.bg} p-6 shadow-[0_8px_24px_rgba(23,18,15,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(23,18,15,0.10)]`}
+                    className="flex flex-col rounded-[20px] bg-white p-6 shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(0,0,0,0.10)]"
                   >
-                    <div
-                      className={`inline-flex h-12 w-12 items-center justify-center rounded-full bg-white shadow-sm`}
-                    >
-                      <Icon className={`text-xl ${colors.icon}`} />
+                    <div className="mb-4 text-3xl text-[#c79f31]">
+                      <Icon />
                     </div>
-                    <p className="section-subtitle mt-4 text-[#201815]">
+                    <div className="h-px w-full bg-[#d8c8a2]/50 mb-4" />
+                    <p className="text-[17px] font-bold text-[#191412]">
                       {item}
                     </p>
                   </div>
@@ -71,6 +60,13 @@ export default function NetraTejasSupport({ youngEyesFactors }) {
               );
             })}
           </div>
+
+          {/* Bottom: Paragraph */}
+          <RevealOnScroll delay={0.4}>
+            <p className="small-text mt-2 text-[#6e6662]">
+              At Sri Sri Netra Tejas, we understand the importance of early intervention and preventive care for children&apos;s eye health. Our personalised treatments cater to the unique needs of young eyes, promoting optimal vision development and overall well-being.
+            </p>
+          </RevealOnScroll>
         </div>
       </div>
     </section>

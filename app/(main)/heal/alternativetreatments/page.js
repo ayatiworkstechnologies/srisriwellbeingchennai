@@ -1,11 +1,8 @@
 import PageHero from "@/components/layouts/PageHero";
-import AltStatsSection from "@/components/AlternativeTreatments/AltStatsSection";
-import AltPhilosophySection from "@/components/AlternativeTreatments/AltPhilosophySection";
 import AltTreatmentsGrid from "@/components/AlternativeTreatments/AltTreatmentsGrid";
-import AltFAQSection from "@/components/AlternativeTreatments/AltFAQSection";
+import TestimoniesSection from "@/components/Main/TestimoniesSection";
 import {
   heroContent,
-  stats,
   treatments,
 } from "@/components/AlternativeTreatments/alternativeTreatmentsData";
 
@@ -13,7 +10,7 @@ export const metadata = {
   title:
     "Alternative Treatments | Holistic Healing Therapies | Sri Sri Wellbeing Chennai",
   description:
-    "Explore 14+ alternative treatment modalities at Sri Sri Wellbeing Chennai — including Craniosacral Therapy, Osteopathy, Ozone Therapy, Marma, Meru Chikitsa, Reflexology, Live Blood Analysis, and more. Ancient wisdom meets modern science.",
+    "Explore our specialized alternative treatment modalities at Sri Sri Wellbeing Chennai — including Craniosacral Therapy, Osteopathy, Ozone Therapy, Marma, Meru Chikitsa, Reflexology, Live Blood Analysis, and more. Ancient wisdom meets modern science.",
 };
 
 export default function AlternativeTreatmentsPage() {
@@ -28,10 +25,8 @@ export default function AlternativeTreatmentsPage() {
         primaryButton={{ label: heroContent.ctaLabel, href: heroContent.ctaHref }}
         bgColor="#3b2218"
       />
-      <AltStatsSection stats={stats} />
-      <AltPhilosophySection />
       <AltTreatmentsGrid treatments={treatments} />
-      <AltFAQSection />
+      <TestimoniesSection />
     </>
   );
 }

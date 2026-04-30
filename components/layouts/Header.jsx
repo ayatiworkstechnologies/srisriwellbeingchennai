@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
 import { FaArrowRight } from "react-icons/fa6";
 import Link from "next/link";
+import WellnessButton from "./WellnessButton";
 
 const navItems = [
   { label: "Home", href: "/" },
@@ -94,7 +95,7 @@ export default function Header() {
                     }}
                     className={`inline-flex h-10 items-center justify-center rounded-full px-5 text-base md:text-lg font-medium transition-all duration-300 ${
                       itemActive
-                        ? "bg-[#D4AF37] text-white! shadow-sm font-semibold tracking-wide"
+                        ? "bg-[#D4AF37] !text-white shadow-sm font-semibold tracking-wide"
                         : "text-[#222] hover:bg-[#d0a93d]/10 hover:text-[#4b1f12]"
                     }`}
                   >
@@ -128,8 +129,8 @@ export default function Header() {
                                   : `/${subItem.href}`
                               }
                               className={`block rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
-                                pathname === subItem.href
-                                  ? "bg-[#D4AF37] text-white!"
+                                pathname && (pathname === subItem.href || pathname === subItem.href + "/")
+                                  ? "bg-[#D4AF37] !text-white"
                                   : "text-[#222] hover:bg-[#d0a93d]/10 hover:text-[#4b1f12]"
                               }`}
                             >
@@ -148,88 +149,62 @@ export default function Header() {
 
         {/* Right Side: CTA & Mobile Toggle */}
         <div className="flex items-center gap-3 relative z-50">
-          <Link
+          {/* Desktop CTA */}
+          <WellnessButton
             href="/contact"
-            className="btn-wellness hidden sm:inline-flex scale-90"
-          >
-            <span className="btn-wellness-icon">☘</span>
-            <span className="btn-wellness-text">Contact</span>
-            <span className="btn-wellness-arrow">→</span>
-          </Link>
+            label="Contact"
+            className="hidden lg:inline-flex scale-90"
+          />
 
-          {/* Hamburger Button */}
+          {/* Hamburger — mobile only */}
           <button
-            title="Menu toggle"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="flex h-10 w-10 flex-col items-center justify-center gap-1.5 rounded-full border border-black/5 bg-white shadow-[0_4px_20px_rgba(0,0,0,0.08)] lg:hidden"
+            className="lg:hidden flex flex-col justify-center items-center h-10 w-10 gap-[5px] rounded-full border border-black/10 bg-white shadow-sm transition-all hover:bg-[#d0a93d]/10"
+            onClick={() => setIsMobileMenuOpen((o) => !o)}
+            aria-label="Toggle menu"
           >
             <span
-              className={`h-[2px] w-5 bg-[#361A0D] transition-all duration-300 ${
-                isMobileMenuOpen ? "translate-y-[8px] rotate-45" : ""
-              }`}
+              className={`block h-0.5 w-5 bg-[#4b1f12] rounded-full transition-all duration-300 ${isMobileMenuOpen ? "translate-y-[7px] rotate-45" : ""}`}
             />
             <span
-              className={`h-[2px] w-5 bg-[#361A0D] transition-all duration-300 ${
-                isMobileMenuOpen ? "opacity-0" : "opacity-100"
-              }`}
+              className={`block h-0.5 w-5 bg-[#4b1f12] rounded-full transition-all duration-300 ${isMobileMenuOpen ? "opacity-0" : ""}`}
             />
             <span
-              className={`h-[2px] w-5 bg-[#361A0D] transition-all duration-300 ${
-                isMobileMenuOpen ? "-translate-y-[8px] -rotate-45" : ""
-              }`}
+              className={`block h-0.5 w-5 bg-[#4b1f12] rounded-full transition-all duration-300 ${isMobileMenuOpen ? "-translate-y-[7px] -rotate-45" : ""}`}
             />
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu Dropdown */}
+      {/* Mobile Drawer */}
       <div
-        className={`fixed inset-0 z-40 bg-black/40 backdrop-blur-sm transition-opacity duration-300 lg:hidden ${
-          isMobileMenuOpen
-            ? "opacity-100 pointer-events-auto"
-            : "opacity-0 pointer-events-none"
-        }`}
-        onClick={() => setIsMobileMenuOpen(false)}
-      />
-      <div
-        className={`absolute left-4 right-4 top-[78px] z-40 rounded-[24px] border border-black/5 bg-white p-5 shadow-[0_20px_50px_rgba(0,0,0,0.15)] transition-all duration-400 ease-[cubic-bezier(0.25,1,0.5,1)] lg:hidden ${
-          isMobileMenuOpen
-            ? "translate-y-0 opacity-100 pointer-events-auto"
-            : "-translate-y-4 opacity-0 pointer-events-none"
-        }`}
+        className={`lg:hidden overflow-hidden transition-all duration-300 ${isMobileMenuOpen ? "max-h-[80vh] border-t border-black/5" : "max-h-0"}`}
       >
-        <ul className="flex flex-col gap-2">
-          {navItems.map((item) => {
-            const itemActive = isItemActive(item);
-
-            return (
+        <nav className="container-width py-4">
+          <ul className="flex flex-col gap-1">
+            {navItems.map((item) => (
               <li key={item.label}>
                 <Link
                   href={item.href.startsWith("/") ? item.href : `/${item.href}`}
-                  onClick={() => !item.subItems && setIsMobileMenuOpen(false)}
-                  className={`flex h-12 w-full items-center rounded-[14px] px-4 text-base md:text-lg font-medium transition-colors ${
-                    itemActive
-                      ? "bg-[#D4AF37] text-white!"
-                      : "text-[#361A0D] hover:bg-[#f6f3ee]"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className={`block rounded-xl px-4 py-3 text-base font-medium transition-colors ${
+                    isItemActive(item)
+                      ? "bg-[#D4AF37] !text-white font-semibold"
+                      : "text-[#222] hover:bg-[#d0a93d]/10 hover:text-[#4b1f12]"
                   }`}
                 >
                   {item.label}
                 </Link>
                 {item.subItems && (
-                  <ul className="pl-4 border-l-2 border-[#d0a93d]/20 ml-4 mt-2 mb-4 flex flex-col gap-2">
+                  <ul className="ml-4 mt-1 flex flex-col gap-1">
                     {item.subItems.map((subItem) => (
                       <li key={subItem.label}>
                         <Link
-                          href={
-                            subItem.href.startsWith("/")
-                              ? subItem.href
-                              : `/${subItem.href}`
-                          }
+                          href={subItem.href.startsWith("/") ? subItem.href : `/${subItem.href}`}
                           onClick={() => setIsMobileMenuOpen(false)}
-                          className={`flex h-10 w-full items-center rounded-lg px-4 text-sm font-medium ${
-                            pathname === subItem.href
-                              ? "bg-[#D4AF37]/12 text-[#4b1f12]"
-                              : "text-[#555] hover:bg-[#f6f3ee] hover:text-[#361A0D]"
+                          className={`block rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
+                            pathname && (pathname === subItem.href || pathname === subItem.href + "/")
+                              ? "bg-[#D4AF37] !text-white font-semibold"
+                              : "text-[#555] hover:bg-[#d0a93d]/10 hover:text-[#4b1f12]"
                           }`}
                         >
                           {subItem.label}
@@ -239,20 +214,18 @@ export default function Header() {
                   </ul>
                 )}
               </li>
-            );
-          })}
-          <li className="mt-2 text-center sm:hidden">
-            <Link
+            ))}
+          </ul>
+
+          <div className="mt-4">
+            <WellnessButton
               href="/contact"
+              label="Contact Us"
+              className="w-full"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="btn-wellness flex h-12 w-full"
-            >
-              <span className="btn-wellness-icon">☘</span>
-              <span className="btn-wellness-text">Contact Us</span>
-              <span className="btn-wellness-arrow">→</span>
-            </Link>
-          </li>
-        </ul>
+            />
+          </div>
+        </nav>
       </div>
     </header>
   );

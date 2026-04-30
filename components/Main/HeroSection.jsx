@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaArrowRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
+import WellnessButton from "../layouts/WellnessButton";
 
 export default function HeroSection() {
   const videoRef = useRef(null);
@@ -99,26 +100,21 @@ export default function HeroSection() {
                 transition={{ duration: 0.8, delay: 0.8 }}
                 className="mt-8 flex flex-col flex-wrap items-center justify-center gap-4 sm:flex-row md:mt-10"
               >
-                <button
+                <WellnessButton
                   onClick={() => {
                     const el = document.getElementById("relax");
                     if (el) el.scrollIntoView({ behavior: "smooth" });
                   }}
-                  className="group flex h-14 items-center justify-center gap-3 rounded-full bg-[#D4AF37] px-8 text-lg font-bold tracking-wide text-white transition-all duration-300 hover:-translate-y-1 hover:bg-[#b8952b] hover:shadow-[0_10px_20px_rgba(212,175,55,0.3)] active:outline-none"
-                >
-                  Plan Your Visit
-                  <FaArrowRight className="text-[16px] transition-transform duration-300 group-hover:translate-x-1" />
-                </button>
+                  label="Plan Your Visit"
+                />
 
-                <a
+                <WellnessButton
                   href="https://www.google.com/maps/dir/?api=1&destination=Sri+Sri+Wellbeing+Holistic+Health+Mruthunjaya+Ayur,+Kilpauk,+Chennai"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex h-14 items-center justify-center gap-3 rounded-full border-2 border-white/30 bg-white/10 px-8 text-lg font-bold tracking-wide text-white backdrop-blur-md transition-all duration-300 hover:border-white/60 hover:bg-white/20 active:outline-none"
-                >
-                  Get Directions
-                  <FaArrowRight className="text-[16px] transition-transform duration-300 group-hover:translate-x-1" />
-                </a>
+                  label="Get Directions"
+                  className="!border-white/30 !bg-white/10 hover:!border-white/60 hover:!bg-white/20 !shadow-none"
+                />
               </motion.div>
 
               {/* Scroll indicator & Audio Toggle Container */}

@@ -6,6 +6,7 @@ import { SlLocationPin } from "react-icons/sl";
 import { FaChevronDown } from "react-icons/fa6";
 import { RiUserLocationLine } from "react-icons/ri";
 import RevealOnScroll from "../Main/RevealOnScroll";
+import WellnessButton from "../layouts/WellnessButton";
 
 const campData = {
   doctor: "Dr. K Aravindhan",
@@ -89,12 +90,12 @@ export default function NadiCampsSection() {
             </div>
 
             {/* Reset Button */}
-            <button
+            <WellnessButton
               type="button"
-              className="btn-small w-full md:w-auto bg-[#d0a93d] text-white shadow-md hover:bg-[#b8952b]"
-            >
-              Reset
-            </button>
+              label="Reset"
+              icon="↺"
+              className="w-full md:w-auto scale-90"
+            />
           </div>
         </RevealOnScroll>
 

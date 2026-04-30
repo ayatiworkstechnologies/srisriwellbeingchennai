@@ -91,14 +91,23 @@ export default function NadiTestimonialSection() {
             <div className="my-6 h-px w-16 bg-[#d0a93d]/40 mx-auto" />
 
             {/* Author */}
-            <div className="flex items-center justify-center gap-2">
-              <FaLocationDot className="text-[14px] text-[#d0a93d]" />
-              <p className="section-subtitle text-[#3b2218]">
-                {t.name},{" "}
-                <span className="font-normal text-[#7a726c]">
-                  {t.location}
-                </span>
-              </p>
+            <div className="flex flex-col items-center justify-center gap-3 md:flex-row md:gap-4 mt-2">
+              {t.image ? (
+                <img
+                  src={t.image}
+                  alt={t.name}
+                  className="h-12 w-12 rounded-full object-cover shadow-sm"
+                />
+              ) : (
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#f6f3ee] text-[16px] font-bold text-[#b28b22] shadow-inner">
+                  {t.name.charAt(0)}
+                </div>
+              )}
+              <div className="text-center md:text-left">
+                <p className="text-[18px] font-bold text-[#1f1a17]">
+                  {t.name}, <span className="font-normal text-[#5e5751]">{t.location}</span>
+                </p>
+              </div>
             </div>
           </div>
 
@@ -106,18 +115,35 @@ export default function NadiTestimonialSection() {
           <button
             type="button"
             onClick={goPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 md:-translate-x-14 flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#3b2218] shadow-md transition-all duration-300 hover:scale-110 hover:shadow-lg md:h-12 md:w-12"
+            className="group absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-14 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#c29a2f] shadow-[0_4px_15px_rgba(0,0,0,0.08)] transition-all duration-300 hover:scale-110 hover:shadow-[0_8px_25px_rgba(0,0,0,0.12)] md:h-14 md:w-14"
             aria-label="Previous testimonial"
           >
-            <FaChevronLeft className="text-[14px]" />
+            <span
+              className="hover-pulse-ring absolute inset-0 rounded-full border border-[#c29a2f]/30"
+              style={{ animationDelay: "0s" }}
+            />
+            <span
+              className="hover-pulse-ring absolute inset-[-8px] rounded-full border border-[#c29a2f]/20"
+              style={{ animationDelay: "0.4s" }}
+            />
+            <FaChevronLeft className="relative z-10 text-[14px] md:text-[18px]" />
           </button>
+          
           <button
             type="button"
             onClick={goNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 md:translate-x-14 flex h-10 w-10 items-center justify-center rounded-full bg-white text-[#3b2218] shadow-md transition-all duration-300 hover:scale-110 hover:shadow-lg md:h-12 md:w-12"
+            className="group absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-14 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#c29a2f] shadow-[0_4px_15px_rgba(0,0,0,0.08)] transition-all duration-300 hover:scale-110 hover:shadow-[0_8px_25px_rgba(0,0,0,0.12)] md:h-14 md:w-14"
             aria-label="Next testimonial"
           >
-            <FaChevronRight className="text-[14px]" />
+            <span
+              className="hover-pulse-ring absolute inset-0 rounded-full border border-[#c29a2f]/30"
+              style={{ animationDelay: "0s" }}
+            />
+            <span
+              className="hover-pulse-ring absolute inset-[-8px] rounded-full border border-[#c29a2f]/20"
+              style={{ animationDelay: "0.4s" }}
+            />
+            <FaChevronRight className="relative z-10 text-[14px] md:text-[18px]" />
           </button>
         </div>
 

@@ -18,7 +18,6 @@ export const therapies = [
   {
     id: "abhyanga",
     name: "Abhyanga",
-    sanskrit: "अभ्यंग",
     duration: "45 mins",
     shortDesc: "A traditional Ayurvedic full-body oil massage using warm herbal oils. It helps relax the body, improve blood circulation, and calm the nervous system.",
     image: "/images/ser-4.jpg",
@@ -33,7 +32,6 @@ export const therapies = [
   {
     id: "shirodhara",
     name: "Shirodhara",
-    sanskrit: "शिरोधारा",
     duration: "45 mins",
     shortDesc: "A deeply calming therapy where warm medicated oil flows gently over the forehead. Ideal for stress relief, mental relaxation, and emotional balance.",
     image: "/images/ser-3.jpg",
@@ -48,7 +46,6 @@ export const therapies = [
   {
     id: "uzhichil",
     name: "Uzhichil",
-    sanskrit: "उमिच्चिल",
     duration: "40 mins",
     shortDesc: "An Ayurvedic oil massage that focuses on muscular relaxation, stiffness relief, and improving body flexibility.",
     image: "/images/ser-5.jpg",
@@ -63,7 +60,6 @@ export const therapies = [
   {
     id: "ksheeradhara",
     name: "Ksheeradhara",
-    sanskrit: "क्षीरधारा",
     duration: "45 mins",
     shortDesc: "Gentle pouring of medicated milk over the body or head. Known for its cooling, calming, and nourishing effect on the body and mind.",
     image: "/images/ser-6.jpg",

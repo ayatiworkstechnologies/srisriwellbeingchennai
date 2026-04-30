@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
+import WellnessButton from "../layouts/WellnessButton";
 
 const therapyCards = [
   {
@@ -110,51 +111,51 @@ export default function ServicesSection() {
           delay={0.2}
           className="relative mx-auto max-w-[1320px] rounded-[30px] bg-white/90 px-5 py-6 shadow-[0_20px_50px_rgba(0,0,0,0.08)] backdrop-blur-sm md:px-8 md:py-8 lg:px-10 lg:py-10"
         >
+          {/* Prev button */}
           <button
             type="button"
             onClick={() => canGoPrev && setPage(currentPage - 1)}
             disabled={!canGoPrev}
-            className="absolute left-[8px] top-1/2 z-20 group ripple-container flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:left-[-22px] md:h-14 md:w-14"
+            className="absolute left-[8px] top-1/2 z-20 group flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:left-[-22px] md:h-14 md:w-14"
             aria-label="Previous services"
           >
-            {/* Ripple Rings */}
+            {/* Ripple Rings — animate on hover/click only */}
             <span
-              className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30"
+              className="hover-pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30"
               style={{ animationDelay: "0s" }}
             />
             <span
-              className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20"
+              className="hover-pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20"
               style={{ animationDelay: "0.4s" }}
             />
             <span
-              className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10"
+              className="hover-pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10"
               style={{ animationDelay: "0.8s" }}
             />
-
             <FaChevronLeft className="relative z-10 text-[16px] md:text-[20px]" />
           </button>
 
+          {/* Next button */}
           <button
             type="button"
             onClick={() => canGoNext && setPage(currentPage + 1)}
             disabled={!canGoNext}
-            className="absolute right-[8px] top-1/2 z-20 group ripple-container flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:right-[-22px] md:h-14 md:w-14"
+            className="absolute right-[8px] top-1/2 z-20 group flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:right-[-22px] md:h-14 md:w-14"
             aria-label="Next services"
           >
-            {/* Ripple Rings */}
+            {/* Ripple Rings — animate on hover/click only */}
             <span
-              className="ripple-element pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30"
+              className="hover-pulse-ring absolute inset-0 rounded-full border border-[#d0a93d]/30"
               style={{ animationDelay: "0s" }}
             />
             <span
-              className="ripple-element pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20"
+              className="hover-pulse-ring absolute inset-[-8px] rounded-full border border-[#d0a93d]/20"
               style={{ animationDelay: "0.4s" }}
             />
             <span
-              className="ripple-element pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10"
+              className="hover-pulse-ring absolute inset-[-16px] rounded-full border border-[#d0a93d]/10"
               style={{ animationDelay: "0.8s" }}
             />
-
             <FaChevronRight className="relative z-10 text-[16px] md:text-[20px]" />
           </button>
 
@@ -185,12 +186,11 @@ export default function ServicesSection() {
                     {card.desc}
                   </p>
 
-                  <button
-                    type="button"
-                    className="mt-auto inline-flex w-fit items-center rounded-full border border-[#d9be69] px-5 py-2 text-[14px] font-semibold uppercase tracking-[0.12em] text-[#b88621] transition hover:bg-[#d0a93d] hover:text-white"
-                  >
-                    Explore Therapy
-                  </button>
+                  <WellnessButton
+                    href="/contact"
+                    label="Explore Therapy"
+                    className="mt-auto scale-90 origin-left"
+                  />
                 </div>
               </div>
             ))}

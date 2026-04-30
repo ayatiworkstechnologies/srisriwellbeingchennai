@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import RevealOnScroll from "../Main/RevealOnScroll";
+import WellnessButton from "../layouts/WellnessButton";
 import TherapyModal from "./TherapyModal";
 
 const therapies = [
@@ -250,15 +251,12 @@ export default function RelaxationTherapies() {
                     </div>
                   </div>
 
-                  <div className="mt-auto">
-                    <button
+                  <div className="mt-auto flex justify-center w-full">
+                    <WellnessButton
                       onClick={() => setSelectedTherapy(therapy)}
-                      className="btn-wellness w-full scale-90"
-                    >
-                      <span className="btn-wellness-icon">☘</span>
-                      <span className="btn-wellness-text">Book Now</span>
-                      <span className="btn-wellness-arrow">→</span>
-                    </button>
+                      label="Book Now"
+                      className="scale-90"
+                    />
                   </div>
                 </div>
                 </div>

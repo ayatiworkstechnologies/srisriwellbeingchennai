@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { FaCheck } from "react-icons/fa6";
 import RevealOnScroll from "../Main/RevealOnScroll";
+import WellnessButton from "../layouts/WellnessButton";
 
 export default function PKCoreTherapies({ coreTherapies }) {
   return (
@@ -39,12 +40,7 @@ export default function PKCoreTherapies({ coreTherapies }) {
                       className="object-cover object-center"
                       sizes="(max-width: 768px) 100vw, 42vw"
                     />
-                    {/* Sanskrit name overlay */}
-                    <div className="absolute bottom-4 left-4">
-                      <span className="rounded-full bg-black/40 px-4 py-1.5 text-lg font-bold text-white/80 backdrop-blur-sm">
-                        {therapy.sanskrit}
-                      </span>
-                    </div>
+
                   </div>
 
                   {/* Content */}
@@ -86,14 +82,10 @@ export default function PKCoreTherapies({ coreTherapies }) {
         {/* CTA after core therapies */}
         <RevealOnScroll delay={0.1}>
           <div className="mt-14 md:mt-18 text-center">
-            <a
+            <WellnessButton
               href="/contact"
-              className="btn-wellness"
-            >
-              <span className="btn-wellness-icon">☘</span>
-              <span className="btn-wellness-text">Enquire About Panchakarma</span>
-              <span className="btn-wellness-arrow">→</span>
-            </a>
+              label="Enquire About Panchakarma"
+            />
           </div>
         </RevealOnScroll>
       </div>

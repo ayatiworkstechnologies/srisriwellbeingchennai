@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import RevealOnScroll from "../Main/RevealOnScroll";
+import WellnessButton from "./WellnessButton";
 
 /**
  * Reusable Page Hero — image on top, content below on dark background.
@@ -84,23 +85,18 @@ export default function PageHero({
             <RevealOnScroll delay={0.3 + paragraphs.length * 0.1}>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-4 md:mt-10">
                 {primaryButton && (
-                  <Link
+                  <WellnessButton
                     href={primaryButton.href || "/contact"}
-                    className="btn-wellness"
-                  >
-                    <span className="btn-wellness-icon">☘</span>
-                    <span className="btn-wellness-text">{primaryButton.label}</span>
-                    <span className="btn-wellness-arrow">→</span>
-                  </Link>
+                    label={primaryButton.label}
+                  />
                 )}
 
                 {secondaryButton && (
-                  <Link
+                  <WellnessButton
                     href={secondaryButton.href || "#"}
-                    className="btn-outline"
-                  >
-                    {secondaryButton.label}
-                  </Link>
+                    label={secondaryButton.label}
+                    className="!bg-[#3b2218] !shadow-none hover:!bg-[#4b2c20]"
+                  />
                 )}
               </div>
             </RevealOnScroll>

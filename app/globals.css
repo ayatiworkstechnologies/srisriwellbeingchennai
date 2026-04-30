@@ -33,21 +33,7 @@
     @apply mx-auto max-w-3xl text-center;
   }
 
-  .btn-primary {
-    @apply inline-flex h-12 md:h-14 items-center justify-center gap-2.5 rounded-full bg-[#d0a93d] px-7 md:px-10 text-base md:text-lg font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#b8952b] hover:shadow-[0_12px_36px_rgba(208,169,61,0.35)];
-  }
 
-  .btn-dark {
-    @apply inline-flex h-12 md:h-14 items-center justify-center gap-2.5 rounded-full bg-[#3b2218] px-7 md:px-10 text-base md:text-lg font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#2e1a12] hover:shadow-[0_12px_36px_rgba(59,34,24,0.30)];
-  }
-
-  .btn-outline {
-    @apply inline-flex h-12 md:h-14 items-center justify-center gap-2.5 rounded-full border-2 border-white/30 px-7 md:px-10 text-base md:text-lg font-semibold tracking-wide text-white transition-all duration-300 hover:-translate-y-0.5 hover:border-white/60 hover:bg-white/10;
-  }
-
-  .btn-small {
-    @apply inline-flex h-10 items-center justify-center gap-2 rounded-full px-6 text-sm font-semibold tracking-wide transition-all duration-300;
-  }
 }
 
 
@@ -257,6 +243,21 @@ a {
   animation: pulse-ring 3s ease-in-out infinite;
 }
 
+/* Hover-only ripple rings — animate only when parent .group is hovered/focused */
+.hover-pulse-ring {
+  animation: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.group:hover .hover-pulse-ring,
+.group:focus-visible .hover-pulse-ring,
+.group:active .hover-pulse-ring {
+  animation: pulse-ring 2s ease-in-out infinite;
+  opacity: 1;
+}
+
+
 @media (prefers-reduced-motion: reduce) {
 
   html,
@@ -390,66 +391,102 @@ a {
   z-index: 10;
 }
 
-/* ── Wellness Button Design ── */
+/* ─────────────────────────────
+   Premium Wellness Button
+───────────────────────────── */
+
 @layer components {
   .btn-wellness {
-    @apply relative inline-flex items-center justify-center gap-3 rounded-full px-8 py-3.5 text-base font-bold tracking-wide text-white transition-all duration-400 isolation-auto;
-    background: #D4AF37;
-    box-shadow: 0 14px 35px rgba(212, 175, 55, 0.25), 0 6px 18px rgba(212, 175, 55, 0.15);
-    text-decoration: none !important;
-  }
-
-  .btn-wellness::before {
-    content: "";
-    @apply absolute top-0 -left-[90%] h-full w-[58%] -skew-x-[25deg] rounded-[inherit] transition-all duration-700;
-    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.48), transparent);
-    z-index: 1;
-  }
-
-  .btn-wellness:hover::before {
-    @apply left-[135%];
+    @apply relative inline-flex items-center justify-center gap-3 rounded-full px-8 py-3.5 text-[15px] font-bold tracking-wide text-white no-underline;
+    background: linear-gradient(135deg, #d4af37 0%, #c69a2e 45%, #9f7a22 100%);
+    box-shadow:
+      0 14px 35px rgba(212, 175, 55, 0.28),
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      inset 0 -10px 22px rgba(94, 66, 12, 0.18);
+    isolation: isolate;
+    overflow: visible;
+    transition:
+      transform 0.45s ease,
+      box-shadow 0.45s ease,
+      background 0.45s ease;
   }
 
   .btn-wellness::after {
     content: "";
-    @apply absolute -inset-[7px] rounded-[inherit] border border-[#D4AF37]/40;
-    animation: wellnessMixedPulse 1.9s ease-out infinite;
-    z-index: -1;
+    position: absolute;
+    inset: 2px;
+    border-radius: inherit;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    z-index: 1;
+    pointer-events: none;
   }
 
   .btn-wellness:hover {
-    @apply -translate-y-1 scale-[1.03];
-    background: #c29a2f;
-    box-shadow: 0 20px 45px rgba(212, 175, 55, 0.35), 0 10px 25px rgba(212, 175, 55, 0.25);
+    transform: translateY(-4px) scale(1.03);
+    background: linear-gradient(135deg, #e1bf4d 0%, #c89d2f 45%, #8f6a1c 100%);
+    box-shadow:
+      0 22px 50px rgba(212, 175, 55, 0.42),
+      0 8px 20px rgba(90, 63, 12, 0.22),
+      inset 0 1px 0 rgba(255, 255, 255, 0.42);
+  }
+
+  .btn-wellness:active {
+    transform: translateY(-1px) scale(0.99);
   }
 
   .btn-wellness-icon {
-    @apply flex h-[30px] w-[30px] min-w-[30px] items-center justify-center rounded-full text-[15px] backdrop-blur-[6px];
-    background: rgba(255, 255, 255, 0.22);
-    animation: wellnessLeafFloat 2.5s ease-in-out infinite;
-    z-index: 2;
+    @apply relative z-10 flex h-[30px] w-[30px] min-w-[30px] items-center justify-center rounded-full text-[15px] text-white;
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.35),
+      0 6px 14px rgba(0, 0, 0, 0.12);
+    backdrop-filter: blur(6px);
+    animation: wellnessIconFloat 2.6s ease-in-out infinite;
   }
 
   .btn-wellness-text {
-    @apply relative z-10;
+    @apply relative z-10 text-white;
   }
 
   .btn-wellness-arrow {
-    @apply relative z-10 text-lg transition-transform duration-400;
+    @apply relative z-10 text-[18px] leading-none text-white;
+    transition: transform 0.45s ease;
   }
 
   .btn-wellness:hover .btn-wellness-arrow {
-    @apply translate-x-1.5;
+    transform: translateX(6px);
+  }
+
+  .wellness-ring {
+    @apply pointer-events-none absolute rounded-full border border-[#c29a2f];
+    animation: wellnessPulseRing 2.4s ease-out infinite;
   }
 }
 
-@keyframes wellnessLeafFloat {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-3px) rotate(-8deg); }
+@keyframes wellnessIconFloat {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-3px) rotate(-8deg);
+  }
 }
 
-@keyframes wellnessMixedPulse {
-  0% { transform: scale(0.95); opacity: 0.8; }
-  70% { transform: scale(1.1); opacity: 0.18; }
-  100% { transform: scale(1.17); opacity: 0; }
+@keyframes wellnessPulseRing {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.55;
+  }
+
+  70% {
+    transform: scale(1.18);
+    opacity: 0.12;
+  }
+
+  100% {
+    transform: scale(1.28);
+    opacity: 0;
+  }
 }

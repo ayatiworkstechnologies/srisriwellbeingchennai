@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { FaPlus, FaTimes } from "react-icons/fa";
 import RevealOnScroll from "../Main/RevealOnScroll";
+import WellnessButton from "../layouts/WellnessButton";
 
 const faqs = [
   {
@@ -59,14 +60,12 @@ export default function PKFAQSection() {
                 Consult our Ayurvedic specialists for a personalised Panchakarma
                 plan designed around your unique constitution and health goals.
               </p>
-              <a
-                href="/contact"
-                className="btn-wellness mt-5 scale-90 origin-left"
-              >
-                <span className="btn-wellness-icon">☘</span>
-                <span className="btn-wellness-text">Book a Consultation</span>
-                <span className="btn-wellness-arrow">→</span>
-              </a>
+              <div className="mt-5 origin-left scale-90">
+                <WellnessButton
+                  href="/contact"
+                  label="Book a Consultation"
+                />
+              </div>
             </div>
           </RevealOnScroll>
 

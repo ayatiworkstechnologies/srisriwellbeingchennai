@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
+import { FaChevronDown } from "react-icons/fa6";
 import RevealOnScroll from "../Main/RevealOnScroll";
+import WellnessButton from "../layouts/WellnessButton";
 import { categoryColors } from "./panchakarmaData";
 
 const ALL = "All";
@@ -181,14 +183,12 @@ export default function PKOtherTreatments({ treatments }) {
                 Our Ayurvedic specialists will assess your prakriti and design a
                 personalised treatment programme for your specific health goals.
               </p>
-              <a
-                href="/contact"
-                className="btn-wellness mt-8"
-              >
-                <span className="btn-wellness-icon">☘</span>
-                <span className="btn-wellness-text">Book a Free Consultation</span>
-                <span className="btn-wellness-arrow">→</span>
-              </a>
+              <div className="mt-8 flex justify-center">
+                <WellnessButton
+                  href="/contact"
+                  label="Book a Free Consultation"
+                />
+              </div>
             </div>
           </div>
         </RevealOnScroll>
