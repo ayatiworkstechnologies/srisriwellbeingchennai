@@ -18,7 +18,7 @@ export default function RelaxCoreTherapies({ coreTherapies }) {
           <div className="mx-auto mt-4 h-[3px] w-[82px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
           <p className="para-text mx-auto mt-5 max-w-[680px] text-[#6b5f58]">
             Experience our most sought-after Ayurvedic therapies, masterfully
-            crafted to restore your body's natural state of peace.
+            crafted to restore your body&apos;s natural state of peace.
           </p>
         </RevealOnScroll>
 
