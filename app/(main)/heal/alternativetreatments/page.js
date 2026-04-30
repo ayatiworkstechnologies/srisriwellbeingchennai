@@ -20,6 +20,7 @@ export default function AlternativeTreatmentsPage() {
         title={heroContent.title}
         subtitle={heroContent.subtitle}
         heroImage={heroContent.image}
+        mobileImage={heroContent.mobimage}
         heroImageAlt="Alternative Treatments at Sri Sri Wellbeing"
         paragraphs={[heroContent.description]}
         primaryButton={{ label: heroContent.ctaLabel, href: heroContent.ctaHref }}

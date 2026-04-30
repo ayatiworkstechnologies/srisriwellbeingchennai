@@ -22,51 +22,85 @@ const factorColors = [
   { bg: "bg-[#fdf0f0]", icon: "text-[#c74545]", border: "border-[#f0c8c8]" },
 ];
 
-export default function NetraTejasSupport({ youngEyesFactors }) {
+import { FaCheckCircle } from "react-icons/fa";
+
+export default function NetraTejasSupport({ youngEyesFactors, eyeDisorders = [] }) {
   return (
     <section className="section-padding bg-[#faf9f6]">
       <div className="container-width">
-        <div className="flex flex-col gap-10">
-          {/* Top: Heading + Description */}
-          <RevealOnScroll className="max-w-[800px]">
-            <h2 className="section-title text-[#191412] leading-snug">
-              Addressing a Spectrum of Eye Diseases
-            </h2>
-            <div className="mt-4 h-[3px] w-[60px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
-            <p className="para-text mt-6 text-[#6e6662]">
-              In today&apos;s digital age, children are facing unprecedented challenges in their eye
-              health. Few factors that cause eye-related issues among children:
-            </p>
-          </RevealOnScroll>
-
-          {/* Middle: Factor Cards Grid */}
-          <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-            {youngEyesFactors.map((item, index) => {
-              const Icon = factorIcons[index] || FaMoon;
-              return (
-                <RevealOnScroll key={item} delay={index * 0.1}>
-                  <div
-                    className="flex flex-col rounded-[20px] bg-white p-6 shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(0,0,0,0.10)]"
-                  >
-                    <div className="mb-4 text-3xl text-[#c79f31]">
-                      <Icon />
-                    </div>
-                    <div className="h-px w-full bg-[#d8c8a2]/50 mb-4" />
-                    <p className="text-[17px] font-bold text-[#191412]">
-                      {item}
-                    </p>
+        <div className="flex flex-col gap-16 md:gap-24">
+          
+          {/* ── Section 1: General Eye Disorders ── */}
+          <div className="flex flex-col lg:flex-row gap-12 items-start">
+            <RevealOnScroll className="lg:w-1/2">
+              <h2 className="section-title text-[#191412] leading-snug">
+                Addressing a Spectrum of Eye Diseases
+              </h2>
+              <div className="mt-4 h-[3px] w-[60px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
+              <p className="para-text mt-6 text-[#6e6662]">
+                At Sri Sri Netra Tejas, we offer a comprehensive range of Ayurvedic treatments for various Eye disorders such as:
+              </p>
+              
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
+                {eyeDisorders.map((disorder, idx) => (
+                  <div key={idx} className="flex items-center gap-3">
+                    <FaCheckCircle className="text-[#c79f31] flex-shrink-0" />
+                    <span className="text-[15px] font-medium text-[#191412]">{disorder}</span>
                   </div>
-                </RevealOnScroll>
-              );
-            })}
+                ))}
+              </div>
+            </RevealOnScroll>
+            
+            <RevealOnScroll delay={0.2} className="lg:w-1/2 relative h-[300px] md:h-[400px] w-full rounded-3xl overflow-hidden shadow-2xl">
+              <img 
+                src="/images/nadi/img-6.png" 
+                alt="Eye Care Treatment" 
+                className="w-full h-full object-cover"
+              />
+            </RevealOnScroll>
           </div>
 
-          {/* Bottom: Paragraph */}
-          <RevealOnScroll delay={0.4}>
-            <p className="small-text mt-2 text-[#6e6662]">
-              At Sri Sri Netra Tejas, we understand the importance of early intervention and preventive care for children&apos;s eye health. Our personalised treatments cater to the unique needs of young eyes, promoting optimal vision development and overall well-being.
-            </p>
-          </RevealOnScroll>
+          <div className="h-px w-full bg-[#d9d0c3]/40" />
+
+          {/* ── Section 2: Children's Eye Health ── */}
+          <div className="flex flex-col gap-10">
+            <RevealOnScroll className="max-w-[800px]">
+              <h2 className="section-title text-[#191412] leading-snug">
+                Children&apos;s Eye Health
+              </h2>
+              <div className="mt-4 h-[3px] w-[60px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
+              <p className="para-text mt-6 text-[#6e6662]">
+                In today&apos;s digital age, children are facing unprecedented challenges to their eye health. Few factors that cause eye-related issues among children:
+              </p>
+            </RevealOnScroll>
+
+            {/* Middle: Factor Cards Grid */}
+            <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+              {youngEyesFactors.map((item, index) => {
+                const Icon = factorIcons[index] || FaMoon;
+                return (
+                  <RevealOnScroll key={item} delay={index * 0.1}>
+                    <div className="flex flex-col rounded-[20px] bg-white p-6 shadow-[0_8px_24px_rgba(0,0,0,0.06)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(0,0,0,0.10)]">
+                      <div className="mb-4 text-3xl text-[#c79f31]">
+                        <Icon />
+                      </div>
+                      <div className="h-px w-full bg-[#d8c8a2]/50 mb-4" />
+                      <p className="text-[17px] font-bold text-[#191412]">
+                        {item}
+                      </p>
+                    </div>
+                  </RevealOnScroll>
+                );
+              })}
+            </div>
+
+            {/* Bottom: Paragraph */}
+            <RevealOnScroll delay={0.4}>
+              <p className="small-text mt-2 text-[#6e6662]">
+                At Sri Sri Netra Tejas, we understand the importance of early intervention and preventive care for children&apos;s eye health. Our personalised treatments cater to the unique needs of young eyes, promoting optimal vision development and overall well-being.
+              </p>
+            </RevealOnScroll>
+          </div>
         </div>
       </div>
     </section>

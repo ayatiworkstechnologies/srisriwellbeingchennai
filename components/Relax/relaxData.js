@@ -1,132 +1,207 @@
 export const relaxHero = {
   subtitle: "Divine Sanctuary",
   title: "Relaxation Therapy",
-  description: "Step into a world of profound stillness. Our ancient Ayurvedic protocols are meticulously designed to dissolve stress and awaken your inner vitality.",
+  description:
+    "Step into a world of profound stillness. Our ancient Ayurvedic protocols are meticulously designed to dissolve stress and awaken your inner vitality.",
   ctaLabel: "Experience Bliss",
   ctaHref: "/contact",
-  image: "/images/1446.jpg" 
+  image: "/banner/srisri-relax-web.png",
+  mobimage: "/banner/srisri-relax-mob.png",
 };
 
-export const relaxStats = [
-  { value: 12000, suffix: "+", label: "Calm Sessions", desc: "Moments of profound\nrelaxation delivered" },
-  { value: 4800,  suffix: "+", label: "Happy Souls",    desc: "Patients who found\ntranquility with us" },
-  { value: 12,    suffix: "+", label: "Years",           desc: "Of dedicated\nwellness expertise" },
-  { value: 15,    suffix: "+", label: "Therapists",      desc: "Certified Ayurvedic\nwellness specialists" },
-];
-
-export const therapies = [
+export const relaxationTherapies = [
   {
     id: "abhyanga",
-    name: "Abhyanga",
+    title: "Abhyanga",
     duration: "45 mins",
-    shortDesc: "A traditional Ayurvedic full-body oil massage using warm herbal oils. It helps relax the body, improve blood circulation, and calm the nervous system.",
-    image: "/images/ser-4.jpg",
+    shortDescription:
+      "An Ayurvedic massage that promotes wellbeing by applying warm oil on your entire body.",
+    details:
+      "Experience the benefits of Abhyanga, an Ayurvedic massage that promotes wellbeing by applying warm oil on your entire body. The oil is the central component of Abhyanga. When combined with massage strokes, it promotes overall health and wellness. It can be done by a therapist or self-administered at home.",
     benefits: [
-      "Relieves stress and muscle fatigue",
-      "Improves blood and lymph circulation",
-      "Nourishes and rejuvenates the skin",
-      "Supports better quality sleep",
+      "Reduces the signs of aging",
+      "Gives the body muscle tone & energy",
+      "Gives the limbs a firmness",
+      "Lubricates the joints",
+      "Promotes blood circulation & detoxification",
+      "Activates the body's internal organs",
+      "Boosts endurance",
+      "Calms the nerves",
+      "Softens & smoothens skin",
     ],
-    category: "Full Body",
-  },
-  {
-    id: "shirodhara",
-    name: "Shirodhara",
-    duration: "45 mins",
-    shortDesc: "A deeply calming therapy where warm medicated oil flows gently over the forehead. Ideal for stress relief, mental relaxation, and emotional balance.",
-    image: "/images/ser-3.jpg",
-    benefits: [
-      "Deeply calms the central nervous system",
-      "Reduces chronic stress and anxiety",
-      "Promotes mental clarity and focus",
-      "Effective for insomnia and sleep issues",
-    ],
-    category: "Head Therapy",
+    image: "/images/relax/abhyanga.png",
   },
   {
     id: "uzhichil",
-    name: "Uzhichil",
-    duration: "40 mins",
-    shortDesc: "An Ayurvedic oil massage that focuses on muscular relaxation, stiffness relief, and improving body flexibility.",
-    image: "/images/ser-5.jpg",
+    title: "Uzhichil",
+    duration: "45 mins",
+    shortDescription:
+      "Effective full-body, deep tissue ayurvedic massage therapy with specific oil pressure.",
+    details:
+      "This is one of the most effective full-body, deep tissue ayurvedic massage therapy. Pressure is applied to the specific parts of the body with oil massage. This therapy is highly recommended for blood circulation as well as the nervous system.",
     benefits: [
-      "Relieves persistent muscle stiffness",
-      "Significantly improves body flexibility",
-      "Enhances overall physical circulation",
-      "Reduces deep-seated body fatigue",
+      "Reduces pressure on the heart",
+      "Treats nervous disorders",
+      "Calms anxiety",
+      "Good for insomnia & hypertension",
+      "Relieves stress & headaches",
     ],
-    category: "Deep Tissue",
+    image: "/images/relax/uzhichil.png",
   },
   {
-    id: "ksheeradhara",
-    name: "Ksheeradhara",
-    duration: "45 mins",
-    shortDesc: "Gentle pouring of medicated milk over the body or head. Known for its cooling, calming, and nourishing effect on the body and mind.",
-    image: "/images/ser-6.jpg",
+    id: "foot-massage",
+    title: "Foot Reflexology",
+    duration: "30 mins",
+    shortDescription:
+      "Pressure-point therapy for the feet to treat illnesses and strengthen body systems.",
+    details:
+      "Your foot is rubbed, pressed and squeezed on certain locations to treat illnesses. And when the entire foot is massaged, all of the body’s systems is strengthened.",
     benefits: [
-      "Cooling effect on the entire system",
-      "Nourishes the skin and deep tissues",
-      "Calms mental agitation and anger",
-      "Highly relaxing for the nervous system",
+      "Provides deep relaxation",
+      "Improves sleep quality",
+      "Energizes all organs & body tissues",
+      "Relieves anxiety & stress",
+      "Enhances blood circulation in the lower half of the body",
+      "Strengthens the feet",
+      "Reduces stiffness & tiredness",
     ],
-    category: "Dhara",
-  },
-];
-
-export const otherRelaxTherapies = [
-  {
-    name: "Head Massage",
-    category: "Local",
-    duration: "40 mins",
-    desc: "Focuses on the scalp, head, neck, and upper shoulder area. Helps reduce stress and refresh the mind.",
+    image: "/images/relax/foot.png",
   },
   {
-    name: "Foot Reflexology",
-    category: "Energy",
-    duration: "40 mins",
-    desc: "Pressure-point therapy for the feet to relax the body and improve energy flow.",
+    id: "aroma-massage",
+    title: "Aroma Therapy ",
+    duration: "60 mins",
+    shortDescription:
+      "Therapy using essential oils with unique healing properties for deep relaxation.",
+    details:
+      "This Therapy exclusively uses essential oils which have unique healing properties. During this therapy we are supposed to inhale these essential oil molecules and absorb them through the skin. Aroma Massage primarily focuses on relaxation.",
+    benefits: [
+      "Improves emotional balance",
+      "Good for de-stressing",
+      "Reduces anxiety",
+      "Relieves pain & headaches",
+      "Decreases muscle tension",
+      "Controls inflammation",
+    ],
+    image: "/images/relax/aroma.png",
   },
   {
-    name: "Head & Foot Massage",
-    category: "Combined",
-    duration: "40 mins",
-    desc: "Combines scalp relaxation with foot pressure therapy for total body calmness.",
-  },
-  {
-    name: "Aroma Therapy",
-    category: "Beauty",
+    id: "shirolepa",
+    title: "Shirolepa",
     duration: "45 mins",
-    desc: "Uses natural aromatic oils and gentle massage to improve mood and refresh the senses.",
+    shortDescription:
+      "Soothing application of medicinal pastes on the scalp for psychosomatic relief.",
+    details:
+      "Medicinal pastes are applied over the entire scalp which is soothing and has relaxing properties. This time-tested Ayurveda therapy is an excellent treatment for a variety of psychosomatic ailments and boosting overall well-being.",
+    benefits: [
+      "Improves sleep quality",
+      "Helps the visionary abilities",
+      "When combined with yoga, it helps with anxiety",
+      "Improves hair health",
+      "Brings the pita dosh back into equilibrium",
+    ],
+    image: "/images/relax/shirolepa.png",
   },
   {
-    name: "Shirolepa",
-    category: "Head Therapy",
-    duration: "45 mins",
-    desc: "Herbal paste application on the head to cool the system and support peaceful sleep.",
-  },
-  {
-    name: "Mukhalepa",
-    category: "Facial",
-    duration: "45 mins",
-    desc: "Ayurvedic herbal facial therapy for natural skin cleansing and rejuvenation.",
-  },
-  {
-    name: "Chlorophyll Body Wrap",
-    category: "Body Care",
+    id: "chlorophyll-body-wrap",
+    title: "Chlorophyll Body Wrap",
     duration: "90 mins",
-    desc: "Detoxifying body wrap that nourishes the skin and promotes deep relaxation.",
+    shortDescription:
+      "Natural aromatic body wrap enriched with Moringa for detoxification and nourishment.",
+    details:
+      "Also called Haritaka Lepam, this beauty treatment is enriched with Moringa’s goodness. This Ayurveda body wrap is a natural aromatic paste of freshly ground Moringa Oleifera leaves. It offers powerful antioxidants to skin cells to keep the skin cleansed, moisturized, nourished and revitalized naturally.",
+    benefits: [
+      "Detoxifies the skin",
+      "Improves circulation",
+      "Rejuvenates & hydrates the skin",
+      "Improves skin tone",
+      "Is soothing, comforting & provides relaxation",
+    ],
+    image: "/images/relax/chlorophyll.png",
+  },
+  {
+    id: "shirodhara",
+    title: "Shirodhara",
+    duration: "45 mins",
+    shortDescription:
+      "Lukewarm oil stream over the forehead to enhance the central nervous system.",
+    details:
+      "A deeply relaxing therapy during which the scalp and forehead are caressed by a thin stream of medicated lukewarm oil. Helps to enhance the functioning of the central nervous system. Prevents hair fall and premature greying. Good for insomnia, tension headaches, nervous disorders. Shirodhara is a more calm therapeutic head massage that has many positive effects on the body and the mind. Shirodhara is therefore superior than a head massage. After applying oil to the forehead, there is a brief massage performed in this procedure. And it really is as soothing as it sounds.",
+    benefits: [
+      "Activates intuition",
+      "Improves sleep",
+      "Reduces stress",
+      "Soothes eyes",
+      "Pacifies elevated vata dosha",
+      "Improves cognitive abilities",
+    ],
+    image: "/images/relax/shirodhara.png",
+  },
+  {
+    id: "head-massage",
+    title: "Head Massage",
+    duration: "45 mins",
+    shortDescription:
+      "Holistic treatment targeting marma points to boost healing and sleep quality.",
+    details:
+      "Ayurveda head massage is a holistic treatment that involves applying mild pressure to the head, which has 31 marma points where arteries and veins intersect. This massage also benefits the scalp. Besides, it boosts the body's natural healing abilities and enhances sleep quality.",
+    benefits: [
+      "Boosts blood circulation",
+      "Induces relaxation & deep sleep",
+      "Stimulates hair growth",
+      "Improves concentration",
+      "Relieves stress, insomnia, depression & migraine pain",
+    ],
+    image: "/images/relax/head-massage.png",
+  },
+  {
+    id: "head-foot-massage",
+    title: "Head & Foot Massage",
+    duration: "45 mins",
+    shortDescription:
+      "Combined therapy for cerebral nourishment and reflex point activation.",
+    details:
+      "Head massage helps to break down muscular knots and reduces chronic neck & shoulder discomfort. This procedure also promotes hair growth, nourishes cerebral arteries, and enhances blood circulation. Foot massage, on the other hand, concentrates on the reflex points in the feet to enhance blood circulation. This practice, in addition to giving relaxation, is beneficial to one's vision because foot massage nourishes our optic nerve.",
+    benefits: [
+      "Advances hair growth",
+      "Nourishes the brain's arteries",
+      "Improves blood circulation",
+      "Relaxes the body",
+      "Nourishes the optic nerve",
+    ],
+    image: "/images/relax/head-foot.png",
+  },
+  {
+    id: "keshavarna",
+    title: "Keshavarna",
+    duration: "45 mins",
+    shortDescription:
+      "Hair care treatment with crushed herbs and oils to prevent dandruff and boost growth.",
+    details:
+      "This hair care treatment involves an energizing head massage, which is enhanced with freshly crushed herbs, butter and olive oil. This treatment encourages healthy hair development and aids with dandruff prevention.",
+    benefits: [
+      "Promotes healthy hair growth",
+      "Helps in eradicating dandruff",
+      "Releases stress & anxiety",
+    ],
+    image: "/images/relax/keshavarna.png",
+  },
+  {
+    id: "mukhalepa",
+    title: "Mukhalepa",
+    duration: "45 mins",
+    shortDescription:
+      "Natural Ayurveda facial therapy for skin purity, glow, and rejuvenation.",
+    details:
+      "An Ayurveda Facial Therapy which uses natural ingredients, freshly ground herbal blends & packs to maintain the purity of one’s inner beauty. Besides - fruits, coconut extract and saffron - all form part of this herbal paste. This beauty therapy is relaxing due to the fragrant and aromatic oils used. This natural herbal beauty therapy is by far the best solution for our outer cosmetic skin requirements, bringing out our inner glow.",
+    benefits: [
+      "Keeps skin soft, glowing & radiant",
+      "Natural & chemical free",
+      "Reduces acne & pimples",
+      "Prevents aging of the skin",
+      "Moisturises & hydrates",
+      "Improves skin tone",
+    ],
+    image: "/images/relax/mukhalepa.png",
   },
 ];
-
-export const categoryColors = {
-  "Full Body":    { bg: "bg-[#fdf4eb]", text: "text-[#c07030]", border: "border-[#f0d3b0]" },
-  "Head Therapy": { bg: "bg-[#ebf8fb]", text: "text-[#1a7a94]", border: "border-[#a8d8e4]" },
-  "Deep Tissue":  { bg: "bg-[#f0faf8]", text: "text-[#1a7a6a]", border: "border-[#a8ddd6]" },
-  "Dhara":        { bg: "bg-[#eef4fb]", text: "text-[#2c6fad]", border: "border-[#bed4ee]" },
-  "Local":        { bg: "bg-[#f5f5f5]", text: "text-[#4a4a4a]", border: "border-[#d0d0d0]" },
-  "Energy":       { bg: "bg-[#fdf4eb]", text: "text-[#b06b00]", border: "border-[#f0d9a8]" },
-  "Combined":     { bg: "bg-[#f3f0fb]", text: "text-[#6350c0]", border: "border-[#cfc8ef]" },
-  "Beauty":       { bg: "bg-[#fdf0f8]", text: "text-[#a03080]", border: "border-[#ecc0de]" },
-  "Facial":       { bg: "bg-[#fdf0f8]", text: "text-[#a03080]", border: "border-[#ecc0de]" },
-  "Body Care":    { bg: "bg-[#f0faf8]", text: "text-[#1a7a6a]", border: "border-[#a8ddd6]" },
-};

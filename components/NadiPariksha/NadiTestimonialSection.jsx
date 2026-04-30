@@ -4,26 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { FaLocationDot, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "../Main/RevealOnScroll";
 
-const testimonials = [
-  {
-    quote:
-      "The Nadi Pariksha experience I had at Sri Sri Wellbeing was the best thing I've done for my health. The doctor immediately identified my issues and I got a customised set of treatments and supplements from my visits. Now I feel energised, and the improvement is unbelievable all around. My body feels healthy.",
-    name: "Ruban Kumar",
-    location: "Bangalore",
-  },
-  {
-    quote:
-      "I was suffering from chronic digestive issues for years. The Nadi Vaidya at Sri Sri Wellbeing accurately identified the root cause through pulse diagnosis and recommended a personalised treatment plan. Within weeks, I noticed significant improvement in my digestion and overall energy levels.",
-    name: "Priya Sharma",
-    location: "Chennai",
-  },
-  {
-    quote:
-      "As someone dealing with stress-related health problems, Nadi Pariksha was a revelation. The practitioner could sense my imbalances just through my pulse. The Ayurvedic treatments and lifestyle changes suggested have transformed my sleep quality and mental clarity.",
-    name: "Arjun Menon",
-    location: "Hyderabad",
-  },
-];
+import { testimonials } from "./nadiParikshaData";
 
 export default function NadiTestimonialSection() {
   const [current, setCurrent] = useState(0);

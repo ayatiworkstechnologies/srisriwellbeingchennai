@@ -6,6 +6,7 @@ export default function NetraTejasHero({ content }) {
       title={content.title}
       subtitle={content.subtitle}
       heroImage={content.image}
+      mobileImage={content.mobimage}
       heroImageAlt={content.title}
       paragraphs={[content.description]}
       primaryButton={{ label: content.ctaLabel, href: content.ctaHref }}

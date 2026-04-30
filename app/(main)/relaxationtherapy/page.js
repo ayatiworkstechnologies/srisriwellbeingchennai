@@ -12,6 +12,7 @@ export default function RelaxationTherapyPage() {
         title={relaxHero.title}
         subtitle={relaxHero.subtitle}
         heroImage={relaxHero.image}
+        mobileImage={relaxHero.mobimage}
         heroImageAlt="Relaxation Therapy Ayurvedic Rejuvenation"
         paragraphs={[relaxHero.description]}
         primaryButton={{ label: relaxHero.ctaLabel, href: relaxHero.ctaHref }}

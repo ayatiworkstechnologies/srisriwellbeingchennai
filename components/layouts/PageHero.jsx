@@ -23,6 +23,7 @@ export default function PageHero({
   subtitle,
   paragraphs = [],
   heroImage,
+  mobileImage,
   heroImageAlt = "Hero",
   primaryButton,
   secondaryButton,
@@ -30,19 +31,32 @@ export default function PageHero({
 }) {
   return (
     <section className="overflow-hidden">
-      {/* ── Full-width Image ── */}
-      {heroImage && (
-        <div className="relative w-full h-[320px] md:h-[440px] lg:h-[520px]">
+      {/* ── Responsive Image ── */}
+      <div className="relative w-full h-[60vh] md:h-[75vh] lg:h-[85vh]">
+        {/* Desktop Image */}
+        {heroImage && (
           <Image
             src={heroImage}
             alt={heroImageAlt}
             fill
-            className="object-cover object-center"
+            className={`${mobileImage ? "hidden md:block" : "block"} object-cover object-center`}
             priority
             sizes="100vw"
           />
-        </div>
-      )}
+        )}
+        
+        {/* Mobile Image */}
+        {mobileImage && (
+          <Image
+            src={mobileImage}
+            alt={heroImageAlt}
+            fill
+            className="block md:hidden object-cover object-center"
+            priority
+            sizes="100vw"
+          />
+        )}
+      </div>
 
       {/* ── Content Area ── */}
       <div

@@ -4,6 +4,7 @@ import NetraTejasSupport from "@/components/NetraTejas/NetraTejasSupport";
 import NetraTejasTherapies from "@/components/NetraTejas/NetraTejasTherapies";
 import NetraTejasLocations from "@/components/NetraTejas/NetraTejasLocations";
 import NetraTejasTestimonials from "@/components/NetraTejas/NetraTejasTestimonials";
+import NetraTejasExercises from "@/components/NetraTejas/NetraTejasExercises";
 import {
   featuredDoctor,
   heroContent,
@@ -12,6 +13,8 @@ import {
   testimonials,
   therapies,
   youngEyesFactors,
+  eyeExercises,
+  eyeDisorders,
 } from "@/components/NetraTejas/netraTejasData";
 
 export const metadata = {
@@ -26,7 +29,8 @@ export default function NetraTejasPage() {
       <NetraTejasHero content={heroContent} />
       <NetraTejasOverview card={overviewCard} highlights={overviewHighlights} />
       <NetraTejasTherapies therapies={therapies} />
-      <NetraTejasSupport youngEyesFactors={youngEyesFactors} />
+      <NetraTejasExercises data={eyeExercises} />
+      <NetraTejasSupport youngEyesFactors={youngEyesFactors} eyeDisorders={eyeDisorders} />
       <NetraTejasLocations featuredDoctor={featuredDoctor} />
       <NetraTejasTestimonials testimonials={testimonials} />
     </>

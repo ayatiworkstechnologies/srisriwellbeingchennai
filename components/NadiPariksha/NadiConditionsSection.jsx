@@ -16,23 +16,7 @@ const KidneyPlusIcon = () => (
   </div>
 );
 
-const conditions = [
-  { label: "Kidney Care" },
-  { label: "Diabetes" },
-  { label: "Cardiac Care" },
-  { label: "Asthma" },
-];
-
-const therapyCards = [
-  {
-    title: "Reflexology",
-    image: "/images/ser-3.jpg",
-  },
-  {
-    title: "Reflexology",
-    image: "/images/ser-1.jpg",
-  },
-];
+import { conditions, therapyCards } from "./nadiParikshaData";
 
 export default function NadiConditionsSection() {
   const [hoveredCard, setHoveredCard] = useState(null);

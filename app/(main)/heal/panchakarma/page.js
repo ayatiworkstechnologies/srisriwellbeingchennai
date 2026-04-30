@@ -1,7 +1,5 @@
 // Panchakarma Page Component
 import PageHero from "@/components/layouts/PageHero";
-import PKStatsSection from "@/components/Panchakarma/PKStatsSection";
-import PKPhilosophySection from "@/components/Panchakarma/PKPhilosophySection";
 import PKCoreTherapies from "@/components/Panchakarma/PKCoreTherapies";
 import PKOtherTreatments from "@/components/Panchakarma/PKOtherTreatments";
 import PKFAQSection from "@/components/Panchakarma/PKFAQSection";
@@ -26,6 +24,7 @@ export default function PanchakarmaPage() {
         title={heroContent.title}
         subtitle={heroContent.subtitle}
         heroImage={heroContent.image}
+        mobileImage={heroContent.mobimage}
         heroImageAlt="Panchakarma Ayurvedic Detoxification Therapies"
         paragraphs={[heroContent.description]}
         primaryButton={{

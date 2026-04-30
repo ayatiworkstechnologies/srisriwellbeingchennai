@@ -48,7 +48,7 @@ export default function NadiFAQSection() {
             <div className="relative rounded-[24px] bg-white p-3 shadow-[0_12px_40px_rgba(0,0,0,0.12)]">
               <div className="overflow-hidden rounded-[18px] border-8 border-[#3b2218]">
                 <Image
-                  src="/images/ser-1.jpg" // Assuming this is the facial treatment image
+                  src="/images/nadi/img.png" // Assuming this is the facial treatment image
                   alt="Ayurvedic Treatment"
                   width={600}
                   height={800}

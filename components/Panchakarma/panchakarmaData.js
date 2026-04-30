@@ -7,6 +7,7 @@ export const heroContent = {
   ctaLabel: "Enquire Now",
   ctaHref: "/contact",
   image: "/images/pk-hero.png",
+  mobimage: "/images/pk-hero-mob.png",
 };
 
 // ─── Stats ─────────────────────────────────────────────────────────────────

@@ -2,32 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
-const stats = [
-  {
-    value: 380,
-    suffix: "+",
-    label: "Doctors",
-    desc: "across India\nand the Globe",
-  },
-  {
-    value: 5,
-    suffix: "M+",
-    label: "Patients",
-    desc: "More than 5 Million\npatients addressed",
-  },
-  {
-    value: 500,
-    suffix: "+",
-    label: "Districts",
-    desc: "Nadi camps across\n500+ districts in India",
-  },
-  {
-    value: 20,
-    suffix: "+",
-    label: "Countries",
-    desc: "reached through our\ndoctors",
-  },
-];
+import { stats } from "./nadiParikshaData";
 
 function useCountUp(end, duration = 2000, startCounting) {
   const [count, setCount] = useState(0);

@@ -47,9 +47,19 @@ export default function NetraTejasOverview({ card, highlights = [] }) {
               {card.title}
             </h2>
             <div className="mt-4 h-[3px] w-[60px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
-            <p className="para-text mt-6 text-white/80">
-              {card.description}
-            </p>
+            {Array.isArray(card.description) ? (
+              <div className="space-y-4 mt-6">
+                {card.description.map((text, idx) => (
+                  <p key={idx} className="para-text text-white/80">
+                    {text}
+                  </p>
+                ))}
+              </div>
+            ) : (
+              <p className="para-text mt-6 text-white/80">
+                {card.description}
+              </p>
+            )}
             <div className="mt-8 space-y-4">
               {card.points.map((point) => (
                 <div key={point} className="flex items-start gap-4">

@@ -4,6 +4,7 @@ import NadiConditionsSection from "@/components/NadiPariksha/NadiConditionsSecti
 import NadiTestimonialSection from "@/components/NadiPariksha/NadiTestimonialSection";
 import NadiCampsSection from "@/components/NadiPariksha/NadiCampsSection";
 import NadiFAQSection from "@/components/NadiPariksha/NadiFAQSection";
+import { heroContent } from "@/components/NadiPariksha/nadiParikshaData";
 
 export const metadata = {
   title:
@@ -16,13 +17,11 @@ export default function NadiParikshaPage() {
   return (
     <>
       <PageHero
-        title="Nadi Pariksha"
-        heroImage="/images/ser-1.jpg"
+        title={heroContent.title}
+        heroImage={heroContent.image}
+        mobileImage={heroContent.mobimage}
         heroImageAlt="Nadi Pariksha Ayurvedic Pulse Diagnosis"
-        paragraphs={[
-          "Nadi Pariksha is an ancient, non-invasive pulse diagnosis technique rooted in Ayurveda. By analysing your pulse, it reveals imbalances in your doshas, assesses organ health, and provides deep insights into your physical, emotional, and mental wellbeing.",
-          "It helps identify potential health concerns early and the Ayurveda Nadi Vaidya can guide the right diet, lifestyle changes, Ayurvedic supplements, and treatments personalised just for you.",
-        ]}
+        paragraphs={heroContent.description}
       />
       <NadiStatsSection />
       <NadiConditionsSection />
