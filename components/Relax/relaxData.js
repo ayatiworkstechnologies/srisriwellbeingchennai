@@ -7,6 +7,7 @@ export const relaxHero = {
   ctaHref: "/contact",
   image: "/banner/srisri-relax-mob.png",
   mobimage: "/banner/srisri-relax-web.png",
+  isOverlay: true,
 };
 
 export const relaxationTherapies = [
@@ -203,5 +204,20 @@ export const relaxationTherapies = [
       "Improves skin tone",
     ],
     image: "/images/relax/mukhalepa.png",
+  },
+];
+
+export const testimonials = [
+  {
+    name: "Priya S.",
+    review: "The Nadi Pariksha consultation was eye-opening. The doctors accurately pinpointed my digestive issues and the tailored Ayurvedic diet transformed my health within weeks.",
+  },
+  {
+    name: "Ramesh K.",
+    review: "I've been to many spas and wellness centers, but the authenticity and serene ambiance here is unmatched. The stress relief therapies are truly a lifesaver for my corporate lifestyle.",
+  },
+  {
+    name: "Anita M.",
+    review: "Exceptional care and truly personalized treatments. The staff goes above and beyond to make you feel comfortable and understood. Highly recommend for chronic joint pain.",
   },
 ];

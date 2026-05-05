@@ -7,6 +7,7 @@ export const heroContent = {
   ctaHref: "/contact",
   image: "/banner/srisri-eye-mob.png",
   mobimage: "/banner/srisri-eye-web.png",
+  isOverlay: true,
 };
 
 export const overviewCard = {
@@ -15,7 +16,6 @@ export const overviewCard = {
     "Welcome to Sri Sri Netra Tejas, where we blend ancient Ayurveda wisdom with modern Eye care practices to empower your vision and enrich your life.",
     "Our Ayurvedic eye specialist combines ancient wisdom with modern diagnostic tools to provide comprehensive care for our patients. By integrating Ayurvedic principles with advanced technologies, we offer a holistic approach to diagnosing eye diseases and monitoring patient prognosis.",
     "Equipped with state-of-the-art diagnostic tools, our clinic employs traditional Ayurvedic diagnostic methods to understand the root cause of eye conditions by assessing bodily doshas (Vata, Pitta, Kapha). Tailoring treatments accordingly, we incorporate various eye exercises, natural therapies and internal medicines to promote holistic healing.",
-    "In addition, at Sri Sri Netra Tejas, we take bookings for online eye consultation and offer appropriate eye care packages for the benefit of patients who have to commute a long way to reach our centre.",
   ],
   points: [
     "Ayurvedic eye specialist with holistic care planning",

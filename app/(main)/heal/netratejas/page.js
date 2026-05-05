@@ -3,7 +3,7 @@ import NetraTejasOverview from "@/components/NetraTejas/NetraTejasOverview";
 import NetraTejasSupport from "@/components/NetraTejas/NetraTejasSupport";
 import NetraTejasTherapies from "@/components/NetraTejas/NetraTejasTherapies";
 import NetraTejasLocations from "@/components/NetraTejas/NetraTejasLocations";
-import NetraTejasTestimonials from "@/components/NetraTejas/NetraTejasTestimonials";
+import TestimoniesSection from "@/components/Main/TestimoniesSection";
 import NetraTejasExercises from "@/components/NetraTejas/NetraTejasExercises";
 import {
   featuredDoctor,
@@ -32,7 +32,7 @@ export default function NetraTejasPage() {
       <NetraTejasExercises data={eyeExercises} />
       <NetraTejasSupport youngEyesFactors={youngEyesFactors} eyeDisorders={eyeDisorders} />
       <NetraTejasLocations featuredDoctor={featuredDoctor} />
-      <NetraTejasTestimonials testimonials={testimonials} />
+      <TestimoniesSection data={testimonials} />
     </>
   );
 }

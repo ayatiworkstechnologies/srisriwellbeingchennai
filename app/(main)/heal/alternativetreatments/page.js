@@ -17,14 +17,9 @@ export default function AlternativeTreatmentsPage() {
   return (
     <>
       <PageHero
-        title={heroContent.title}
-        subtitle={heroContent.subtitle}
         heroImage={heroContent.image}
         mobileImage={heroContent.mobimage}
         heroImageAlt="Alternative Treatments at Sri Sri Wellbeing"
-        paragraphs={[heroContent.description]}
-        primaryButton={{ label: heroContent.ctaLabel, href: heroContent.ctaHref }}
-        bgColor="#3b2218"
       />
       <AltTreatmentsGrid treatments={treatments} />
       <TestimoniesSection />

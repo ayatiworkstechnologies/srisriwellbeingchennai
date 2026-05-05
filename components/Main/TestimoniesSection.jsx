@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
-import { FaStar, FaChevronLeft, FaChevronRight } from "react-icons/fa6";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState, useEffect, useCallback } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
 
-const testimonies = [
+const defaultTestimonies = [
   {
     name: "Anusha Rajan",
     review:
@@ -33,145 +32,168 @@ const testimonies = [
   },
 ];
 
-export default function TestimoniesSection() {
-  const [cardsPerPage, setCardsPerPage] = useState(1);
-  const [page, setPage] = useState(0);
+export default function TestimoniesSection({
+  data = defaultTestimonies,
+  title = "Voices of Wellbeing",
+  subtitle = "Journeys of Restoration",
+  className = "bg-[#f6f3ee]",
+}) {
+  const [current, setCurrent] = useState(0);
+  const [isAnimating, setIsAnimating] = useState(false);
 
+  const goTo = useCallback(
+    (index) => {
+      if (isAnimating) return;
+      setIsAnimating(true);
+      setCurrent(index);
+      setTimeout(() => setIsAnimating(false), 500);
+    },
+    [isAnimating]
+  );
+
+  const goNext = useCallback(() => {
+    if (!data || data.length <= 1) return;
+    goTo((current + 1) % data.length);
+  }, [current, goTo, data]);
+
+  const goPrev = useCallback(() => {
+    if (!data || data.length <= 1) return;
+    goTo((current - 1 + data.length) % data.length);
+  }, [current, goTo, data]);
+
+  // Auto-advance
   useEffect(() => {
-    const updateCardsPerPage = () => {
-      if (window.innerWidth < 768) {
-        setCardsPerPage(1);
-      } else if (window.innerWidth < 1024) {
-        setCardsPerPage(2);
-      } else {
-        setCardsPerPage(3);
-      }
-    };
+    if (!data || data.length <= 1) return;
+    const timer = setInterval(goNext, 6000);
+    return () => clearInterval(timer);
+  }, [goNext, data]);
 
-    updateCardsPerPage();
-    window.addEventListener("resize", updateCardsPerPage);
-    return () => window.removeEventListener("resize", updateCardsPerPage);
-  }, []);
+  if (!data || data.length === 0) return null;
 
-  const totalPages = Math.ceil(testimonies.length / cardsPerPage);
-  const currentPage = Math.min(page, Math.max(totalPages - 1, 0));
-
-  const canGoPrev = currentPage > 0;
-  const canGoNext = currentPage < totalPages - 1;
+  const t = data[current];
 
   return (
-    <section
-      id="testimonial"
-      className="section-padding relative overflow-hidden bg-[#f6f3ee]"
-    >
-      <div className="mx-auto w-[min(1320px,calc(100%-24px))] md:w-[min(1320px,calc(100%-40px))]">
-        <RevealOnScroll className="title-center mb-12 md:mb-16">
-          <p className="eyebrow-text mb-3 text-[#c29a2f]">
-            Journeys of Restoration
-          </p>
-          <h2 className="section-title text-[#1f1a17]">
-            Voices of Wellbeing
+    <section className={`section-padding relative ${className}`}>
+      <div className="mx-auto w-[min(900px,calc(100%-24px))] md:w-[min(900px,calc(100%-40px))]">
+        {/* Heading */}
+        <RevealOnScroll className="title-center mb-10 md:mb-14">
+          {subtitle && (
+            <p className="eyebrow-text mb-3 text-[#c29a2f]">{subtitle}</p>
+          )}
+          <h2 className="section-title text-[#1f1a17] lg:text-[42px]">
+            {title}
           </h2>
-          <div className="mx-auto mt-6 h-[3px] w-[72px] rounded-full bg-linear-to-r from-[#e7d58f] to-[#c79f31]" />
+          <div className="mx-auto mt-4 h-[3px] w-[82px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
         </RevealOnScroll>
 
+        {/* Testimonial Card */}
         <div className="relative">
-          {/* Prev button */}
-          <div className="absolute top-1/2 left-[-10px] z-20 -translate-y-1/2 md:left-[-30px]">
-            <button
-              onClick={() => canGoPrev && setPage(currentPage - 1)}
-              disabled={!canGoPrev}
-              className="group relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#c29a2f] shadow-[0_4px_15px_rgba(0,0,0,0.08)] transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:h-14 md:w-14"
-              aria-label="Previous testimonies"
+          <div
+            className="mx-auto max-w-[720px] rounded-[24px] bg-white px-6 py-8 shadow-[0_12px_40px_rgba(0,0,0,0.06)] transition-all duration-500 md:px-10 md:py-10"
+            key={current}
+          >
+            {/* Quote mark */}
+            <div className="text-5xl leading-none text-[#d0a93d]/30 font-serif mb-2">
+              &ldquo;
+            </div>
+
+            {/* Quote text */}
+            <p
+              className="para-text text-[#5e5751] transition-opacity duration-500 italic"
+              style={{
+                animation: "fadeUp 0.5s ease-out forwards",
+              }}
             >
-              <span
-                className="hover-pulse-ring absolute inset-0 rounded-full border border-[#c29a2f]/30"
-                style={{ animationDelay: "0s" }}
-              />
-              <span
-                className="hover-pulse-ring absolute inset-[-8px] rounded-full border border-[#c29a2f]/20"
-                style={{ animationDelay: "0.4s" }}
-              />
-              <FaChevronLeft className="relative z-10 text-[16px] md:text-[20px]" />
-            </button>
-          </div>
+              {t.review || t.quote}
+            </p>
 
-          {/* Next button */}
-          <div className="absolute top-1/2 right-[-10px] z-20 -translate-y-1/2 md:right-[-30px]">
-            <button
-              onClick={() => canGoNext && setPage(currentPage + 1)}
-              disabled={!canGoNext}
-              className="group relative flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#c29a2f] shadow-[0_4px_15px_rgba(0,0,0,0.08)] transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:h-14 md:w-14"
-              aria-label="Next testimonies"
-            >
-              <span
-                className="hover-pulse-ring absolute inset-0 rounded-full border border-[#c29a2f]/30"
-                style={{ animationDelay: "0s" }}
-              />
-              <span
-                className="hover-pulse-ring absolute inset-[-8px] rounded-full border border-[#c29a2f]/20"
-                style={{ animationDelay: "0.4s" }}
-              />
-              <FaChevronRight className="relative z-10 text-[16px] md:text-[20px]" />
-            </button>
-          </div>
+            {/* Divider */}
+            <div className="my-6 h-px w-16 bg-[#d0a93d]/40 mx-auto" />
 
-          <div className="relative overflow-hidden px-4 md:px-0">
-            <motion.div
-              className="flex gap-6"
-              initial={false}
-              animate={{ x: `-${currentPage * 100}%` }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            >
-              {testimonies.map((item, index) => (
-                <div
-                  key={`${item.name}-${index}`}
-                  className="flex min-h-[350px] w-full shrink-0 flex-col rounded-[22px] bg-white p-6 shadow-[0_10px_30px_rgba(0,0,0,0.05)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_40px_rgba(0,0,0,0.08)] md:w-[calc(50%-12px)] lg:w-[calc(33.333%-16px)] md:p-8"
-                >
-                  <div className="mb-5 flex gap-1">
-                    {[...Array(5)].map((_, i) => (
-                      <FaStar
-                        key={i}
-                        className="text-[13px] md:text-[14px] text-[#d0a93d]"
-                      />
-                    ))}
-                  </div>
-
-                  <p className="para-text mb-8 flex-1 text-[#5e5751] italic">
-                    &ldquo;{item.review}&rdquo;
-                  </p>
-
-                  <div className="flex items-center gap-4 border-t border-[#eee7de] pt-5">
-                    <div className="flex h-11 w-11 items-center justify-center rounded-full bg-[#f6f3ee] text-[15px] font-bold text-[#b28b22]">
-                      {item.name.charAt(0)}
-                    </div>
-
-                    <div>
-                      <h4 className="section-subtitle text-[#1f1a17]">
-                        {item.name}
-                      </h4>
-                      <p className="text-[12px] text-[#857b72]">Guest</p>
-                    </div>
-                  </div>
+            {/* Author */}
+            <div className="flex flex-col items-center justify-center gap-3 md:flex-row md:gap-4 mt-2">
+              {t.image ? (
+                <img
+                  src={t.image}
+                  alt={t.name}
+                  className="h-12 w-12 rounded-full object-cover shadow-sm"
+                />
+              ) : (
+                <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#f6f3ee] text-[16px] font-bold text-[#b28b22] shadow-inner">
+                  {t.name ? t.name.charAt(0) : "G"}
                 </div>
-              ))}
-            </motion.div>
+              )}
+              <div className="text-center md:text-left">
+                <p className="text-[18px] font-bold text-[#1f1a17]">
+                  {t.name}
+                  {t.location && (
+                    <>
+                      , <span className="font-normal text-[#5e5751]">{t.location}</span>
+                    </>
+                  )}
+                </p>
+              </div>
+            </div>
           </div>
+
+          {/* Navigation Arrows */}
+          {data.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={goPrev}
+                className="group absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 md:-translate-x-14 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#c29a2f] shadow-[0_4px_15px_rgba(0,0,0,0.08)] transition-all duration-300 hover:scale-110 hover:shadow-[0_8px_25px_rgba(0,0,0,0.12)] md:h-14 md:w-14"
+                aria-label="Previous testimonial"
+              >
+                <span
+                  className="hover-pulse-ring absolute inset-0 rounded-full border border-[#c29a2f]/30"
+                  style={{ animationDelay: "0s" }}
+                />
+                <span
+                  className="hover-pulse-ring absolute inset-[-8px] rounded-full border border-[#c29a2f]/20"
+                  style={{ animationDelay: "0.4s" }}
+                />
+                <FaChevronLeft className="relative z-10 text-[14px] md:text-[18px]" />
+              </button>
+
+              <button
+                type="button"
+                onClick={goNext}
+                className="group absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 md:translate-x-14 flex h-11 w-11 items-center justify-center rounded-full bg-white text-[#c29a2f] shadow-[0_4px_15px_rgba(0,0,0,0.08)] transition-all duration-300 hover:scale-110 hover:shadow-[0_8px_25px_rgba(0,0,0,0.12)] md:h-14 md:w-14"
+                aria-label="Next testimonial"
+              >
+                <span
+                  className="hover-pulse-ring absolute inset-0 rounded-full border border-[#c29a2f]/30"
+                  style={{ animationDelay: "0s" }}
+                />
+                <span
+                  className="hover-pulse-ring absolute inset-[-8px] rounded-full border border-[#c29a2f]/20"
+                  style={{ animationDelay: "0.4s" }}
+                />
+                <FaChevronRight className="relative z-10 text-[14px] md:text-[18px]" />
+              </button>
+            </>
+          )}
         </div>
 
         {/* Dots */}
-        <div className="mt-10 flex items-center justify-center gap-2.5">
-          {Array.from({ length: totalPages }).map((_, idx) => (
-            <button
-              key={`page-dot-${idx}`}
-              onClick={() => setPage(idx)}
-              className={`h-2.5 rounded-full transition-all duration-300 ${
-                idx === currentPage ? "w-8 bg-[#c79f31]" : "w-2.5 bg-[#d8c8a2]"
-              }`}
-              aria-label={`Go to page ${idx + 1}`}
-            />
-          ))}
-        </div>
+        {data.length > 1 && (
+          <div className="mt-8 flex items-center justify-center gap-2.5">
+            {data.map((_, idx) => (
+              <button
+                key={idx}
+                type="button"
+                onClick={() => goTo(idx)}
+                className={`h-2.5 rounded-full transition-all duration-300 ${
+                  idx === current
+                    ? "w-8 bg-[#c79f31]"
+                    : "w-2.5 bg-[#c79f31]/25"
+                }`}
+                aria-label={`Go to testimonial ${idx + 1}`}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

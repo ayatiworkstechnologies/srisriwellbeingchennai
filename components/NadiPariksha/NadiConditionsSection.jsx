@@ -2,17 +2,13 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { GiKidneys } from "react-icons/gi";
-import { FaPlus } from "react-icons/fa6";
+import { PiPlant } from "react-icons/pi";
 import RevealOnScroll from "../Main/RevealOnScroll";
 
-// The exact icon from the design: A golden kidney with a white plus on top-left
-const KidneyPlusIcon = () => (
-  <div className="relative inline-flex items-center justify-center mr-2">
-    <GiKidneys className="text-[32px] text-[#c79f31]" />
-    <div className="absolute -top-1 -left-1 rounded-full bg-[#3b2218] p-[1px]">
-      <FaPlus className="text-[10px] text-white stroke-2" />
-    </div>
+// The exact icon from the design: A green leaf
+const LeafIcon = () => (
+  <div className="relative inline-flex flex-shrink-0 items-center justify-center mr-3 bg-white p-1.5 rounded-full shadow-sm">
+    <PiPlant className="text-[24px] text-[#8cb14a]" />
   </div>
 );
 
@@ -45,19 +41,19 @@ export default function NadiConditionsSection() {
             </h2>
             <div className="mt-4 h-[2px] w-[60px] bg-[#c79f31] md:mt-5" />
 
-            <ul className="mt-8 space-y-6 md:mt-10 md:space-y-7">
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 md:mt-10 md:gap-y-6">
               {conditions.map((item) => (
-                <li
+                <div
                   key={item.label}
                   className="flex items-center"
                 >
-                  <KidneyPlusIcon />
+                  <LeafIcon />
                   <span className="section-subtitle ml-1 text-white tracking-wide">
                     {item.label}
                   </span>
-                </li>
+                </div>
               ))}
-            </ul>
+            </div>
           </RevealOnScroll>
 
           {/* ── Right: Stacked Cards ── */}

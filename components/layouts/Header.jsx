@@ -12,7 +12,7 @@ const navItems = [
   { label: "Relax", href: "/relaxationtherapy" },
   {
     label: "Heal",
-    href: "/heal",
+    // href: "/heal",
     subItems: [
       { label: "Nadi Pariksha", href: "/heal/nadi-pariksha" },
       { label: "Netratejas (Eye Care)", href: "/heal/netratejas" },
@@ -35,12 +35,12 @@ export default function Header() {
       return pathname === "/";
     }
 
-    if (item.href.startsWith("/")) {
-      if (pathname === item.href) {
-        return true;
-      }
+    if (item.subItems?.some((subItem) => pathname === subItem.href)) {
+      return true;
+    }
 
-      if (item.subItems?.some((subItem) => pathname === subItem.href)) {
+    if (item.href?.startsWith("/")) {
+      if (pathname === item.href) {
         return true;
       }
 
@@ -84,9 +84,13 @@ export default function Header() {
                 <li key={item.label} className="relative group">
                   <Link
                     href={
-                      item.href.startsWith("/") ? item.href : `/${item.href}`
+                      item.href ? (item.href.startsWith("/") ? item.href : `/${item.href}`) : "#"
                     }
                     onClick={(e) => {
+                      if (!item.href) {
+                        e.preventDefault();
+                        return;
+                      }
                       if (pathname === "/" && item.href.startsWith("#")) {
                         // Let native scroll happen on homepage
                       } else if (item.href.startsWith("#")) {
@@ -186,7 +190,7 @@ export default function Header() {
             {navItems.map((item) => (
               <li key={item.label}>
                 <Link
-                  href={item.href.startsWith("/") ? item.href : `/${item.href}`}
+                  href={item.href ? (item.href.startsWith("/") ? item.href : `/${item.href}`) : "#"}
                   onClick={() => setIsMobileMenuOpen(false)}
                   className={`block rounded-xl px-4 py-3 text-base font-medium transition-colors ${
                     isItemActive(item)

@@ -62,11 +62,6 @@ export default function NadiCampsSection() {
     setDateFilter("");
   };
 
-  // Split filtered results into 3 columns for the masonry-like layout
-  const leftCards = filteredCamps.filter((_, i) => i % 3 === 0);
-  const middleCards = filteredCamps.filter((_, i) => i % 3 === 1);
-  const rightCards = filteredCamps.filter((_, i) => i % 3 === 2);
-
   return (
     <section className="relative bg-[#f9f8f6] section-padding">
       <div className="container-width">
@@ -119,58 +114,31 @@ export default function NadiCampsSection() {
           </div>
         </RevealOnScroll>
 
-        {/* Masonry Grid */}
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 min-h-[400px]">
-          {/* Left Column */}
-          <RevealOnScroll
-            className="flex-1 flex flex-col gap-6 md:gap-8"
-            delay={0.2}
-          >
-            {leftCards.map((card) => (
-              <CampCard key={card.id} data={card} />
-            ))}
-          </RevealOnScroll>
+        {/* Grid Layout */}
+        <div className="min-h-[400px]">
+          <RevealOnScroll delay={0.2}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start">
+              {filteredCamps.slice(0, 1).map((card) => (
+                <CampCard key={card.id} data={card} />
+              ))}
 
-          {/* Middle Column */}
-          <RevealOnScroll
-            className="flex-1 flex flex-col gap-6 md:gap-8"
-            delay={0.3}
-          >
-            {/* Top Image - always show if not empty? Or only on initial? */}
-            <div className="relative h-[240px] md:h-[280px] w-full overflow-hidden rounded-[20px]">
-              <Image
-                src="/images/nadi/img-5.png"
-                alt="Treatment"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#f9f8f6] to-transparent" />
+              {/* The Image (acts as the 2nd item, so it's in the middle column on desktop) */}
+              {filteredCamps.length >= 0 && (
+                <div className="relative h-[280px] sm:h-[350px] w-full overflow-hidden rounded-[20px] shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+                  <Image
+                    src="/images/nadi/img-5.png"
+                    alt="Nadi Pariksha"
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#f9f8f6] to-transparent opacity-80" />
+                </div>
+              )}
+
+              {filteredCamps.slice(1).map((card) => (
+                <CampCard key={card.id} data={card} />
+              ))}
             </div>
-
-            {middleCards.map((card) => (
-              <CampCard key={card.id} data={card} />
-            ))}
-
-            {/* Bottom Image */}
-            <div className="relative h-[240px] md:h-[280px] w-full overflow-hidden rounded-[20px]">
-              <Image
-                src="/images/nadi/img-4.png"
-                alt="Treatment"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#f9f8f6] to-transparent" />
-            </div>
-          </RevealOnScroll>
-
-          {/* Right Column */}
-          <RevealOnScroll
-            className="flex-1 flex flex-col gap-6 md:gap-8"
-            delay={0.4}
-          >
-            {rightCards.map((card) => (
-              <CampCard key={card.id} data={card} />
-            ))}
           </RevealOnScroll>
         </div>
 

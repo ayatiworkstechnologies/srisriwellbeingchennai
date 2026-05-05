@@ -1,11 +1,12 @@
 import "./globals.css";
+import { Rubik } from "next/font/google";
 import localFont from "next/font/local";
 import Script from "next/script";
 
-const cocogoose = localFont({
-  src: "../public/fonts/Cocogoose Pro Regular Trial.ttf",
+const rubik = Rubik({
+  subsets: ["latin"],
   display: "swap",
-  variable: "--font-cocogoose",
+  variable: "--font-rubik",
 });
 
 const helmet = localFont({
@@ -22,7 +23,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${cocogoose.variable} ${helmet.variable}`}>
+    <html lang="en" className={`${rubik.variable} ${helmet.variable}`}>
       <body>
         <Script
           id="google-tag"

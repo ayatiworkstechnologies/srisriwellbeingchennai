@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { FaCheck } from "react-icons/fa6";
+import { PiPlant } from "react-icons/pi";
 import RevealOnScroll from "../Main/RevealOnScroll";
+
 
 export default function NetraTejasOverview({ card, highlights = [] }) {
   return (
@@ -60,11 +61,12 @@ export default function NetraTejasOverview({ card, highlights = [] }) {
                 {card.description}
               </p>
             )}
-            <div className="mt-8 space-y-4">
+            <div className="mt-8 space-y-3">
               {card.points.map((point) => (
-                <div key={point} className="flex items-start gap-4">
-                  <span className="mt-1 inline-flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-[#d0a93d] text-white">
-                    <FaCheck className="text-[11px]" />
+                <div key={point} className="flex items-start gap-3">
+                  {/* Leaf Icon */}
+                  <span className="mt-0.5 flex-shrink-0">
+                    <PiPlant className="text-[20px] text-[#8cb14a]" />
                   </span>
                   <p className="small-text text-white/85">{point}</p>
                 </div>

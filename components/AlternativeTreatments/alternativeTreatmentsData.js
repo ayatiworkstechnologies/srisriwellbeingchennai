@@ -7,6 +7,7 @@ export const heroContent = {
   ctaHref: "/contact",
   image: "/banner/srisri-al-mob.png",
   mobimage: "/banner/srisri-al-web.png",
+  isOverlay: true,
 };
 
 export const highlights = [

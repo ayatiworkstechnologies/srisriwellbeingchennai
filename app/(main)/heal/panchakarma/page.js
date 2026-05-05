@@ -5,7 +5,6 @@ import PKOtherTreatments from "@/components/Panchakarma/PKOtherTreatments";
 import PKFAQSection from "@/components/Panchakarma/PKFAQSection";
 import {
   heroContent,
-  stats,
   coreTherapies,
   otherTreatments,
 } from "@/components/Panchakarma/panchakarmaData";
@@ -21,17 +20,9 @@ export default function PanchakarmaPage() {
   return (
     <>
       <PageHero
-        title={heroContent.title}
-        subtitle={heroContent.subtitle}
         heroImage={heroContent.image}
         mobileImage={heroContent.mobimage}
         heroImageAlt="Panchakarma Ayurvedic Detoxification Therapies"
-        paragraphs={[heroContent.description]}
-        primaryButton={{
-          label: heroContent.ctaLabel,
-          href: heroContent.ctaHref,
-        }}
-        bgColor="#3b2218"
       />
 
       <PKCoreTherapies coreTherapies={coreTherapies} />

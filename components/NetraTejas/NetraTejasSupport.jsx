@@ -22,7 +22,7 @@ const factorColors = [
   { bg: "bg-[#fdf0f0]", icon: "text-[#c74545]", border: "border-[#f0c8c8]" },
 ];
 
-import { FaCheckCircle } from "react-icons/fa";
+import { PiPlant } from "react-icons/pi";
 
 export default function NetraTejasSupport({ youngEyesFactors, eyeDisorders = [] }) {
   return (
@@ -31,8 +31,18 @@ export default function NetraTejasSupport({ youngEyesFactors, eyeDisorders = [] 
         <div className="flex flex-col gap-16 md:gap-24">
           
           {/* ── Section 1: General Eye Disorders ── */}
-          <div className="flex flex-col lg:flex-row gap-12 items-start">
-            <RevealOnScroll className="lg:w-1/2">
+          <div className="flex flex-col lg:flex-row gap-12 items-center">
+            {/* Left: Image */}
+            <RevealOnScroll className="lg:w-1/2 relative h-[300px] md:h-[400px] w-full rounded-3xl overflow-hidden shadow-2xl">
+              <img 
+                src="/images/nadi/img-6.png" 
+                alt="Eye Care Treatment" 
+                className="w-full h-full object-cover"
+              />
+            </RevealOnScroll>
+
+            {/* Right: Content */}
+            <RevealOnScroll delay={0.2} className="lg:w-1/2">
               <h2 className="section-title text-[#191412] leading-snug">
                 Addressing a Spectrum of Eye Diseases
               </h2>
@@ -44,19 +54,13 @@ export default function NetraTejasSupport({ youngEyesFactors, eyeDisorders = [] 
               <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
                 {eyeDisorders.map((disorder, idx) => (
                   <div key={idx} className="flex items-center gap-3">
-                    <FaCheckCircle className="text-[#c79f31] flex-shrink-0" />
+                    <span className="mt-0.5 flex-shrink-0 bg-white p-1 rounded-full shadow-sm border border-[#eaeaea]">
+                      <PiPlant className="text-[16px] text-[#8cb14a]" />
+                    </span>
                     <span className="text-[15px] font-medium text-[#191412]">{disorder}</span>
                   </div>
                 ))}
               </div>
-            </RevealOnScroll>
-            
-            <RevealOnScroll delay={0.2} className="lg:w-1/2 relative h-[300px] md:h-[400px] w-full rounded-3xl overflow-hidden shadow-2xl">
-              <img 
-                src="/images/nadi/img-6.png" 
-                alt="Eye Care Treatment" 
-                className="w-full h-full object-cover"
-              />
             </RevealOnScroll>
           </div>
 

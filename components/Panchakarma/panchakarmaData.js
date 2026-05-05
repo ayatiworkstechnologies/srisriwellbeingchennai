@@ -6,16 +6,37 @@ export const heroContent = {
     "As per Ayurveda, Panchakarma is a foremost and vital detoxification process, which cleans the entire system. It is inclusive of Vamana, Virechana, Vasti, Nasya and Raktamokshana. The therapies help eliminate toxins, build the immune system, improve digestion, absorption, metabolism and vitality, and boost mental clarity.",
   ctaLabel: "Enquire Now",
   ctaHref: "/contact",
-  image: "/images/pk-hero.png",
-  mobimage: "/images/pk-hero-mob.png",
+  image: "/banner/srisri-panchakarma-mob.png",
+  mobimage: "/banner/srisri-panchakarma-web.png",
+  isOverlay: true,
 };
 
 // ─── Stats ─────────────────────────────────────────────────────────────────
 export const stats = [
-  { value: 5,    suffix: "",    label: "Core Therapies",  desc: "Five classical\nPanchakarma procedures" },
-  { value: 30,   suffix: "+",   label: "Treatments",      desc: "Complementary\nAyurvedic therapies" },
-  { value: 5000, suffix: "+",   label: "Patients",        desc: "Successfully treated\nthrough Panchakarma" },
-  { value: 15,   suffix: "+",   label: "Years",           desc: "Of Ayurvedic\nexpertise & care" },
+  {
+    value: 5,
+    suffix: "",
+    label: "Core Therapies",
+    desc: "Five classical\nPanchakarma procedures",
+  },
+  {
+    value: 30,
+    suffix: "+",
+    label: "Treatments",
+    desc: "Complementary\nAyurvedic therapies",
+  },
+  {
+    value: 5000,
+    suffix: "+",
+    label: "Patients",
+    desc: "Successfully treated\nthrough Panchakarma",
+  },
+  {
+    value: 15,
+    suffix: "+",
+    label: "Years",
+    desc: "Of Ayurvedic\nexpertise & care",
+  },
 ];
 
 // ─── 5 Core Panchakarma Therapies ─────────────────────────────────────────
@@ -23,62 +44,72 @@ export const coreTherapies = [
   {
     id: "vamana",
     name: "Vamana",
-    dosha: "Kapha",
-    doshaColor: "text-[#1a7a6a]",
-    doshaBg: "bg-[#edfaf4]",
-    doshaBorder: "border-[#b5e5cd]",
+    duration: "45 mins",
     shortDesc:
-      "The process of detoxifying the body from the affected Kapha Dosha. Vamana treatment involves therapeutic vomiting which helps remove toxins mainly from the respiratory and gastrointestinal tract.",
-    image: "/images/pk-vamana.png",
-    benefits: ["Clears Kapha from respiratory tract", "Treats asthma and skin disorders", "Improves metabolic function"],
+      "One of Panchakarma's five purifying processes is Vamana. It is the process of detoxifying the body from the affected Kapha Dosha. Vamana treatment involves therapeutic vomiting which helps remove toxins mainly from the respiratory and gastrointestinal tract. This therapy forcefully brings the aggravated Kapha dosha into the stomach and various organs, and throws it out of the body. Through this Ayurveda treatment the disease gets completely cured. This medicated process is done for both preventive and curative purposes.",
+    image: "/images/vamana.png",
+    benefits: [
+      "Heals colds & coughs",
+      "Brings more clarity of thought",
+      "Stabilises bodily tissues",
+      "Delays the aging process",
+      "Strengthens sense organs",
+      "Strengthens digestive capacity",
+    ],
   },
   {
     id: "virechana",
     name: "Virechana",
-    dosha: "Pitta",
-    doshaColor: "text-[#c07030]",
-    doshaBg: "bg-[#fdf4eb]",
-    doshaBorder: "border-[#f0d3b0]",
+    duration: "45 mins",
     shortDesc:
-      "A Panchakarma Therapy which helps to cleanse toxins from the gastro-intestinal tract and eliminates excess pitta through the anal route. Virechana treatment also helps clear the digestive tract of pollutants.",
-    image: "/images/ser-2.jpg",
-    benefits: ["Eliminates excess Pitta dosha", "Cleanses gastrointestinal tract", "Treats liver and skin disorders"],
+      "A Panchakarma Therapy which helps to cleanse toxins from the gastro-intestinal tract and also eliminates excess pitta, through the anal route. Virechana treatment also helps clear the digestive tract of pollutants.",
+    image: "/images/virechana.png",
+    benefits: [
+      "Treats mild to chronic skin conditions",
+      "Treats liver disorders",
+      "Treats gynaecological diseases",
+      "Beneficial for abdominal tumors & ulcers",
+    ],
   },
   {
     id: "vasti",
     name: "Vasti",
-    dosha: "Vata",
-    doshaColor: "text-[#6350c0]",
-    doshaBg: "bg-[#f3f0fb]",
-    doshaBorder: "border-[#cfc8ef]",
+    duration: "45 mins",
     shortDesc:
-      "Considered the most effective of all Panchakarma therapies, Vasti involves medicated enemas using herbal decoctions or oils to cleanse the colon, eliminate Vata dosha, and support deep tissue healing.",
-    image: "/images/ser-3.jpg",
-    benefits: ["Balances Vata dosha effectively", "Strengthens nervous system", "Relieves chronic constipation"],
+      "A Panchakarma Therapy which helps to flushe out toxins and vitiated vata dosha by introducing herbal oils or herbal liquids through the anus, vaginal canal or urethra. Vasti is effective for a variety of conditions, including musculoskeletal problems, paralysis, neurological disorders, gynaecological issues, and auto-immune problems, to name a few. This treatment boosts energy levels, slows down the aging process, and eases the symptoms of piles and constipation.",
+    image: "/images/vasti.png",
+    benefits: [
+      "Heals colds & coughs",
+      "Brings more clarity of thought",
+      "Eases piles & constipation symptoms",
+    ],
   },
   {
     id: "nasya",
     name: "Nasya",
-    dosha: "Head & Neck",
-    doshaColor: "text-[#2c6fad]",
-    doshaBg: "bg-[#eef4fb]",
-    doshaBorder: "border-[#bed4ee]",
+    duration: "45 mins",
     shortDesc:
-      "Nasya is the administration of medicated oils, ghee, or herbal preparations through the nasal passage to cleanse the head and neck region, treating disorders of the sinuses, brain, eyes, ears, and throat.",
-    image: "/images/ser-4.jpg",
-    benefits: ["Treats sinusitis and migraines", "Improves memory and clarity", "Addresses eye and ENT disorders"],
+      "An effective Panchakarma Therapy which protects and soothes the nasal passage. According to Ayurveda, the nose serves as a pathway to the brain, the mind, consciousness, and internal chemistry. And Nasya uses this pathway to eliminate imbalances associated with memory, thinking and emotion. Primarily this therapy focuses on the head and hence there will be a successful resolution to any difficulties above the clavicle bone. It ensures proper flow of energy throughout the body & head, by infusing lukewarm medicinal oil through the nostrils.",
+    image: "/images/nasya.png",
+    benefits: [
+      "Treats ear, nose, and throat conditions",
+      "Reduces sinus congestion",
+      "Ensures uncongested healthy breathing",
+    ],
   },
   {
     id: "raktamokshana",
     name: "Raktamokshana",
-    dosha: "Rakta / Blood",
-    doshaColor: "text-[#a03030]",
-    doshaBg: "bg-[#fef4f4]",
-    doshaBorder: "border-[#ecc0c0]",
+    duration: "45 mins",
     shortDesc:
-      "Raktamokshana is the Ayurvedic procedure of bloodletting used to purify the blood, remove toxins circulating in the bloodstream, and treat skin disorders, gout, and chronic conditions caused by blood impurities.",
-    image: "/images/ser-5.jpg",
-    benefits: ["Purifies blood and removes toxins", "Treats skin disorders and gout", "Reduces inflammation effectively"],
+      "Rakta involves bleeding. This treatment involves a process where impure blood is released from one's body. Blood is expelled from the body, which lowers the amount of toxins present in blood-borne illnesses. It provides a solution for localised pain and discomfort. It often treats ailments triggered by acidity.",
+    image: "/images/raktamokshana.png",
+    benefits: [
+      "Cures Edema",
+      "Treats allergies",
+      "Heals skin diseases",
+      "Brings relief to headaches & arthritis",
+    ],
   },
 ];
 
@@ -248,18 +279,74 @@ export const otherTreatments = [
 
 // ─── Category Colors ────────────────────────────────────────────────────────
 export const categoryColors = {
-  Vasti:        { bg: "bg-[#f3f0fb]", text: "text-[#6350c0]", border: "border-[#cfc8ef]" },
-  External:     { bg: "bg-[#fdf4eb]", text: "text-[#c07030]", border: "border-[#f0d3b0]" },
-  Dhara:        { bg: "bg-[#eef4fb]", text: "text-[#2c6fad]", border: "border-[#bed4ee]" },
-  "Oil Therapy":{ bg: "bg-[#fdf0f8]", text: "text-[#a03080]", border: "border-[#ecc0de]" },
-  Massage:      { bg: "bg-[#f0faf8]", text: "text-[#1a7a6a]", border: "border-[#a8ddd6]" },
-  Energy:       { bg: "bg-[#fdf4eb]", text: "text-[#b06b00]", border: "border-[#f0d9a8]" },
-  "Head Therapy":{ bg: "bg-[#ebf8fb]", text: "text-[#1a7a94]", border: "border-[#a8d8e4]" },
-  Spinal:       { bg: "bg-[#fef6e8]", text: "text-[#b06b00]", border: "border-[#f0d9a8]" },
-  Facial:       { bg: "bg-[#fdf0f8]", text: "text-[#a03080]", border: "border-[#ecc0de]" },
-  "Full Body":  { bg: "bg-[#f0faf8]", text: "text-[#1a7a6a]", border: "border-[#a8ddd6]" },
-  Preparation:  { bg: "bg-[#f5f5f5]", text: "text-[#4a4a4a]", border: "border-[#d0d0d0]" },
-  "Sweat Therapy":{ bg: "bg-[#fef4f4]", text: "text-[#a03030]", border: "border-[#ecc0c0]" },
-  Basti:        { bg: "bg-[#f3f0fb]", text: "text-[#6350c0]", border: "border-[#cfc8ef]" },
-  Panchakarma:  { bg: "bg-[#fdf3e0]", text: "text-[#c79f31]", border: "border-[#f0d9a8]" },
+  Vasti: {
+    bg: "bg-[#f3f0fb]",
+    text: "text-[#6350c0]",
+    border: "border-[#cfc8ef]",
+  },
+  External: {
+    bg: "bg-[#fdf4eb]",
+    text: "text-[#c07030]",
+    border: "border-[#f0d3b0]",
+  },
+  Dhara: {
+    bg: "bg-[#eef4fb]",
+    text: "text-[#2c6fad]",
+    border: "border-[#bed4ee]",
+  },
+  "Oil Therapy": {
+    bg: "bg-[#fdf0f8]",
+    text: "text-[#a03080]",
+    border: "border-[#ecc0de]",
+  },
+  Massage: {
+    bg: "bg-[#f0faf8]",
+    text: "text-[#1a7a6a]",
+    border: "border-[#a8ddd6]",
+  },
+  Energy: {
+    bg: "bg-[#fdf4eb]",
+    text: "text-[#b06b00]",
+    border: "border-[#f0d9a8]",
+  },
+  "Head Therapy": {
+    bg: "bg-[#ebf8fb]",
+    text: "text-[#1a7a94]",
+    border: "border-[#a8d8e4]",
+  },
+  Spinal: {
+    bg: "bg-[#fef6e8]",
+    text: "text-[#b06b00]",
+    border: "border-[#f0d9a8]",
+  },
+  Facial: {
+    bg: "bg-[#fdf0f8]",
+    text: "text-[#a03080]",
+    border: "border-[#ecc0de]",
+  },
+  "Full Body": {
+    bg: "bg-[#f0faf8]",
+    text: "text-[#1a7a6a]",
+    border: "border-[#a8ddd6]",
+  },
+  Preparation: {
+    bg: "bg-[#f5f5f5]",
+    text: "text-[#4a4a4a]",
+    border: "border-[#d0d0d0]",
+  },
+  "Sweat Therapy": {
+    bg: "bg-[#fef4f4]",
+    text: "text-[#a03030]",
+    border: "border-[#ecc0c0]",
+  },
+  Basti: {
+    bg: "bg-[#f3f0fb]",
+    text: "text-[#6350c0]",
+    border: "border-[#cfc8ef]",
+  },
+  Panchakarma: {
+    bg: "bg-[#fdf3e0]",
+    text: "text-[#c79f31]",
+    border: "border-[#f0d9a8]",
+  },
 };

@@ -2,39 +2,26 @@
 
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
+import { PiPlant } from "react-icons/pi";
 import RevealOnScroll from "../Main/RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
 import { categoryColors } from "./panchakarmaData";
 
-const ALL = "All";
+const PAGE_SIZE = 10;
 
 export default function PKOtherTreatments({ treatments }) {
-  const [activeCategory, setActiveCategory] = useState(ALL);
-  const [searchQuery, setSearchQuery] = useState("");
   const [expandedId, setExpandedId] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
-  const categories = [ALL, ...Array.from(new Set(treatments.map((t) => t.category)))];
+  const visibleTreatments = treatments.slice(0, visibleCount);
+  const hasMore = visibleCount < treatments.length;
 
-  const filtered = treatments.filter((t) => {
-    const matchesCat = activeCategory === ALL || t.category === activeCategory;
-    const matchesSearch =
-      searchQuery === "" ||
-      t.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      t.desc.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCat && matchesSearch;
-  });
+  const handleShowMore = () => {
+    setVisibleCount((prev) => Math.min(prev + PAGE_SIZE, treatments.length));
+  };
 
   return (
-    <section className="section-padding bg-white relative overflow-hidden">
-      {/* Subtle dot pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.03]"
-        style={{
-          backgroundImage: "radial-gradient(#3b2218 1px, transparent 1px)",
-          backgroundSize: "24px 24px",
-        }}
-      />
-
+    <section className="section-padding bg-[#faf9f6] relative overflow-hidden">
       <div className="container-width relative z-10">
         {/* Heading */}
         <RevealOnScroll className="title-center mb-10 md:mb-14">
@@ -49,106 +36,76 @@ export default function PKOtherTreatments({ treatments }) {
           </p>
         </RevealOnScroll>
 
-        {/* Search + Filter Bar */}
-        <RevealOnScroll delay={0.1}>
-          <div className="mb-10 md:mb-12 flex flex-col gap-5 md:flex-row md:items-center md:gap-6">
-            {/* Search */}
-            <div className="relative flex-1">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search treatments..."
-                className="w-full rounded-full border border-[#d9d0c3] bg-[#faf7f3] px-6 py-3.5 text-sm font-medium text-[#1f1a17] placeholder-[#9a8f87] outline-none transition-all focus:border-[#d0a93d] focus:ring-2 focus:ring-[#d0a93d]/20"
-              />
-            </div>
-
-            {/* Category Dropdown on mobile */}
-            <div className="relative md:hidden">
-              <select
-                value={activeCategory}
-                onChange={(e) => setActiveCategory(e.target.value)}
-                className="w-full appearance-none rounded-full border border-[#d9d0c3] bg-[#faf7f3] px-6 py-3.5 pr-10 text-sm font-medium text-[#1f1a17] outline-none"
-              >
-                {categories.map((c) => <option key={c} value={c}>{c}</option>)}
-              </select>
-              <FaChevronDown className="pointer-events-none absolute right-5 top-1/2 -translate-y-1/2 text-[12px] text-[#d0a93d]" />
-            </div>
-          </div>
-
-          {/* Category Pills — desktop */}
-          <div className="mb-10 hidden flex-wrap items-center gap-2.5 md:flex">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                type="button"
-                onClick={() => setActiveCategory(cat)}
-                className={`rounded-full border px-5 py-2 text-sm font-semibold tracking-wide transition-all duration-300 ${
-                  activeCategory === cat
-                    ? "border-[#3b2218] bg-[#3b2218] text-white shadow-md"
-                    : "border-[#d9d0c3] bg-white text-[#5f5550] hover:border-[#3b2218] hover:text-[#3b2218]"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
-        </RevealOnScroll>
-
-        {/* Results count */}
-        <p className="mb-6 text-sm text-[#9a8f87]">
-          Showing {filtered.length} of {treatments.length} treatments
-        </p>
-
-        {/* Treatments Accordion Grid */}
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((treatment, index) => {
+        {/* Treatments — Full-width Accordion Rows */}
+        <div className="flex flex-col gap-3">
+          {visibleTreatments.map((treatment, index) => {
             const colors = categoryColors[treatment.category] || {
               bg: "bg-gray-100", text: "text-gray-600", border: "border-gray-200",
             };
             const isOpen = expandedId === treatment.name;
 
             return (
-              <RevealOnScroll key={treatment.name} delay={Math.min(index * 0.04, 0.4)}>
+              <RevealOnScroll key={treatment.name} delay={Math.min(index * 0.03, 0.3)}>
                 <div
-                  className={`rounded-[18px] border bg-white shadow-[0_4px_20px_rgba(31,23,20,0.06)] transition-all duration-300 ${
-                    isOpen ? "shadow-[0_8px_32px_rgba(31,23,20,0.12)]" : "hover:shadow-[0_6px_24px_rgba(31,23,20,0.09)]"
+                  className={`rounded-[20px] border transition-all duration-300 ${
+                    isOpen 
+                      ? "bg-white border-[#d0a93d]/30 shadow-[0_8px_32px_rgba(31,23,20,0.10)]" 
+                      : "bg-white border-[#f0ebe3] shadow-[0_2px_12px_rgba(31,23,20,0.04)] hover:shadow-[0_6px_24px_rgba(31,23,20,0.08)] hover:border-[#d0a93d]/20"
                   }`}
                 >
+                  {/* Header Row */}
                   <button
                     type="button"
                     onClick={() => setExpandedId(isOpen ? null : treatment.name)}
-                    className="flex w-full items-start justify-between gap-3 p-5 text-left"
+                    className="flex w-full items-center justify-between gap-4 p-5 md:p-6 text-left"
                   >
-                    <div className="flex-1">
+                    <div className="flex items-center gap-4 flex-1 min-w-0">
+                      {/* Leaf Icon */}
+                      <PiPlant className={`flex-shrink-0 text-[22px] ${isOpen ? "text-[#8cb14a]" : "text-[#c29a2f]"} transition-colors duration-300`} />
+
+                      {/* Name */}
+                      <h3 className="text-[16px] md:text-[18px] font-semibold text-[#1b1714] truncate">
+                        {treatment.name}
+                      </h3>
+
                       {/* Category badge */}
                       <span
-                        className={`mb-2 inline-block rounded-full border px-3 py-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] ${colors.bg} ${colors.text} ${colors.border}`}
+                        className={`hidden sm:inline-block flex-shrink-0 rounded-full border px-3 py-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] ${colors.bg} ${colors.text} ${colors.border}`}
                       >
                         {treatment.category}
                       </span>
-                      <h3 className="section-subtitle text-[#1b1714] leading-snug">
-                        {treatment.name}
-                      </h3>
                     </div>
+
+                    {/* Chevron */}
                     <span
-                      className={`mt-1 inline-flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-full bg-[#f5f2ec] text-[#d0a93d] transition-transform duration-300 ${
-                        isOpen ? "rotate-180" : ""
+                      className={`inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
+                        isOpen 
+                          ? "bg-[#3b2218] text-white rotate-180" 
+                          : "bg-[#f5f2ec] text-[#d0a93d]"
                       }`}
                     >
                       <FaChevronDown className="text-[11px]" />
                     </span>
                   </button>
 
-                  {/* Description */}
+                  {/* Expanded Content */}
                   <div
                     className="overflow-hidden transition-all duration-500 ease-in-out"
-                    style={{ maxHeight: isOpen ? "300px" : "0px", opacity: isOpen ? 1 : 0 }}
+                    style={{ maxHeight: isOpen ? "400px" : "0px", opacity: isOpen ? 1 : 0 }}
                   >
-                    <div className="border-t border-[#f0ebe3] px-5 pb-5 pt-4">
-                      <p className="small-text text-[#6b5f58] leading-relaxed">
+                    <div className="border-t border-[#f0ebe3] px-5 md:px-6 pb-6 pt-5">
+                      {/* Mobile category badge */}
+                      <span
+                        className={`sm:hidden inline-block mb-3 rounded-full border px-3 py-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] ${colors.bg} ${colors.text} ${colors.border}`}
+                      >
+                        {treatment.category}
+                      </span>
+                      <p className="para-text text-[#5c4a41] leading-relaxed">
                         {treatment.desc}
                       </p>
+                      <div className="mt-5">
+                        <WellnessButton href="/contact" label="Enquire Now" />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -157,10 +114,20 @@ export default function PKOtherTreatments({ treatments }) {
           })}
         </div>
 
-        {filtered.length === 0 && (
-          <div className="py-20 text-center">
-            <p className="para-text text-[#9a8f87]">No treatments found. Try a different search or category.</p>
-          </div>
+        {/* Show More Button */}
+        {hasMore && (
+          <RevealOnScroll delay={0.1}>
+            <div className="mt-10 text-center">
+              <button
+                type="button"
+                onClick={handleShowMore}
+                className="inline-flex items-center gap-2 rounded-full border-2 border-[#3b2218] px-8 py-3.5 text-sm font-semibold text-[#3b2218] transition-all duration-300 hover:bg-[#3b2218] hover:text-white hover:shadow-lg"
+              >
+                Show More Treatments
+                <FaChevronDown className="text-[11px]" />
+              </button>
+            </div>
+          </RevealOnScroll>
         )}
 
         {/* Bottom CTA */}

@@ -1,10 +1,10 @@
 import PageHero from "@/components/layouts/PageHero";
 import NadiStatsSection from "@/components/NadiPariksha/NadiStatsSection";
 import NadiConditionsSection from "@/components/NadiPariksha/NadiConditionsSection";
-import NadiTestimonialSection from "@/components/NadiPariksha/NadiTestimonialSection";
+import TestimoniesSection from "@/components/Main/TestimoniesSection";
 import NadiCampsSection from "@/components/NadiPariksha/NadiCampsSection";
 import NadiFAQSection from "@/components/NadiPariksha/NadiFAQSection";
-import { heroContent } from "@/components/NadiPariksha/nadiParikshaData";
+import { heroContent, testimonials } from "@/components/NadiPariksha/nadiParikshaData";
 
 export const metadata = {
   title:
@@ -17,15 +17,13 @@ export default function NadiParikshaPage() {
   return (
     <>
       <PageHero
-        title={heroContent.title}
         heroImage={heroContent.image}
         mobileImage={heroContent.mobimage}
         heroImageAlt="Nadi Pariksha Ayurvedic Pulse Diagnosis"
-        paragraphs={heroContent.description}
       />
       <NadiStatsSection />
       <NadiConditionsSection />
-      <NadiTestimonialSection />
+      <TestimoniesSection data={testimonials} />
       <NadiCampsSection />
       <NadiFAQSection />
     </>

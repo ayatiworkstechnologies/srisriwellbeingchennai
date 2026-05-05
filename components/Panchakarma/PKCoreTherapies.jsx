@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { FaCheck } from "react-icons/fa6";
+import { PiPlant } from "react-icons/pi";
 import RevealOnScroll from "../Main/RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
 
@@ -45,12 +45,14 @@ export default function PKCoreTherapies({ coreTherapies }) {
 
                   {/* Content */}
                   <div className="flex flex-col justify-center p-7 md:p-10 lg:p-12">
-                    {/* Dosha badge */}
-                    <span
-                      className={`inline-flex w-fit rounded-full border px-4 py-1.5 text-sm font-semibold uppercase tracking-[0.14em] ${therapy.doshaBg} ${therapy.doshaColor} ${therapy.doshaBorder}`}
-                    >
-                      {therapy.dosha} Dosha
-                    </span>
+                    {/* Duration badge */}
+                    {therapy.duration && (
+                      <div className="flex flex-wrap items-center gap-3">
+                        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f6f3ee] px-4 py-1.5 text-sm font-medium text-[#c29a2f]">
+                          <span className="text-[11px] uppercase tracking-wider text-[#857b72] font-semibold">Duration:</span> {therapy.duration}
+                        </span>
+                      </div>
+                    )}
 
                     <h3 className="section-title mt-4 text-[#1b1714]">
                       {therapy.name}
@@ -62,16 +64,24 @@ export default function PKCoreTherapies({ coreTherapies }) {
                     </p>
 
                     {/* Benefits */}
-                    <ul className="mt-6 space-y-3">
-                      {therapy.benefits.map((b) => (
-                        <li key={b} className="flex items-start gap-3">
-                          <span className="mt-1 inline-flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-[#d0a93d] text-white">
-                            <FaCheck className="text-[9px]" />
-                          </span>
+                    <div className="mt-6">
+                      <h4 className="text-sm font-semibold text-[#1b1714] mb-3">Key Benefits</h4>
+                      <ul className="space-y-3">
+                        {therapy.benefits.map((b) => (
+                          <li key={b} className="flex items-start gap-3">
+                          <PiPlant className="mt-0.5 flex-shrink-0 text-[20px] text-[#8cb14a]" />
                           <span className="small-text text-[#5f5550]">{b}</span>
                         </li>
                       ))}
-                    </ul>
+                      </ul>
+                    </div>
+
+                    {/* Enquiry Button */}
+                    <div className="mt-8 pt-6 border-t border-[#f2eee9]">
+                      <div className="w-full sm:w-fit">
+                        <WellnessButton href="/contact" label="Enquire Now" />
+                      </div>
+                    </div>
                   </div>
                 </div>
               </RevealOnScroll>

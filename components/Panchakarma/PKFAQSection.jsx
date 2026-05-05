@@ -42,28 +42,15 @@ export default function PKFAQSection() {
       <div className="container-width">
         <div className="flex flex-col gap-12 md:flex-row md:items-start md:gap-16 lg:gap-24">
           {/* Left: Image + badge */}
-          <RevealOnScroll className="w-full md:w-[40%] flex-shrink-0">
-            <div className="relative rounded-[24px] bg-white p-3 shadow-[0_12px_40px_rgba(0,0,0,0.12)]">
-              <div className="overflow-hidden rounded-[18px] border-8 border-[#3b2218]">
+          <RevealOnScroll className="w-full md:w-[40%] flex-shrink-0 md:self-stretch">
+            <div className="relative rounded-[24px] bg-white p-3 shadow-[0_12px_40px_rgba(0,0,0,0.12)] md:sticky md:top-32 h-full md:min-h-[500px]">
+              <div className="overflow-hidden rounded-[18px] border-8 border-[#3b2218] h-full">
                 <Image
-                  src="/images/ser-1.jpg"
+                  src="/images/faq.png"
                   alt="Panchakarma Ayurvedic Treatment"
                   width={600}
                   height={800}
-                  className="w-full h-auto object-cover"
-                />
-              </div>
-            </div>
-            <div className="mt-6 rounded-[16px] bg-[#3b2218] p-5 text-white">
-              <p className="eyebrow-text text-[#d0a93d]">Ready to Begin?</p>
-              <p className="para-text mt-3 text-white/80">
-                Consult our Ayurvedic specialists for a personalised Panchakarma
-                plan designed around your unique constitution and health goals.
-              </p>
-              <div className="mt-5 origin-left scale-90">
-                <WellnessButton
-                  href="/contact"
-                  label="Book a Consultation"
+                  className="w-full h-full object-cover"
                 />
               </div>
             </div>
@@ -88,18 +75,27 @@ export default function PKFAQSection() {
                     >
                       <h3
                         className={`text-[15px] md:text-[16px] transition-colors duration-300 ${
-                          isOpen ? "font-bold text-[#1f1a17]" : "font-semibold text-[#6b5f58]"
+                          isOpen
+                            ? "font-bold text-[#1f1a17]"
+                            : "font-semibold text-[#6b5f58]"
                         }`}
                       >
                         {faq.q}
                       </h3>
                       <span className="mt-1 flex-shrink-0 text-[#d0a93d]">
-                        {isOpen ? <FaTimes className="text-[14px]" /> : <FaPlus className="text-[14px]" />}
+                        {isOpen ? (
+                          <FaTimes className="text-[14px]" />
+                        ) : (
+                          <FaPlus className="text-[14px]" />
+                        )}
                       </span>
                     </button>
                     <div
                       className="overflow-hidden transition-all duration-500 ease-in-out"
-                      style={{ maxHeight: isOpen ? "300px" : "0px", opacity: isOpen ? 1 : 0 }}
+                      style={{
+                        maxHeight: isOpen ? "300px" : "0px",
+                        opacity: isOpen ? 1 : 0,
+                      }}
                     >
                       <p className="mt-3 small-text text-[#6b5f58] pr-8 leading-relaxed">
                         {faq.a}

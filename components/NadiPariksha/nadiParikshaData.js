@@ -6,6 +6,7 @@ export const heroContent = {
   ],
   image: "/banner/nadi-pariksha-mob.png",
   mobimage: "/banner/nadi-pariksha-web.png",
+  isOverlay: true,
 };
 
 export const stats = [
@@ -35,11 +36,25 @@ export const stats = [
   },
 ];
 
+import { GiKidneys, GiHeartOrgan, GiLungs, GiStomach, GiBrain, GiLiver } from "react-icons/gi";
+import { FaTint, FaEye, FaUserAlt, FaBone, FaNotesMedical, FaVial, FaBed, FaLeaf, FaWeight } from "react-icons/fa";
+
 export const conditions = [
-  { label: "Kidney Care" },
-  { label: "Diabetes" },
-  { label: "Cardiac Care" },
-  { label: "Asthma" },
+  { label: "Kidney Care", icon: GiKidneys },
+  { label: "Diabetes", icon: FaTint },
+  { label: "Cardiac Care", icon: GiHeartOrgan },
+  { label: "Asthma", icon: GiLungs },
+  { label: "Eye Care", icon: FaEye },
+  { label: "Skin & Hair", icon: FaUserAlt },
+  { label: "Joint Pain", icon: FaBone },
+  { label: "Constipation", icon: GiStomach },
+  { label: "Thyroid", icon: FaNotesMedical },
+  { label: "Migraine", icon: GiBrain },
+  { label: "Liver Care", icon: GiLiver },
+  { label: "Hormonal Issues", icon: FaVial },
+  { label: "Stress & Sleep", icon: FaBed },
+  { label: "Allergies", icon: FaLeaf },
+  { label: "Obesity", icon: FaWeight },
 ];
 
 export const therapyCards = [
