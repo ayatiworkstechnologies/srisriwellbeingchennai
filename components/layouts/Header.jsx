@@ -20,10 +20,10 @@ const navItems = [
       { label: "Panchakarma", href: "/heal/panchakarma" },
     ],
   },
-  { label: "Products", href: "#products" },
-  { label: "About", href: "#about" },
-  { label: "Specialties", href: "#specialties" },
-  { label: "Testimonial", href: "#testimonial" },
+  { label: "Products", href: "/products" },
+  { label: "About", href: "/about-us" },
+  // { label: "Specialties", href: "#specialties" },
+  // { label: "Testimonial", href: "#testimonial" },
 ];
 
 export default function Header() {
@@ -129,7 +129,9 @@ export default function Header() {
                                   : `/${subItem.href}`
                               }
                               className={`block rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
-                                pathname && (pathname === subItem.href || pathname === subItem.href + "/")
+                                pathname &&
+                                (pathname === subItem.href ||
+                                  pathname === subItem.href + "/")
                                   ? "bg-[#D4AF37] !text-white"
                                   : "text-[#222] hover:bg-[#d0a93d]/10 hover:text-[#4b1f12]"
                               }`}
@@ -199,10 +201,16 @@ export default function Header() {
                     {item.subItems.map((subItem) => (
                       <li key={subItem.label}>
                         <Link
-                          href={subItem.href.startsWith("/") ? subItem.href : `/${subItem.href}`}
+                          href={
+                            subItem.href.startsWith("/")
+                              ? subItem.href
+                              : `/${subItem.href}`
+                          }
                           onClick={() => setIsMobileMenuOpen(false)}
                           className={`block rounded-xl px-4 py-2.5 text-sm font-medium transition-colors ${
-                            pathname && (pathname === subItem.href || pathname === subItem.href + "/")
+                            pathname &&
+                            (pathname === subItem.href ||
+                              pathname === subItem.href + "/")
                               ? "bg-[#D4AF37] !text-white font-semibold"
                               : "text-[#555] hover:bg-[#d0a93d]/10 hover:text-[#4b1f12]"
                           }`}
