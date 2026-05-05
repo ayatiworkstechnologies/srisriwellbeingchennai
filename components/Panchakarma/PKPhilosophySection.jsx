@@ -29,21 +29,18 @@ export default function PKPhilosophySection() {
   ];
 
   return (
-    <section className="section-padding relative overflow-hidden bg-[#3b2218]">
-      {/* Grid overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "linear-gradient(#e7d58f 1px, transparent 1px), linear-gradient(90deg, #e7d58f 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-          backgroundPosition: "center top",
-        }}
-      />
+    <section className="section-padding relative overflow-hidden ">
+      {/* Background pattern */}
+      <div className="absolute inset-0">
+        <img
+          src="/images/sec-1.svg"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+      </div>
 
       <div className="relative z-10 mx-auto w-[min(1100px,calc(100%-24px))] md:w-[min(1100px,calc(100%-40px))]">
         <div className="flex flex-col items-center gap-12 md:flex-row md:items-center md:justify-between md:gap-16">
-
           {/* Left: Title + Pillars */}
           <RevealOnScroll className="flex-shrink-0 pt-4 md:pt-0">
             <p className="eyebrow-text text-[#d0a93d]">Why Panchakarma?</p>
@@ -67,35 +64,62 @@ export default function PKPhilosophySection() {
           </RevealOnScroll>
 
           {/* Right: Stacked Cards */}
-          <RevealOnScroll delay={0.2} className="relative flex items-center justify-center mt-8 md:mt-0">
+          <RevealOnScroll
+            delay={0.2}
+            className="relative flex items-center justify-center mt-8 md:mt-0"
+          >
             <div className="relative h-[340px] w-[300px] md:h-[400px] md:w-[360px]">
               {/* Back card */}
               <div
                 className="absolute top-0 right-0 z-10 transition-all duration-500 ease-out cursor-pointer"
-                style={{ transform: hoveredCard === 0 ? "rotate(0deg) scale(1.03)" : "rotate(8deg)" }}
+                style={{
+                  transform:
+                    hoveredCard === 0
+                      ? "rotate(0deg) scale(1.03)"
+                      : "rotate(8deg)",
+                }}
                 onMouseEnter={() => setHoveredCard(0)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
                 <div className="overflow-hidden rounded-[16px] bg-white p-3 shadow-[0_14px_44px_rgba(0,0,0,0.30)] md:rounded-[20px] md:p-4">
-                  <p className="section-subtitle mb-3 pl-1 text-left text-black">{cards[0].label}</p>
+                  <p className="section-subtitle mb-3 pl-1 text-left text-black">
+                    {cards[0].label}
+                  </p>
                   <div className="overflow-hidden rounded-[12px] md:rounded-[16px]">
-                    <Image src={cards[0].image} alt={cards[0].label} width={280} height={320}
-                      className="h-[180px] w-[200px] object-cover object-center md:h-[240px] md:w-[250px]" />
+                    <Image
+                      src={cards[0].image}
+                      alt={cards[0].label}
+                      width={280}
+                      height={320}
+                      className="h-[180px] w-[200px] object-cover object-center md:h-[240px] md:w-[250px]"
+                    />
                   </div>
                 </div>
               </div>
               {/* Front card */}
               <div
                 className="absolute top-[40px] left-0 z-20 transition-all duration-500 ease-out cursor-pointer md:top-[50px]"
-                style={{ transform: hoveredCard === 1 ? "rotate(0deg) scale(1.03)" : "rotate(-6deg)" }}
+                style={{
+                  transform:
+                    hoveredCard === 1
+                      ? "rotate(0deg) scale(1.03)"
+                      : "rotate(-6deg)",
+                }}
                 onMouseEnter={() => setHoveredCard(1)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
                 <div className="overflow-hidden rounded-[16px] bg-white p-3 shadow-[0_18px_50px_rgba(0,0,0,0.35)] md:rounded-[20px] md:p-4">
-                  <p className="section-subtitle mb-3 pl-1 text-left text-black">{cards[1].label}</p>
+                  <p className="section-subtitle mb-3 pl-1 text-left text-black">
+                    {cards[1].label}
+                  </p>
                   <div className="overflow-hidden rounded-[12px] md:rounded-[16px]">
-                    <Image src={cards[1].image} alt={cards[1].label} width={280} height={320}
-                      className="h-[180px] w-[200px] object-cover object-center md:h-[240px] md:w-[250px]" />
+                    <Image
+                      src={cards[1].image}
+                      alt={cards[1].label}
+                      width={280}
+                      height={320}
+                      className="h-[180px] w-[200px] object-cover object-center md:h-[240px] md:w-[250px]"
+                    />
                   </div>
                 </div>
               </div>

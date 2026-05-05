@@ -18,17 +18,15 @@ export default function NadiConditionsSection() {
   const [hoveredCard, setHoveredCard] = useState(null);
 
   return (
-    <section className="section-padding relative overflow-hidden bg-[#3b2218]">
-      {/* Exact Grid Pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "linear-gradient(#e7d58f 1px, transparent 1px), linear-gradient(90deg, #e7d58f 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-          backgroundPosition: "center top"
-        }}
-      />
+    <section className="section-padding relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0">
+        <img
+          src="/images/sec-1.svg"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+      </div>
 
       <div className="relative z-10 mx-auto w-[min(1100px,calc(100%-24px))] md:w-[min(1100px,calc(100%-40px))]">
         <div className="flex flex-col items-center gap-12 md:flex-row md:items-center md:justify-between md:gap-16">
@@ -43,10 +41,7 @@ export default function NadiConditionsSection() {
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 md:mt-10 md:gap-y-6">
               {conditions.map((item) => (
-                <div
-                  key={item.label}
-                  className="flex items-center"
-                >
+                <div key={item.label} className="flex items-center">
                   <LeafIcon />
                   <span className="section-subtitle ml-1 text-white tracking-wide">
                     {item.label}
@@ -84,7 +79,7 @@ export default function NadiConditionsSection() {
                       alt={therapyCards[0].title}
                       width={280}
                       height={320}
-                      className="h-[180px] w-[200px] object-cover object-center md:h-[240px] md:w-[250px]"
+                      className="h-[240px] w-[240px] object-cover object-center md:h-[290px] md:w-[300px]"
                     />
                   </div>
                 </div>
@@ -112,7 +107,7 @@ export default function NadiConditionsSection() {
                       alt={therapyCards[1].title}
                       width={280}
                       height={320}
-                      className="h-[180px] w-[200px] object-cover object-center md:h-[240px] md:w-[250px]"
+                      className="h-[240px] w-[240px] object-cover object-center md:h-[290px] md:w-300px]"
                     />
                   </div>
                 </div>

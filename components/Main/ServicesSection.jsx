@@ -5,53 +5,112 @@ import { useEffect, useMemo, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
+import ServiceModal from "./ServiceModal";
+import { AnimatePresence } from "framer-motion";
 
 const therapyCards = [
   {
     title: "Nadi Pariksha",
-    desc: "A non-invasive Ayurvedic pulse diagnosis technique used by our practitioners to assess your doshas and identify imbalances, serving as the starting point for your personalized wellness journey.",
+    desc: "A non-invasive Ayurvedic pulse diagnosis technique used by our practitioners to assess your doshas and identify imbalances.",
+    fullDesc: "Nadi Pariksha is an ancient Ayurvedic pulse diagnosis technique that provides a comprehensive insight into an individual's physical, mental, and emotional health. By feeling the pulse, our expert vaidyas can detect imbalances long before they manifest as physical symptoms, allowing for truly preventive care.",
     image: "/images/ser-1.jpg",
+    benefits: [
+      "Root cause identification of imbalances",
+      "Assessment of organ health and function",
+      "Personalized diet and lifestyle guidance",
+      "Early detection of potential health issues"
+    ]
   },
   {
     title: "Panchakarma Rituals",
-    desc: "A comprehensive Ayurvedic detoxification and cleansing program designed to eliminate deep-seated toxins and effectively restore balance to the body and mind.",
+    desc: "A comprehensive Ayurvedic detoxification and cleansing program designed to eliminate deep-seated toxins.",
+    fullDesc: "Panchakarma is the ultimate Ayurvedic detox program. It consists of five therapeutic actions that cleanse the body of deep-seated toxins (Ama) while restoring the natural balance of the Doshas. It is a profound journey of purification and rejuvenation for the entire system.",
     image: "/images/ser-2.jpg",
+    benefits: [
+      "Deep detoxification of the entire body",
+      "Strengthens the immune system",
+      "Enhances metabolic and digestive function",
+      "Restores cellular vitality and energy"
+    ]
   },
   {
     title: "Marma Therapy",
-    desc: "An Ayurvedic technique involving gentle stimulation of specific vital energy points on the body to improve energy flow, reduce stress, and support deep healing.",
+    desc: "Gentle stimulation of specific vital energy points on the body to improve energy flow and reduce stress.",
+    fullDesc: "Marma Therapy focuses on the 107 vital energy points where the body's consciousness and matter meet. Through gentle stimulation of these points, we release blocked energy, reduce physical and mental tension, and stimulate the body's natural healing mechanisms.",
     image: "/images/ser-3.jpg",
+    benefits: [
+      "Releases deep-seated physical and emotional stress",
+      "Improves the flow of Prana (vital energy)",
+      "Enhances organ function and systemic balance",
+      "Promotes deep relaxation and mental clarity"
+    ]
   },
   {
     title: "Osteopathic Therapy",
-    desc: "A manual therapy focused on the body's musculoskeletal system, aiming to improve overall health by strengthening the framework of the body and managing pain.",
+    desc: "Manual therapy focused on the musculoskeletal system to manage pain and improve framework strength.",
+    fullDesc: "Our Osteopathic approach combines modern anatomical knowledge with traditional manual techniques. We focus on the structural integrity of the body, working with muscles, joints, and connective tissues to relieve pain, improve mobility, and support the body's self-healing capacity.",
     image: "/images/ser-4.jpg",
+    benefits: [
+      "Relieves chronic pain and structural tension",
+      "Improves posture and spinal alignment",
+      "Enhances mobility and flexibility",
+      "Supports nervous system health"
+    ]
   },
   {
     title: "Ozone Therapy",
-    desc: "An advanced restorative treatment utilized to address various chronic conditions and enhance overall systemic vitality through the healing properties of ozone.",
+    desc: "Advanced restorative treatment to address chronic conditions and enhance overall systemic vitality.",
+    fullDesc: "Ozone Therapy is a cutting-edge integrative treatment that uses medical-grade ozone to stimulate the immune system and enhance oxygen delivery to tissues. It is highly effective for chronic inflammation, fatigue, and various systemic health concerns.",
     image: "/images/ser-5.jpg",
+    benefits: [
+      "Potent anti-inflammatory and antioxidant effect",
+      "Boosts cellular energy and metabolic function",
+      "Supports the immune system's response",
+      "Enhances overall systemic vitality"
+    ]
   },
   {
     title: "Meru Therapy",
-    desc: "A specialized therapy deeply focused on spinal health and alignment, aiming to restore harmony and balance to the body's structural and energetic systems.",
+    desc: "Specialized therapy deeply focused on spinal health and alignment to restore harmony.",
+    fullDesc: "Meru Therapy is a unique approach centered on the spine (Meru Danda). It uses precise, gentle movements to release spinal tension and correct alignments, ensuring that the central channel of energy and information in the body functions optimally.",
     image: "/images/ser-6.jpg",
+    benefits: [
+      "Corrects spinal alignment and postural issues",
+      "Relieves back, neck, and shoulder pain",
+      "Enhances nervous system communication",
+      "Promotes a profound sense of groundedness"
+    ]
   },
   {
     title: "Craniosacral Therapy",
-    desc: "A gentle, hands-on technique that monitors the rhythm of cerebrospinal fluid to release tensions deep in the body, relieving pain and dysfunction.",
+    desc: "Gentle, hands-on technique that monitors the rhythm of cerebrospinal fluid to release tensions.",
+    fullDesc: "Craniosacral Therapy is a non-invasive, gentle touch therapy that works with the rhythm of the cerebrospinal fluid. By releasing restrictions in the craniosacral system, we allow the central nervous system to calm and the body to return to a state of deep equilibrium.",
     image: "/images/ser-7.jpg",
+    benefits: [
+      "Relieves migraine and tension headaches",
+      "Calms the sympathetic nervous system",
+      "Reduces stress, anxiety, and insomnia",
+      "Supports emotional release and balance"
+    ]
   },
   {
-    title: "Pain Management Therapies",
-    desc: "Integrative treatments combining classical and contemporary therapies, including L&B pain management, to address chronic discomfort and restore natural mobility.",
+    title: "Pain Management",
+    desc: "Integrative treatments combining classical and contemporary therapies to address chronic discomfort.",
+    fullDesc: "Our Pain Management program is highly personalized, combining the best of Ayurvedic external therapies with modern holistic approaches. We don't just target the symptom; we look for the root cause of the discomfort to provide long-lasting relief and restored mobility.",
     image: "/images/ser-8.jpg",
+    benefits: [
+      "Effective relief from chronic musculoskeletal pain",
+      "Reduces inflammation and swelling",
+      "Restores natural range of motion",
+      "Provides non-invasive alternatives to medication"
+    ]
   },
 ];
 
 export default function ServicesSection() {
   const [cardsPerPage, setCardsPerPage] = useState(4);
   const [page, setPage] = useState(0);
+  const [selectedService, setSelectedService] = useState(null);
 
   useEffect(() => {
     const updateCardsPerPage = () => {
@@ -187,7 +246,7 @@ export default function ServicesSection() {
                   </p>
 
                   <WellnessButton
-                    href="/contact"
+                    onClick={() => setSelectedService(card)}
                     label="Explore Therapy"
                     className="mt-auto scale-90 origin-left"
                   />
@@ -213,6 +272,15 @@ export default function ServicesSection() {
           </div>
         </RevealOnScroll>
       </div>
+
+      <AnimatePresence>
+        {selectedService && (
+          <ServiceModal
+            service={selectedService}
+            onClose={() => setSelectedService(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }

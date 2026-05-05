@@ -42,7 +42,7 @@ export default function AltTreatmentsGrid({ treatments }) {
       {/* Subtle background elements */}
       <div className="absolute top-0 right-0 w-1/3 h-1/3 bg-radial from-[#e7d58f]/10 to-transparent pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-1/4 h-1/4 bg-radial from-[#3b2218]/5 to-transparent pointer-events-none" />
-      
+
       {/* Subtle dot pattern */}
       <div
         className="absolute inset-0 opacity-[0.03]"
@@ -61,8 +61,9 @@ export default function AltTreatmentsGrid({ treatments }) {
           </h2>
           <div className="mx-auto mt-5 h-[3px] w-[80px] rounded-full bg-gradient-to-r from-[#e7d58f] via-[#c79f31] to-[#e7d58f]" />
           <p className="para-text mx-auto mt-6 max-w-[720px] text-[#5c544f]">
-            Discover our range of 14 specialized treatment modalities, where ancient wisdom 
-            converges with modern understanding to support your healing journey.
+            Discover our range of 14 specialized treatment modalities, where
+            ancient wisdom converges with modern understanding to support your
+            healing journey.
           </p>
         </RevealOnScroll>
 
@@ -97,9 +98,7 @@ export default function AltTreatmentsGrid({ treatments }) {
 
             return (
               <RevealOnScroll key={treatment.id} delay={index * 0.05}>
-                <article
-                  className="group flex h-full flex-col overflow-hidden rounded-[24px] bg-white shadow-[0_10px_35px_rgba(0,0,0,0.05)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(31,23,20,0.12)]"
-                >
+                <article className="group flex h-full flex-col overflow-hidden rounded-[24px] bg-white shadow-[0_10px_35px_rgba(0,0,0,0.05)] transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_50px_rgba(31,23,20,0.12)]">
                   {/* Image Container */}
                   <div className="relative h-[240px] overflow-hidden">
                     <Image
@@ -109,10 +108,10 @@ export default function AltTreatmentsGrid({ treatments }) {
                       className="object-cover object-center transition-transform duration-1000 group-hover:scale-110"
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
-                    
+
                     {/* Overlay Gradient */}
                     <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
-                    
+
                     {/* Category Badge */}
                     <div className="absolute left-4 top-4">
                       <span
@@ -128,31 +127,19 @@ export default function AltTreatmentsGrid({ treatments }) {
                     <h3 className="text-xl font-bold text-[#1b1714] leading-tight">
                       {treatment.name}
                     </h3>
-                    
+
                     <div className="mt-3 flex-1">
                       <p className="line-clamp-3 text-[14px] leading-relaxed text-[#6b625d]">
                         {treatment.shortDesc}
                       </p>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={() => setSelectedTreatment(treatment)}
-                      className="group/btn relative mt-6 flex w-full items-center justify-between overflow-hidden rounded-xl border border-white/30 bg-white/10 px-5 py-3 text-[13px] font-bold uppercase tracking-wider text-white backdrop-blur-sm transition-all duration-300 hover:bg-[#b88621] hover:border-[#b88621] hover:shadow-lg group"
-                    >
-                      {/* Ripple Rings - White */}
-                      <span
-                        className="hover-pulse-ring absolute inset-0 rounded-full border border-white/40"
-                        style={{ animationDelay: "0s" }}
+                    <div className="mt-6">
+                      <WellnessButton
+                        label="Explore Therapy"
+                        onClick={() => setSelectedTreatment(treatment)}
                       />
-                      <span
-                        className="hover-pulse-ring absolute inset-[-8px] rounded-full border border-white/20"
-                        style={{ animationDelay: "0.4s" }}
-                      />
-                      
-                      <span className="relative z-10">Explore Therapy</span>
-                      <FaChevronRight className="relative z-10 text-[10px]" />
-                    </button>
+                    </div>
                   </div>
                 </article>
               </RevealOnScroll>
@@ -162,28 +149,25 @@ export default function AltTreatmentsGrid({ treatments }) {
 
         {/* CTA Banner */}
         <RevealOnScroll delay={0.2}>
-          <div className="mt-20 relative overflow-hidden rounded-[32px] bg-[#3b2218] p-10 md:p-16 text-center shadow-[0_25px_60px_rgba(59,34,24,0.3)]">
-            <div
-              className="absolute inset-0 opacity-[0.08]"
-              style={{
-                backgroundImage:
-                  "linear-gradient(#e7d58f 1px, transparent 1px), linear-gradient(90deg, #e7d58f 1px, transparent 1px)",
-                backgroundSize: "40px 40px",
-              }}
-            />
+          <div className="mt-20 relative overflow-hidden rounded-[32px]  p-10 md:p-16 text-center shadow-[0_25px_60px_rgba(59,34,24,0.3)]">
+            <div className="absolute inset-0 ">
+              <img
+                src="/images/sec-1.svg"
+                alt=""
+                className="w-full h-full object-cover rounded-[32px]"
+              />
+            </div>
             <div className="relative z-10">
               <h2 className="section-title text-white">
                 Not sure which therapy is right for you?
               </h2>
               <p className="para-text mx-auto mt-6 max-w-[640px] text-white/80">
-                Our expert consultants can help you identify the most effective combination 
-                of therapies based on your unique health profile and goals.
+                Our expert consultants can help you identify the most effective
+                combination of therapies based on your unique health profile and
+                goals.
               </p>
               <div className="mt-10 flex flex-wrap justify-center gap-4">
-                <WellnessButton
-                  href="/contact"
-                  label="Get Expert Guidance"
-                />
+                <WellnessButton href="/contact" label="Get Expert Guidance" />
               </div>
             </div>
           </div>
@@ -202,7 +186,7 @@ export default function AltTreatmentsGrid({ treatments }) {
               onClick={() => setSelectedTreatment(null)}
               className="absolute inset-0 bg-[#1f1a17]/90 backdrop-blur-sm"
             />
-            
+
             {/* Modal Content */}
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
@@ -229,7 +213,7 @@ export default function AltTreatmentsGrid({ treatments }) {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent md:hidden" />
                   <div className="absolute bottom-6 left-6 md:hidden">
-                     <span className="inline-block rounded-full bg-white/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
+                    <span className="inline-block rounded-full bg-white/20 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-white backdrop-blur-md">
                       {selectedTreatment.category}
                     </span>
                   </div>
@@ -242,18 +226,18 @@ export default function AltTreatmentsGrid({ treatments }) {
                       {selectedTreatment.category}
                     </span>
                   </div>
-                  
+
                   <h3 className="mt-4 text-3xl md:text-4xl font-bold text-[#1f1a17]">
                     {selectedTreatment.name}
                   </h3>
-                  
+
                   <div className="mt-6 h-[2px] w-[60px] bg-[#d0a93d]" />
-                  
+
                   <div className="mt-8 space-y-6">
                     <p className="text-[16px] md:text-[18px] leading-relaxed text-[#5c544f]">
                       {selectedTreatment.shortDesc}
                     </p>
-                    
+
                     <div className="rounded-2xl bg-[#f8f6f2] p-6 border border-[#e2dcd0]">
                       <h4 className="font-bold text-[#1f1a17] text-[15px] uppercase tracking-wider mb-3">
                         Key Benefits
@@ -261,11 +245,13 @@ export default function AltTreatmentsGrid({ treatments }) {
                       <ul className="space-y-3">
                         <li className="flex items-start gap-3 text-[14px] text-[#5c544f]">
                           <span className="text-[#b88621] mt-1">✦</span>
-                          Restores natural balance and vitality to the body system.
+                          Restores natural balance and vitality to the body
+                          system.
                         </li>
                         <li className="flex items-start gap-3 text-[14px] text-[#5c544f]">
                           <span className="text-[#b88621] mt-1">✦</span>
-                          Personalized approach tailored to your specific health needs.
+                          Personalized approach tailored to your specific health
+                          needs.
                         </li>
                         <li className="flex items-start gap-3 text-[14px] text-[#5c544f]">
                           <span className="text-[#b88621] mt-1">✦</span>
@@ -276,13 +262,7 @@ export default function AltTreatmentsGrid({ treatments }) {
                   </div>
 
                   <div className="mt-auto pt-10">
-                    <a
-                      href="/contact"
-                      className="inline-flex items-center gap-3 rounded-full bg-[#3b2218] px-8 py-4 text-[14px] font-bold uppercase tracking-widest text-white shadow-xl transition-all hover:scale-105 hover:bg-[#4d2d20]"
-                    >
-                      Book This Therapy
-                      <FaChevronRight size={12} />
-                    </a>
+                    <WellnessButton href="/contact" label="Book This Therapy" />
                   </div>
                 </div>
               </div>

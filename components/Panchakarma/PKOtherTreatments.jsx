@@ -31,8 +31,9 @@ export default function PKOtherTreatments({ treatments }) {
           </h2>
           <div className="mx-auto mt-4 h-[3px] w-[82px] rounded-full bg-gradient-to-r from-[#e7d58f] to-[#c79f31]" />
           <p className="para-text mx-auto mt-5 max-w-[700px] text-[#6b5f58]">
-            Beyond the five core Panchakarma procedures, we offer a comprehensive
-            range of complementary Ayurvedic therapies tailored to your needs.
+            Beyond the five core Panchakarma procedures, we offer a
+            comprehensive range of complementary Ayurvedic therapies tailored to
+            your needs.
           </p>
         </RevealOnScroll>
 
@@ -40,28 +41,37 @@ export default function PKOtherTreatments({ treatments }) {
         <div className="flex flex-col gap-3">
           {visibleTreatments.map((treatment, index) => {
             const colors = categoryColors[treatment.category] || {
-              bg: "bg-gray-100", text: "text-gray-600", border: "border-gray-200",
+              bg: "bg-gray-100",
+              text: "text-gray-600",
+              border: "border-gray-200",
             };
             const isOpen = expandedId === treatment.name;
 
             return (
-              <RevealOnScroll key={treatment.name} delay={Math.min(index * 0.03, 0.3)}>
+              <RevealOnScroll
+                key={treatment.name}
+                delay={Math.min(index * 0.03, 0.3)}
+              >
                 <div
                   className={`rounded-[20px] border transition-all duration-300 ${
-                    isOpen 
-                      ? "bg-white border-[#d0a93d]/30 shadow-[0_8px_32px_rgba(31,23,20,0.10)]" 
+                    isOpen
+                      ? "bg-white border-[#d0a93d]/30 shadow-[0_8px_32px_rgba(31,23,20,0.10)]"
                       : "bg-white border-[#f0ebe3] shadow-[0_2px_12px_rgba(31,23,20,0.04)] hover:shadow-[0_6px_24px_rgba(31,23,20,0.08)] hover:border-[#d0a93d]/20"
                   }`}
                 >
                   {/* Header Row */}
                   <button
                     type="button"
-                    onClick={() => setExpandedId(isOpen ? null : treatment.name)}
+                    onClick={() =>
+                      setExpandedId(isOpen ? null : treatment.name)
+                    }
                     className="flex w-full items-center justify-between gap-4 p-5 md:p-6 text-left"
                   >
                     <div className="flex items-center gap-4 flex-1 min-w-0">
                       {/* Leaf Icon */}
-                      <PiPlant className={`flex-shrink-0 text-[22px] ${isOpen ? "text-[#8cb14a]" : "text-[#c29a2f]"} transition-colors duration-300`} />
+                      <PiPlant
+                        className={`flex-shrink-0 text-[22px] ${isOpen ? "text-[#8cb14a]" : "text-[#c29a2f]"} transition-colors duration-300`}
+                      />
 
                       {/* Name */}
                       <h3 className="text-[16px] md:text-[18px] font-semibold text-[#1b1714] truncate">
@@ -79,8 +89,8 @@ export default function PKOtherTreatments({ treatments }) {
                     {/* Chevron */}
                     <span
                       className={`inline-flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full transition-all duration-300 ${
-                        isOpen 
-                          ? "bg-[#3b2218] text-white rotate-180" 
+                        isOpen
+                          ? "bg-[#3b2218] text-white rotate-180"
                           : "bg-[#f5f2ec] text-[#d0a93d]"
                       }`}
                     >
@@ -91,7 +101,10 @@ export default function PKOtherTreatments({ treatments }) {
                   {/* Expanded Content */}
                   <div
                     className="overflow-hidden transition-all duration-500 ease-in-out"
-                    style={{ maxHeight: isOpen ? "400px" : "0px", opacity: isOpen ? 1 : 0 }}
+                    style={{
+                      maxHeight: isOpen ? "400px" : "0px",
+                      opacity: isOpen ? 1 : 0,
+                    }}
                   >
                     <div className="border-t border-[#f0ebe3] px-5 md:px-6 pb-6 pt-5">
                       {/* Mobile category badge */}
@@ -132,14 +145,14 @@ export default function PKOtherTreatments({ treatments }) {
 
         {/* Bottom CTA */}
         <RevealOnScroll delay={0.1}>
-          <div className="mt-16 md:mt-20 overflow-hidden rounded-[24px] bg-[#3b2218] relative p-8 md:p-12 text-center">
-            <div
-              className="absolute inset-0 rounded-[24px] opacity-[0.06]"
-              style={{
-                backgroundImage: "linear-gradient(#e7d58f 1px, transparent 1px), linear-gradient(90deg, #e7d58f 1px, transparent 1px)",
-                backgroundSize: "40px 40px",
-              }}
-            />
+          <div className="mt-16 md:mt-20 overflow-hidden rounded-[24px] relative p-8 md:p-12 text-center">
+            <div className="absolute inset-0 rounded-[24px] ">
+              <img
+                src="/images/sec-1.svg"
+                alt=""
+                className="w-full h-full object-cover rounded-[24px]"
+              />
+            </div>
             <div className="relative z-10">
               <p className="eyebrow-text text-[#d0a93d]">Personalised Care</p>
               <h2 className="section-title mt-4 text-white">

@@ -27,21 +27,19 @@ export default function AltPhilosophySection() {
 
   const cards = [
     { image: "/images/alt-craniosacral.png", label: "Holistic Healing" },
-    { image: "/images/alt-reflexology.png",  label: "Natural Therapies" },
+    { image: "/images/alt-reflexology.png", label: "Natural Therapies" },
   ];
 
   return (
-    <section className="section-padding relative overflow-hidden bg-[#3b2218]">
-      {/* Grid overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "linear-gradient(#e7d58f 1px, transparent 1px), linear-gradient(90deg, #e7d58f 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-          backgroundPosition: "center top",
-        }}
-      />
+    <section className="section-padding relative overflow-hidden ">
+      {/* Background pattern */}
+      <div className="absolute inset-0">
+        <img
+          src="/images/sec-1.svg"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+      </div>
 
       <div className="relative z-10 mx-auto w-[min(1100px,calc(100%-24px))] md:w-[min(1100px,calc(100%-40px))]">
         <div className="flex flex-col items-center gap-12 md:flex-row md:items-center md:justify-between md:gap-16">

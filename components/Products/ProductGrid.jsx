@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import RevealOnScroll from "../Main/RevealOnScroll";
+import WellnessButton from "../layouts/WellnessButton";
 import { products } from "./productsData";
 import { FiX } from "react-icons/fi";
 
@@ -136,9 +137,7 @@ export default function ProductGrid() {
               </div>
 
               <div className="mt-auto pt-6 border-t border-[#f2eee9]">
-                <button className="w-full py-4 rounded-full bg-[#3b2218] text-white font-medium hover:bg-[#c29a2f] transition-all duration-300 shadow-[0_4px_15px_rgba(59,34,24,0.2)] hover:shadow-[0_8px_25px_rgba(194,154,47,0.3)]">
-                  Enquire Now
-                </button>
+                <WellnessButton href="/contact" label="Enquire Now" />
               </div>
             </div>
           </div>

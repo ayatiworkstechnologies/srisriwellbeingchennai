@@ -3,16 +3,15 @@ import RevealOnScroll from "../Main/RevealOnScroll";
 
 export default function NetraTejasTherapies({ therapies }) {
   return (
-    <section className="section-padding bg-[#3b2218] relative overflow-hidden">
-      {/* Subtle grid pattern overlay */}
-      <div
-        className="absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "linear-gradient(#e7d58f 1px, transparent 1px), linear-gradient(90deg, #e7d58f 1px, transparent 1px)",
-          backgroundSize: "64px 64px",
-        }}
-      />
+    <section className="section-padding relative overflow-hidden">
+      {/* Background pattern */}
+      <div className="absolute inset-0">
+        <img
+          src="/images/sec-1.svg"
+          alt=""
+          className="w-full h-full object-cover"
+        />
+      </div>
 
       <div className="container-width relative z-10">
         {/* Section Heading */}
