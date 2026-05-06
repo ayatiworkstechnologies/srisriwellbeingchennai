@@ -7,110 +7,52 @@ import RevealOnScroll from "./RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
 import ServiceModal from "./ServiceModal";
 import { AnimatePresence } from "framer-motion";
-
-const therapyCards = [
-  {
-    title: "Nadi Pariksha",
-    desc: "A non-invasive Ayurvedic pulse diagnosis technique used by our practitioners to assess your doshas and identify imbalances.",
-    fullDesc: "Nadi Pariksha is an ancient Ayurvedic pulse diagnosis technique that provides a comprehensive insight into an individual's physical, mental, and emotional health. By feeling the pulse, our expert vaidyas can detect imbalances long before they manifest as physical symptoms, allowing for truly preventive care.",
-    image: "/images/ser-1.jpg",
-    benefits: [
-      "Root cause identification of imbalances",
-      "Assessment of organ health and function",
-      "Personalized diet and lifestyle guidance",
-      "Early detection of potential health issues"
-    ]
-  },
-  {
-    title: "Panchakarma Rituals",
-    desc: "A comprehensive Ayurvedic detoxification and cleansing program designed to eliminate deep-seated toxins.",
-    fullDesc: "Panchakarma is the ultimate Ayurvedic detox program. It consists of five therapeutic actions that cleanse the body of deep-seated toxins (Ama) while restoring the natural balance of the Doshas. It is a profound journey of purification and rejuvenation for the entire system.",
-    image: "/images/ser-2.jpg",
-    benefits: [
-      "Deep detoxification of the entire body",
-      "Strengthens the immune system",
-      "Enhances metabolic and digestive function",
-      "Restores cellular vitality and energy"
-    ]
-  },
-  {
-    title: "Marma Therapy",
-    desc: "Gentle stimulation of specific vital energy points on the body to improve energy flow and reduce stress.",
-    fullDesc: "Marma Therapy focuses on the 107 vital energy points where the body's consciousness and matter meet. Through gentle stimulation of these points, we release blocked energy, reduce physical and mental tension, and stimulate the body's natural healing mechanisms.",
-    image: "/images/ser-3.jpg",
-    benefits: [
-      "Releases deep-seated physical and emotional stress",
-      "Improves the flow of Prana (vital energy)",
-      "Enhances organ function and systemic balance",
-      "Promotes deep relaxation and mental clarity"
-    ]
-  },
-  {
-    title: "Osteopathic Therapy",
-    desc: "Manual therapy focused on the musculoskeletal system to manage pain and improve framework strength.",
-    fullDesc: "Our Osteopathic approach combines modern anatomical knowledge with traditional manual techniques. We focus on the structural integrity of the body, working with muscles, joints, and connective tissues to relieve pain, improve mobility, and support the body's self-healing capacity.",
-    image: "/images/ser-4.jpg",
-    benefits: [
-      "Relieves chronic pain and structural tension",
-      "Improves posture and spinal alignment",
-      "Enhances mobility and flexibility",
-      "Supports nervous system health"
-    ]
-  },
-  {
-    title: "Ozone Therapy",
-    desc: "Advanced restorative treatment to address chronic conditions and enhance overall systemic vitality.",
-    fullDesc: "Ozone Therapy is a cutting-edge integrative treatment that uses medical-grade ozone to stimulate the immune system and enhance oxygen delivery to tissues. It is highly effective for chronic inflammation, fatigue, and various systemic health concerns.",
-    image: "/images/ser-5.jpg",
-    benefits: [
-      "Potent anti-inflammatory and antioxidant effect",
-      "Boosts cellular energy and metabolic function",
-      "Supports the immune system's response",
-      "Enhances overall systemic vitality"
-    ]
-  },
-  {
-    title: "Meru Therapy",
-    desc: "Specialized therapy deeply focused on spinal health and alignment to restore harmony.",
-    fullDesc: "Meru Therapy is a unique approach centered on the spine (Meru Danda). It uses precise, gentle movements to release spinal tension and correct alignments, ensuring that the central channel of energy and information in the body functions optimally.",
-    image: "/images/ser-6.jpg",
-    benefits: [
-      "Corrects spinal alignment and postural issues",
-      "Relieves back, neck, and shoulder pain",
-      "Enhances nervous system communication",
-      "Promotes a profound sense of groundedness"
-    ]
-  },
-  {
-    title: "Craniosacral Therapy",
-    desc: "Gentle, hands-on technique that monitors the rhythm of cerebrospinal fluid to release tensions.",
-    fullDesc: "Craniosacral Therapy is a non-invasive, gentle touch therapy that works with the rhythm of the cerebrospinal fluid. By releasing restrictions in the craniosacral system, we allow the central nervous system to calm and the body to return to a state of deep equilibrium.",
-    image: "/images/ser-7.jpg",
-    benefits: [
-      "Relieves migraine and tension headaches",
-      "Calms the sympathetic nervous system",
-      "Reduces stress, anxiety, and insomnia",
-      "Supports emotional release and balance"
-    ]
-  },
-  {
-    title: "Pain Management",
-    desc: "Integrative treatments combining classical and contemporary therapies to address chronic discomfort.",
-    fullDesc: "Our Pain Management program is highly personalized, combining the best of Ayurvedic external therapies with modern holistic approaches. We don't just target the symptom; we look for the root cause of the discomfort to provide long-lasting relief and restored mobility.",
-    image: "/images/ser-8.jpg",
-    benefits: [
-      "Effective relief from chronic musculoskeletal pain",
-      "Reduces inflammation and swelling",
-      "Restores natural range of motion",
-      "Provides non-invasive alternatives to medication"
-    ]
-  },
-];
+import { listPublicServices } from "@/lib/api";
 
 export default function ServicesSection() {
   const [cardsPerPage, setCardsPerPage] = useState(4);
   const [page, setPage] = useState(0);
   const [selectedService, setSelectedService] = useState(null);
+  const [therapyCards, setTherapyCards] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadServices() {
+      setIsLoading(true);
+      setErrorMessage("");
+
+      try {
+        const result = await listPublicServices();
+        if (!active) return;
+        setTherapyCards(
+          (result || []).map((item) => ({
+            id: item.id,
+            title: item.title,
+            desc: item.description,
+            fullDesc: item.description,
+            image: item.image,
+            benefits: [],
+          }))
+        );
+      } catch (error) {
+        if (!active) return;
+        setErrorMessage(error.message || "Unable to load services right now.");
+      } finally {
+        if (active) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadServices();
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     const updateCardsPerPage = () => {
@@ -139,7 +81,7 @@ export default function ServicesSection() {
   const visibleCards = useMemo(() => {
     const start = currentPage * cardsPerPage;
     return therapyCards.slice(start, start + cardsPerPage);
-  }, [currentPage, cardsPerPage]);
+  }, [currentPage, cardsPerPage, therapyCards]);
 
   const canGoPrev = currentPage > 0;
   const canGoNext = currentPage < totalPages - 1;
@@ -218,58 +160,74 @@ export default function ServicesSection() {
             <FaChevronRight className="relative z-10 text-[16px] md:text-[20px]" />
           </button>
 
-          <div className="grid gap-5 md:grid-cols-2 md:gap-7 lg:grid-cols-4">
-            {visibleCards.map((card) => (
-              <div
-                key={card.title}
-                className="group flex h-full min-h-[470px] flex-col overflow-hidden rounded-[22px] bg-white shadow-[0_12px_30px_rgba(0,0,0,0.06)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)]"
-              >
-                <div className="p-4 pb-0">
-                  <div className="overflow-hidden">
-                    <Image
-                      src={card.image}
-                      alt={card.title}
-                      width={520}
-                      height={520}
-                      className="h-[350px] w-full object-cover object-top transition duration-500 group-hover:scale-[1.05] md:h-[270px] md:object-center"
+          {isLoading ? (
+            <div className="rounded-[22px] border border-[#eadfcf] bg-[#fcfaf6] px-6 py-16 text-center text-sm text-[#7a726c]">
+              Loading services from the API...
+            </div>
+          ) : errorMessage ? (
+            <div className="rounded-[22px] border border-red-200 bg-red-50 px-6 py-16 text-center text-sm text-red-700">
+              {errorMessage}
+            </div>
+          ) : visibleCards.length === 0 ? (
+            <div className="rounded-[22px] border border-[#eadfcf] bg-[#fcfaf6] px-6 py-16 text-center text-sm text-[#7a726c]">
+              No services available right now.
+            </div>
+          ) : (
+            <div className="grid gap-5 md:grid-cols-2 md:gap-7 lg:grid-cols-4">
+              {visibleCards.map((card) => (
+                <div
+                  key={card.id || card.title}
+                  className="group flex h-full min-h-[470px] flex-col overflow-hidden rounded-[22px] bg-white shadow-[0_12px_30px_rgba(0,0,0,0.06)] transition duration-300 hover:-translate-y-1.5 hover:shadow-[0_18px_40px_rgba(0,0,0,0.10)]"
+                >
+                  <div className="p-4 pb-0">
+                    <div className="overflow-hidden">
+                      <Image
+                        src={card.image}
+                        alt={card.title}
+                        width={520}
+                        height={520}
+                        className="h-[350px] w-full object-cover object-top transition duration-500 group-hover:scale-[1.05] md:h-[270px] md:object-center"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-1 flex-col px-4 pb-5 pt-4 md:px-5 md:pb-6 md:pt-5">
+                    <h3 className="section-subtitle text-[#231c17]">
+                      {card.title}
+                    </h3>
+
+                    <p className="para-text mt-3 text-[#7a726c]">
+                      {card.desc}
+                    </p>
+
+                    <WellnessButton
+                      onClick={() => setSelectedService(card)}
+                      label="Explore Therapy"
+                      className="mt-auto scale-90 origin-left"
                     />
                   </div>
                 </div>
+              ))}
+            </div>
+          )}
 
-                <div className="flex flex-1 flex-col px-4 pb-5 pt-4 md:px-5 md:pb-6 md:pt-5">
-                  <h3 className="section-subtitle text-[#231c17]">
-                    {card.title}
-                  </h3>
-
-                  <p className="para-text mt-3 text-[#7a726c]">
-                    {card.desc}
-                  </p>
-
-                  <WellnessButton
-                    onClick={() => setSelectedService(card)}
-                    label="Explore Therapy"
-                    className="mt-auto scale-90 origin-left"
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-6 flex items-center justify-center gap-2.5">
-            {Array.from({ length: totalPages }).map((_, idx) => (
-              <button
-                key={`page-dot-${idx}`}
-                type="button"
-                onClick={() => setPage(idx)}
-                className={`h-2.5 rounded-full transition-all duration-300 ${
-                  idx === currentPage
-                    ? "w-8 bg-[#c79f31]"
-                    : "w-2.5 bg-[#d8c8a2]"
-                }`}
-                aria-label={`Go to services page ${idx + 1}`}
-              />
-            ))}
-          </div>
+          {totalPages > 1 ? (
+            <div className="mt-6 flex items-center justify-center gap-2.5">
+              {Array.from({ length: totalPages }).map((_, idx) => (
+                <button
+                  key={`page-dot-${idx}`}
+                  type="button"
+                  onClick={() => setPage(idx)}
+                  className={`h-2.5 rounded-full transition-all duration-300 ${
+                    idx === currentPage
+                      ? "w-8 bg-[#c79f31]"
+                      : "w-2.5 bg-[#d8c8a2]"
+                  }`}
+                  aria-label={`Go to services page ${idx + 1}`}
+                />
+              ))}
+            </div>
+          ) : null}
         </RevealOnScroll>
       </div>
 

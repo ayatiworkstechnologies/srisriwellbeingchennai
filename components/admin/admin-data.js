@@ -1,9 +1,30 @@
-import { apiRequest } from "@/lib/api";
+import {
+  createAdminRelaxationTherapy,
+  createAdminService,
+  listAdminBookings,
+  listAdminInquiries,
+  listAdminRelaxationTherapies,
+  listAdminServices,
+  listAdminTherapists,
+  updateAdminRelaxationTherapy,
+  updateAdminService,
+} from "@/lib/api";
+
+async function runInBatches(tasks, batchSize = 2) {
+  const results = [];
+
+  for (let index = 0; index < tasks.length; index += batchSize) {
+    const batch = tasks.slice(index, index + batchSize);
+    const batchResults = await Promise.all(batch.map((task) => task()));
+    results.push(...batchResults);
+  }
+
+  return results;
+}
 
 export async function submitEntity({
   token,
   editingId,
-  type,
   form,
   transformPayload,
   setForm,
@@ -14,142 +35,112 @@ export async function submitEntity({
   setSuccessMessage,
   setIsSubmitting,
   label,
+  createEntity,
+  updateEntity,
 }) {
   setIsSubmitting(true);
   setErrorMessage("");
   setSuccessMessage("");
+
   try {
-    const path = editingId ? `/api/v1/admin/${type}/${editingId}` : `/api/v1/admin/${type}`;
-    const method = editingId ? "PUT" : "POST";
     let payload = { ...form };
-    if ("sort_order" in payload) payload.sort_order = Number(payload.sort_order);
-    if (transformPayload) payload = transformPayload(payload);
-    await apiRequest(path, { method, headers: { Authorization: `Bearer ${token}` }, body: JSON.stringify(payload) });
+
+    if ("sort_order" in payload) {
+      payload.sort_order = Number(payload.sort_order);
+    }
+
+    if (transformPayload) {
+      payload = transformPayload(payload);
+    }
+
+    if (editingId) {
+      await updateEntity(token, editingId, payload);
+    } else {
+      await createEntity(token, payload);
+    }
+
     setForm(initialForm);
     setEditingId(null);
     await refresh();
     setSuccessMessage(editingId ? `${label} updated.` : `${label} created.`);
+    return true;
   } catch (error) {
     setErrorMessage(error.message || `Unable to save ${label.toLowerCase()}`);
+    return false;
   } finally {
     setIsSubmitting(false);
   }
 }
 
-export async function refreshAdminData(
-  token,
-  statusFilter,
-  setDashboard,
-  setInquiries,
-  setServices,
-  setTestimonials,
-  setNadiCamps,
-  setRelaxationTherapies,
-  setBookingSlots,
-  setTherapists,
-  setTherapistSchedules,
-  setTherapistBlackouts,
-  setBookings,
-  setAlternativeTreatments,
-  setPanchakarmaCoreTherapies,
-  setPanchakarmaOtherTreatments,
-  setErrorMessage,
-  setIsLoading,
-  setToken
-) {
-  return loadAdminData({
-    token,
-    statusFilter,
-    setDashboard,
-    setInquiries,
-    setServices,
-    setTestimonials,
-    setNadiCamps,
-    setRelaxationTherapies,
-    setBookingSlots,
-    setTherapists,
-    setTherapistSchedules,
-    setTherapistBlackouts,
-    setBookings,
-    setAlternativeTreatments,
-    setPanchakarmaCoreTherapies,
-    setPanchakarmaOtherTreatments,
-    setErrorMessage,
-    setIsLoading,
-    setToken,
-  });
+export async function refreshAdminData(options) {
+  return loadAdminData(options);
 }
 
 export async function loadAdminData({
   token,
   statusFilter,
-  setDashboard,
+  inquiryStatusFilter,
+  inquirySourceFilter,
   setInquiries,
   setServices,
-  setTestimonials,
-  setNadiCamps,
   setRelaxationTherapies,
-  setBookingSlots,
   setTherapists,
-  setTherapistSchedules,
-  setTherapistBlackouts,
   setBookings,
-  setAlternativeTreatments,
-  setPanchakarmaCoreTherapies,
-  setPanchakarmaOtherTreatments,
   setErrorMessage,
   setIsLoading,
   setToken,
+  setLastLoadedAt,
 }) {
   setIsLoading(true);
+
   try {
-    const headers = { Authorization: `Bearer ${token}` };
-    const inquiriesPath = statusFilter === "all" ? "/api/v1/admin/inquiries" : `/api/v1/admin/inquiries?status=${statusFilter}`;
-    const [dashboardData, inquiryData, serviceData, testimonialData, nadiCampData, relaxationTherapyData, bookingSlotData, therapistData, therapistScheduleData, therapistBlackoutData, bookingData, alternativeTreatmentData, panchakarmaCoreData, panchakarmaOtherData] = await Promise.all([
-      apiRequest("/api/v1/admin/dashboard", { headers }),
-      apiRequest(inquiriesPath, { headers }),
-      apiRequest("/api/v1/admin/services", { headers }),
-      apiRequest("/api/v1/admin/testimonials", { headers }),
-      apiRequest("/api/v1/admin/nadi-camps", { headers }),
-      apiRequest("/api/v1/admin/relaxation-therapies", { headers }),
-      apiRequest("/api/v1/admin/booking-slots", { headers }),
-      apiRequest("/api/v1/admin/therapists", { headers }),
-      apiRequest("/api/v1/admin/therapist-availabilities", { headers }),
-      apiRequest("/api/v1/admin/therapist-blackouts", { headers }),
-      apiRequest("/api/v1/admin/bookings", { headers }),
-      apiRequest("/api/v1/admin/alternative-treatments", { headers }),
-      apiRequest("/api/v1/admin/panchakarma-core-therapies", { headers }),
-      apiRequest("/api/v1/admin/panchakarma-other-treatments", { headers }),
-    ]);
-    setDashboard(dashboardData);
+    const requests = [
+      () => listAdminInquiries(token, { status: inquiryStatusFilter, source: inquirySourceFilter }),
+      () => listAdminServices(token),
+      () => listAdminRelaxationTherapies(token),
+      () => listAdminTherapists(token),
+      () => listAdminBookings(token, statusFilter),
+    ];
+
+    const [inquiryData, serviceData, relaxationTherapyData, therapistData, bookingData] =
+      await runInBatches(requests, 2);
+
     setInquiries(inquiryData);
     setServices(serviceData);
-    setTestimonials(testimonialData);
-    setNadiCamps(nadiCampData);
     setRelaxationTherapies(relaxationTherapyData);
-    setBookingSlots(bookingSlotData);
     setTherapists(therapistData);
-    setTherapistSchedules(therapistScheduleData);
-    setTherapistBlackouts(therapistBlackoutData);
     setBookings(bookingData);
-    setAlternativeTreatments(alternativeTreatmentData);
-    setPanchakarmaCoreTherapies(panchakarmaCoreData);
-    setPanchakarmaOtherTreatments(panchakarmaOtherData);
+    setLastLoadedAt(new Date());
   } catch (error) {
     if (error.message === "Invalid or expired token") {
       window.localStorage.removeItem("ssw-admin-token");
       setToken("");
     }
+
     setErrorMessage(error.message || "Unable to load admin data");
   } finally {
     setIsLoading(false);
   }
 }
 
+export const adminCrudModules = {
+  services: {
+    createEntity: createAdminService,
+    updateEntity: updateAdminService,
+  },
+  "relaxation-therapies": {
+    createEntity: createAdminRelaxationTherapy,
+    updateEntity: updateAdminRelaxationTherapy,
+  },
+};
+
 export function formatDate(value) {
   const parsed = parseAdminDate(value);
   if (!parsed) return value;
-  return new Intl.DateTimeFormat("en-IN", { dateStyle: "medium", timeStyle: "short" }).format(parsed);
+  return new Intl.DateTimeFormat("en-IN", {
+    dateStyle: "medium",
+    timeStyle: "short",
+  }).format(parsed);
 }
 
 export function formatDateOnly(value) {
@@ -158,12 +149,52 @@ export function formatDateOnly(value) {
   return new Intl.DateTimeFormat("en-IN", { dateStyle: "medium" }).format(parsed);
 }
 
+export function formatTime(value) {
+  if (!value) return "";
+  
+  // Handle Date objects directly
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return new Intl.DateTimeFormat("en-IN", {
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(value);
+  }
+
+  // Handle "HH:mm" strings
+  const stringValue = String(value);
+  if (stringValue.includes(":")) {
+    const [hours = "00", minutes = "00"] = stringValue.split(":");
+    return new Intl.DateTimeFormat("en-IN", {
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(new Date(2000, 0, 1, Number(hours), Number(minutes)));
+  }
+
+  // Fallback for other formats
+  const parsed = new Date(value);
+  if (!Number.isNaN(parsed.getTime())) {
+    return new Intl.DateTimeFormat("en-IN", {
+      hour: "numeric",
+      minute: "2-digit",
+    }).format(parsed);
+  }
+
+  return stringValue;
+}
+
 export function toTitleCase(value) {
+  if (!value) return "";
   return value.charAt(0).toUpperCase() + value.slice(1);
 }
 
 export function countActive(items) {
   return items.filter((item) => item.is_active).length;
+}
+
+export function getUniqueInquirySources(items) {
+  return [...new Set(items.map((item) => item.source).filter(Boolean))].sort((a, b) =>
+    a.localeCompare(b)
+  );
 }
 
 function parseAdminDate(value) {
@@ -185,5 +216,6 @@ function parseAdminDate(value) {
   if (Number.isNaN(parsedDate.getTime())) {
     return null;
   }
+
   return parsedDate;
 }

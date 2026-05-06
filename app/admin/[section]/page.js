@@ -4,9 +4,7 @@ import AdminPanelClient from "@/components/admin/AdminPanelClient";
 import { adminSectionIds } from "@/components/admin/admin-config";
 
 export function generateStaticParams() {
-  return adminSectionIds
-    .filter((section) => section !== "dashboard")
-    .map((section) => ({ section }));
+  return adminSectionIds.map((section) => ({ section }));
 }
 
 export default async function AdminSectionPage({ params }) {

@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { FaComments, FaTimes } from "react-icons/fa";
 
-import { apiRequest } from "@/lib/api";
+import { cancelPublicBooking } from "@/lib/api";
 
 const therapyCatalog = [
   { name: "Abhyanga", benefit: "full-body relaxation", duration: "45 mins" },
@@ -65,10 +65,7 @@ export default function SiteAssistant() {
     event.preventDefault();
     setCancelState({ loading: true, message: "", error: "" });
     try {
-      const result = await apiRequest("/api/v1/public/bookings/cancel", {
-        method: "POST",
-        body: JSON.stringify(cancelForm),
-      });
+      const result = await cancelPublicBooking(cancelForm);
       setCancelState({ loading: false, message: `${result.reference_code} has been cancelled.`, error: "" });
       setCancelForm({ reference_code: "", email: "", reason: "" });
     } catch (error) {

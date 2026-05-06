@@ -24,7 +24,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${rubik.variable} ${helmet.variable}`}>
-      <body>
+      <body suppressHydrationWarning>
         <Script
           id="google-tag"
           src="https://www.googletagmanager.com/gtag/js?id=G-58P101B0TJ"
