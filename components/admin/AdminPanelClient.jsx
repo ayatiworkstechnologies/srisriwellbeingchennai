@@ -135,13 +135,14 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     subject: "",
     message: "",
   });
+  const isLimitedBookingRole = userProfile?.role === "doctor" || userProfile?.role === "therapist";
 
   const availableSections = useMemo(() => {
-    if (userProfile?.role === "doctor") {
+    if (isLimitedBookingRole) {
       return adminSections.filter((section) => section.id === "bookings");
     }
     return adminSections;
-  }, [userProfile]);
+  }, [isLimitedBookingRole]);
 
   const normalizedSection =
     currentSection === "therapists" || currentSection === "doctor-logins"
@@ -153,6 +154,21 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
 
   const currentSectionMeta =
     availableSections.find((section) => section.id === resolvedSection) ?? availableSections[0] ?? adminSections[0];
+  const effectiveSectionMeta = useMemo(() => {
+    if (!isLimitedBookingRole || currentSectionMeta.id !== "bookings") {
+      return currentSectionMeta;
+    }
+
+    return {
+      ...currentSectionMeta,
+      eyebrow: userProfile?.role === "doctor" ? "Doctor Dashboard" : "Therapist Dashboard",
+      title: userProfile?.role === "doctor" ? "Doctor booking queue" : "Therapist booking queue",
+      description:
+        userProfile?.role === "doctor"
+          ? "Review and update the bookings assigned to your doctor profile."
+          : "Review and update the bookings assigned to your therapist profile.",
+    };
+  }, [currentSectionMeta, isLimitedBookingRole, userProfile?.role]);
 
   const pendingBookings = useMemo(
     () => bookings.filter((booking) => booking.status === "pending").length,
@@ -771,6 +787,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       tabCounts={tabCounts}
       isInitializing={isInitializing}
       token={token}
+      userProfile={userProfile}
     >
       {!token ? (
         <AdminLogin
@@ -791,12 +808,12 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                 <div>
                   <div className="mb-3 flex items-center gap-3">
                     <span className="rounded-md bg-[#eef4f1] px-2.5 py-1 text-xs font-medium text-[#1f6b5c]">
-                      {currentSectionMeta.eyebrow}
+                      {effectiveSectionMeta.eyebrow}
                     </span>
                   </div>
-                  <h1 className="text-3xl font-semibold text-[#1d2a26] md:text-4xl">{currentSectionMeta.title}</h1>
+                  <h1 className="text-3xl font-semibold text-[#1d2a26] md:text-4xl">{effectiveSectionMeta.title}</h1>
                   <p className="mt-3 max-w-2xl text-sm leading-7 text-[#5f726c]">
-                    {currentSectionMeta.description}
+                    {effectiveSectionMeta.description}
                   </p>
                 </div>
               </div>
@@ -837,16 +854,18 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                 />
               ) : null}
 
-              {resolvedSection === "bookings" ? (
-                <BookingsPanel
+                {resolvedSection === "bookings" ? (
+                  <BookingsPanel
                   bookings={bookings}
-                  isLoading={isLoading}
-                  statusFilter={statusFilter}
-                  setStatusFilter={setStatusFilter}
-                  therapists={therapists}
-                  handleBookingLifecycleChange={handleBookingLifecycleChange}
-                  openBookingEmailModal={openBookingEmailModal}
-                />
+                    isLoading={isLoading}
+                    statusFilter={statusFilter}
+                    setStatusFilter={setStatusFilter}
+                    therapists={therapists}
+                    canAssignTherapist={!isLimitedBookingRole}
+                    role={userProfile?.role}
+                    handleBookingLifecycleChange={handleBookingLifecycleChange}
+                    openBookingEmailModal={openBookingEmailModal}
+                  />
               ) : null}
 
               {resolvedSection === "services" ? (
@@ -1298,16 +1317,31 @@ function BookingsPanel({
   statusFilter,
   setStatusFilter,
   therapists,
+  canAssignTherapist,
+  role,
   handleBookingLifecycleChange,
   openBookingEmailModal,
 }) {
+  const isDoctorRole = role === "doctor";
+  const isTherapistRole = role === "therapist";
+  const panelTitle = isDoctorRole
+    ? "Doctor Bookings"
+    : isTherapistRole
+      ? "Therapist Bookings"
+      : "Bookings";
+  const panelSubtitle = isDoctorRole
+    ? "Review consultations assigned to your doctor profile and keep statuses updated."
+    : isTherapistRole
+      ? "Review therapies assigned to your profile and keep statuses updated."
+      : "Review requests and approve quickly.";
+
   return (
-      <div className="flex flex-col gap-6">
-      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <div>
-          <h2 className="text-2xl font-semibold text-[#18332e]">Bookings</h2>
-          <p className="mt-1 text-sm text-[#5f726c]">Review requests and approve quickly.</p>
-        </div>
+        <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-2xl font-semibold text-[#18332e]">{panelTitle}</h2>
+            <p className="mt-1 text-sm text-[#5f726c]">{panelSubtitle}</p>
+          </div>
         
         <div className="flex items-center gap-3 rounded-lg border border-[#dbe7e1] bg-white p-2">
           <FieldInline label="Filter Status">
@@ -1389,25 +1423,24 @@ function BookingsPanel({
                     <div className="grid gap-2">
                       <p className="text-sm font-medium text-[#33423d]">Quick Actions</p>
                       <div className="flex flex-wrap gap-2">
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleBookingLifecycleChange(booking.id, {
-                              status: "confirmed",
-                              send_email: true,
-                            })
-                          }
-                          className="inline-flex h-10 items-center justify-center rounded-lg bg-[#1f6b5c] px-4 text-sm font-medium text-white hover:bg-[#175245]"
-                        >
-                          Approve & Mail
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => openBookingEmailModal(booking)}
-                          className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-4 text-sm font-medium text-[#18332e] hover:bg-[#f2f6f4]"
-                        >
-                          Send Email
-                        </button>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              handleBookingLifecycleChange(booking.id, {
+                                status: "confirmed",
+                              })
+                            }
+                            className="inline-flex h-10 items-center justify-center rounded-lg bg-[#1f6b5c] px-4 text-sm font-medium text-white hover:bg-[#175245]"
+                          >
+                            Approve
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => openBookingEmailModal(booking)}
+                            className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-4 text-sm font-medium text-[#18332e] hover:bg-[#f2f6f4]"
+                          >
+                            Send Mail
+                          </button>
                         <button
                           type="button"
                           onClick={() =>
@@ -1451,26 +1484,35 @@ function BookingsPanel({
                       </select>
                     </FieldInline>
 
-                    <FieldInline label="Assign Therapist">
-                      <select
-                        value={booking.therapist_id || ""}
-                        onChange={(event) =>
-                          handleBookingLifecycleChange(booking.id, {
-                            therapist_id: event.target.value ? Number(event.target.value) : null,
-                          })
-                        }
-                        className={`${selectClass} w-full`}
-                      >
-                        <option value="">
-                          Unassigned
-                        </option>
-                        {therapists.map((therapist) => (
-                          <option key={therapist.id} value={therapist.id}>
-                            {therapist.full_name}
+                    {canAssignTherapist ? (
+                      <FieldInline label="Assign Therapist">
+                        <select
+                          value={booking.therapist_id || ""}
+                          onChange={(event) =>
+                            handleBookingLifecycleChange(booking.id, {
+                              therapist_id: event.target.value ? Number(event.target.value) : null,
+                            })
+                          }
+                          className={`${selectClass} w-full`}
+                        >
+                          <option value="">
+                            Unassigned
                           </option>
-                        ))}
-                      </select>
-                    </FieldInline>
+                          {therapists.map((therapist) => (
+                            <option key={therapist.id} value={therapist.id}>
+                              {therapist.full_name}
+                            </option>
+                          ))}
+                        </select>
+                      </FieldInline>
+                    ) : (
+                      <SummaryTile
+                        label="Assignment"
+                        value={booking.therapist_name || "Pending admin assignment"}
+                        note="Therapist assignment is managed by admin."
+                        emphasis={!booking.therapist_id}
+                      />
+                    )}
                   </div>
                 </div>
               </div>

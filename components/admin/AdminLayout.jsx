@@ -10,6 +10,7 @@ export default function AdminLayout({
   tabCounts,
   isInitializing,
   token,
+  userProfile,
 }) {
   if (isInitializing) {
     return (
@@ -39,6 +40,7 @@ export default function AdminLayout({
         currentSection={currentSection}
         handleLogout={handleLogout}
         tabCounts={tabCounts}
+        userProfile={userProfile}
       />
       <main className="mx-auto max-w-7xl px-4 py-6 md:px-6">{children}</main>
     </div>

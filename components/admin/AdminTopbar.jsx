@@ -34,7 +34,22 @@ export default function AdminTopbar({
   currentSection,
   handleLogout,
   tabCounts,
+  userProfile,
 }) {
+  const roleLabel =
+    userProfile?.role === "doctor"
+      ? "Doctor Dashboard"
+      : userProfile?.role === "therapist"
+        ? "Therapist Dashboard"
+        : "Admin";
+
+  const subLabel =
+    userProfile?.role === "doctor"
+      ? "Assigned consultations and booking updates"
+      : userProfile?.role === "therapist"
+        ? "Assigned therapies and booking updates"
+        : "Sri Sri Wellbeing";
+
   return (
     <header className="sticky top-0 z-50 border-b border-[#d9e3de] bg-white">
       <div className="mx-auto max-w-7xl px-4 py-4 md:px-6">
@@ -53,9 +68,9 @@ export default function AdminTopbar({
               </div>
               <div>
                 <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6d817a]">
-                  Admin
+                  {roleLabel}
                 </p>
-                <h1 className="text-lg font-semibold text-[#1d2a26]">Sri Sri Wellbeing</h1>
+                <h1 className="text-lg font-semibold text-[#1d2a26]">{subLabel}</h1>
               </div>
             </Link>
           </div>

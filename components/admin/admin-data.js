@@ -1,12 +1,9 @@
 import {
+  getAdminBootstrap,
   listAdminUsers,
   createAdminRelaxationTherapy,
   createAdminService,
-  listAdminBookings,
   listAdminInquiries,
-  listAdminRelaxationTherapies,
-  listAdminServices,
-  listAdminTherapists,
   updateAdminRelaxationTherapy,
   updateAdminService,
 } from "@/lib/api";
@@ -97,8 +94,8 @@ export async function loadAdminData({
   setIsLoading(true);
 
   try {
-    if (role === "doctor") {
-      const bookingData = await listAdminBookings(token, statusFilter);
+    if (role === "doctor" || role === "therapist") {
+      const bootstrap = await getAdminBootstrap(token, statusFilter);
       setInquiries([]);
       setServices([]);
       setRelaxationTherapies([]);
@@ -106,39 +103,25 @@ export async function loadAdminData({
       if (setAdminUsers) {
         setAdminUsers([]);
       }
-      setBookings(bookingData);
+      setBookings(bootstrap.bookings || []);
       setLastLoadedAt(new Date());
       return;
     }
 
-    const requests = [
-      () => listAdminInquiries(token, { status: inquiryStatusFilter, source: inquirySourceFilter }),
-      () => listAdminServices(token),
-      () => listAdminRelaxationTherapies(token),
-      () => listAdminTherapists(token),
-      () => listAdminBookings(token, statusFilter),
-    ];
+    const [inquiryData, bootstrapData, adminUserData] = await Promise.all([
+      listAdminInquiries(token, { status: inquiryStatusFilter, source: inquirySourceFilter }),
+      getAdminBootstrap(token, statusFilter),
+      setAdminUsers ? listAdminUsers(token) : Promise.resolve(null),
+    ]);
 
-    if (setAdminUsers) {
-      requests.splice(4, 0, () => listAdminUsers(token));
-    }
-
-    const results =
-      await runInBatches(requests, 2);
-
-    const [inquiryData, serviceData, relaxationTherapyData, therapistData, adminUserData, bookingData] =
-      setAdminUsers
-        ? results
-        : [...results.slice(0, 4), null, results[4]];
-
-    setInquiries(inquiryData);
-    setServices(serviceData);
-    setRelaxationTherapies(relaxationTherapyData);
-    setTherapists(therapistData);
+    setInquiries(inquiryData || []);
+    setServices(bootstrapData?.services || []);
+    setRelaxationTherapies(bootstrapData?.relaxation_therapies || []);
+    setTherapists(bootstrapData?.therapists || []);
     if (setAdminUsers) {
       setAdminUsers(adminUserData);
     }
-    setBookings(bookingData);
+    setBookings(bootstrapData?.bookings || []);
     setLastLoadedAt(new Date());
   } catch (error) {
     if (error.message === "Invalid or expired token") {
