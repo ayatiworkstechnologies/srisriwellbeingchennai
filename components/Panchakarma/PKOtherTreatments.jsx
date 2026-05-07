@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { FaChevronDown } from "react-icons/fa6";
-import { PiPlant } from "react-icons/pi";
 import RevealOnScroll from "../Main/RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
+import LeafGlyph from "../ui/LeafGlyph";
 import { categoryColors } from "./panchakarmaData";
 
 const PAGE_SIZE = 10;
@@ -69,8 +69,8 @@ export default function PKOtherTreatments({ treatments }) {
                   >
                     <div className="flex items-center gap-4 flex-1 min-w-0">
                       {/* Leaf Icon */}
-                      <PiPlant
-                        className={`flex-shrink-0 text-[22px] ${isOpen ? "text-[#8cb14a]" : "text-[#c29a2f]"} transition-colors duration-300`}
+                      <LeafGlyph
+                        className="h-6 w-6 flex-shrink-0 transition-colors duration-300"
                       />
 
                       {/* Name */}

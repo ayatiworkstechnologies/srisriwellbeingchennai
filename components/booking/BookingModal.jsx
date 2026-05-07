@@ -11,7 +11,6 @@ import {
   FaChevronRight,
   FaClock,
   FaEnvelope,
-  FaLeaf,
   FaPhone,
   FaStar,
   FaTimes,
@@ -19,6 +18,7 @@ import {
 } from "react-icons/fa";
 
 import { createBookingAppointment, getBookingAvailability } from "@/lib/api";
+import LeafGlyph from "@/components/ui/LeafGlyph";
 
 function formatDateLabel(value) {
   if (!value) return "";
@@ -250,7 +250,7 @@ export default function BookingModal({ offering, onClose, theme = "gold" }) {
                 <h4 className="mb-4 text-sm font-bold uppercase tracking-wider text-white">Booking Summary</h4>
                 <ul className="space-y-2">
                   <li className="flex items-center gap-2 text-sm text-white/90">
-                    <FaLeaf className="text-[#c29a2f]" size={12} />
+                    <LeafGlyph className="h-4 w-4" />
                     {offering.title}
                   </li>
                   {selectedSlot ? (
@@ -289,7 +289,7 @@ export default function BookingModal({ offering, onClose, theme = "gold" }) {
                       <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2">
                         {offering.benefits.map((benefit) => (
                           <li key={benefit} className="flex items-start gap-3 text-[13px] text-[#5c544f]">
-                            <FaLeaf className="mt-0.5 shrink-0 text-[#c29a2f]" size={12} />
+                            <LeafGlyph className="mt-0.5 h-4 w-4 shrink-0" />
                             <span>{benefit}</span>
                           </li>
                         ))}
@@ -518,8 +518,8 @@ export default function BookingModal({ offering, onClose, theme = "gold" }) {
                 animate={{ opacity: 1, scale: 1 }}
                 className="flex h-full flex-col items-center justify-center py-10 text-center"
               >
-                <div className="mb-6 flex h-20 w-20 items-center justify-center rounded-full bg-green-50">
-                  <FaLeaf className="text-3xl text-green-500" />
+                <div className="mb-6 flex items-center justify-center">
+                  <LeafGlyph className="h-10 w-10" />
                 </div>
                 <h4 className="mb-3 text-2xl font-bold text-[#1f1a17]">Booking Requested!</h4>
                 <p className="mb-4 max-w-sm text-sm leading-relaxed text-[#5c544f]">

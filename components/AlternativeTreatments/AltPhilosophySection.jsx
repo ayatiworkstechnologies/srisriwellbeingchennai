@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { FaLeaf } from "react-icons/fa6";
 import { FaPlus } from "react-icons/fa6";
 import RevealOnScroll from "../Main/RevealOnScroll";
+import LeafGlyph from "../ui/LeafGlyph";
 
 const pillars = [
   { label: "Root Cause Healing" },
@@ -15,7 +15,7 @@ const pillars = [
 
 const PhilosophyIcon = () => (
   <div className="relative inline-flex items-center justify-center mr-3">
-    <FaLeaf className="text-[28px] text-[#c79f31]" />
+    <LeafGlyph className="h-8 w-8" />
     <div className="absolute -top-1 -left-1 rounded-full bg-[#3b2218] p-[1px]">
       <FaPlus className="text-[10px] text-white" />
     </div>

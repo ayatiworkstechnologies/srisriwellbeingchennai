@@ -37,7 +37,7 @@ export const stats = [
 ];
 
 import { GiKidneys, GiHeartOrgan, GiLungs, GiStomach, GiBrain, GiLiver } from "react-icons/gi";
-import { FaTint, FaEye, FaUserAlt, FaBone, FaNotesMedical, FaVial, FaBed, FaLeaf, FaWeight } from "react-icons/fa";
+import { FaTint, FaEye, FaUserAlt, FaBone, FaNotesMedical, FaVial, FaBed, FaWeight } from "react-icons/fa";
 
 export const conditions = [
   { label: "Kidney Care", icon: GiKidneys },
@@ -53,7 +53,7 @@ export const conditions = [
   { label: "Liver Care", icon: GiLiver },
   { label: "Hormonal Issues", icon: FaVial },
   { label: "Stress & Sleep", icon: FaBed },
-  { label: "Allergies", icon: FaLeaf },
+  { label: "Allergies", icon: FaNotesMedical },
   { label: "Obesity", icon: FaWeight },
 ];
 

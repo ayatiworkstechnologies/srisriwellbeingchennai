@@ -2,13 +2,12 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { PiPlant } from "react-icons/pi";
 import RevealOnScroll from "../Main/RevealOnScroll";
+import LeafGlyph from "../ui/LeafGlyph";
 
-// The exact icon from the design: A green leaf
 const LeafIcon = () => (
-  <div className="relative inline-flex flex-shrink-0 items-center justify-center mr-3 bg-white p-1.5 rounded-full shadow-sm">
-    <PiPlant className="text-[24px] text-[#8cb14a]" />
+  <div className="relative inline-flex flex-shrink-0 items-center justify-center mr-3">
+    <LeafGlyph className="h-7 w-7" />
   </div>
 );
 

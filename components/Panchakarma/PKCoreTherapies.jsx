@@ -1,7 +1,7 @@
 import Image from "next/image";
-import { PiPlant } from "react-icons/pi";
 import RevealOnScroll from "../Main/RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
+import LeafGlyph from "../ui/LeafGlyph";
 
 export default function PKCoreTherapies({ coreTherapies }) {
   return (
@@ -69,7 +69,9 @@ export default function PKCoreTherapies({ coreTherapies }) {
                       <ul className="space-y-3">
                         {therapy.benefits.map((b) => (
                           <li key={b} className="flex items-start gap-3">
-                          <PiPlant className="mt-0.5 flex-shrink-0 text-[20px] text-[#8cb14a]" />
+                          <LeafGlyph
+                            className="mt-0.5 h-6 w-6 flex-shrink-0"
+                          />
                           <span className="small-text text-[#5f5550]">{b}</span>
                         </li>
                       ))}

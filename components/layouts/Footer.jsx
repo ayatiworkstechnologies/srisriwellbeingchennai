@@ -82,7 +82,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#specialties"
+                    href="/specialties"
                     className="small-text flex items-center gap-2 text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
                     <FaChevronRight className="text-[10px] text-[#d4af37]" /> Specialties

@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { PiPlant } from "react-icons/pi";
 import RevealOnScroll from "../Main/RevealOnScroll";
+import LeafGlyph from "../ui/LeafGlyph";
 
 
 export default function NetraTejasOverview({ card, highlights = [] }) {
@@ -65,9 +65,7 @@ export default function NetraTejasOverview({ card, highlights = [] }) {
               {card.points.map((point) => (
                 <div key={point} className="flex items-start gap-3">
                   {/* Leaf Icon */}
-                  <span className="mt-0.5 flex-shrink-0">
-                    <PiPlant className="text-[20px] text-[#8cb14a]" />
-                  </span>
+                  <LeafGlyph className="mt-0.5 h-6 w-6 flex-shrink-0" />
                   <p className="small-text text-white/85">{point}</p>
                 </div>
               ))}

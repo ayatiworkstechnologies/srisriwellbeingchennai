@@ -7,6 +7,7 @@ import {
   FaGraduationCap,
 } from "react-icons/fa6";
 import RevealOnScroll from "../Main/RevealOnScroll";
+import LeafGlyph from "../ui/LeafGlyph";
 
 const factorIcons = [
   FaPersonWalking,
@@ -21,8 +22,6 @@ const factorColors = [
   { bg: "bg-[#f0f0fb]", icon: "text-[#5555c7]", border: "border-[#c8c8f0]" },
   { bg: "bg-[#fdf0f0]", icon: "text-[#c74545]", border: "border-[#f0c8c8]" },
 ];
-
-import { PiPlant } from "react-icons/pi";
 
 export default function NetraTejasSupport({ youngEyesFactors, eyeDisorders = [] }) {
   return (
@@ -54,9 +53,7 @@ export default function NetraTejasSupport({ youngEyesFactors, eyeDisorders = [] 
               <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
                 {eyeDisorders.map((disorder, idx) => (
                   <div key={idx} className="flex items-center gap-3">
-                    <span className="mt-0.5 flex-shrink-0 bg-white p-1 rounded-full shadow-sm border border-[#eaeaea]">
-                      <PiPlant className="text-[16px] text-[#8cb14a]" />
-                    </span>
+                    <LeafGlyph className="mt-0.5 h-5 w-5 flex-shrink-0" />
                     <span className="text-[15px] font-medium text-[#191412]">{disorder}</span>
                   </div>
                 ))}
