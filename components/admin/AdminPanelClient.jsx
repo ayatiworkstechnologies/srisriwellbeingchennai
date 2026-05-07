@@ -72,6 +72,28 @@ function isLikelyJwt(token) {
   return parts.length === 3 && parts.every(Boolean);
 }
 
+function normalizeTextValue(value, fallback = "") {
+  if (typeof value === "string") {
+    return value.trim();
+  }
+  return fallback;
+}
+
+function normalizeListValue(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => (typeof item === "string" ? item.trim() : "")).filter(Boolean);
+  }
+
+  if (typeof value === "string") {
+    return value
+      .split(/\r?\n|,/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
 export default function AdminPanelClient({ currentSection = "bookings" }) {
   const router = useRouter();
   const contentRef = useRef(null);
@@ -366,7 +388,12 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       form: serviceForm,
       transformPayload: (payload) => ({
         ...payload,
-        benefits: (payload.benefits || []).map((item) => item.trim()).filter(Boolean),
+        title: normalizeTextValue(payload.title),
+        short_description: normalizeTextValue(payload.short_description),
+        shortDescription: normalizeTextValue(payload.short_description),
+        description: normalizeTextValue(payload.description),
+        image: normalizeTextValue(payload.image),
+        benefits: normalizeListValue(payload.benefits),
       }),
       setForm: setServiceForm,
       initialForm: initialServiceForm,
@@ -383,7 +410,13 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       form: relaxationTherapyForm,
       transformPayload: (payload) => ({
         ...payload,
-        benefits: (payload.benefits || []).map((item) => item.trim()).filter(Boolean),
+        title: normalizeTextValue(payload.title),
+        duration: normalizeTextValue(payload.duration),
+        short_description: normalizeTextValue(payload.short_description),
+        shortDescription: normalizeTextValue(payload.short_description),
+        details: normalizeTextValue(payload.details),
+        image: normalizeTextValue(payload.image),
+        benefits: normalizeListValue(payload.benefits),
       }),
       setForm: setRelaxationTherapyForm,
       initialForm: initialRelaxationTherapyForm,
@@ -541,13 +574,13 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
   const openServiceEditModal = (item) => {
     setEditingServiceId(item.id);
     setServiceForm({
-      title: item.title,
-      short_description: item.short_description,
-      description: item.description,
-      benefits: item.benefits?.length ? [...item.benefits] : [""],
-      image: item.image,
-      sort_order: item.sort_order,
-      is_active: item.is_active,
+      title: normalizeTextValue(item.title),
+      short_description: normalizeTextValue(item.short_description ?? item.shortDescription),
+      description: normalizeTextValue(item.description),
+      benefits: normalizeListValue(item.benefits).length ? [...normalizeListValue(item.benefits)] : [""],
+      image: normalizeTextValue(item.image),
+      sort_order: item.sort_order ?? 0,
+      is_active: Boolean(item.is_active),
     });
     setIsServiceModalOpen(true);
   };
@@ -686,14 +719,14 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
   const openRelaxationTherapyEditModal = (item) => {
     setEditingRelaxationTherapyId(item.id);
     setRelaxationTherapyForm({
-      title: item.title,
-      duration: item.duration,
-      short_description: item.short_description,
-      details: item.details,
-      benefits: item.benefits?.length ? [...item.benefits] : [""],
-      image: item.image,
-      sort_order: item.sort_order,
-      is_active: item.is_active,
+      title: normalizeTextValue(item.title),
+      duration: normalizeTextValue(item.duration),
+      short_description: normalizeTextValue(item.short_description ?? item.shortDescription),
+      details: normalizeTextValue(item.details),
+      benefits: normalizeListValue(item.benefits).length ? [...normalizeListValue(item.benefits)] : [""],
+      image: normalizeTextValue(item.image),
+      sort_order: item.sort_order ?? 0,
+      is_active: Boolean(item.is_active),
     });
     setIsRelaxationTherapyModalOpen(true);
   };
@@ -834,7 +867,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                       key={item.id}
                       title={item.title}
                       meta={`Order ${item.sort_order} | ${item.is_active ? "Published" : "Draft"}`}
-                      body={`${item.short_description}\n\n${item.description}\n\nBenefits:\n${item.benefits.map((benefit) => `- ${benefit}`).join("\n")}`}
+                      body={`${item.short_description || item.shortDescription || ""}\n\n${item.description || ""}\n\nBenefits:\n${normalizeListValue(item.benefits).map((benefit) => `- ${benefit}`).join("\n") || "- Not added"}`}
                       extra={item.image}
                       onEdit={() => openServiceEditModal(item)}
                       onDelete={() => handleDelete(deleteAdminService, item.id, "Service")}
@@ -1060,7 +1093,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                       key={item.id}
                       title={item.title}
                       meta={`${item.duration} | Order ${item.sort_order} | ${item.is_active ? "Published" : "Draft"}`}
-                      body={`${item.short_description}\n\n${item.details}\n\nBenefits:\n${item.benefits.map((benefit) => `- ${benefit}`).join("\n")}`}
+                      body={`${item.short_description || item.shortDescription || ""}\n\n${item.details || ""}\n\nBenefits:\n${normalizeListValue(item.benefits).map((benefit) => `- ${benefit}`).join("\n") || "- Not added"}`}
                       extra={item.image}
                       onEdit={() => openRelaxationTherapyEditModal(item)}
                       onDelete={() =>

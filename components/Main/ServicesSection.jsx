@@ -9,6 +9,21 @@ import ServiceModal from "./ServiceModal";
 import { AnimatePresence } from "framer-motion";
 import { listPublicServices } from "@/lib/api";
 
+function normalizeBenefits(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => (typeof item === "string" ? item.trim() : "")).filter(Boolean);
+  }
+
+  if (typeof value === "string") {
+    return value
+      .split(/\r?\n|,/)
+      .map((item) => item.trim())
+      .filter(Boolean);
+  }
+
+  return [];
+}
+
 export default function ServicesSection() {
   const [cardsPerPage, setCardsPerPage] = useState(4);
   const [page, setPage] = useState(0);
@@ -31,11 +46,11 @@ export default function ServicesSection() {
           (result || []).map((item) => ({
             id: item.id,
             title: item.title,
-            shortDescription: item.short_description,
-            desc: item.short_description,
+            shortDescription: item.short_description || item.shortDescription || "",
+            desc: item.short_description || item.shortDescription || "",
             fullDesc: item.description,
             image: item.image,
-            benefits: item.benefits || [],
+            benefits: normalizeBenefits(item.benefits),
           }))
         );
       } catch (error) {
