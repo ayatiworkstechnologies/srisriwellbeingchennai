@@ -54,6 +54,12 @@ import {
 import AdminLayout from "./AdminLayout";
 import AdminLogin from "./AdminLogin";
 
+function isLikelyJwt(token) {
+  if (!token || typeof token !== "string") return false;
+  const parts = token.split(".");
+  return parts.length === 3 && parts.every(Boolean);
+}
+
 export default function AdminPanelClient({ currentSection = "bookings" }) {
   const router = useRouter();
   const contentRef = useRef(null);
@@ -101,8 +107,10 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
 
   useEffect(() => {
     const savedToken = window.localStorage.getItem("ssw-admin-token");
-    if (savedToken) {
+    if (isLikelyJwt(savedToken)) {
       setToken(savedToken);
+    } else if (savedToken) {
+      window.localStorage.removeItem("ssw-admin-token");
     }
     setIsInitializing(false);
   }, []);
@@ -154,8 +162,12 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
 
     try {
       const data = await loginAdmin(credentials);
-      setToken(data.token);
-      window.localStorage.setItem("ssw-admin-token", data.token);
+      const nextToken = data.access_token || data.token || "";
+      if (!isLikelyJwt(nextToken)) {
+        throw new Error("Login succeeded but no access token was returned.");
+      }
+      setToken(nextToken);
+      window.localStorage.setItem("ssw-admin-token", nextToken);
       setSuccessMessage("Login successful! Welcome to the admin portal.");
     } catch (error) {
       setErrorMessage(error.message || "Invalid credentials. Please try again.");
