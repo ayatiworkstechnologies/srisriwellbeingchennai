@@ -391,7 +391,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
         title: normalizeTextValue(payload.title),
         short_description: normalizeTextValue(payload.short_description),
         shortDescription: normalizeTextValue(payload.short_description),
-        description: normalizeTextValue(payload.description),
+        description: normalizeTextValue(payload.description) || normalizeTextValue(payload.short_description),
         image: normalizeTextValue(payload.image),
         benefits: normalizeListValue(payload.benefits),
       }),
@@ -414,7 +414,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
         duration: normalizeTextValue(payload.duration),
         short_description: normalizeTextValue(payload.short_description),
         shortDescription: normalizeTextValue(payload.short_description),
-        details: normalizeTextValue(payload.details),
+        details: normalizeTextValue(payload.details) || normalizeTextValue(payload.short_description),
         image: normalizeTextValue(payload.image),
         benefits: normalizeListValue(payload.benefits),
       }),
@@ -930,7 +930,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                         }
                         className={textAreaClass}
                         rows="3"
-                        required
+                        placeholder="Add a short summary, or leave this blank and fill Public Description below."
                       />
                     </Field>
                     <Field label="Public Description">
@@ -944,7 +944,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                         }
                         className={textAreaClass}
                         rows="6"
-                        required
+                        placeholder="Add the full description, or leave this blank and use Short Description above."
                       />
                     </Field>
                     <Field label="Benefits">
@@ -1185,7 +1185,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                         }
                         className={textAreaClass}
                         rows="3"
-                        required
+                        placeholder="Add a short summary, or leave this blank and fill Deep Details below."
                       />
                     </Field>
                     <Field label="Deep Details">
@@ -1199,7 +1199,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                         }
                         className={textAreaClass}
                         rows="5"
-                        required
+                        placeholder="Add full details, or leave this blank and use Short Description above."
                       />
                     </Field>
                     <Field label="Benefits">
