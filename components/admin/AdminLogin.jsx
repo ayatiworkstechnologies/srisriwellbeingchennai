@@ -1,76 +1,146 @@
 "use client";
 
 import Image from "next/image";
-import { FlashMessage } from "./admin-ui";
+import { useState } from "react";
 
-export default function AdminLogin({ 
-  handleLogin, 
-  credentials, 
-  setCredentials, 
-  isSubmitting, 
-  errorMessage, 
-  successMessage 
+import { FlashMessage, PasswordInput } from "./admin-ui";
+
+export default function AdminLogin({
+  handleLogin,
+  handleForgotPassword,
+  credentials,
+  setCredentials,
+  isSubmitting,
+  errorMessage,
+  successMessage,
 }) {
+  const [mode, setMode] = useState("login");
+  const [forgotEmail, setForgotEmail] = useState("");
+  const [forgotMessage, setForgotMessage] = useState("");
+  const [forgotError, setForgotError] = useState("");
+
+  const submitForgotPassword = async (event) => {
+    event.preventDefault();
+    setForgotError("");
+    setForgotMessage("");
+    const result = await handleForgotPassword(forgotEmail);
+    if (result?.ok) {
+      setForgotMessage(result.message || "Password reset link sent.");
+    } else {
+      setForgotError(result?.message || "Failed to send password reset link.");
+    }
+  };
+
   return (
-    <div className="min-h-[82vh] flex flex-col justify-center items-center p-4">
-      <div className="w-full max-w-md">
-        <div className="bg-white/82 backdrop-blur-xl rounded-[2.6rem] shadow-[0_32px_120px_rgba(32,18,10,0.08)] w-full mx-auto p-10 md:p-12 border border-white/80">
-          <div className="flex justify-center mb-10">
-          <div className="flex h-20 w-20 items-center justify-center rounded-[2rem] bg-[#f8f6f1] p-3 shadow-sm border border-black/5">
+    <div className="flex min-h-[80vh] items-center justify-center">
+      <div className="w-full max-w-md rounded-2xl border border-[#d9e3de] bg-white p-8 shadow-sm">
+        <div className="mb-6 flex items-center gap-3">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#d9e3de] bg-[#f7faf8] p-2">
             <Image
               src="/logo.svg"
               alt="Sri Sri Wellbeing"
-              width={80}
-              height={80}
+              width={30}
+              height={30}
               style={{ width: "auto", height: "auto" }}
               className="object-contain"
               priority
             />
           </div>
+          <div>
+            <h2 className="text-xl font-semibold text-[#1d2a26]">
+              {mode === "login" ? "Admin Login" : "Forgot Password"}
+            </h2>
+            <p className="text-sm text-[#667872]">
+              {mode === "login" ? "Sign in to continue" : "We will send a reset link to your email"}
+            </p>
           </div>
-
-          <div className="text-center mb-10">
-            <h1 className="text-3xl font-bold text-[#1f1a17] mb-2 font-serif tracking-tight">Admin Login</h1>
-            <p className="text-[#7a726c] text-sm leading-relaxed">Sign in to continue.</p>
-          </div>
-
-          <form onSubmit={handleLogin} className="space-y-6">
-          {errorMessage && <FlashMessage tone="error" message={errorMessage} />}
-          {successMessage && <FlashMessage tone="success" message={successMessage} />}
-          
-          <div className="space-y-2">
-            <label className="block text-xs font-bold uppercase tracking-widest text-[#1f1a17] ml-1">Email Address</label>
-            <input 
-              type="email" 
-              value={credentials.email} 
-              onChange={(event) => setCredentials((current) => ({ ...current, email: event.target.value }))}
-              required
-              className="w-full h-14 rounded-2xl border border-black/10 bg-[#f8f6f1] px-6 text-sm text-[#1f1a17] outline-none transition-all focus:border-[#c29a2f] focus:bg-white focus:ring-1 focus:ring-[#c29a2f]"
-              placeholder="admin@srisriwellbeingchennai.com"
-            />
-          </div>
-
-          <div className="space-y-2">
-            <label className="block text-xs font-bold uppercase tracking-widest text-[#1f1a17] ml-1">Password</label>
-            <input 
-              type="password" 
-              value={credentials.password} 
-              onChange={(event) => setCredentials((current) => ({ ...current, password: event.target.value }))}
-              required
-              className="w-full h-14 rounded-2xl border border-black/10 bg-[#f8f6f1] px-6 text-sm text-[#1f1a17] outline-none transition-all focus:border-[#c29a2f] focus:bg-white focus:ring-1 focus:ring-[#c29a2f]"
-              placeholder="••••••••"
-            />
-          </div>
-
-          <button 
-            type="submit" 
-            disabled={isSubmitting}
-            className="w-full h-14 bg-[linear-gradient(135deg,#caa03f,#a97b24)] text-white rounded-2xl font-bold uppercase tracking-[0.2em] text-xs transition-all duration-300 hover:brightness-105 hover:shadow-[0_12px_24px_rgba(194,154,47,0.3)] disabled:opacity-70 disabled:cursor-not-allowed mt-4 flex justify-center items-center shadow-lg shadow-[#c29a2f]/20"
-          >
-            {isSubmitting ? "Verifying..." : "Login"}
-          </button>
-          </form>
         </div>
+
+        {mode === "login" ? (
+          <form onSubmit={handleLogin} className="space-y-4">
+            {errorMessage ? <FlashMessage tone="error" message={errorMessage} /> : null}
+            {successMessage ? <FlashMessage tone="success" message={successMessage} /> : null}
+
+            <label className="grid gap-2">
+              <span className="text-sm font-medium text-[#33423d]">Email</span>
+              <input
+                type="email"
+                value={credentials.email}
+                onChange={(event) =>
+                  setCredentials((current) => ({ ...current, email: event.target.value }))
+                }
+                required
+                className="h-11 rounded-lg border border-[#d6e0db] px-4 text-sm outline-none focus:border-[#1f6b5c]"
+                placeholder="admin@srisriwellbeingchennai.com"
+              />
+            </label>
+
+            <label className="grid gap-2">
+              <span className="text-sm font-medium text-[#33423d]">Password</span>
+              <PasswordInput
+                value={credentials.password}
+                onChange={(event) =>
+                  setCredentials((current) => ({ ...current, password: event.target.value }))
+                }
+                required
+                autoComplete="current-password"
+                placeholder="Enter your password"
+              />
+            </label>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#1f6b5c] px-4 text-sm font-semibold text-white hover:bg-[#175245] disabled:opacity-70"
+            >
+              {isSubmitting ? "Signing In..." : "Login"}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => {
+                setMode("forgot");
+                setForgotEmail(credentials.email);
+              }}
+              className="w-full text-sm font-medium text-[#1f6b5c]"
+            >
+              Forgot password?
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={submitForgotPassword} className="space-y-4">
+            {forgotError ? <FlashMessage tone="error" message={forgotError} /> : null}
+            {forgotMessage ? <FlashMessage tone="success" message={forgotMessage} /> : null}
+
+            <label className="grid gap-2">
+              <span className="text-sm font-medium text-[#33423d]">Email</span>
+              <input
+                type="email"
+                value={forgotEmail}
+                onChange={(event) => setForgotEmail(event.target.value)}
+                required
+                className="h-11 rounded-lg border border-[#d6e0db] px-4 text-sm outline-none focus:border-[#1f6b5c]"
+                placeholder="admin@srisriwellbeingchennai.com"
+              />
+            </label>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#1f6b5c] px-4 text-sm font-semibold text-white hover:bg-[#175245] disabled:opacity-70"
+            >
+              {isSubmitting ? "Sending..." : "Send Reset Link"}
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setMode("login")}
+              className="w-full text-sm font-medium text-[#1f6b5c]"
+            >
+              Back to login
+            </button>
+          </form>
+        )}
       </div>
     </div>
   );

@@ -18,62 +18,89 @@ export default function AboutContent() {
             />
           </div>
 
-          <h2 className="section-title text-[#3b2218] mb-8">
-            Rediscover Wellbeing
+          <p className="mb-3 text-sm font-semibold uppercase tracking-[0.35em] text-[#9c7a45]">
+            About Us
+          </p>
+
+          <h2 className="section-title mb-8 text-[#3b2218]">
+            Rediscover the Art of Wellbeing
           </h2>
 
           <div className="space-y-6 text-[#5c4a41]">
             <p className="para-text">
-              The easiest way to be healthy is when we live in accordance with
-              nature. In earlier times this happened naturally—people rose and
-              slept with the sun and ate according to the seasons and lived as
-              per the rhythm of nature.
-            </p>
-            <p className="para-text">
-              Today, living well has attained a new definition. With the fast
-              paced lifestyle and the growing dependency on Technology, holistic
-              health is a commitment that needs to be reiterated often. At Sri
-              Sri Wellbeing, we aim to blend health into your daily lives.
+              In a world that rarely pauses, true wellbeing has become the
+              ultimate luxury. At Sri Sri Wellbeing Chennai, we invite you into
+              a refined sanctuary where ancient Ayurvedic wisdom meets
+              contemporary living, crafted for those who seek balance, clarity,
+              and restoration amidst the rhythm of the city.
             </p>
 
             <p className="para-text">
-              Bringing you the timeless wisdom of ancient Ayurveda and the
-              modern benefits of Scientific Research, Sri Sri Wellbeing centres
-              across India and the world let you retreat into the best version
-              of yourself.
+              Rooted in the timeless science of Ayurveda and guided by
+              experienced doctors and skilled therapists, every experience is
+              thoughtfully personalised to align with your body, lifestyle, and
+              evolving wellbeing needs.
             </p>
 
             <p className="para-text">
-              The world has woken up to the premise of living an authentically
-              holistic lifestyle. And Ayurveda is the journey to this wellness.
-              Hence, today, we have redefined Wellness. It is time for you to
-              rediscover Wellbeing.
+              From restorative therapies and detox rituals to deep relaxation
+              and holistic healing, each journey is designed to nurture harmony
+              from within.
             </p>
 
             <p className="para-text">
-              In alignment with this philosophy, our top of the line wellness
-              centers have integrated classical Ayurveda therapies with highly
-              effective alternative therapies from around the globe. Yoga and
-              Meditation programs add to the holistic experience.
+              Located in the heart of Chennai, our centre brings together
+              serene spaces, calming ambience, and elevated care to create an
+              environment of quiet sophistication.
             </p>
 
             <p className="para-text">
-              Our Wellness regimes are carefully crafted by experienced Vaidyas
-              (Ayurvedic doctors). We have a range of therapeutic massages, deep
-              detoxification techniques and herbal medicines to ensure that your
-              physical, mental and emotional well-being hit a peak. Therapies,
-              diet and lifestyle change advice – all are highly personalized to
-              put the ‘feel good’ factor back in your life.
+              Spacious therapy suites, attentive wellness experts, and
+              immersive healing experiences come together seamlessly, offering
+              more than treatment, but a mindful return to self.
             </p>
 
-            <div className="mt-8 pt-8 border-t border-black/5">
-              <h3 className="text-2xl font-serif text-[#3b2218] mb-4">
-                Our Mission
-              </h3>
-              <p className="para-text font-medium text-[#c29a2f]">
-                Enabling a holistic approach towards health and wellbeing in
-                modern lifestyles. Providing authentic and effective products
-                and services of the highest quality standards.
+            <p className="para-text">
+              Inspired by the philosophy that wellbeing is not a moment, but a
+              way of life, Sri Sri Wellbeing Chennai blends traditional healing
+              practices with modern wellness perspectives to support physical
+              vitality, mental clarity, and emotional ease.
+            </p>
+
+            <p className="para-text">
+              Whether you seek stillness from a demanding lifestyle,
+              therapeutic healing, or a deeper connection with holistic living,
+              Sri Sri Wellbeing Chennai offers a sanctuary where health,
+              happiness, and inner balance are gently restored.
+            </p>
+
+            <div className="mt-10 space-y-8 border-t border-black/5 pt-8 text-left">
+              <div>
+                <h3 className="mb-3 text-2xl font-serif text-[#3b2218]">
+                  Our Vision
+                </h3>
+                <p className="para-text">
+                  To redefine modern wellbeing through timeless Ayurvedic
+                  wisdom, creating spaces where individuals can reconnect with
+                  balance, vitality, and a more conscious way of living.
+                </p>
+              </div>
+
+              <div>
+                <h3 className="mb-3 text-2xl font-serif text-[#3b2218]">
+                  Our Mission
+                </h3>
+                <p className="para-text">
+                  To offer deeply personalised wellness experiences that
+                  nurture physical health, mental clarity, and emotional
+                  harmony through authentic Ayurveda, compassionate care, and
+                  thoughtfully curated healing environments.
+                </p>
+              </div>
+
+              <p className="para-text text-center font-medium text-[#9c7a45]">
+                Sri Sri Wellbeing is Where healing becomes an experience of
+                grace, balance, and renewal.
               </p>
             </div>
           </div>

@@ -1,4 +1,5 @@
 import {
+  listAdminUsers,
   createAdminRelaxationTherapy,
   createAdminService,
   listAdminBookings,
@@ -78,6 +79,7 @@ export async function refreshAdminData(options) {
 
 export async function loadAdminData({
   token,
+  role,
   statusFilter,
   inquiryStatusFilter,
   inquirySourceFilter,
@@ -85,6 +87,7 @@ export async function loadAdminData({
   setServices,
   setRelaxationTherapies,
   setTherapists,
+  setAdminUsers,
   setBookings,
   setErrorMessage,
   setIsLoading,
@@ -94,6 +97,20 @@ export async function loadAdminData({
   setIsLoading(true);
 
   try {
+    if (role === "doctor") {
+      const bookingData = await listAdminBookings(token, statusFilter);
+      setInquiries([]);
+      setServices([]);
+      setRelaxationTherapies([]);
+      setTherapists([]);
+      if (setAdminUsers) {
+        setAdminUsers([]);
+      }
+      setBookings(bookingData);
+      setLastLoadedAt(new Date());
+      return;
+    }
+
     const requests = [
       () => listAdminInquiries(token, { status: inquiryStatusFilter, source: inquirySourceFilter }),
       () => listAdminServices(token),
@@ -102,13 +119,25 @@ export async function loadAdminData({
       () => listAdminBookings(token, statusFilter),
     ];
 
-    const [inquiryData, serviceData, relaxationTherapyData, therapistData, bookingData] =
+    if (setAdminUsers) {
+      requests.splice(4, 0, () => listAdminUsers(token));
+    }
+
+    const results =
       await runInBatches(requests, 2);
+
+    const [inquiryData, serviceData, relaxationTherapyData, therapistData, adminUserData, bookingData] =
+      setAdminUsers
+        ? results
+        : [...results.slice(0, 4), null, results[4]];
 
     setInquiries(inquiryData);
     setServices(serviceData);
     setRelaxationTherapies(relaxationTherapyData);
     setTherapists(therapistData);
+    if (setAdminUsers) {
+      setAdminUsers(adminUserData);
+    }
     setBookings(bookingData);
     setLastLoadedAt(new Date());
   } catch (error) {

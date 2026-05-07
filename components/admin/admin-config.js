@@ -30,6 +30,16 @@ export const adminSections = [
     group: "Content API",
   },
   {
+    id: "team",
+    href: "/admin/team",
+    label: "Team",
+    shortLabel: "Team",
+    eyebrow: "Team",
+    title: "Therapists and doctor logins",
+    description: "Manage therapist profiles and doctor login access together in one simple place.",
+    group: "Team",
+  },
+  {
     id: "relaxation-therapies",
     href: "/admin/relaxation-therapies",
     label: "Relax Therapies",
@@ -42,4 +52,4 @@ export const adminSections = [
 ];
 
 export const adminSectionIds = adminSections.map((section) => section.id);
-export const adminSectionGroups = ["Operations", "Booking Engine", "Content API"];
+export const adminSectionGroups = ["Operations", "Booking Engine", "Team", "Content API"];

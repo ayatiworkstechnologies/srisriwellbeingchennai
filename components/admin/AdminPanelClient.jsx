@@ -6,15 +6,23 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   API_BASE_URL,
+  createAdminTherapist,
+  createAdminUser,
+  deleteAdminTherapist,
   deleteAdminRelaxationTherapy,
   deleteAdminService,
+  deleteAdminUser,
   loginAdmin,
   deleteAdminInquiry,
+  requestAdminPasswordReset,
+  sendAdminBookingEmail,
+  updateAdminTherapist,
   updateAdminInquiry,
   updateAdminBooking,
+  updateAdminUser,
 } from "@/lib/api";
 
-import { adminSectionGroups, adminSections } from "./admin-config";
+import { adminSections } from "./admin-config";
 import {
   adminCrudModules,
   countActive,
@@ -29,9 +37,12 @@ import {
 } from "./admin-data";
 import {
   advancedBookingStatusOptions,
+  initialAdminUserForm,
   initialCredentials,
   initialRelaxationTherapyForm,
   initialServiceForm,
+  initialTeamForm,
+  initialTherapistForm,
 } from "./admin-form-defaults";
 import {
   EntityPanel,
@@ -41,6 +52,7 @@ import {
   FormModal,
   InfoStrip,
   PanelCard,
+  PasswordInput,
   RecordCard,
   StatCard,
   SummaryTile,
@@ -70,13 +82,22 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
   const [services, setServices] = useState([]);
   const [relaxationTherapies, setRelaxationTherapies] = useState([]);
   const [therapists, setTherapists] = useState([]);
+  const [adminUsers, setAdminUsers] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [serviceForm, setServiceForm] = useState(initialServiceForm);
   const [relaxationTherapyForm, setRelaxationTherapyForm] = useState(initialRelaxationTherapyForm);
+  const [therapistForm, setTherapistForm] = useState(initialTherapistForm);
+  const [adminUserForm, setAdminUserForm] = useState(initialAdminUserForm);
+  const [teamForm, setTeamForm] = useState(initialTeamForm);
   const [editingServiceId, setEditingServiceId] = useState(null);
   const [editingRelaxationTherapyId, setEditingRelaxationTherapyId] = useState(null);
+  const [editingTherapistId, setEditingTherapistId] = useState(null);
+  const [editingAdminUserId, setEditingAdminUserId] = useState(null);
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
   const [isRelaxationTherapyModalOpen, setIsRelaxationTherapyModalOpen] = useState(false);
+  const [isTherapistModalOpen, setIsTherapistModalOpen] = useState(false);
+  const [isAdminUserModalOpen, setIsAdminUserModalOpen] = useState(false);
+  const [isTeamModalOpen, setIsTeamModalOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState("all");
   const [inquiryStatusFilter, setInquiryStatusFilter] = useState("all");
   const [inquirySourceFilter, setInquirySourceFilter] = useState("all");
@@ -85,9 +106,31 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
   const [lastLoadedAt, setLastLoadedAt] = useState(null);
+  const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
+  const [emailForm, setEmailForm] = useState({
+    subject: "",
+    message: "",
+  });
+
+  const availableSections = useMemo(() => {
+    if (userProfile?.role === "doctor") {
+      return adminSections.filter((section) => section.id === "bookings");
+    }
+    return adminSections;
+  }, [userProfile]);
+
+  const normalizedSection =
+    currentSection === "therapists" || currentSection === "doctor-logins"
+      ? "team"
+      : currentSection;
+
+  const resolvedSection =
+    availableSections.find((section) => section.id === normalizedSection)?.id ?? availableSections[0]?.id ?? "bookings";
 
   const currentSectionMeta =
-    adminSections.find((section) => section.id === currentSection) ?? adminSections[0];
+    availableSections.find((section) => section.id === resolvedSection) ?? availableSections[0] ?? adminSections[0];
 
   const pendingBookings = useMemo(
     () => bookings.filter((booking) => booking.status === "pending").length,
@@ -102,15 +145,26 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     [inquiries]
   );
   const inquirySources = useMemo(() => getUniqueInquirySources(inquiries), [inquiries]);
-
-  const connectedLabel = lastLoadedAt ? "Active" : "Connecting...";
+  const teamLogins = useMemo(
+    () => adminUsers.filter((item) => item.role === "doctor" || item.role === "therapist"),
+    [adminUsers]
+  );
 
   useEffect(() => {
     const savedToken = window.localStorage.getItem("ssw-admin-token");
+    const savedProfile = window.localStorage.getItem("ssw-admin-profile");
     if (isLikelyJwt(savedToken)) {
       setToken(savedToken);
+      if (savedProfile) {
+        try {
+          setUserProfile(JSON.parse(savedProfile));
+        } catch {
+          window.localStorage.removeItem("ssw-admin-profile");
+        }
+      }
     } else if (savedToken) {
       window.localStorage.removeItem("ssw-admin-token");
+      window.localStorage.removeItem("ssw-admin-profile");
     }
     setIsInitializing(false);
   }, []);
@@ -120,6 +174,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
 
     loadAdminData({
       token,
+      role: userProfile?.role,
       statusFilter,
       inquiryStatusFilter,
       inquirySourceFilter,
@@ -127,18 +182,20 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       setServices,
       setRelaxationTherapies,
       setTherapists,
+      setAdminUsers: userProfile?.role === "super_admin" ? setAdminUsers : null,
       setBookings,
       setLastLoadedAt,
       setIsLoading,
       setErrorMessage,
       setToken,
     });
-  }, [token, statusFilter, inquiryStatusFilter, inquirySourceFilter]);
+  }, [token, statusFilter, inquiryStatusFilter, inquirySourceFilter, userProfile?.role]);
 
   const refresh = () => {
     if (!token) return;
     refreshAdminData({
       token,
+      role: userProfile?.role,
       statusFilter,
       inquiryStatusFilter,
       inquirySourceFilter,
@@ -146,6 +203,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       setServices,
       setRelaxationTherapies,
       setTherapists,
+      setAdminUsers: userProfile?.role === "super_admin" ? setAdminUsers : null,
       setBookings,
       setLastLoadedAt,
       setIsLoading,
@@ -167,7 +225,14 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
         throw new Error("Login succeeded but no access token was returned.");
       }
       setToken(nextToken);
+      const nextProfile = {
+        role: data.role || "super_admin",
+        full_name: data.full_name || credentials.email,
+        therapist_id: data.therapist_id || null,
+      };
+      setUserProfile(nextProfile);
       window.localStorage.setItem("ssw-admin-token", nextToken);
+      window.localStorage.setItem("ssw-admin-profile", JSON.stringify(nextProfile));
       setSuccessMessage("Login successful! Welcome to the admin portal.");
     } catch (error) {
       setErrorMessage(error.message || "Invalid credentials. Please try again.");
@@ -178,8 +243,27 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
 
   const handleLogout = () => {
     setToken("");
+    setUserProfile(null);
     window.localStorage.removeItem("ssw-admin-token");
+    window.localStorage.removeItem("ssw-admin-profile");
     router.push("/admin");
+  };
+
+  const handleForgotPassword = async (email) => {
+    setIsSubmitting(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      const data = await requestAdminPasswordReset({ email });
+      setSuccessMessage(data.detail || "Password reset link sent.");
+      return { ok: true, message: data.detail };
+    } catch (error) {
+      setErrorMessage(error.message || "Failed to send password reset link.");
+      return { ok: false, message: error.message || "Failed to send password reset link." };
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleBookingLifecycleChange = async (id, payload) => {
@@ -190,6 +274,40 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       refresh();
     } catch (error) {
       setErrorMessage(error.message || "Failed to update booking.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const openBookingEmailModal = (booking) => {
+    setSelectedBooking(booking);
+    setEmailForm({
+      subject: `Update for your Sri Sri Wellbeing booking ${booking.reference_code}`,
+      message:
+        `Your booking for ${booking.therapy_name} is currently marked as ${toTitleCase(booking.status)}.\n\n` +
+        `If you have any questions, please reply to this email or contact our team.`,
+    });
+    setIsEmailModalOpen(true);
+  };
+
+  const closeBookingEmailModal = () => {
+    setSelectedBooking(null);
+    setEmailForm({ subject: "", message: "" });
+    setIsEmailModalOpen(false);
+  };
+
+  const handleSendBookingEmail = async (event) => {
+    event.preventDefault();
+    if (!selectedBooking) return;
+
+    setIsSubmitting(true);
+    setErrorMessage("");
+    try {
+      await sendAdminBookingEmail(token, selectedBooking.id, emailForm);
+      setSuccessMessage(`Email sent to ${selectedBooking.email}.`);
+      closeBookingEmailModal();
+    } catch (error) {
+      setErrorMessage(error.message || "Failed to send booking email.");
     } finally {
       setIsSubmitting(false);
     }
@@ -246,6 +364,10 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       editingId: editingServiceId,
       type: "services",
       form: serviceForm,
+      transformPayload: (payload) => ({
+        ...payload,
+        benefits: (payload.benefits || []).map((item) => item.trim()).filter(Boolean),
+      }),
       setForm: setServiceForm,
       initialForm: initialServiceForm,
       setEditingId: setEditingServiceId,
@@ -261,10 +383,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       form: relaxationTherapyForm,
       transformPayload: (payload) => ({
         ...payload,
-        benefits: payload.benefits
-          .split("\n")
-          .map((item) => item.trim())
-          .filter(Boolean),
+        benefits: (payload.benefits || []).map((item) => item.trim()).filter(Boolean),
       }),
       setForm: setRelaxationTherapyForm,
       initialForm: initialRelaxationTherapyForm,
@@ -272,6 +391,129 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       label: "Relaxation therapy",
     });
   }
+
+  const handleTherapistSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage("");
+    try {
+      const payload = {
+        ...therapistForm,
+        experience_years: Number(therapistForm.experience_years || 0),
+        languages: therapistForm.languages
+          .split("\n")
+          .map((item) => item.trim())
+          .filter(Boolean),
+        specialties: therapistForm.specialties
+          .split("\n")
+          .map((item) => item.trim())
+          .filter(Boolean),
+      };
+      if (editingTherapistId) {
+        await updateAdminTherapist(token, editingTherapistId, payload);
+      } else {
+        await createAdminTherapist(token, payload);
+      }
+      setSuccessMessage(editingTherapistId ? "Therapist updated." : "Therapist created.");
+      closeTherapistModal();
+      refresh();
+    } catch (error) {
+      setErrorMessage(error.message || "Failed to save therapist.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleAdminUserSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage("");
+    try {
+      const payload = {
+        ...adminUserForm,
+        therapist_id: adminUserForm.therapist_id ? Number(adminUserForm.therapist_id) : null,
+      };
+      if (editingAdminUserId) {
+        await updateAdminUser(token, editingAdminUserId, payload);
+      } else {
+        await createAdminUser(token, payload);
+      }
+      setSuccessMessage(editingAdminUserId ? "Team login updated." : "Team login created.");
+      closeAdminUserModal();
+      refresh();
+    } catch (error) {
+      setErrorMessage(error.message || "Failed to save team login.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleTeamSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      const therapistPayload = {
+        full_name: teamForm.full_name,
+        role_label: teamForm.role_label,
+        qualification: teamForm.qualification,
+        experience_years: Number(teamForm.experience_years || 0),
+        languages: teamForm.languages
+          .split("\n")
+          .map((item) => item.trim())
+          .filter(Boolean),
+        image: teamForm.image,
+        email: teamForm.email,
+        phone: teamForm.phone,
+        specialties: teamForm.specialties
+          .split("\n")
+          .map((item) => item.trim())
+          .filter(Boolean),
+        bio: teamForm.bio,
+        is_active: teamForm.is_active,
+      };
+
+      let therapistId = editingTherapistId;
+      if (editingTherapistId) {
+        await updateAdminTherapist(token, editingTherapistId, therapistPayload);
+      } else {
+        const createdTherapist = await createAdminTherapist(token, therapistPayload);
+        therapistId = createdTherapist.id;
+      }
+
+      if (teamForm.create_login && therapistId) {
+        const loginPayload = {
+          email: teamForm.login_email,
+          full_name: teamForm.full_name,
+          password: teamForm.login_password,
+          role: teamForm.login_role,
+          therapist_id: therapistId,
+          is_active: teamForm.login_is_active,
+        };
+
+        if (teamForm.linked_user_id) {
+          if (!loginPayload.password) {
+            delete loginPayload.password;
+          }
+          await updateAdminUser(token, teamForm.linked_user_id, loginPayload);
+        } else {
+          await createAdminUser(token, loginPayload);
+        }
+      } else if (teamForm.linked_user_id) {
+        await deleteAdminUser(token, teamForm.linked_user_id);
+      }
+
+      setSuccessMessage(editingTherapistId ? "Team member updated." : "Team member created.");
+      closeTeamModal();
+      refresh();
+    } catch (error) {
+      setErrorMessage(error.message || "Failed to save team member.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
 
   const handleDelete = async (deleteFn, id, label) => {
     if (!window.confirm(`Are you sure you want to delete this ${label}?`)) return;
@@ -300,7 +542,9 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     setEditingServiceId(item.id);
     setServiceForm({
       title: item.title,
+      short_description: item.short_description,
       description: item.description,
+      benefits: item.benefits?.length ? [...item.benefits] : [""],
       image: item.image,
       sort_order: item.sort_order,
       is_active: item.is_active,
@@ -308,10 +552,129 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     setIsServiceModalOpen(true);
   };
 
+  const updateServiceBenefit = (index, value) => {
+    setServiceForm((current) => ({
+      ...current,
+      benefits: current.benefits.map((item, itemIndex) => (itemIndex === index ? value : item)),
+    }));
+  };
+
+  const addServiceBenefit = () => {
+    setServiceForm((current) => ({
+      ...current,
+      benefits: [...current.benefits, ""],
+    }));
+  };
+
+  const removeServiceBenefit = (index) => {
+    setServiceForm((current) => {
+      const nextBenefits = current.benefits.filter((_, itemIndex) => itemIndex !== index);
+      return {
+        ...current,
+        benefits: nextBenefits.length ? nextBenefits : [""],
+      };
+    });
+  };
+
   const closeRelaxationTherapyModal = () => {
     setIsRelaxationTherapyModalOpen(false);
     setEditingRelaxationTherapyId(null);
     setRelaxationTherapyForm(initialRelaxationTherapyForm);
+  };
+
+  const closeTherapistModal = () => {
+    setIsTherapistModalOpen(false);
+    setEditingTherapistId(null);
+    setTherapistForm(initialTherapistForm);
+  };
+
+  const openTherapistCreateModal = () => {
+    setEditingTherapistId(null);
+    setTherapistForm(initialTherapistForm);
+    setIsTherapistModalOpen(true);
+  };
+
+  const openTherapistEditModal = (item) => {
+    setEditingTherapistId(item.id);
+    setTherapistForm({
+      full_name: item.full_name,
+      role_label: item.role_label || "Therapist",
+      qualification: item.qualification || "",
+      experience_years: item.experience_years || 0,
+      languages: (item.languages || []).join("\n"),
+      image: item.image || "/images/doctor-placeholder.png",
+      email: item.email,
+      phone: item.phone,
+      specialties: (item.specialties || []).join("\n"),
+      bio: item.bio,
+      is_active: item.is_active,
+    });
+    setIsTherapistModalOpen(true);
+  };
+
+  const closeAdminUserModal = () => {
+    setIsAdminUserModalOpen(false);
+    setEditingAdminUserId(null);
+    setAdminUserForm(initialAdminUserForm);
+  };
+
+  const closeTeamModal = () => {
+    setIsTeamModalOpen(false);
+    setEditingTherapistId(null);
+    setEditingAdminUserId(null);
+    setTeamForm(initialTeamForm);
+  };
+
+  const openTeamCreateModal = () => {
+    setEditingTherapistId(null);
+    setEditingAdminUserId(null);
+    setTeamForm(initialTeamForm);
+    setIsTeamModalOpen(true);
+  };
+
+  const openTeamEditModal = (therapist) => {
+    const linkedUser = teamLogins.find((item) => item.therapist_id === therapist.id) || null;
+    setEditingTherapistId(therapist.id);
+    setEditingAdminUserId(linkedUser?.id || null);
+    setTeamForm({
+      full_name: therapist.full_name,
+      role_label: therapist.role_label || "Therapist",
+      qualification: therapist.qualification || "",
+      experience_years: therapist.experience_years || 0,
+      languages: (therapist.languages || []).join("\n"),
+      image: therapist.image || "/images/doctor-placeholder.png",
+      email: therapist.email,
+      phone: therapist.phone,
+      specialties: (therapist.specialties || []).join("\n"),
+      bio: therapist.bio || "",
+      is_active: therapist.is_active,
+      create_login: Boolean(linkedUser),
+      login_email: linkedUser?.email || therapist.email,
+      login_password: "",
+      login_role: linkedUser?.role || "therapist",
+      login_is_active: linkedUser?.is_active ?? true,
+      linked_user_id: linkedUser?.id || null,
+    });
+    setIsTeamModalOpen(true);
+  };
+
+  const openAdminUserCreateModal = () => {
+    setEditingAdminUserId(null);
+    setAdminUserForm(initialAdminUserForm);
+    setIsAdminUserModalOpen(true);
+  };
+
+  const openAdminUserEditModal = (item) => {
+    setEditingAdminUserId(item.id);
+    setAdminUserForm({
+      email: item.email,
+      full_name: item.full_name,
+      password: "",
+      role: item.role,
+      therapist_id: item.therapist_id ? String(item.therapist_id) : "",
+      is_active: item.is_active,
+    });
+    setIsAdminUserModalOpen(true);
   };
 
   const openRelaxationTherapyCreateModal = () => {
@@ -327,7 +690,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       duration: item.duration,
       short_description: item.short_description,
       details: item.details,
-      benefits: item.benefits.join("\n"),
+      benefits: item.benefits?.length ? [...item.benefits] : [""],
       image: item.image,
       sort_order: item.sort_order,
       is_active: item.is_active,
@@ -335,17 +698,42 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     setIsRelaxationTherapyModalOpen(true);
   };
 
+  const updateRelaxationBenefit = (index, value) => {
+    setRelaxationTherapyForm((current) => ({
+      ...current,
+      benefits: current.benefits.map((item, itemIndex) => (itemIndex === index ? value : item)),
+    }));
+  };
+
+  const addRelaxationBenefit = () => {
+    setRelaxationTherapyForm((current) => ({
+      ...current,
+      benefits: [...current.benefits, ""],
+    }));
+  };
+
+  const removeRelaxationBenefit = (index) => {
+    setRelaxationTherapyForm((current) => {
+      const nextBenefits = current.benefits.filter((_, itemIndex) => itemIndex !== index);
+      return {
+        ...current,
+        benefits: nextBenefits.length ? nextBenefits : [""],
+      };
+    });
+  };
+
   const tabCounts = {
     inquiries: inquiries.length,
     bookings: bookings.length,
     services: services.length,
+    team: therapists.length + adminUsers.length,
     "relaxation-therapies": relaxationTherapies.length,
   };
 
   return (
     <AdminLayout
-      adminSections={adminSections}
-      currentSection={currentSection}
+      adminSections={availableSections}
+      currentSection={resolvedSection}
       handleLogout={handleLogout}
       tabCounts={tabCounts}
       isInitializing={isInitializing}
@@ -354,6 +742,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       {!token ? (
         <AdminLogin
           handleLogin={handleLogin}
+          handleForgotPassword={handleForgotPassword}
           credentials={credentials}
           setCredentials={setCredentials}
           isSubmitting={isSubmitting}
@@ -361,48 +750,27 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
           successMessage={successMessage}
         />
       ) : (
-        <div ref={contentRef} className="animate-in fade-in slide-in-from-bottom-8 duration-1000">
-          <div className="flex flex-col gap-10">
+        <div ref={contentRef} className="animate-in fade-in duration-700">
+          <div className="flex flex-col gap-8">
             {/* Header Section */}
-            <div className="overflow-hidden rounded-[2.8rem] border border-white/80 bg-[linear-gradient(145deg,rgba(255,255,255,0.78),rgba(255,248,236,0.68))] p-6 shadow-[0_24px_80px_rgba(32,18,10,0.06)] backdrop-blur-xl md:p-8">
-              <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
-              <div>
-                <div className="flex items-center gap-3 mb-3">
-                  <span className="h-1.5 w-1.5 rounded-full bg-[#c29a2f]" />
-                  <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[#c29a2f]">{currentSectionMeta.eyebrow}</p>
-                </div>
-                <h1 className="font-serif text-4xl font-semibold text-[#1f1a17] tracking-tighter md:text-5xl">{currentSectionMeta.title}</h1>
-                <p className="mt-4 max-w-2xl text-[16px] leading-relaxed text-[#7a726c] font-medium">
-                  {currentSectionMeta.description}
-                </p>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  <span className="rounded-full border border-[#e6dac9] bg-white/70 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[#8f8376]">
-                    API Driven
-                  </span>
-                  <span className="rounded-full border border-[#e6dac9] bg-white/70 px-4 py-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[#8f8376]">
-                    Backend Synced
-                  </span>
+            <div className="rounded-2xl border border-[#dbe7e1] bg-white p-6 shadow-sm">
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+                <div>
+                  <div className="mb-3 flex items-center gap-3">
+                    <span className="rounded-md bg-[#eef4f1] px-2.5 py-1 text-xs font-medium text-[#1f6b5c]">
+                      {currentSectionMeta.eyebrow}
+                    </span>
+                  </div>
+                  <h1 className="text-3xl font-semibold text-[#1d2a26] md:text-4xl">{currentSectionMeta.title}</h1>
+                  <p className="mt-3 max-w-2xl text-sm leading-7 text-[#5f726c]">
+                    {currentSectionMeta.description}
+                  </p>
                 </div>
               </div>
-              <div className="grid shrink-0 gap-4 sm:grid-cols-2">
-                <SummaryTile
-                  label="Backend Status"
-                  value={connectedLabel}
-                  note={lastLoadedAt ? `Synced ${formatDate(lastLoadedAt)}` : "Initializing..."}
-                  emphasis
-                />
-                <SummaryTile
-                  label="Data Refresh"
-                  value={isLoading ? "Refreshing..." : "Manual Sync"}
-                  note="Update local data"
-                  onClick={refresh}
-                />
-              </div>
-            </div>
             </div>
 
             {/* Stats Grid */}
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
               <StatCard label="New Enquiries" value={newInquiries} tone="dark" />
               <StatCard label="Total Bookings" value={bookings.length} />
               <StatCard label="Pending Approval" value={pendingBookings} />
@@ -411,7 +779,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
             </div>
 
             {/* Quick Metrics */}
-            <div className="grid gap-6 md:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-3">
               <InfoStrip title="CRM Queue" value={inquiries.length} detail="Contact and lead enquiries captured from the website." />
               <InfoStrip title="Service API" value={services.length} detail="Active service cards distributed to the public frontend." />
               <InfoStrip title="Expert Network" value={therapists.length} detail="Qualified experts available for therapy assignments." />
@@ -423,7 +791,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
 
             {/* Main Content Area */}
             <div className="pt-4">
-              {currentSection === "inquiries" ? (
+              {resolvedSection === "inquiries" ? (
                 <InquiriesPanel
                   inquiries={inquiries}
                   inquiryStatusFilter={inquiryStatusFilter}
@@ -436,7 +804,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                 />
               ) : null}
 
-              {currentSection === "bookings" ? (
+              {resolvedSection === "bookings" ? (
                 <BookingsPanel
                   bookings={bookings}
                   isLoading={isLoading}
@@ -444,10 +812,11 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                   setStatusFilter={setStatusFilter}
                   therapists={therapists}
                   handleBookingLifecycleChange={handleBookingLifecycleChange}
+                  openBookingEmailModal={openBookingEmailModal}
                 />
               ) : null}
 
-              {currentSection === "services" ? (
+              {resolvedSection === "services" ? (
                 <>
                 <EntityPanel
                   eyebrow="Content API"
@@ -465,7 +834,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                       key={item.id}
                       title={item.title}
                       meta={`Order ${item.sort_order} | ${item.is_active ? "Published" : "Draft"}`}
-                      body={item.description}
+                      body={`${item.short_description}\n\n${item.description}\n\nBenefits:\n${item.benefits.map((benefit) => `- ${benefit}`).join("\n")}`}
                       extra={item.image}
                       onEdit={() => openServiceEditModal(item)}
                       onDelete={() => handleDelete(deleteAdminService, item.id, "Service")}
@@ -517,6 +886,20 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                         required
                       />
                     </Field>
+                    <Field label="Short Description">
+                      <textarea
+                        value={serviceForm.short_description}
+                        onChange={(event) =>
+                          setServiceForm((current) => ({
+                            ...current,
+                            short_description: event.target.value,
+                          }))
+                        }
+                        className={textAreaClass}
+                        rows="3"
+                        required
+                      />
+                    </Field>
                     <Field label="Public Description">
                       <textarea
                         value={serviceForm.description}
@@ -530,6 +913,31 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                         rows="6"
                         required
                       />
+                    </Field>
+                    <Field label="Benefits">
+                      <div className="grid gap-3">
+                        {serviceForm.benefits.map((benefit, index) => (
+                          <div key={`service-benefit-${index}`} className="flex gap-3">
+                            <input
+                              value={benefit}
+                              onChange={(event) => updateServiceBenefit(index, event.target.value)}
+                              className={inputClass}
+                              placeholder={`Benefit ${index + 1}`}
+                              required
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeServiceBenefit(index)}
+                              className={secondaryButtonClass}
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        ))}
+                        <button type="button" onClick={addServiceBenefit} className={secondaryButtonClass}>
+                          Add Benefit
+                        </button>
+                      </div>
                     </Field>
                     <ToggleRow
                       checked={serviceForm.is_active}
@@ -551,7 +959,90 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                 </>
               ) : null}
 
-              {currentSection === "relaxation-therapies" ? (
+              {resolvedSection === "team" ? (
+                <>
+                  <EntityPanel
+                    eyebrow="Team"
+                    title={editingTherapistId ? "Edit Team Member" : "Add Team Member"}
+                    subtitle="Manage profile details, bio, and login access together in one single form."
+                    hideForm
+                    actionLabel="Add Team Member"
+                    onAction={openTeamCreateModal}
+                    saveLabel="Team Member"
+                    listingTitle="Team Directory"
+                    listingSubtitle={`${therapists.length} team profiles with ${teamLogins.length} linked logins.`}
+                    items={therapists}
+                    renderItem={(item) => {
+                      const linkedUser = teamLogins.find((login) => login.therapist_id === item.id);
+                      return (
+                        <RecordCard
+                          key={item.id}
+                          title={item.full_name}
+                          meta={`${item.role_label || "Therapist"} | ${linkedUser ? linkedUser.role : "No login"} | ${item.is_active ? "Active" : "Inactive"}`}
+                          body={`${item.qualification || "Qualification not added"}\n${item.experience_years || 0} years experience\nLanguages: ${(item.languages || []).join(", ") || "Not added"}\nPhone: ${item.phone}\nEmail: ${item.email}\n\nSpecialties: ${(item.specialties || []).join(", ") || "Not added"}\n\nBio: ${item.bio || "No bio added"}`}
+                          extra={item.image}
+                          onEdit={() => openTeamEditModal(item)}
+                          onDelete={() => handleDelete(deleteAdminTherapist, item.id, "Team member")}
+                        />
+                      );
+                    }}
+                  />
+                  <FormModal
+                    open={isTeamModalOpen}
+                    title={editingTherapistId ? "Edit team member" : "Add team member"}
+                    subtitle="One form for profile, bio, and login access."
+                    onClose={closeTeamModal}
+                  >
+                    <form onSubmit={handleTeamSubmit} className="grid gap-5">
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <Field label="Full Name"><input value={teamForm.full_name} onChange={(event) => setTeamForm((current) => ({ ...current, full_name: event.target.value }))} className={inputClass} required /></Field>
+                        <Field label="Role Label"><input value={teamForm.role_label} onChange={(event) => setTeamForm((current) => ({ ...current, role_label: event.target.value }))} className={inputClass} required /></Field>
+                      </div>
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <Field label="Qualification"><input value={teamForm.qualification} onChange={(event) => setTeamForm((current) => ({ ...current, qualification: event.target.value }))} className={inputClass} required /></Field>
+                        <Field label="Experience Years"><input type="number" min="0" value={teamForm.experience_years} onChange={(event) => setTeamForm((current) => ({ ...current, experience_years: event.target.value }))} className={inputClass} required /></Field>
+                      </div>
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <Field label="Email"><input type="email" value={teamForm.email} onChange={(event) => setTeamForm((current) => ({ ...current, email: event.target.value, login_email: current.login_email || event.target.value }))} className={inputClass} required /></Field>
+                        <Field label="Phone"><input value={teamForm.phone} onChange={(event) => setTeamForm((current) => ({ ...current, phone: event.target.value }))} className={inputClass} required /></Field>
+                      </div>
+                      <Field label="Profile Image"><input value={teamForm.image} onChange={(event) => setTeamForm((current) => ({ ...current, image: event.target.value }))} className={inputClass} required /></Field>
+                      <Field label="Languages"><textarea value={teamForm.languages} onChange={(event) => setTeamForm((current) => ({ ...current, languages: event.target.value }))} className={textAreaClass} rows="3" /></Field>
+                      <Field label="Specialties"><textarea value={teamForm.specialties} onChange={(event) => setTeamForm((current) => ({ ...current, specialties: event.target.value }))} className={textAreaClass} rows="3" /></Field>
+                      <Field label="Bio"><textarea value={teamForm.bio} onChange={(event) => setTeamForm((current) => ({ ...current, bio: event.target.value }))} className={textAreaClass} rows="5" /></Field>
+                      <ToggleRow checked={teamForm.is_active} onChange={(value) => setTeamForm((current) => ({ ...current, is_active: value }))} label="Active profile" />
+                      <ToggleRow checked={teamForm.create_login} onChange={(value) => setTeamForm((current) => ({ ...current, create_login: value }))} label="Create login access" />
+                      {teamForm.create_login ? (
+                        <div className="grid gap-5 rounded-lg border border-[#dbe7e1] bg-[#f8fbf9] p-4">
+                          <div className="grid gap-5 md:grid-cols-2">
+                            <Field label="Login Email"><input type="email" value={teamForm.login_email} onChange={(event) => setTeamForm((current) => ({ ...current, login_email: event.target.value }))} className={inputClass} required /></Field>
+                            <Field label="Login Role">
+                              <select value={teamForm.login_role} onChange={(event) => setTeamForm((current) => ({ ...current, login_role: event.target.value }))} className={selectClass}>
+                                <option value="therapist">Therapist</option>
+                                <option value="doctor">Doctor</option>
+                              </select>
+                            </Field>
+                          </div>
+                          <Field label={teamForm.linked_user_id ? "Password (leave blank to keep current)" : "Password"}>
+                            <PasswordInput value={teamForm.login_password} onChange={(event) => setTeamForm((current) => ({ ...current, login_password: event.target.value }))} required={!teamForm.linked_user_id} autoComplete="new-password" placeholder="Enter login password" />
+                          </Field>
+                          <ToggleRow checked={teamForm.login_is_active} onChange={(value) => setTeamForm((current) => ({ ...current, login_is_active: value }))} label="Active login" />
+                        </div>
+                      ) : null}
+                      <div className="flex flex-wrap gap-4 pt-2">
+                        <button type="submit" disabled={isSubmitting} className={primaryButtonClass}>
+                          {isSubmitting ? "Saving..." : editingTherapistId ? "Update Team Member" : "Create Team Member"}
+                        </button>
+                        <button type="button" onClick={closeTeamModal} className={secondaryButtonClass}>
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  </FormModal>
+                </>
+              ) : null}
+
+              {resolvedSection === "relaxation-therapies" ? (
                 <>
                 <EntityPanel
                   eyebrow="Booking Flow"
@@ -569,7 +1060,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                       key={item.id}
                       title={item.title}
                       meta={`${item.duration} | Order ${item.sort_order} | ${item.is_active ? "Published" : "Draft"}`}
-                      body={`${item.short_description}\n\n${item.details}\n\nBenefits: ${item.benefits.join(", ")}`}
+                      body={`${item.short_description}\n\n${item.details}\n\nBenefits:\n${item.benefits.map((benefit) => `- ${benefit}`).join("\n")}`}
                       extra={item.image}
                       onEdit={() => openRelaxationTherapyEditModal(item)}
                       onDelete={() =>
@@ -679,18 +1170,29 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                       />
                     </Field>
                     <Field label="Benefits">
-                      <textarea
-                        value={relaxationTherapyForm.benefits}
-                        onChange={(event) =>
-                          setRelaxationTherapyForm((current) => ({
-                            ...current,
-                            benefits: event.target.value,
-                          }))
-                        }
-                        className={textAreaClass}
-                        rows="5"
-                        required
-                      />
+                      <div className="grid gap-3">
+                        {relaxationTherapyForm.benefits.map((benefit, index) => (
+                          <div key={`benefit-${index}`} className="flex gap-3">
+                            <input
+                              value={benefit}
+                              onChange={(event) => updateRelaxationBenefit(index, event.target.value)}
+                              className={inputClass}
+                              placeholder={`Benefit ${index + 1}`}
+                              required
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeRelaxationBenefit(index)}
+                              className={secondaryButtonClass}
+                            >
+                              Remove
+                            </button>
+                          </div>
+                        ))}
+                        <button type="button" onClick={addRelaxationBenefit} className={secondaryButtonClass}>
+                          Add Benefit
+                        </button>
+                      </div>
                     </Field>
                     <ToggleRow
                       checked={relaxationTherapyForm.is_active}
@@ -713,6 +1215,44 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
               ) : null}
             </div>
           </div>
+          <FormModal
+            open={isEmailModalOpen}
+            title="Send booking email"
+            subtitle={selectedBooking ? `Client: ${selectedBooking.customer_name} (${selectedBooking.email})` : ""}
+            onClose={closeBookingEmailModal}
+          >
+            <form onSubmit={handleSendBookingEmail} className="grid gap-4">
+              <Field label="Subject">
+                <input
+                  value={emailForm.subject}
+                  onChange={(event) =>
+                    setEmailForm((current) => ({ ...current, subject: event.target.value }))
+                  }
+                  className={inputClass}
+                  required
+                />
+              </Field>
+              <Field label="Message">
+                <textarea
+                  value={emailForm.message}
+                  onChange={(event) =>
+                    setEmailForm((current) => ({ ...current, message: event.target.value }))
+                  }
+                  className={textAreaClass}
+                  rows="8"
+                  required
+                />
+              </Field>
+              <div className="flex flex-wrap gap-3">
+                <button type="submit" disabled={isSubmitting} className={primaryButtonClass}>
+                  {isSubmitting ? "Sending..." : "Send Email"}
+                </button>
+                <button type="button" onClick={closeBookingEmailModal} className={secondaryButtonClass}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </FormModal>
         </div>
       )}
     </AdminLayout>
@@ -726,16 +1266,17 @@ function BookingsPanel({
   setStatusFilter,
   therapists,
   handleBookingLifecycleChange,
+  openBookingEmailModal,
 }) {
   return (
-    <div className="flex flex-col gap-10">
-      <div className="flex flex-col gap-6 md:flex-row md:items-center md:justify-between px-2">
+      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <h2 className="font-serif text-3xl font-semibold text-[#1f1a17] tracking-tight">Recent Enquiries</h2>
-          <p className="mt-1 text-sm text-[#7a726c] font-medium">Real-time therapy requests from the website.</p>
+          <h2 className="text-2xl font-semibold text-[#18332e]">Bookings</h2>
+          <p className="mt-1 text-sm text-[#5f726c]">Review requests and approve quickly.</p>
         </div>
         
-        <div className="flex items-center gap-4 bg-white p-2 rounded-[1.4rem] shadow-[0_8px_30px_rgba(0,0,0,0.03)] border border-black/5">
+        <div className="flex items-center gap-3 rounded-lg border border-[#dbe7e1] bg-white p-2">
           <FieldInline label="Filter Status">
             <select
               value={statusFilter}
@@ -754,33 +1295,33 @@ function BookingsPanel({
       </div>
 
       {bookings.length === 0 ? (
-        <div className="rounded-[3rem] border border-dashed border-black/10 bg-white/40 px-5 py-24 text-center backdrop-blur-sm">
-          <p className="text-sm text-[#7a726c]">No bookings found for the current filter.</p>
+        <div className="rounded-xl border border-dashed border-[#cfddd6] bg-white px-5 py-20 text-center">
+          <p className="text-sm text-[#60746e]">No bookings found for the current filter.</p>
         </div>
       ) : (
-        <div className="grid gap-6">
+        <div className="grid gap-4">
           {bookings.map((booking) => (
             <article
               key={booking.id}
-              className="group relative overflow-hidden rounded-[2.5rem] border border-white/80 bg-white p-8 shadow-[0_20px_60px_rgba(32,18,10,0.04)] transition-all duration-500 hover:shadow-[0_32px_100px_rgba(32,18,10,0.08)]"
+              className="rounded-xl border border-[#dbe7e1] bg-white p-5"
             >
-              <div className="grid gap-8 xl:grid-cols-[1.2fr_0.8fr]">
-                <div className="space-y-8">
+              <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px]">
+                <div className="space-y-5">
                   <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
                     <div>
-                      <div className="flex items-center gap-3 mb-3">
-                        <span className="inline-flex items-center justify-center rounded-full bg-[#c29a2f]/10 px-3 py-1 text-[10px] font-bold uppercase tracking-[0.2em] text-[#c29a2f]">
+                      <div className="mb-3 flex flex-wrap items-center gap-2">
+                        <span className="inline-flex items-center justify-center rounded-md bg-[#eef5f1] px-2.5 py-1 text-xs font-medium text-[#19564f]">
                           {booking.reference_code}
                         </span>
-                        <p className="text-[11px] font-bold uppercase tracking-widest text-[#a0948c]">
+                        <p className="text-xs text-[#8ba098]">
                           Created {formatDate(booking.created_at)}
                         </p>
                       </div>
-                      <h3 className="font-serif text-3xl font-semibold text-[#1f1a17] tracking-tight">
+                      <h3 className="text-xl font-semibold text-[#18332e]">
                         {booking.customer_name}
                       </h3>
-                      <p className="mt-3 text-[16px] text-[#5c544f] font-medium leading-relaxed">
-                        Interested in <span className="text-[#1f1a17] font-bold underline decoration-[#c29a2f]/30 underline-offset-4">{booking.therapy_name}</span>
+                      <p className="mt-2 text-sm text-[#4e635d]">
+                        Therapy: <span className="font-medium text-[#18332e]">{booking.therapy_name}</span>
                       </p>
                     </div>
                     <BookingStatusPill status={booking.status} />
@@ -810,8 +1351,55 @@ function BookingsPanel({
                   </div>
                 </div>
 
-                <div className="relative rounded-[2rem] bg-[#f8f6f1] p-8 border border-black/5 self-start">
-                  <div className="space-y-6">
+                <div className="rounded-xl border border-[#dbe7e1] bg-[#f8fbf9] p-4">
+                  <div className="space-y-4">
+                    <div className="grid gap-2">
+                      <p className="text-sm font-medium text-[#33423d]">Quick Actions</p>
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleBookingLifecycleChange(booking.id, {
+                              status: "confirmed",
+                              send_email: true,
+                            })
+                          }
+                          className="inline-flex h-10 items-center justify-center rounded-lg bg-[#1f6b5c] px-4 text-sm font-medium text-white hover:bg-[#175245]"
+                        >
+                          Approve & Mail
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => openBookingEmailModal(booking)}
+                          className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-4 text-sm font-medium text-[#18332e] hover:bg-[#f2f6f4]"
+                        >
+                          Send Email
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleBookingLifecycleChange(booking.id, {
+                              status: "completed",
+                            })
+                          }
+                          className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-4 text-sm font-medium text-[#18332e] hover:bg-[#f2f6f4]"
+                        >
+                          Complete
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            handleBookingLifecycleChange(booking.id, {
+                              status: "cancelled",
+                            })
+                          }
+                          className="inline-flex h-10 items-center justify-center rounded-lg border border-[#f0cdc5] bg-white px-4 text-sm font-medium text-[#b35342] hover:bg-[#fff4f2]"
+                        >
+                          Cancel
+                        </button>
+                      </div>
+                    </div>
+
                     <FieldInline label="Lifecycle Status">
                       <select
                         value={booking.status}
@@ -835,13 +1423,13 @@ function BookingsPanel({
                         value={booking.therapist_id || ""}
                         onChange={(event) =>
                           handleBookingLifecycleChange(booking.id, {
-                            therapist_id: Number(event.target.value),
+                            therapist_id: event.target.value ? Number(event.target.value) : null,
                           })
                         }
                         className={`${selectClass} w-full`}
                       >
-                        <option value="" disabled>
-                          Choose Expert
+                        <option value="">
+                          Unassigned
                         </option>
                         {therapists.map((therapist) => (
                           <option key={therapist.id} value={therapist.id}>
@@ -877,17 +1465,17 @@ function InquiriesPanel({
       title="Recent Enquiries"
       subtitle="Real-time therapy requests from the website with quick filtering and status actions."
     >
-      <div className="flex flex-col gap-4 rounded-[1.8rem] border border-[#eadfcf] bg-[linear-gradient(180deg,#fdf8f1,#f7f0e6)] p-5">
+      <div className="flex flex-col gap-4 rounded-[1.8rem] border border-[#dbe7e1] bg-[linear-gradient(180deg,#f9fcfa,#f2f8f4)] p-5">
         <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
           <div>
-            <h3 className="font-serif text-2xl font-semibold tracking-tight text-[#1f1a17]">
+            <h3 className="font-serif text-2xl font-semibold tracking-tight text-[#18332e]">
               Recent Enquiries
             </h3>
-            <p className="mt-1 text-sm font-medium text-[#7a726c]">
+            <p className="mt-1 text-sm font-medium text-[#5f726c]">
               Real-time therapy requests from the website.
             </p>
           </div>
-          <div className="rounded-2xl border border-white/70 bg-white/80 px-4 py-3 text-sm font-semibold text-[#3a3028] shadow-[0_10px_24px_rgba(55,38,19,0.05)]">
+          <div className="rounded-2xl border border-[#dbe7e1] bg-white/90 px-4 py-3 text-sm font-semibold text-[#23403b] shadow-[0_10px_24px_rgba(21,53,46,0.05)]">
             {inquiries.length} enquiries loaded
           </div>
         </div>
@@ -924,13 +1512,13 @@ function InquiriesPanel({
       </div>
 
       {inquiries.length === 0 ? (
-        <div className="mt-6 rounded-[1.6rem] border border-dashed border-[#d8cab6] bg-[linear-gradient(180deg,#fcfaf6,#f4ede4)] px-5 py-14 text-center text-sm text-[#7a726c]">
+        <div className="mt-6 rounded-[1.6rem] border border-dashed border-[#cfddd6] bg-[linear-gradient(180deg,#f9fcfa,#f1f7f3)] px-5 py-14 text-center text-sm text-[#60746e]">
           No enquiries found for the current filter.
         </div>
       ) : (
-        <div className="mt-6 overflow-hidden rounded-[2rem] border border-[#eadfcf] bg-white shadow-[0_18px_48px_rgba(55,38,19,0.06)]">
+        <div className="mt-6 overflow-hidden rounded-[2rem] border border-[#dbe7e1] bg-white shadow-[0_18px_48px_rgba(21,53,46,0.06)]">
           <div className="hidden lg:block">
-            <div className="grid grid-cols-[1.1fr_1fr_0.9fr_0.8fr_0.9fr_1fr] gap-4 border-b border-[#efe2d2] bg-[linear-gradient(180deg,#fcf7f0,#f7efe5)] px-6 py-4 text-[11px] font-bold uppercase tracking-[0.22em] text-[#8a7766]">
+            <div className="grid grid-cols-[1.1fr_1fr_0.9fr_0.8fr_0.9fr_1fr] gap-4 border-b border-[#e3ece7] bg-[linear-gradient(180deg,#f9fcfa,#f2f8f4)] px-6 py-4 text-[11px] font-bold uppercase tracking-[0.22em] text-[#7d948c]">
               <span>Guest</span>
               <span>Contact</span>
               <span>Service</span>
@@ -942,39 +1530,39 @@ function InquiriesPanel({
             {inquiries.map((inquiry) => (
               <div
                 key={inquiry.id}
-                className="grid grid-cols-[1.1fr_1fr_0.9fr_0.8fr_0.9fr_1fr] gap-4 border-b border-[#f3e8db] px-6 py-5 last:border-b-0"
+                className="grid grid-cols-[1.1fr_1fr_0.9fr_0.8fr_0.9fr_1fr] gap-4 border-b border-[#edf3ef] px-6 py-5 last:border-b-0"
               >
                 <div className="min-w-0">
-                  <p className="font-semibold text-[#1f1a17]">{inquiry.name}</p>
-                  <p className="mt-1 text-sm text-[#7a726c]">
+                  <p className="font-semibold text-[#18332e]">{inquiry.name}</p>
+                  <p className="mt-1 text-sm text-[#60746e]">
                     {inquiry.topic || "General enquiry"}
                   </p>
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#5f554d]">
+                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#4e635d]">
                     {inquiry.message}
                   </p>
-                  <p className="mt-2 text-xs font-medium text-[#9a876e]">
+                  <p className="mt-2 text-xs font-medium text-[#8ba098]">
                     {formatDate(inquiry.created_at)}
                   </p>
                 </div>
 
-                <div className="min-w-0 text-sm text-[#4e4339]">
+                <div className="min-w-0 text-sm text-[#4e635d]">
                   <p className="font-medium">{inquiry.phone || "No phone"}</p>
-                  <p className="mt-1 break-words text-[#7a726c]">
+                  <p className="mt-1 break-words text-[#60746e]">
                     {inquiry.email || "No email"}
                   </p>
                 </div>
 
-                <div className="min-w-0 text-sm text-[#4e4339]">
+                <div className="min-w-0 text-sm text-[#4e635d]">
                   <p className="font-medium">
                     {inquiry.service_interest || "General enquiry"}
                   </p>
-                  <p className="mt-1 break-words text-[#7a726c]">
+                  <p className="mt-1 break-words text-[#60746e]">
                     {inquiry.page_path || "No page path"}
                   </p>
                 </div>
 
-                <div className="text-sm text-[#4e4339]">
-                  <p className="font-semibold uppercase tracking-[0.16em] text-[#a88528]">
+                <div className="text-sm text-[#4e635d]">
+                  <p className="font-semibold uppercase tracking-[0.16em] text-[#19564f]">
                     {inquiry.source || "Website"}
                   </p>
                 </div>
@@ -998,7 +1586,7 @@ function InquiriesPanel({
                   <button
                     type="button"
                     onClick={() => handleDelete(deleteAdminInquiry, inquiry.id, "Enquiry")}
-                    className="inline-flex h-11 items-center justify-center rounded-2xl border border-red-100 bg-white px-4 text-[11px] font-bold uppercase tracking-[0.2em] text-red-600 transition-all duration-300 hover:bg-red-50"
+                    className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#f0cdc5] bg-white px-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#b35342] transition-all duration-300 hover:bg-[#fff4f2]"
                   >
                     Delete
                   </button>
@@ -1011,17 +1599,17 @@ function InquiriesPanel({
             {inquiries.map((inquiry) => (
               <article
                 key={inquiry.id}
-                className="rounded-[1.6rem] border border-[#efe2d2] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(247,241,233,0.92))] p-5 shadow-[0_12px_36px_rgba(55,38,19,0.06)]"
+                className="rounded-[1.6rem] border border-[#dbe7e1] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(242,248,244,0.94))] p-5 shadow-[0_12px_36px_rgba(21,53,46,0.06)]"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-[0.7rem] font-bold uppercase tracking-[0.24em] text-[#a88528]">
+                    <p className="text-[0.7rem] font-bold uppercase tracking-[0.24em] text-[#19564f]">
                       {inquiry.source || "Website"}
                     </p>
-                    <h3 className="mt-2 font-serif text-2xl font-semibold text-[#1f1a17]">
+                    <h3 className="mt-2 font-serif text-2xl font-semibold text-[#18332e]">
                       {inquiry.name}
                     </h3>
-                    <p className="mt-2 text-sm text-[#7a726c]">
+                    <p className="mt-2 text-sm text-[#60746e]">
                       {inquiry.topic || "General enquiry"} | {formatDate(inquiry.created_at)}
                     </p>
                   </div>
@@ -1041,7 +1629,7 @@ function InquiriesPanel({
                   <SummaryTile label="Message" value={inquiry.message} />
                 </div>
 
-                <div className="mt-4 grid gap-3 rounded-[1.4rem] border border-[#eadfcf] bg-[linear-gradient(180deg,#fcf7f0,#f5ede3)] p-4">
+                <div className="mt-4 grid gap-3 rounded-[1.4rem] border border-[#dbe7e1] bg-[linear-gradient(180deg,#f9fcfa,#f1f7f3)] p-4">
                   <FieldInline label="Status">
                     <select
                       value={inquiry.status}
@@ -1058,7 +1646,7 @@ function InquiriesPanel({
                   <button
                     type="button"
                     onClick={() => handleDelete(deleteAdminInquiry, inquiry.id, "Enquiry")}
-                    className="inline-flex h-11 items-center justify-center rounded-2xl border border-red-100 bg-white px-5 text-[11px] font-bold uppercase tracking-[0.2em] text-red-600 transition-all duration-300 hover:bg-red-50"
+                    className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#f0cdc5] bg-white px-5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#b35342] transition-all duration-300 hover:bg-[#fff4f2]"
                   >
                     Delete Enquiry
                   </button>
@@ -1148,9 +1736,9 @@ function BookingStatusPill({ status }) {
 
   return (
     <span
-      className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-[11px] font-bold uppercase tracking-[0.2em] shadow-sm ${config.bg} ${config.text} ${config.border}`}
+      className={`inline-flex items-center gap-2 rounded-md border px-3 py-1.5 text-xs font-medium uppercase ${config.bg} ${config.text} ${config.border}`}
     >
-      <span className={`h-1.5 w-1.5 rounded-full ${config.dot} animate-pulse`} />
+      <span className={`h-1.5 w-1.5 rounded-full ${config.dot}`} />
       {toTitleCase(status)}
     </span>
   );

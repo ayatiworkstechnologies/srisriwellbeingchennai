@@ -1,6 +1,22 @@
 export const initialCredentials = { email: "", password: "" };
+export const initialAdminUserForm = {
+  email: "",
+  full_name: "",
+  password: "",
+  role: "doctor",
+  therapist_id: "",
+  is_active: true,
+};
 
-export const initialServiceForm = { title: "", description: "", image: "/images/ser-1.jpg", sort_order: 0, is_active: true };
+export const initialServiceForm = {
+  title: "",
+  short_description: "",
+  description: "",
+  benefits: [""],
+  image: "/images/ser-1.jpg",
+  sort_order: 0,
+  is_active: true,
+};
 
 export const initialTestimonialForm = { name: "", review: "", sort_order: 0, is_active: true };
 
@@ -11,7 +27,7 @@ export const initialRelaxationTherapyForm = {
   duration: "",
   short_description: "",
   details: "",
-  benefits: "",
+  benefits: [""],
   image: "/images/1446.jpg",
   sort_order: 0,
   is_active: true,
@@ -28,11 +44,36 @@ export const initialBookingSlotForm = {
 
 export const initialTherapistForm = {
   full_name: "",
+  role_label: "Therapist",
+  qualification: "",
+  experience_years: 0,
+  languages: "",
+  image: "/images/doctor-placeholder.png",
   email: "",
   phone: "",
   specialties: "",
   bio: "",
   is_active: true,
+};
+
+export const initialTeamForm = {
+  full_name: "",
+  role_label: "Therapist",
+  qualification: "",
+  experience_years: 0,
+  languages: "",
+  image: "/images/doctor-placeholder.png",
+  email: "",
+  phone: "",
+  specialties: "",
+  bio: "",
+  is_active: true,
+  create_login: true,
+  login_email: "",
+  login_password: "",
+  login_role: "therapist",
+  login_is_active: true,
+  linked_user_id: null,
 };
 
 export const initialTherapistScheduleForm = {

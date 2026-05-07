@@ -31,10 +31,11 @@ export default function ServicesSection() {
           (result || []).map((item) => ({
             id: item.id,
             title: item.title,
-            desc: item.description,
+            shortDescription: item.short_description,
+            desc: item.short_description,
             fullDesc: item.description,
             image: item.image,
-            benefits: [],
+            benefits: item.benefits || [],
           }))
         );
       } catch (error) {
