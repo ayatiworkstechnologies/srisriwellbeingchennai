@@ -9,7 +9,17 @@ npm install
 npm run dev
 ```
 
-Set `NEXT_PUBLIC_API_BASE_URL` if the backend is not running on `http://localhost:8000`.
+The frontend now proxies API requests through Next.js at `/api/backend/...` by default.
+
+Optional environment variables:
+
+```env
+BACKEND_API_URL=https://srisriwellbeingchennai-backend.onrender.com
+NEXT_PUBLIC_API_BASE_URL=/api/backend
+```
+
+- Use `BACKEND_API_URL` to tell the Next.js proxy which backend to call.
+- Leave `NEXT_PUBLIC_API_BASE_URL` unset unless you explicitly want to override the proxy behavior.
 
 ## Structure
 

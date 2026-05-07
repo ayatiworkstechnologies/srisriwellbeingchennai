@@ -153,7 +153,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     setSuccessMessage("");
 
     try {
-      const data = await loginAdmin(credentials.email, credentials.password);
+      const data = await loginAdmin(credentials);
       setToken(data.token);
       window.localStorage.setItem("ssw-admin-token", data.token);
       setSuccessMessage("Login successful! Welcome to the admin portal.");
