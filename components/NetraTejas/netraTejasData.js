@@ -87,7 +87,7 @@ export const featuredDoctor = {
   description:
     "Dr. Tharkesh Dayalan is an experienced Ayurvedic Consultant in Eye and ENT care. He focuses on holistic treatment support through classical Ayurvedic methods, modern diagnostics, and personalised consultation. His care approach is designed to support comfort, visual health, and overall wellbeing for patients seeking natural and integrative solutions.",
   languages: "Languages: Tamil, Telugu, Kannada, Hindi, English",
-  image: "/images/nadi/addressing.png",
+  image: "/images/nadi/eye-1.png",
 };
 
 export const testimonials = [
@@ -127,5 +127,5 @@ export const eyeExercises = {
   title: "Eye Exercises",
   description:
     "At Sri Sri Netra Tejas Clinic, various eye exercises are prescribed as part of the holistic approach to eye health. These exercises are carried out with the supervision of our trained therapists for improving vision, relieving eye strain, strengthening Eye muscles, and promoting overall eye health.",
-  image: "/images/nadi/addressing.png",
+  image: "/images/nadi/eye-1.png",
 };
