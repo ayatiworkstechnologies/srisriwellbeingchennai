@@ -23,7 +23,7 @@ export default function FacilitiesSlider() {
 
     const interval = setInterval(() => {
       setActiveId((prev) => (prev + 1) % sliderFacilities.length);
-    }, 3000); // Auto-slides every 3 seconds
+    }, 4000); // Slower, more elegant 4-second auto-slide
 
     return () => clearInterval(interval);
   }, [isPaused]);
@@ -38,7 +38,7 @@ export default function FacilitiesSlider() {
 
         <RevealOnScroll delay={0.2}>
           <div
-            className="flex h-[400px] md:h-[400px] lg:h-[400px] w-full gap-2 md:gap-4 mt-8"
+            className="flex h-[450px] md:h-[550px] w-full gap-3 md:gap-5 mt-8"
             onMouseEnter={() => setIsPaused(true)}
             onMouseLeave={() => setIsPaused(false)}
             onTouchStart={() => setIsPaused(true)}
@@ -51,28 +51,62 @@ export default function FacilitiesSlider() {
                   key={index}
                   onMouseEnter={() => setActiveId(index)}
                   onClick={() => setActiveId(index)}
-                  className={`relative overflow-hidden rounded-[20px] transition-all duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer ${
-                    isActive ? "flex-[6_6_0%]" : "flex-[1_1_0%]"
+                  className={`group relative h-full overflow-hidden rounded-[24px] transition-all duration-[1.2s] ease-[cubic-bezier(0.25,1,0.5,1)] cursor-pointer shadow-lg border border-[#eadfce] ${
+                    isActive ? "flex-[8_8_0%]" : "flex-[1_1_0%]"
                   }`}
                 >
                   <Image
                     src={facility.image}
                     alt={facility.title}
                     fill
-                    className={`transition-all duration-1000 ease-out ${
-                      isActive ? "object-contain bg-[#fcfaf7]" : "object-cover"
-                    }`}
+                    className="object-cover transition-transform duration-[1.5s] ease-out"
                     style={{ transform: isActive ? "scale(1.05)" : "scale(1)" }}
                   />
 
-                  {/* Subtle darkening for inactive slides so the active one pops */}
+                  {/* Elegant Dark Overlay */}
                   <div
-                    className={`absolute inset-0 bg-black transition-opacity duration-700 ${
+                    className={`absolute inset-0 transition-all duration-[1.2s] ${
                       isActive
-                        ? "opacity-0"
-                        : "opacity-30 group-hover:opacity-10"
+                        ? "bg-gradient-to-t from-[#1a0f0a]/90 via-[#1a0f0a]/20 to-transparent"
+                        : "bg-[#1a0f0a]/60 group-hover:bg-[#1a0f0a]/40"
                     }`}
                   />
+
+                  {/* Active Premium Content */}
+                  <div
+                    className={`absolute bottom-6 left-6 right-6 p-6 rounded-2xl backdrop-blur-md bg-white/10 border border-white/20 transition-all duration-1000 ease-out ${
+                      isActive
+                        ? "opacity-100 translate-y-0 delay-300"
+                        : "opacity-0 translate-y-10"
+                    }`}
+                  >
+                    <div className="flex items-center gap-4">
+                      <div className="h-[2px] w-8 bg-[#d4af37]" />
+                      <h3 className="text-white text-xl md:text-2xl lg:text-3xl font-bold tracking-wide drop-shadow-lg">
+                        {facility.title}
+                      </h3>
+                    </div>
+                  </div>
+
+                  {/* Inactive Vertical Content */}
+                  <div
+                    className={`absolute inset-0 flex flex-col items-center justify-end pb-10 transition-all duration-500 ease-in ${
+                      isActive
+                        ? "opacity-0 invisible scale-95"
+                        : "opacity-100 visible scale-100 delay-300"
+                    }`}
+                  >
+                    <div className="h-12 w-[1px] bg-white/30 mb-4" />
+                    <h3
+                      className="text-white/90 font-bold tracking-[0.25em] uppercase text-xs md:text-sm whitespace-nowrap drop-shadow-md"
+                      style={{
+                        writingMode: "vertical-rl",
+                        transform: "rotate(180deg)",
+                      }}
+                    >
+                      {facility.title}
+                    </h3>
+                  </div>
                 </div>
               );
             })}
