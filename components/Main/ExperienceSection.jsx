@@ -60,7 +60,7 @@ export default function ExperienceSection() {
   }, []);
 
   return (
-    <section id="specialties" className="relative bg-[#f6f3ee]">
+    <section id="facilities" className="relative bg-[#f6f3ee]">
       <div className="relative h-[85vh] min-h-[500px] overflow-hidden md:h-[85vh] md:min-h-[620px]">
         {sanctuarySlides.map((slide, index) => (
           <div

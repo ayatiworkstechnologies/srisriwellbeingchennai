@@ -22,7 +22,7 @@ const navItems = [
   },
   { label: "Products", href: "/products" },
   { label: "About", href: "/about-us" },
-  { label: "Specialties", href: "/specialties" },
+  { label: "Facilities", href: "/facilities" },
   // { label: "Testimonial", href: "#testimonial" },
 ];
 

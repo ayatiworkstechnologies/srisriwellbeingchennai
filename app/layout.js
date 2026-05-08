@@ -1,6 +1,7 @@
 import "./globals.css";
 import { Rubik } from "next/font/google";
 import localFont from "next/font/local";
+import { Suspense } from "react";
 import Script from "next/script";
 
 const rubik = Rubik({
@@ -45,7 +46,9 @@ gtag('config', 'G-58P101B0TJ', {
 });`,
           }}
         />
-        {children}
+        <Suspense fallback={null}>
+          {children}
+        </Suspense>
       </body>
     </html>
   );
