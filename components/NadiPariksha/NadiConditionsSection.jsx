@@ -39,14 +39,23 @@ export default function NadiConditionsSection() {
             <div className="mt-4 h-[2px] w-[60px] bg-[#c79f31] md:mt-5" />
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-5 md:mt-10 md:gap-y-6">
-              {conditions.map((item) => (
-                <div key={item.label} className="flex items-center">
-                  <LeafIcon />
-                  <span className="section-subtitle ml-1 text-white tracking-wide">
-                    {item.label}
-                  </span>
-                </div>
-              ))}
+              {conditions.map((item) => {
+                const IconComponent = item.icon;
+                return (
+                  <div key={item.label} className="flex items-center group">
+                    <div className="relative inline-flex flex-shrink-0 items-center justify-center mr-3 text-[#c79f31] transition-transform duration-300 group-hover:scale-110">
+                      {IconComponent ? (
+                        <IconComponent className="h-7 w-7" />
+                      ) : (
+                        <LeafGlyph className="h-7 w-7" />
+                      )}
+                    </div>
+                    <span className="section-subtitle ml-1 text-white tracking-wide group-hover:text-[#c79f31] transition-colors duration-300">
+                      {item.label}
+                    </span>
+                  </div>
+                );
+              })}
             </div>
           </RevealOnScroll>
 

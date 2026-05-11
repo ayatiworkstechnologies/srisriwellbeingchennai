@@ -118,26 +118,38 @@ export default function NadiCampsSection() {
         <div className="min-h-[400px]">
           <RevealOnScroll delay={0.2}>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start">
-              {filteredCamps.slice(0, 1).map((card) => (
-                <CampCard key={card.id} data={card} />
-              ))}
-
-              {/* The Image (acts as the 2nd item, so it's in the middle column on desktop) */}
-              {filteredCamps.length >= 0 && (
-                <div className="relative h-[280px] sm:h-[350px] w-full overflow-hidden rounded-[20px] shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
-                  <Image
-                    src="/images/nadi/img-5.png"
-                    alt="Nadi Pariksha"
-                    fill
-                    className="object-cover"
-                  />
-                  <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#f9f8f6] to-transparent opacity-80" />
-                </div>
-              )}
-
-              {filteredCamps.slice(1).map((card) => (
-                <CampCard key={card.id} data={card} />
-              ))}
+              {filteredCamps.reduce((acc, card, index) => {
+                acc.push(<CampCard key={card.id} data={card} />);
+                // Add first image after 1st camp (position 2 in grid)
+                if (index === 0) {
+                  acc.push(
+                    <div key="img-1" className="relative h-[280px] sm:h-[350px] w-full overflow-hidden rounded-[20px] shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+                      <Image
+                        src="/images/nadi/img-2.png"
+                        alt="Nadi Pariksha Care"
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#f9f8f6] to-transparent opacity-80" />
+                    </div>
+                  );
+                }
+                // Add second image after 5th camp (position 8 in grid)
+                if (index === 5) {
+                  acc.push(
+                    <div key="img-2" className="relative h-[280px] sm:h-[350px] w-full overflow-hidden rounded-[20px] shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+                      <Image
+                        src="/images/nadi/img-6.png"
+                        alt="Nadi Pariksha Wellness"
+                        fill
+                        className="object-cover"
+                      />
+                      <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#f9f8f6] to-transparent opacity-80" />
+                    </div>
+                  );
+                }
+                return acc;
+              }, [])}
             </div>
           </RevealOnScroll>
         </div>

@@ -36,24 +36,24 @@ export const stats = [
   },
 ];
 
-import { GiKidneys, GiHeartOrgan, GiLungs, GiStomach, GiBrain, GiLiver } from "react-icons/gi";
-import { FaTint, FaEye, FaUserAlt, FaBone, FaNotesMedical, FaVial, FaBed, FaWeight } from "react-icons/fa";
+import { GiKidneys, GiHeartOrgan, GiLungs, GiStomach, GiBrain, GiLiver, GiJoint, GiButterfly, GiNightSleep } from "react-icons/gi";
+import { FaTint, FaEye, FaUserAlt, FaBone, FaNotesMedical, FaVial, FaBed, FaWeight, FaHandHoldingHeart, FaToilet, FaHeadSideCough, FaVenusMars } from "react-icons/fa";
 
 export const conditions = [
   { label: "Kidney Care", icon: GiKidneys },
   { label: "Diabetes", icon: FaTint },
-  { label: "Cardiac Care", icon: GiHeartOrgan },
+  { label: "Cardiac Care", icon: FaHandHoldingHeart },
   { label: "Asthma", icon: GiLungs },
   { label: "Eye Care", icon: FaEye },
   { label: "Skin & Hair", icon: FaUserAlt },
-  { label: "Joint Pain", icon: FaBone },
-  { label: "Constipation", icon: GiStomach },
-  { label: "Thyroid", icon: FaNotesMedical },
-  { label: "Migraine", icon: GiBrain },
+  { label: "Joint Pain", icon: GiJoint },
+  { label: "Constipation", icon: FaToilet },
+  { label: "Thyroid", icon: GiButterfly },
+  { label: "Migraine", icon: FaHeadSideCough },
   { label: "Liver Care", icon: GiLiver },
-  { label: "Hormonal Issues", icon: FaVial },
-  { label: "Stress & Sleep", icon: FaBed },
-  { label: "Allergies", icon: FaNotesMedical },
+  { label: "Hormonal Issues", icon: FaVenusMars },
+  { label: "Stress & Sleep", icon: GiNightSleep },
+  { label: "Allergies", icon: FaHeadSideCough },
   { label: "Obesity", icon: FaWeight },
 ];
 
