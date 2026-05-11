@@ -73,26 +73,28 @@ export default function ContactPageRedesign() {
   return (
     <main className="bg-[#f7f2eb] text-[#1c1714]">
       {/* HERO */}
-      <section className="relative overflow-hidden bg-[#31180d] text-white">
+      <section className="relative min-h-[620px] overflow-hidden bg-[#31180d] text-white md:min-h-[700px]">
         {/* Desktop BG Image */}
         <div className="absolute inset-0 hidden md:block">
           <Image
-            src="/contact-web.png"
+            src="/banner/contact-web.png"
             alt="Sri Sri Wellbeing contact banner"
             fill
             priority
-            className="object-cover"
+            sizes="100vw"
+            className="object-cover object-center"
           />
         </div>
 
         {/* Mobile BG Image */}
         <div className="absolute inset-0 md:hidden">
           <Image
-            src="/contact-mob.png"
+            src="/banner/contact-mob.png"
             alt="Sri Sri Wellbeing contact banner mobile"
             fill
             priority
-            className="object-cover"
+            sizes="100vw"
+            className="object-cover object-[52%_center]"
           />
         </div>
 
@@ -101,7 +103,7 @@ export default function ContactPageRedesign() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(212,175,55,0.16),transparent_26%),radial-gradient(circle_at_bottom_right,rgba(212,175,55,0.08),transparent_30%)]" />
         <div className="absolute inset-0 opacity-[0.06] [background-image:radial-gradient(circle_at_1px_1px,#fff_1px,transparent_0)] [background-size:22px_22px]" />
 
-        <div className="relative mx-auto max-w-[1280px] px-4 pb-16 pt-28 md:px-6 md:pb-20 md:pt-36 lg:px-8 lg:pb-24 lg:pt-44">
+        <div className="relative mx-auto flex min-h-[620px] max-w-[1280px] items-center px-4 py-28 md:min-h-[700px] md:px-6 md:py-32 lg:px-8">
           <div>
             <p className="eyebrow-text text-[#D4AF37]">
               Connect With Sri Sri Wellbeing

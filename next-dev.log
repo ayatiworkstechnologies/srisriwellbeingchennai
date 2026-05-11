@@ -79,3 +79,10 @@
  GET /heal/nadi-pariksha 200 in 219ms (next.js: 5ms, application-code: 214ms)
 ○ Compiling /about-us ...
  GET /about-us 200 in 23.6s (next.js: 23.5s, application-code: 124ms)
+ GET /about-us 200 in 73s (next.js: 72s, application-code: 816ms)
+ GET /about-us 200 in 402ms (next.js: 21ms, application-code: 381ms)
+ GET /admin 200 in 196ms (next.js: 87ms, application-code: 109ms)
+ GET /relaxationtherapy 200 in 8.2s (next.js: 787ms, application-code: 7.4s)
+ GET /heal/nadi-pariksha 200 in 5.7s (next.js: 295ms, application-code: 5.4s)
+ GET /heal/nadi-pariksha 200 in 135ms (next.js: 4ms, application-code: 131ms)
+○ Compiling /products ...

@@ -50,7 +50,7 @@ export default function Footer() {
               <ul className="space-y-4">
                 <li>
                   <Link
-                    href="#relax"
+                    href="/relaxationtherapy"
                     className="small-text flex items-center gap-2 text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
                     <FaChevronRight className="text-[10px] text-[#d4af37]" /> Relax
@@ -58,7 +58,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#heal"
+                    href="/heal/nadi-pariksha"
                     className="small-text flex items-center gap-2 text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
                     <FaChevronRight className="text-[10px] text-[#d4af37]" /> Heal
@@ -66,7 +66,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#products"
+                    href="/products"
                     className="small-text flex items-center gap-2 text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
                     <FaChevronRight className="text-[10px] text-[#d4af37]" /> Products
@@ -74,7 +74,7 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="#about"
+                    href="/about-us"
                     className="small-text flex items-center gap-2 text-white/90 transition hover:pl-1 hover:text-[#d0a93d]"
                   >
                     <FaChevronRight className="text-[10px] text-[#d4af37]" /> About
