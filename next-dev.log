@@ -1,0 +1,81 @@
+
+> srisriwellbeingchennai@0.1.0 dev
+> next dev --webpack
+
+▲ Next.js 16.2.3 (webpack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.145:3000
+- Environments: .env
+✓ Ready in 4.2s
+
+○ Compiling /relaxationtherapy ...
+ GET /relaxationtherapy 200 in 32.4s (next.js: 30.3s, application-code: 2.1s)
+ POST /api/backend/api/v1/booking/appointments/lookup 200 in 15.5s (next.js: 13.4s, application-code: 2.1s)
+ POST /api/backend/api/v1/booking/appointments/lookup 404 in 21.1s (next.js: 22ms, application-code: 21.1s)
+ GET /api/backend/api/v1/content/relaxation-therapies 200 in 1086ms (next.js: 75ms, application-code: 1011ms)
+ GET /api/backend/api/v1/content/relaxation-therapies 200 in 1736ms (next.js: 504ms, application-code: 1232ms)
+ GET /api/backend/api/v1/booking/availability?therapy_name=Abhyanga&booking_date=2026-05-11 200 in 3.0s (next.js: 31ms, application-code: 3.0s)
+ GET /api/backend/api/v1/booking/availability?therapy_name=Head+%26+Foot+Massage&booking_date=2026-05-11 200 in 2.6s (next.js: 49ms, application-code: 2.5s)
+ GET /api/backend/api/v1/booking/availability?therapy_name=Chlorophyll+Body+Wrap&booking_date=2026-05-11 200 in 2.4s (next.js: 18ms, application-code: 2.4s)
+ GET /api/backend/api/v1/booking/availability?therapy_name=Uzhichil&booking_date=2026-05-11 200 in 2.4s (next.js: 21ms, application-code: 2.3s)
+ GET /relaxationtherapy 200 in 888ms (next.js: 618ms, application-code: 271ms)
+ GET /relaxationtherapy 200 in 404ms (next.js: 235ms, application-code: 170ms)
+ GET /relaxationtherapy 200 in 536ms (next.js: 311ms, application-code: 225ms)
+ GET /api/backend/api/v1/content/relaxation-therapies 200 in 6.2s (next.js: 5.0s, application-code: 1218ms)
+ GET /api/backend/api/v1/booking/availability?therapy_name=Abhyanga&booking_date=2026-05-11 200 in 2.4s (next.js: 7ms, application-code: 2.4s)
+ GET /api/backend/api/v1/booking/availability?therapy_name=Abhyanga&booking_date=2026-05-11 200 in 2.5s (next.js: 25ms, application-code: 2.5s)
+ GET /api/backend/api/v1/booking/availability?therapy_name=Abhyanga&booking_date=2026-05-13 200 in 2.4s (next.js: 30ms, application-code: 2.4s)
+ POST /api/backend/api/v1/booking/appointments 201 in 11.9s (next.js: 17ms, application-code: 11.8s)
+ GET /relaxationtherapy 200 in 2.3s (next.js: 303ms, application-code: 2.0s)
+○ Compiling /admin ...
+ GET /admin 200 in 10.4s (next.js: 9.3s, application-code: 1045ms)
+ GET /relaxationtherapy 200 in 907ms (next.js: 112ms, application-code: 795ms)
+ GET /relaxationtherapy 200 in 120ms (next.js: 9ms, application-code: 111ms)
+ GET /api/backend/api/v1/content/relaxation-therapies 200 in 770ms (next.js: 52ms, application-code: 718ms)
+ GET /relaxationtherapy 200 in 1528ms (next.js: 9ms, application-code: 1520ms)
+ GET /api/backend/api/v1/admin/settings/email-notifications 200 in 1053ms (next.js: 4ms, application-code: 1048ms)
+ GET /api/backend/api/v1/admin/inquiries 200 in 1032ms (next.js: 7ms, application-code: 1025ms)
+ GET /api/backend/api/v1/admin/users 200 in 1863ms (next.js: 18ms, application-code: 1845ms)
+ GET /api/backend/api/v1/admin/bootstrap 200 in 2.3s (next.js: 4ms, application-code: 2.3s)
+ PATCH /api/backend/api/v1/admin/bookings/9 200 in 8.6s (next.js: 13ms, application-code: 8.6s)
+ GET /api/backend/api/v1/admin/inquiries 200 in 812ms (next.js: 15ms, application-code: 797ms)
+ GET /api/backend/api/v1/admin/bootstrap 200 in 1999ms (next.js: 3ms, application-code: 1995ms)
+ PATCH /api/backend/api/v1/admin/bookings/9 200 in 9.8s (next.js: 4ms, application-code: 9.8s)
+ GET /api/backend/api/v1/admin/users 200 in 2.7s (next.js: 7ms, application-code: 2.7s)
+ GET /api/backend/api/v1/admin/inquiries 200 in 815ms (next.js: 35ms, application-code: 780ms)
+ GET /api/backend/api/v1/admin/users 200 in 1531ms (next.js: 3ms, application-code: 1528ms)
+ GET /api/backend/api/v1/admin/bootstrap 200 in 1709ms (next.js: 3ms, application-code: 1706ms)
+ PATCH /api/backend/api/v1/admin/bookings/9 200 in 7.9s (next.js: 16ms, application-code: 7.8s)
+ GET /api/backend/api/v1/admin/inquiries 200 in 835ms (next.js: 26ms, application-code: 810ms)
+ GET /api/backend/api/v1/admin/users 200 in 865ms (next.js: 8ms, application-code: 857ms)
+ GET /api/backend/api/v1/admin/bootstrap 200 in 1968ms (next.js: 5ms, application-code: 1963ms)
+ GET /api/backend/api/v1/content/relaxation-therapies 200 in 1569ms (next.js: 454ms, application-code: 1115ms)
+○ Compiling /heal/nadi-pariksha ...
+ GET /admin 200 in 317ms (next.js: 69ms, application-code: 248ms)
+ GET /heal/nadi-pariksha 200 in 37.7s (next.js: 34.6s, application-code: 3.1s)
+ GET /heal/nadi-pariksha 200 in 28.0s (next.js: 24.9s, application-code: 3.1s)
+ GET /heal/nadi-pariksha 200 in 68s (next.js: 65s, application-code: 3.1s)
+○ Compiling /heal/nadi-pariksha ...
+ GET /admin 200 in 33.9s (next.js: 27.8s, application-code: 6.1s)
+ GET /admin 200 in 1393ms (next.js: 43ms, application-code: 1350ms)
+ GET /heal/nadi-pariksha 200 in 51s (next.js: 43s, application-code: 7.9s)
+ GET /heal/nadi-pariksha 200 in 2.3s (next.js: 33ms, application-code: 2.2s)
+○ Compiling /api/backend/[...path] ...
+ GET /api/backend/api/v1/content/relaxation-therapies 200 in 17.1s (next.js: 14.8s, application-code: 2.3s)
+ GET /api/backend/api/v1/booking/availability?therapy_name=Abhyanga&booking_date=2026-05-11 200 in 3.2s (next.js: 337ms, application-code: 2.9s)
+ GET /heal/nadi-pariksha 200 in 1248ms (next.js: 166ms, application-code: 1082ms)
+ GET /heal/nadi-pariksha 200 in 146ms (next.js: 8ms, application-code: 139ms)
+ GET /admin 200 in 228ms (next.js: 99ms, application-code: 129ms)
+ GET /heal/nadi-pariksha 200 in 6.1s (next.js: 1860ms, application-code: 4.3s)
+ GET /admin 200 in 310ms (next.js: 56ms, application-code: 254ms)
+ GET /heal/nadi-pariksha 200 in 2.8s (next.js: 553ms, application-code: 2.3s)
+○ Compiling /heal/netratejas ...
+ GET /heal/netratejas 200 in 29.7s (next.js: 29.3s, application-code: 393ms)
+ GET /heal/nadi-pariksha 200 in 15.5s (next.js: 12.2s, application-code: 3.2s)
+ GET /admin 200 in 753ms (next.js: 162ms, application-code: 592ms)
+ GET /heal/nadi-pariksha 200 in 448ms (next.js: 6ms, application-code: 442ms)
+ GET /heal/nadi-pariksha 200 in 318ms (next.js: 13ms, application-code: 305ms)
+ GET /heal/nadi-pariksha 200 in 138ms (next.js: 11ms, application-code: 128ms)
+ GET /heal/nadi-pariksha 200 in 219ms (next.js: 5ms, application-code: 214ms)
+○ Compiling /about-us ...
+ GET /about-us 200 in 23.6s (next.js: 23.5s, application-code: 124ms)

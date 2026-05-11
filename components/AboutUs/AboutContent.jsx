@@ -15,23 +15,14 @@ export default function AboutContent() {
       <div className="container-width relative z-10">
         
         {/* Header Section */}
-        <RevealOnScroll className="mx-auto max-w-3xl text-center mb-16 md:mb-24">
-          <div className="mx-auto mb-8 flex h-24 w-24 items-center justify-center md:h-32 md:w-32 opacity-90">
-            <Image
-              src="/logo.svg"
-              alt="Sri Sri Wellbeing"
-              width={128}
-              height={128}
-              className="h-full w-full object-contain"
-            />
-          </div>
-          <p className="mb-4 text-xs md:text-sm font-bold uppercase tracking-[0.4em] text-[#c29a2f]">
+        <RevealOnScroll className="mx-auto mb-16 max-w-4xl text-center md:mb-24">
+          <p className="mb-5 text-[11px] font-extrabold uppercase tracking-[0.42em] text-[#c29a2f] md:text-sm">
             About Us
           </p>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-serif text-[#23130d] leading-tight mb-6">
-            Rediscover the <span className="italic text-[#d4af37]">Art of Wellbeing</span>
+          <h2 className="text-4xl font-black leading-tight tracking-normal text-black md:text-5xl lg:text-6xl">
+            Rediscover the Art of Wellbeing
           </h2>
-          <div className="mx-auto h-[2px] w-24 bg-[#d4af37]/50" />
+          <div className="mx-auto mt-7 h-[3px] w-20 rounded-full bg-[#d4af37]" />
         </RevealOnScroll>
 
         {/* Two Column Story Section */}
@@ -97,7 +88,7 @@ export default function AboutContent() {
         <RevealOnScroll delay={0.3} className="max-w-4xl mx-auto text-center border-t border-[#d4af37]/20 pt-16 pb-8">
           <LeafGlyph className="h-10 w-10 text-[#d4af37] mx-auto mb-8 opacity-80" />
           <p className="text-2xl md:text-3xl lg:text-4xl font-serif italic text-[#c29a2f] leading-snug">
-            "Sri Sri Wellbeing is where healing becomes an experience of grace, balance, and renewal."
+            &ldquo;Sri Sri Wellbeing is where healing becomes an experience of grace, balance, and renewal.&rdquo;
           </p>
         </RevealOnScroll>
 

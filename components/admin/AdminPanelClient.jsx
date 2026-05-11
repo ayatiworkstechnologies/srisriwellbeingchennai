@@ -7,6 +7,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import {
   API_BASE_URL,
   createAdminTherapist,
+  deleteAdminBooking,
   createAdminUser,
   deleteAdminTherapist,
   deleteAdminRelaxationTherapy,
@@ -14,11 +15,14 @@ import {
   deleteAdminUser,
   loginAdmin,
   deleteAdminInquiry,
+  getAdminEmailSettings,
   requestAdminPasswordReset,
   sendAdminBookingEmail,
+  sendAdminInquiryEmail,
   updateAdminTherapist,
   updateAdminInquiry,
   updateAdminBooking,
+  updateAdminEmailSettings,
   updateAdminUser,
 } from "@/lib/api";
 
@@ -94,6 +98,58 @@ function normalizeListValue(value) {
   return [];
 }
 
+function splitEmailInput(value) {
+  return normalizeListValue(value);
+}
+
+function joinEmailList(value) {
+  return Array.isArray(value) ? value.join("\n") : "";
+}
+
+function csvCell(value) {
+  const text = value == null ? "" : String(value);
+  return `"${text.replaceAll('"', '""')}"`;
+}
+
+function downloadInquiriesCsv(inquiries) {
+  const headers = [
+    "ID",
+    "Name",
+    "Phone",
+    "Email",
+    "Topic",
+    "Message",
+    "Service Interest",
+    "Source",
+    "Page Path",
+    "Status",
+    "Created At",
+  ];
+  const rows = inquiries.map((inquiry) => [
+    inquiry.id,
+    inquiry.name,
+    inquiry.phone,
+    inquiry.email,
+    inquiry.topic,
+    inquiry.message,
+    inquiry.service_interest,
+    inquiry.source,
+    inquiry.page_path,
+    inquiry.status,
+    inquiry.created_at,
+  ]);
+  const csv = [headers, ...rows].map((row) => row.map(csvCell).join(",")).join("\n");
+  const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `sri-sri-enquiries-${new Date().toISOString().slice(0, 10)}.csv`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
 export default function AdminPanelClient({ currentSection = "bookings" }) {
   const router = useRouter();
   const contentRef = useRef(null);
@@ -130,8 +186,22 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
   const [lastLoadedAt, setLastLoadedAt] = useState(null);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
+  const [isInquiryEmailModalOpen, setIsInquiryEmailModalOpen] = useState(false);
+  const [selectedInquiry, setSelectedInquiry] = useState(null);
   const [userProfile, setUserProfile] = useState(null);
   const [emailForm, setEmailForm] = useState({
+    subject: "",
+    message: "",
+  });
+  const [emailSettingsForm, setEmailSettingsForm] = useState({
+    booking_to_emails: "",
+    booking_cc_emails: "",
+    booking_bcc_emails: "",
+  });
+  const [inquiryEmailForm, setInquiryEmailForm] = useState({
+    to: "",
+    cc: "",
+    bcc: "",
     subject: "",
     message: "",
   });
@@ -228,6 +298,22 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       setToken,
     });
   }, [token, statusFilter, inquiryStatusFilter, inquirySourceFilter, userProfile?.role]);
+
+  useEffect(() => {
+    if (!token || userProfile?.role !== "super_admin") return;
+
+    getAdminEmailSettings(token)
+      .then((settings) => {
+        setEmailSettingsForm({
+          booking_to_emails: joinEmailList(settings.booking_to_emails),
+          booking_cc_emails: joinEmailList(settings.booking_cc_emails),
+          booking_bcc_emails: joinEmailList(settings.booking_bcc_emails),
+        });
+      })
+      .catch((error) => {
+        setErrorMessage(error.message || "Unable to load email settings.");
+      });
+  }, [token, userProfile?.role]);
 
   const refresh = () => {
     if (!token) return;
@@ -346,6 +432,77 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       closeBookingEmailModal();
     } catch (error) {
       setErrorMessage(error.message || "Failed to send booking email.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const openInquiryEmailModal = (inquiry) => {
+    setSelectedInquiry(inquiry);
+    setInquiryEmailForm({
+      to: inquiry.email || "",
+      cc: "",
+      bcc: "",
+      subject: `Follow up from Sri Sri Wellbeing Chennai`,
+      message:
+        `Dear ${inquiry.name},\n\n` +
+        `Thank you for contacting Sri Sri Wellbeing Chennai about ${inquiry.service_interest || inquiry.topic || "our wellbeing services"}.\n` +
+        `Our team will be happy to assist you with the next steps.`,
+    });
+    setIsInquiryEmailModalOpen(true);
+  };
+
+  const closeInquiryEmailModal = () => {
+    setSelectedInquiry(null);
+    setInquiryEmailForm({ to: "", cc: "", bcc: "", subject: "", message: "" });
+    setIsInquiryEmailModalOpen(false);
+  };
+
+  const handleSendInquiryEmail = async (event) => {
+    event.preventDefault();
+    if (!selectedInquiry) return;
+
+    setIsSubmitting(true);
+    setErrorMessage("");
+    try {
+      const payload = {
+        to: splitEmailInput(inquiryEmailForm.to),
+        cc: splitEmailInput(inquiryEmailForm.cc),
+        bcc: splitEmailInput(inquiryEmailForm.bcc),
+        subject: inquiryEmailForm.subject,
+        message: inquiryEmailForm.message,
+      };
+      await sendAdminInquiryEmail(token, selectedInquiry.id, payload);
+      setSuccessMessage(`Enquiry email sent to ${payload.to.join(", ")}.`);
+      closeInquiryEmailModal();
+      refresh();
+    } catch (error) {
+      setErrorMessage(error.message || "Failed to send enquiry email.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleEmailSettingsSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    try {
+      const settings = await updateAdminEmailSettings(token, {
+        booking_to_emails: splitEmailInput(emailSettingsForm.booking_to_emails),
+        booking_cc_emails: splitEmailInput(emailSettingsForm.booking_cc_emails),
+        booking_bcc_emails: splitEmailInput(emailSettingsForm.booking_bcc_emails),
+      });
+      setEmailSettingsForm({
+        booking_to_emails: joinEmailList(settings.booking_to_emails),
+        booking_cc_emails: joinEmailList(settings.booking_cc_emails),
+        booking_bcc_emails: joinEmailList(settings.booking_bcc_emails),
+      });
+      setSuccessMessage("Email notification settings updated.");
+    } catch (error) {
+      setErrorMessage(error.message || "Unable to update email settings.");
     } finally {
       setIsSubmitting(false);
     }
@@ -540,6 +697,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
           role: teamForm.login_role,
           therapist_id: therapistId,
           is_active: teamForm.login_is_active,
+          send_welcome_email: teamForm.send_welcome_email,
         };
 
         if (teamForm.linked_user_id) {
@@ -702,6 +860,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       login_password: "",
       login_role: linkedUser?.role || "therapist",
       login_is_active: linkedUser?.is_active ?? true,
+      send_welcome_email: false,
       linked_user_id: linkedUser?.id || null,
     });
     setIsTeamModalOpen(true);
@@ -722,6 +881,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       role: item.role,
       therapist_id: item.therapist_id ? String(item.therapist_id) : "",
       is_active: item.is_active,
+      send_welcome_email: false,
     });
     setIsAdminUserModalOpen(true);
   };
@@ -851,6 +1011,8 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                   inquirySources={inquirySources}
                   handleInquiryStatusChange={handleInquiryStatusChange}
                   handleDelete={handleDelete}
+                  openInquiryEmailModal={openInquiryEmailModal}
+                  downloadInquiriesCsv={downloadInquiriesCsv}
                 />
               ) : null}
 
@@ -865,6 +1027,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                     role={userProfile?.role}
                     handleBookingLifecycleChange={handleBookingLifecycleChange}
                     openBookingEmailModal={openBookingEmailModal}
+                    handleDelete={handleDelete}
                   />
               ) : null}
 
@@ -1079,6 +1242,14 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                             <PasswordInput value={teamForm.login_password} onChange={(event) => setTeamForm((current) => ({ ...current, login_password: event.target.value }))} required={!teamForm.linked_user_id} autoComplete="new-password" placeholder="Enter login password" />
                           </Field>
                           <ToggleRow checked={teamForm.login_is_active} onChange={(value) => setTeamForm((current) => ({ ...current, login_is_active: value }))} label="Active login" />
+                          <ToggleRow
+                            checked={teamForm.send_welcome_email}
+                            onChange={(value) => setTeamForm((current) => ({ ...current, send_welcome_email: value }))}
+                            label={teamForm.linked_user_id ? "Email login details when password changes" : "Email login details to team member"}
+                          />
+                          <p className="rounded-xl border border-[#dbe7e1] bg-white px-4 py-3 text-xs leading-5 text-[#60746e]">
+                            The email includes name, login email, temporary password, admin login link, and update-details guidance.
+                          </p>
                         </div>
                       ) : null}
                       <div className="flex flex-wrap gap-4 pt-2">
@@ -1265,6 +1436,15 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                 </FormModal>
                 </>
               ) : null}
+
+              {resolvedSection === "settings" ? (
+                <EmailSettingsPanel
+                  emailSettingsForm={emailSettingsForm}
+                  setEmailSettingsForm={setEmailSettingsForm}
+                  onSubmit={handleEmailSettingsSubmit}
+                  isSubmitting={isSubmitting}
+                />
+              ) : null}
             </div>
           </div>
           <FormModal
@@ -1305,6 +1485,77 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
               </div>
             </form>
           </FormModal>
+          <FormModal
+            open={isInquiryEmailModalOpen}
+            title="Send enquiry email"
+            subtitle={selectedInquiry ? `Enquiry: ${selectedInquiry.name} (${selectedInquiry.email})` : ""}
+            onClose={closeInquiryEmailModal}
+          >
+            <form onSubmit={handleSendInquiryEmail} className="grid gap-4">
+              <Field label="To">
+                <input
+                  value={inquiryEmailForm.to}
+                  onChange={(event) =>
+                    setInquiryEmailForm((current) => ({ ...current, to: event.target.value }))
+                  }
+                  className={inputClass}
+                  placeholder="customer@example.com, team@example.com"
+                  required
+                />
+              </Field>
+              <div className="grid gap-4 md:grid-cols-2">
+                <Field label="CC">
+                  <input
+                    value={inquiryEmailForm.cc}
+                    onChange={(event) =>
+                      setInquiryEmailForm((current) => ({ ...current, cc: event.target.value }))
+                    }
+                    className={inputClass}
+                    placeholder="optional@example.com"
+                  />
+                </Field>
+                <Field label="BCC">
+                  <input
+                    value={inquiryEmailForm.bcc}
+                    onChange={(event) =>
+                      setInquiryEmailForm((current) => ({ ...current, bcc: event.target.value }))
+                    }
+                    className={inputClass}
+                    placeholder="hidden@example.com"
+                  />
+                </Field>
+              </div>
+              <Field label="Subject">
+                <input
+                  value={inquiryEmailForm.subject}
+                  onChange={(event) =>
+                    setInquiryEmailForm((current) => ({ ...current, subject: event.target.value }))
+                  }
+                  className={inputClass}
+                  required
+                />
+              </Field>
+              <Field label="Message">
+                <textarea
+                  value={inquiryEmailForm.message}
+                  onChange={(event) =>
+                    setInquiryEmailForm((current) => ({ ...current, message: event.target.value }))
+                  }
+                  className={textAreaClass}
+                  rows="8"
+                  required
+                />
+              </Field>
+              <div className="flex flex-wrap gap-3">
+                <button type="submit" disabled={isSubmitting} className={primaryButtonClass}>
+                  {isSubmitting ? "Sending..." : "Send Email"}
+                </button>
+                <button type="button" onClick={closeInquiryEmailModal} className={secondaryButtonClass}>
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </FormModal>
         </div>
       )}
     </AdminLayout>
@@ -1321,6 +1572,7 @@ function BookingsPanel({
   role,
   handleBookingLifecycleChange,
   openBookingEmailModal,
+  handleDelete,
 }) {
   const isDoctorRole = role === "doctor";
   const isTherapistRole = role === "therapist";
@@ -1463,6 +1715,15 @@ function BookingsPanel({
                         >
                           Cancel
                         </button>
+                        {role === "super_admin" ? (
+                          <button
+                            type="button"
+                            onClick={() => handleDelete(deleteAdminBooking, booking.id, "Booking")}
+                            className="inline-flex h-10 items-center justify-center rounded-lg border border-[#efb8ac] bg-[#fff7f5] px-4 text-sm font-medium text-[#9f3e2f] hover:bg-[#ffece8]"
+                          >
+                            Delete
+                          </button>
+                        ) : null}
                       </div>
                     </div>
 
@@ -1533,6 +1794,8 @@ function InquiriesPanel({
   inquirySources,
   handleInquiryStatusChange,
   handleDelete,
+  openInquiryEmailModal,
+  downloadInquiriesCsv,
 }) {
   return (
     <PanelCard
@@ -1550,8 +1813,18 @@ function InquiriesPanel({
               Real-time therapy requests from the website.
             </p>
           </div>
-          <div className="rounded-2xl border border-[#dbe7e1] bg-white/90 px-4 py-3 text-sm font-semibold text-[#23403b] shadow-[0_10px_24px_rgba(21,53,46,0.05)]">
-            {inquiries.length} enquiries loaded
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="button"
+              onClick={() => downloadInquiriesCsv(inquiries)}
+              disabled={inquiries.length === 0}
+              className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#cfded6] bg-white px-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#19564f] transition-all duration-300 hover:bg-[#f1f8f4] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              Download CSV
+            </button>
+            <div className="rounded-2xl border border-[#dbe7e1] bg-white/90 px-4 py-3 text-sm font-semibold text-[#23403b] shadow-[0_10px_24px_rgba(21,53,46,0.05)]">
+              {inquiries.length} enquiries loaded
+            </div>
           </div>
         </div>
 
@@ -1647,6 +1920,13 @@ function InquiriesPanel({
                 </div>
 
                 <div className="grid gap-3">
+                  <button
+                    type="button"
+                    onClick={() => openInquiryEmailModal(inquiry)}
+                    className="inline-flex h-11 items-center justify-center rounded-2xl bg-[#18332e] px-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#22544b]"
+                  >
+                    Send Mail
+                  </button>
                   <select
                     value={inquiry.status}
                     onChange={(event) =>
@@ -1720,6 +2000,13 @@ function InquiriesPanel({
                   </FieldInline>
                   <button
                     type="button"
+                    onClick={() => openInquiryEmailModal(inquiry)}
+                    className="inline-flex h-11 items-center justify-center rounded-2xl bg-[#18332e] px-5 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#22544b]"
+                  >
+                    Send Mail
+                  </button>
+                  <button
+                    type="button"
                     onClick={() => handleDelete(deleteAdminInquiry, inquiry.id, "Enquiry")}
                     className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#f0cdc5] bg-white px-5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#b35342] transition-all duration-300 hover:bg-[#fff4f2]"
                   >
@@ -1731,6 +2018,76 @@ function InquiriesPanel({
           </div>
         </div>
       )}
+    </PanelCard>
+  );
+}
+
+function EmailSettingsPanel({
+  emailSettingsForm,
+  setEmailSettingsForm,
+  onSubmit,
+  isSubmitting,
+}) {
+  return (
+    <PanelCard
+      eyebrow="Admin Settings"
+      title="Booking Email Notifications"
+      subtitle="These recipients receive internal booking notification emails whenever a customer creates or updates a booking."
+    >
+      <form onSubmit={onSubmit} className="grid gap-5">
+        <Field label="Booking notification To">
+          <textarea
+            value={emailSettingsForm.booking_to_emails}
+            onChange={(event) =>
+              setEmailSettingsForm((current) => ({
+                ...current,
+                booking_to_emails: event.target.value,
+              }))
+            }
+            className={textAreaClass}
+            rows="5"
+            placeholder="admin@srisriwellbeingchennai.com"
+          />
+        </Field>
+        <div className="grid gap-5 lg:grid-cols-2">
+          <Field label="Booking notification CC">
+            <textarea
+              value={emailSettingsForm.booking_cc_emails}
+              onChange={(event) =>
+                setEmailSettingsForm((current) => ({
+                  ...current,
+                  booking_cc_emails: event.target.value,
+                }))
+              }
+              className={textAreaClass}
+              rows="5"
+              placeholder="manager@example.com"
+            />
+          </Field>
+          <Field label="Booking notification BCC">
+            <textarea
+              value={emailSettingsForm.booking_bcc_emails}
+              onChange={(event) =>
+                setEmailSettingsForm((current) => ({
+                  ...current,
+                  booking_bcc_emails: event.target.value,
+                }))
+              }
+              className={textAreaClass}
+              rows="5"
+              placeholder="audit@example.com"
+            />
+          </Field>
+        </div>
+        <p className="rounded-xl border border-[#dbe7e1] bg-[#f7fbf8] px-4 py-3 text-sm leading-6 text-[#60746e]">
+          Add one email per line or separate emails with commas. The customer booking email is always sent to the customer email from the booking form.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <button type="submit" disabled={isSubmitting} className={primaryButtonClass}>
+            {isSubmitting ? "Saving..." : "Save Email Settings"}
+          </button>
+        </div>
+      </form>
     </PanelCard>
   );
 }

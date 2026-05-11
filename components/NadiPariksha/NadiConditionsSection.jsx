@@ -78,7 +78,7 @@ export default function NadiConditionsSection() {
                       alt={therapyCards[0].title}
                       width={280}
                       height={320}
-                      className="h-[240px] w-[240px] object-cover object-center md:h-[290px] md:w-[300px]"
+                      className="h-[260px] w-[260px] object-cover object-center md:h-[320px] md:w-[320px]"
                     />
                   </div>
                 </div>
@@ -106,7 +106,7 @@ export default function NadiConditionsSection() {
                       alt={therapyCards[1].title}
                       width={280}
                       height={320}
-                      className="h-[240px] w-[240px] object-cover object-center md:h-[290px] md:w-300px]"
+                      className="h-[260px] w-[260px] object-cover object-center md:h-[320px] md:w-[320px]"
                     />
                   </div>
                 </div>

@@ -6,6 +6,7 @@ export const initialAdminUserForm = {
   role: "doctor",
   therapist_id: "",
   is_active: true,
+  send_welcome_email: true,
 };
 
 export const initialServiceForm = {
@@ -73,6 +74,7 @@ export const initialTeamForm = {
   login_password: "",
   login_role: "therapist",
   login_is_active: true,
+  send_welcome_email: true,
   linked_user_id: null,
 };
 

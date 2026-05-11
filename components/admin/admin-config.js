@@ -49,7 +49,17 @@ export const adminSections = [
     description: "Manage relaxation therapy records that feed the frontend booking flow.",
     group: "Content API",
   },
+  {
+    id: "settings",
+    href: "/admin/settings",
+    label: "Settings",
+    shortLabel: "Settings",
+    eyebrow: "Admin Settings",
+    title: "Email notifications",
+    description: "Configure default booking notification recipients for To, CC, and BCC emails.",
+    group: "Settings",
+  },
 ];
 
 export const adminSectionIds = adminSections.map((section) => section.id);
-export const adminSectionGroups = ["Operations", "Booking Engine", "Team", "Content API"];
+export const adminSectionGroups = ["Operations", "Booking Engine", "Team", "Content API", "Settings"];

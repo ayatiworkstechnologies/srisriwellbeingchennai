@@ -4,8 +4,8 @@ export const heroContent = {
     "Nadi Pariksha is an ancient, non-invasive pulse diagnosis technique rooted in Ayurveda. By analysing your pulse, it reveals imbalances in your doshas, assesses organ health, and provides deep insights into your physical, emotional, and mental wellbeing.",
     "It helps identify potential health concerns early and the Ayurveda Nadi Vaidya can guide the right diet, lifestyle changes, Ayurvedic supplements, and treatments personalised just for you.",
   ],
-  image: "/banner/nadi-pariksha-mob.png",
-  mobimage: "/banner/nadi-pariksha-web.png",
+  image: "/banner/nadi-mob.png",
+  mobimage: "/banner/nadi-web.png",
   isOverlay: true,
 };
 

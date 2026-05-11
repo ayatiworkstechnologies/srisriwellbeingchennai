@@ -41,7 +41,18 @@ async function forwardRequest(request, context) {
     init.body = await request.text();
   }
 
-  const response = await fetch(targetUrl, init);
+  let response;
+  try {
+    response = await fetch(targetUrl, init);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown proxy error";
+    return Response.json(
+      {
+        detail: `Backend proxy could not reach ${targetUrl.origin}. ${message}`,
+      },
+      { status: 502 }
+    );
+  }
   const responseBody = await response.arrayBuffer();
   const responseHeaders = new Headers();
   const responseContentType = response.headers.get("content-type");
