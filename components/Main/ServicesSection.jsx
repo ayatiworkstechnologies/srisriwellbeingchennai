@@ -5,7 +5,7 @@ import { useEffect, useMemo, useState } from "react";
 import { FaChevronLeft, FaChevronRight, FaStar } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
-import ServiceModal from "./ServiceModal";
+import TherapyModal from "../Relax/TherapyModal";
 import { AnimatePresence } from "framer-motion";
 import { listPublicServices } from "@/lib/api";
 
@@ -48,7 +48,7 @@ export default function ServicesSection() {
             title: item.title,
             shortDescription: item.short_description || item.shortDescription || "",
             desc: item.short_description || item.shortDescription || "",
-            fullDesc: item.description,
+            details: item.description,
             image: item.image,
             rating: item.rating,
             benefits: normalizeBenefits(item.benefits),
@@ -257,8 +257,8 @@ export default function ServicesSection() {
 
       <AnimatePresence>
         {selectedService && (
-          <ServiceModal
-            service={selectedService}
+          <TherapyModal
+            therapy={selectedService}
             onClose={() => setSelectedService(null)}
           />
         )}
