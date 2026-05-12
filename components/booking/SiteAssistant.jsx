@@ -1,8 +1,18 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { FaCalendarAlt, FaComments, FaSearch, FaTimes } from "react-icons/fa";
+import {
+  FaCalendarAlt,
+  FaCheckCircle,
+  FaComments,
+  FaLeaf,
+  FaPaperPlane,
+  FaRobot,
+  FaSearch,
+  FaShieldAlt,
+  FaTimes,
+} from "react-icons/fa";
 
 import {
   cancelPublicBooking,
@@ -43,20 +53,43 @@ function normalizeText(value) {
   return value.toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
 }
 
-const starterPrompts = [
+const quickActionPrompts = [
   "Show therapy options",
   "Book appointment",
   "Check my booking",
   "Cancel booking",
 ];
 
+const toolTabs = [
+  ["ask", "Ask", FaComments],
+  ["therapies", "Therapies", FaLeaf],
+  ["book", "Book", FaCalendarAlt],
+  ["lookup", "Lookup", FaSearch],
+  ["cancel", "Cancel", FaTimes],
+];
+
+function isGreeting(text) {
+  return [
+    "hi",
+    "hello",
+    "hey",
+    "hii",
+    "helo",
+    "good morning",
+    "good evening",
+    "good afternoon",
+  ].includes(text);
+}
+
 export default function SiteAssistant() {
+  const messagesEndRef = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
   const [activeTool, setActiveTool] = useState("ask");
   const [messages, setMessages] = useState([
     {
       role: "assistant",
-      text: "I am the Sri Sri Wellbeing concierge. I can show therapies, book an appointment, check booking details, and cancel a booking using your reference and email.",
+      text: "I am AMMU from Sri Sri Wellbeing. I can show therapies, book an appointment, check booking details, and cancel a booking using your reference and email.",
+      showActions: true,
     },
   ]);
   const [prompt, setPrompt] = useState("");
@@ -95,6 +128,11 @@ export default function SiteAssistant() {
   const addMessage = (role, text) => {
     setMessages((current) => [...current, { role, text }]);
   };
+
+  useEffect(() => {
+    if (!isOpen || activeTool !== "ask") return;
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+  }, [activeTool, isOpen, messages]);
 
   const findMentionedTherapy = (text) => {
     const normalizedPrompt = normalizeText(text);
@@ -167,9 +205,10 @@ export default function SiteAssistant() {
     const userText = question.trim();
     if (!userText) return;
 
-    const lower = userText.toLowerCase();
+    const lower = normalizeText(userText);
     const mentionedTherapy = findMentionedTherapy(userText);
     let reply = "I can help with therapy options, appointment booking, booking lookup, and cancellation.";
+    let showActions = false;
 
     if (mentionedTherapy) {
       setBookingForm((current) => ({
@@ -183,6 +222,9 @@ export default function SiteAssistant() {
       }));
       reply = `${mentionedTherapy.title} is selected. ${mentionedTherapy.duration ? `Duration: ${mentionedTherapy.duration}. ` : ""}Choose a date and available slot to complete the booking.`;
       setActiveTool("book");
+    } else if (isGreeting(lower)) {
+      reply = "Hello. I can help you browse therapies, create a booking, check an existing booking, or cancel one. Choose an option below or type what you need.";
+      showActions = true;
     } else if (lower.includes("therapy") || lower.includes("option") || lower.includes("show")) {
       reply = therapySummary
         ? `Current therapy options include: ${therapySummary}.`
@@ -202,9 +244,16 @@ export default function SiteAssistant() {
     } else if (lower.includes("check") || lower.includes("status") || lower.includes("reference")) {
       reply = "Enter your booking reference and email to view appointment details.";
       setActiveTool("lookup");
+    } else {
+      reply = "I can help with therapies, booking, booking lookup, and cancellation. Choose an option below or type something like book appointment or check my booking.";
+      showActions = true;
     }
 
-    setMessages((current) => [...current, { role: "user", text: userText }, { role: "assistant", text: reply }]);
+    setMessages((current) => [
+      ...current,
+      { role: "user", text: userText },
+      { role: "assistant", text: reply, showActions },
+    ]);
     setPrompt("");
   };
 
@@ -277,71 +326,90 @@ export default function SiteAssistant() {
   return (
     <>
       {isOpen && (
-        <div className="fixed bottom-24 right-4 z-[9998] w-[min(420px,calc(100vw-2rem))] overflow-hidden rounded-[24px] border border-[#e6d6bf] bg-[#fffaf2] shadow-[0_20px_70px_rgba(31,23,20,0.16)]">
-          <div className="flex items-center justify-between bg-[#2f190f] px-5 py-4 text-white">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#e1bf6f]">AI Concierge</p>
-              <p className="mt-1 text-sm text-white/80">Therapy booking and cancellation</p>
+        <div className="fixed inset-x-3 bottom-20 top-3 z-[9998] flex flex-col overflow-hidden rounded-[26px] border border-[#ead8ba] bg-[#fffaf4] shadow-[0_24px_90px_rgba(47,25,15,0.22)] sm:inset-x-auto sm:top-auto sm:right-5 sm:max-h-[calc(100dvh-6.5rem)] sm:w-[min(440px,calc(100vw-2rem))]">
+          <div className="relative shrink-0 overflow-hidden bg-[#2f190f] px-5 py-4 text-white sm:py-5">
+            <div className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-[#d7b65d] to-transparent" />
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex min-w-0 gap-3">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/15 bg-white/10">
+                  <FaRobot className="text-[#e1bf6f]" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#e1bf6f]">AI Concierge</p>
+                  <h2 className="mt-1 text-base font-bold leading-tight text-white">Sri Sri booking assistant</h2>
+                  <p className="mt-1 text-xs leading-5 text-white/75">Find therapies, book a slot, or manage an existing booking.</p>
+                </div>
+              </div>
+              <button type="button" onClick={() => setIsOpen(false)} className="rounded-full bg-white/10 p-2 text-white hover:bg-white/15" aria-label="Close assistant">
+                <FaTimes />
+              </button>
             </div>
-            <button type="button" onClick={() => setIsOpen(false)} className="rounded-full bg-white/10 p-2 hover:bg-white/15" aria-label="Close assistant">
-              <FaTimes />
-            </button>
+            <div className="mt-4 flex flex-wrap gap-2 text-[11px] font-semibold text-white/80">
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1.5">
+                <FaCheckCircle className="text-[#e1bf6f]" /> Live slots
+              </span>
+              <span className="inline-flex items-center gap-1 rounded-full bg-white/10 px-3 py-1.5">
+                <FaShieldAlt className="text-[#e1bf6f]" /> Secure lookup
+              </span>
+            </div>
           </div>
 
-          <div className="max-h-[70vh] overflow-y-auto px-4 py-4">
-            <div className="rounded-[18px] border border-[#eadcc7] bg-white px-4 py-3">
-              <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#9a741d]">Live Assistant</p>
-              <p className="mt-1 text-sm leading-6 text-[#5f5650]">
-                Ask naturally, or use the tools below for therapy data, booking, lookup, and cancellation.
-              </p>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2">
-              {[
-                ["ask", "Ask"],
-                ["therapies", "Therapies"],
-                ["book", "Book"],
-                ["lookup", "Lookup"],
-                ["cancel", "Cancel"],
-              ].map(([id, label]) => (
+          <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-4 py-4">
+            <div className="mt-3 flex gap-2 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {toolTabs.map(([id, label, Icon]) => (
                 <button
                   key={id}
                   type="button"
                   onClick={() => setActiveTool(id)}
-                  className={`h-10 rounded-xl text-xs font-bold uppercase tracking-[0.16em] ${
-                    activeTool === id ? "bg-[#2f190f] text-white" : "border border-[#e8d6b4] bg-white text-[#7b5d16]"
+                  className={`inline-flex h-10 shrink-0 items-center gap-2 rounded-full px-4 text-xs font-bold uppercase tracking-[0.12em] transition ${
+                    activeTool === id
+                      ? "bg-[#2f190f] text-white shadow-md"
+                      : "border border-[#e8d6b4] bg-white text-[#7b5d16] hover:bg-[#fff5df]"
                   }`}
                 >
+                  <Icon className="h-3.5 w-3.5" />
                   {label}
                 </button>
               ))}
             </div>
 
             {activeTool === "ask" ? (
-              <div className="mt-4">
-                <div className="space-y-3">
+              <div className="mt-4 flex min-h-0 flex-col">
+                <div className="min-h-0 flex-1 space-y-3 overflow-y-auto rounded-[22px] border border-[#eadcc7] bg-[#fcfaf6] p-3">
                   {messages.map((message, index) => (
                     <div
                       key={`${message.role}-${index}`}
-                      className={`rounded-2xl px-4 py-3 text-sm leading-6 ${
-                        message.role === "assistant" ? "bg-white text-[#534b45]" : "bg-[#f2e0bc] text-[#2f190f]"
-                      }`}
+                      className={`flex ${message.role === "assistant" ? "justify-start" : "justify-end"}`}
                     >
-                      {message.text}
+                      <div
+                        className={`max-w-[88%] rounded-2xl px-4 py-3 text-sm leading-6 shadow-sm ${
+                          message.role === "assistant"
+                            ? "rounded-tl-md bg-white text-[#534b45]"
+                            : "rounded-tr-md bg-[#2f190f] text-white"
+                        }`}
+                      >
+                        {message.role === "assistant" ? (
+                          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#9a741d]">AMMU</p>
+                        ) : null}
+                        <p>{message.text}</p>
+                        {message.role === "assistant" && message.showActions ? (
+                          <div className="mt-3 flex flex-wrap gap-2">
+                            {quickActionPrompts.map((item) => (
+                              <button
+                                key={item}
+                                type="button"
+                                onClick={() => handleAsk(item)}
+                                className="rounded-full border border-[#e8d6b4] bg-[#fffaf2] px-3 py-2 text-xs font-semibold text-[#7b5d16] transition hover:bg-[#fff1d1]"
+                              >
+                                {item}
+                              </button>
+                            ))}
+                          </div>
+                        ) : null}
+                      </div>
                     </div>
                   ))}
-                </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {starterPrompts.map((item) => (
-                    <button
-                      key={item}
-                      type="button"
-                      onClick={() => handleAsk(item)}
-                      className="rounded-full border border-[#e8d6b4] bg-white px-3 py-2 text-xs font-semibold text-[#7b5d16] transition hover:bg-[#fff5df]"
-                    >
-                      {item}
-                    </button>
-                  ))}
+                  <div ref={messagesEndRef} />
                 </div>
                 <form
                   onSubmit={(event) => {
@@ -350,16 +418,21 @@ export default function SiteAssistant() {
                   }}
                   className="mt-4"
                 >
-                <textarea
+                  <div className="flex items-end gap-3 rounded-[20px] border border-[#e4d7c6] bg-white p-2 shadow-sm">
+                    <input
                     value={prompt}
                     onChange={(event) => setPrompt(event.target.value)}
-                    placeholder="Example: Book Shirodhara tomorrow, show therapies, check my booking..."
-                    rows={3}
-                    className="w-full rounded-[18px] border border-[#e4d7c6] bg-white px-4 py-3 text-sm text-[#1f1a17] outline-none focus:border-[#c29a2f]"
-                  />
-                  <button type="submit" className="mt-3 inline-flex h-11 items-center justify-center rounded-full bg-[#c29a2f] px-5 text-sm font-bold uppercase tracking-[0.14em] text-white transition hover:bg-[#a88528]">
-                    Ask Concierge
-                  </button>
+                      placeholder="Type your message"
+                      className="h-11 min-w-0 flex-1 bg-transparent px-3 text-sm text-[#1f1a17] outline-none placeholder:text-[#9f9487]"
+                    />
+                    <button
+                      type="submit"
+                      className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-[#c29a2f] text-white transition hover:bg-[#a88528]"
+                      aria-label="Send message"
+                    >
+                      <FaPaperPlane className="h-3.5 w-3.5" />
+                    </button>
+                  </div>
                 </form>
               </div>
             ) : null}
@@ -596,10 +669,14 @@ export default function SiteAssistant() {
       <button
         type="button"
         onClick={() => setIsOpen((current) => !current)}
-        className="fixed bottom-5 right-4 z-[9998] inline-flex h-14 items-center gap-3 rounded-full bg-[#2f190f] px-5 text-sm font-bold uppercase tracking-[0.14em] text-white shadow-[0_18px_40px_rgba(31,23,20,0.22)] transition hover:bg-[#4a2817]"
+        className="fixed bottom-5 right-4 z-[9998] inline-flex h-14 items-center gap-3 rounded-full bg-[#2f190f] px-5 text-sm font-bold uppercase tracking-[0.12em] text-white shadow-[0_18px_40px_rgba(31,23,20,0.24)] transition hover:-translate-y-0.5 hover:bg-[#4a2817]"
+        aria-label={isOpen ? "Close AI concierge" : "Open AI concierge"}
       >
-        <FaComments />
-        AI Concierge
+        <span className="relative flex h-8 w-8 items-center justify-center rounded-full bg-[#c29a2f]">
+          <FaComments />
+          <span className="absolute right-0 top-0 h-2.5 w-2.5 rounded-full border border-[#2f190f] bg-[#5fd28f]" />
+        </span>
+        <span className="hidden sm:inline">{isOpen ? "Close Concierge" : "AI Concierge"}</span>
       </button>
     </>
   );

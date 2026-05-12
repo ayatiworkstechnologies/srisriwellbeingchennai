@@ -11,6 +11,10 @@ export default function AdminLayout({
   isInitializing,
   token,
   userProfile,
+  apiBaseUrl,
+  isLoading,
+  lastLoadedAt,
+  onRefresh,
 }) {
   if (isInitializing) {
     return (
@@ -41,6 +45,10 @@ export default function AdminLayout({
         handleLogout={handleLogout}
         tabCounts={tabCounts}
         userProfile={userProfile}
+        apiBaseUrl={apiBaseUrl}
+        isLoading={isLoading}
+        lastLoadedAt={lastLoadedAt}
+        onRefresh={onRefresh}
       />
       <main className="mx-auto max-w-7xl px-4 py-6 md:px-6">{children}</main>
     </div>

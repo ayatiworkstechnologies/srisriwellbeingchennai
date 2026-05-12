@@ -948,6 +948,10 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       isInitializing={isInitializing}
       token={token}
       userProfile={userProfile}
+      apiBaseUrl={API_BASE_URL}
+      isLoading={isLoading}
+      lastLoadedAt={lastLoadedAt}
+      onRefresh={refresh}
     >
       {!token ? (
         <AdminLogin
@@ -1586,23 +1590,29 @@ function BookingsPanel({
     : isTherapistRole
       ? "Review therapies assigned to your profile and keep statuses updated."
       : "Review requests and approve quickly.";
+  const statusCounts = advancedBookingStatusOptions.reduce((counts, status) => {
+    counts[status] = bookings.filter((booking) => booking.status === status).length;
+    return counts;
+  }, {});
 
   return (
-        <div className="flex flex-col gap-6">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h2 className="text-2xl font-semibold text-[#18332e]">{panelTitle}</h2>
-            <p className="mt-1 text-sm text-[#5f726c]">{panelSubtitle}</p>
+    <section className="grid gap-5">
+      <div className="overflow-hidden rounded-[1.6rem] border border-[#dbe7e1] bg-white shadow-[0_18px_48px_rgba(21,53,46,0.06)]">
+        <div className="flex flex-col gap-5 border-b border-[#e5eee9] bg-[linear-gradient(180deg,#f9fcfa,#f2f8f4)] p-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="min-w-0">
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#6d857e]">Booking Engine</p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[#18332e]">{panelTitle}</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-[#5f726c]">{panelSubtitle}</p>
           </div>
-        
-        <div className="flex items-center gap-3 rounded-lg border border-[#dbe7e1] bg-white p-2">
-          <FieldInline label="Filter Status">
+
+          <div className="grid gap-2 sm:grid-cols-[minmax(0,220px)_auto] sm:items-end">
+            <FieldInline label="Filter status">
             <select
               value={statusFilter}
               onChange={(event) => setStatusFilter(event.target.value)}
-              className={selectClass}
+                className={`${selectClass} w-full`}
             >
-              <option value="all">View All</option>
+                <option value="all">All bookings</option>
               {advancedBookingStatusOptions.map((option) => (
                 <option key={option} value={option}>
                   {toTitleCase(option)}
@@ -1610,89 +1620,102 @@ function BookingsPanel({
               ))}
             </select>
           </FieldInline>
+            <div className="rounded-lg border border-[#dbe7e1] bg-white px-4 py-3 text-sm font-semibold text-[#23403b]">
+              {isLoading ? "Refreshing..." : `${bookings.length} loaded`}
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-3 p-5 sm:grid-cols-2 lg:grid-cols-6">
+          {advancedBookingStatusOptions.map((status) => (
+            <button
+              key={status}
+              type="button"
+              onClick={() => setStatusFilter(status)}
+              className={`rounded-xl border p-3 text-left transition ${
+                statusFilter === status
+                  ? "border-[#1f6b5c] bg-[#eef8f4]"
+                  : "border-[#dbe7e1] bg-white hover:bg-[#f8fbf9]"
+              }`}
+            >
+              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#7d948c]">{toTitleCase(status)}</p>
+              <p className="mt-2 text-2xl font-semibold text-[#18332e]">{statusCounts[status] || 0}</p>
+            </button>
+          ))}
         </div>
       </div>
 
       {bookings.length === 0 ? (
-        <div className="rounded-xl border border-dashed border-[#cfddd6] bg-white px-5 py-20 text-center">
+        <div className="rounded-[1.6rem] border border-dashed border-[#cfddd6] bg-[linear-gradient(180deg,#f9fcfa,#f1f7f3)] px-5 py-20 text-center">
           <p className="text-sm text-[#60746e]">No bookings found for the current filter.</p>
         </div>
       ) : (
-        <div className="grid gap-4">
+        <div className="grid gap-5">
           {bookings.map((booking) => (
             <article
               key={booking.id}
-              className="rounded-xl border border-[#dbe7e1] bg-white p-5"
+              className="overflow-hidden rounded-[1.5rem] border border-[#dbe7e1] bg-white shadow-[0_14px_36px_rgba(21,53,46,0.05)]"
             >
-              <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_300px]">
-                <div className="space-y-5">
-                  <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-                    <div>
-                      <div className="mb-3 flex flex-wrap items-center gap-2">
-                        <span className="inline-flex items-center justify-center rounded-md bg-[#eef5f1] px-2.5 py-1 text-xs font-medium text-[#19564f]">
+              <div className="flex flex-col gap-4 border-b border-[#edf3ef] bg-[#fbfdfc] px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
+                <div className="min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="inline-flex items-center justify-center rounded-lg bg-[#eef5f1] px-2.5 py-1 text-xs font-bold text-[#19564f]">
                           {booking.reference_code}
                         </span>
-                        <p className="text-xs text-[#8ba098]">
+                    <BookingStatusPill status={booking.status} />
+                    <span className="text-xs font-medium text-[#8ba098]">
                           Created {formatDate(booking.created_at)}
-                        </p>
-                      </div>
-                      <h3 className="text-xl font-semibold text-[#18332e]">
+                    </span>
+                  </div>
+                  <h3 className="mt-3 text-xl font-semibold tracking-tight text-[#18332e]">
                         {booking.customer_name}
                       </h3>
-                      <p className="mt-2 text-sm text-[#4e635d]">
-                        Therapy: <span className="font-medium text-[#18332e]">{booking.therapy_name}</span>
+                  <p className="mt-1 text-sm text-[#4e635d]">
+                    {booking.therapy_name}
                       </p>
                     </div>
-                    <BookingStatusPill status={booking.status} />
-                  </div>
-
-                  <div className="grid gap-4 md:grid-cols-2">
-                    <SummaryTile
-                      label="Client Contact"
-                      value={booking.phone}
-                      note={booking.email}
-                    />
-                    <SummaryTile
-                      label="Scheduled Slot"
-                      value={formatDateOnly(booking.booking_date)}
-                      note={`${formatTime(booking.start_time)} - ${formatTime(booking.end_time)}`}
-                    />
-                    <SummaryTile
-                      label="Assigned Expert"
-                      value={booking.therapist_name || "Unassigned"}
-                      note={booking.therapist_id ? `Internal ID: ${booking.therapist_id}` : "Expert needs to be assigned"}
-                      emphasis={!booking.therapist_id}
-                    />
-                    <SummaryTile
-                      label="Notes"
-                      value={booking.notes || "No notes"}
-                    />
-                  </div>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  <button
+                    type="button"
+                    onClick={() => openBookingEmailModal(booking)}
+                    className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-4 text-sm font-semibold text-[#18332e] hover:bg-[#f2f6f4]"
+                  >
+                    Send Mail
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      handleBookingLifecycleChange(booking.id, {
+                        status: booking.status === "confirmed" ? "completed" : "confirmed",
+                      })
+                    }
+                    className="inline-flex h-10 items-center justify-center rounded-lg bg-[#1f6b5c] px-4 text-sm font-semibold text-white hover:bg-[#175245]"
+                  >
+                    {booking.status === "confirmed" ? "Complete" : "Approve"}
+                  </button>
                 </div>
+              </div>
 
-                <div className="rounded-xl border border-[#dbe7e1] bg-[#f8fbf9] p-4">
-                  <div className="space-y-4">
-                    <div className="grid gap-2">
-                      <p className="text-sm font-medium text-[#33423d]">Quick Actions</p>
-                      <div className="flex flex-wrap gap-2">
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleBookingLifecycleChange(booking.id, {
-                                status: "confirmed",
-                              })
-                            }
-                            className="inline-flex h-10 items-center justify-center rounded-lg bg-[#1f6b5c] px-4 text-sm font-medium text-white hover:bg-[#175245]"
-                          >
-                            Approve
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => openBookingEmailModal(booking)}
-                            className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-4 text-sm font-medium text-[#18332e] hover:bg-[#f2f6f4]"
-                          >
-                            Send Mail
-                          </button>
+              <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_320px]">
+                <div className="grid gap-4 p-5 md:grid-cols-2 xl:grid-cols-4">
+                  <BookingInfoBlock label="Contact" value={booking.phone} note={booking.email} />
+                  <BookingInfoBlock
+                    label="Schedule"
+                    value={formatDateOnly(booking.booking_date)}
+                    note={`${formatTime(booking.start_time)} - ${formatTime(booking.end_time)}`}
+                  />
+                  <BookingInfoBlock
+                    label="Expert"
+                    value={booking.therapist_name || "Unassigned"}
+                    note={booking.therapist_id ? `ID ${booking.therapist_id}` : "Assign expert before approval"}
+                    attention={!booking.therapist_id}
+                  />
+                  <BookingInfoBlock label="Notes" value={booking.notes || "No notes"} />
+                  </div>
+
+                <div className="border-t border-[#edf3ef] bg-[#f8fbf9] p-5 lg:border-l lg:border-t-0">
+                  <div className="grid gap-4">
+                    <div className="grid grid-cols-2 gap-2">
                         <button
                           type="button"
                           onClick={() =>
@@ -1700,7 +1723,7 @@ function BookingsPanel({
                               status: "completed",
                             })
                           }
-                          className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-4 text-sm font-medium text-[#18332e] hover:bg-[#f2f6f4]"
+                        className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-3 text-sm font-medium text-[#18332e] hover:bg-[#f2f6f4]"
                         >
                           Complete
                         </button>
@@ -1711,7 +1734,7 @@ function BookingsPanel({
                               status: "cancelled",
                             })
                           }
-                          className="inline-flex h-10 items-center justify-center rounded-lg border border-[#f0cdc5] bg-white px-4 text-sm font-medium text-[#b35342] hover:bg-[#fff4f2]"
+                        className="inline-flex h-10 items-center justify-center rounded-lg border border-[#f0cdc5] bg-white px-3 text-sm font-medium text-[#b35342] hover:bg-[#fff4f2]"
                         >
                           Cancel
                         </button>
@@ -1719,13 +1742,12 @@ function BookingsPanel({
                           <button
                             type="button"
                             onClick={() => handleDelete(deleteAdminBooking, booking.id, "Booking")}
-                            className="inline-flex h-10 items-center justify-center rounded-lg border border-[#efb8ac] bg-[#fff7f5] px-4 text-sm font-medium text-[#9f3e2f] hover:bg-[#ffece8]"
+                          className="col-span-2 inline-flex h-10 items-center justify-center rounded-lg border border-[#efb8ac] bg-[#fff7f5] px-3 text-sm font-medium text-[#9f3e2f] hover:bg-[#ffece8]"
                           >
                             Delete
                           </button>
                         ) : null}
                       </div>
-                    </div>
 
                     <FieldInline label="Lifecycle Status">
                       <select
@@ -1767,11 +1789,11 @@ function BookingsPanel({
                         </select>
                       </FieldInline>
                     ) : (
-                      <SummaryTile
+                      <BookingInfoBlock
                         label="Assignment"
                         value={booking.therapist_name || "Pending admin assignment"}
                         note="Therapist assignment is managed by admin."
-                        emphasis={!booking.therapist_id}
+                        attention={!booking.therapist_id}
                       />
                     )}
                   </div>
@@ -1781,6 +1803,22 @@ function BookingsPanel({
           ))}
         </div>
       )}
+    </section>
+  );
+}
+
+function BookingInfoBlock({ label, value, note, attention = false }) {
+  return (
+    <div
+      className={`min-w-0 rounded-xl border p-4 ${
+        attention
+          ? "border-[#efd8a1] bg-[#fff9ea]"
+          : "border-[#e3ece7] bg-[#fbfdfc]"
+      }`}
+    >
+      <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#7d948c]">{label}</p>
+      <p className="mt-2 break-words text-sm font-semibold leading-6 text-[#18332e]">{value}</p>
+      {note ? <p className="mt-1 break-words text-xs leading-5 text-[#60746e]">{note}</p> : null}
     </div>
   );
 }
