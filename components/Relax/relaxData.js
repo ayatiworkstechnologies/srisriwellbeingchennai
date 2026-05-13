@@ -5,8 +5,8 @@ export const relaxHero = {
     "Step into a world of profound stillness. Our ancient Ayurvedic protocols are meticulously designed to dissolve stress and awaken your inner vitality.",
   ctaLabel: "Experience Bliss",
   ctaHref: "/contact",
-  image: "/banner/srisri-relax-mob.png",
-  mobimage: "/banner/srisri-relax-web.png",
+  image: "/banner/relax-web-banner.jpg",
+  mobimage: "/banner/relax-mob-banner.jpg",
   isOverlay: true,
 };
 
@@ -51,7 +51,7 @@ export const relaxationTherapies = [
   },
   {
     id: "foot-massage",
-    title: "Foot Reflexology",
+    title: "Reflexology",
     duration: "30 mins",
     shortDescription:
       "Pressure-point therapy for the feet to treat illnesses and strengthen body systems.",
@@ -67,24 +67,6 @@ export const relaxationTherapies = [
       "Reduces stiffness & tiredness",
     ],
     image: "/images/relax/foot.png",
-  },
-  {
-    id: "aroma-massage",
-    title: "Aroma Therapy ",
-    duration: "60 mins",
-    shortDescription:
-      "Therapy using essential oils with unique healing properties for deep relaxation.",
-    details:
-      "This Therapy exclusively uses essential oils which have unique healing properties. During this therapy we are supposed to inhale these essential oil molecules and absorb them through the skin. Aroma Massage primarily focuses on relaxation.",
-    benefits: [
-      "Improves emotional balance",
-      "Good for de-stressing",
-      "Reduces anxiety",
-      "Relieves pain & headaches",
-      "Decreases muscle tension",
-      "Controls inflammation",
-    ],
-    image: "/images/relax/aroma.png",
   },
   {
     id: "shirolepa",
@@ -105,7 +87,7 @@ export const relaxationTherapies = [
   },
   {
     id: "chlorophyll-body-wrap",
-    title: "Chlorophyll Body Wrap",
+    title: "Body Wrap",
     duration: "90 mins",
     shortDescription:
       "Natural aromatic body wrap enriched with Moringa for detoxification and nourishment.",

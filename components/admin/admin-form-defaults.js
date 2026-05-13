@@ -11,6 +11,7 @@ export const initialAdminUserForm = {
 
 export const initialServiceForm = {
   title: "",
+  category: "main",
   short_description: "",
   description: "",
   benefits: [""],
@@ -21,10 +22,28 @@ export const initialServiceForm = {
 
 export const initialTestimonialForm = { name: "", review: "", sort_order: 0, is_active: true };
 
-export const initialNadiCampForm = { doctor: "", camp_date: "", location: "", contact: "", address: "", sort_order: 0, is_active: true };
+export const initialNadiCampForm = {
+  doctor: "",
+  camp_date: "",
+  location: "",
+  contact: "",
+  address: "",
+  status: "active",
+  sort_order: 0,
+  is_active: true,
+};
+
+export const initialCategoryForm = {
+  slug: "",
+  label: "",
+  description: "",
+  sort_order: 0,
+  is_active: true,
+};
 
 export const initialRelaxationTherapyForm = {
   title: "",
+  category: "relax",
   duration: "",
   short_description: "",
   details: "",
@@ -133,6 +152,12 @@ export const initialPanchakarmaOtherForm = {
 export const statusOptions = ["new", "contacted", "closed"];
 export const bookingStatusOptions = ["pending", "confirmed", "completed", "cancelled"];
 export const advancedBookingStatusOptions = ["pending", "confirmed", "rescheduled", "completed", "cancelled", "no_show"];
+export const nadiCampStatusOptions = ["active", "done", "inactive"];
+export const contentCategoryOptions = [
+  { value: "main", label: "Main" },
+  { value: "relax", label: "Relax" },
+  { value: "panchakarma", label: "Panchakarma" },
+];
 export const weekdayOptions = [
   { value: 0, label: "Monday" },
   { value: 1, label: "Tuesday" },

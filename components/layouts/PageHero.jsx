@@ -1,9 +1,7 @@
 "use client";
 
-import Image from "next/image";
-
 /**
- * PageHero — a clean, full-width banner image placed immediately after the Header.
+ * PageHero - a clean, full-width banner image placed immediately after the Header.
  * No text, no buttons. Just a premium visual banner.
  */
 export default function PageHero({
@@ -12,6 +10,7 @@ export default function PageHero({
   videoSrc,
   heroImageAlt = "Page Banner",
   height = "h-[calc(100vh-80px)] md:h-[calc(100vh-96px)]",
+  imageClassName = "object-cover object-center",
 }) {
   return (
     <div className="mt-[80px] md:mt-[96px]">
@@ -26,30 +25,26 @@ export default function PageHero({
           >
             <source src={videoSrc} type="video/mp4" />
           </video>
-        ) : (
-          <>
-            {heroImage && (
-              <Image
-                src={heroImage}
-                alt={heroImageAlt}
-                fill
-                className={`${mobileImage ? "hidden md:block" : "block"} object-cover object-center`}
-                priority
-                sizes="100vw"
-              />
-            )}
-            {mobileImage && (
-              <Image
-                src={mobileImage}
-                alt={heroImageAlt}
-                fill
-                className="block md:hidden object-cover object-center"
-                priority
-                sizes="100vw"
-              />
-            )}
-          </>
-        )}
+        ) : mobileImage ? (
+          <picture className="absolute inset-0 block h-full w-full">
+            <source media="(max-width: 767px)" srcSet={mobileImage} />
+            <img
+              src={heroImage || mobileImage}
+              alt={heroImageAlt}
+              className={`h-full w-full ${imageClassName}`}
+              loading="eager"
+              fetchPriority="high"
+            />
+          </picture>
+        ) : heroImage ? (
+          <img
+            src={heroImage}
+            alt={heroImageAlt}
+            className={`absolute inset-0 h-full w-full ${imageClassName}`}
+            loading="eager"
+            fetchPriority="high"
+          />
+        ) : null}
       </section>
     </div>
   );

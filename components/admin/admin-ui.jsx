@@ -23,6 +23,7 @@ export function EntityPanel({
   hideForm = false,
   actionLabel,
   onAction,
+  headerContent,
 }) {
   if (hideForm) {
     return (
@@ -36,6 +37,8 @@ export function EntityPanel({
               </button>
             ) : null}
           </div>
+
+          {headerContent ? <div className="mt-5">{headerContent}</div> : null}
 
           {items.length === 0 ? (
             <EmptyState message="No records found. Start by creating a new entry." />
@@ -107,8 +110,8 @@ function EmptyState({ message }) {
 
 export function PanelCard({ eyebrow, title, subtitle, children }) {
   return (
-    <section className="rounded-2xl border border-[#dbe7e1] bg-white p-6 shadow-sm md:p-7">
-      <p className="inline-flex rounded-md bg-[#eef4f1] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#5f746d]">
+    <section className="rounded-[1.75rem] border border-[#dbe7e1] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,251,249,0.94))] p-6 shadow-[0_18px_48px_rgba(21,53,46,0.06)] md:p-7">
+      <p className="inline-flex rounded-full border border-[#d7e5de] bg-[#eef4f1] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#5f746d]">
         {eyebrow}
       </p>
       <h3 className="mt-4 text-2xl font-semibold leading-tight text-[#1d2a26]">
@@ -125,9 +128,9 @@ export function StatCard({ label, value, tone = "light" }) {
 
   return (
     <div
-      className={`rounded-xl border p-5 ${
+      className={`rounded-[1.4rem] border p-5 shadow-[0_12px_32px_rgba(21,53,46,0.04)] ${
         dark
-          ? "border-[#1f6b5c] bg-[#1f6b5c] text-white"
+          ? "border-[#1f6b5c] bg-[linear-gradient(180deg,#1f6b5c,#184f45)] text-white"
           : "border-[#dbe7e1] bg-white"
       }`}
     >
@@ -145,7 +148,7 @@ export function RecordCard({ title, meta, body, extra, onEdit, onDelete }) {
   const metaParts = meta.split("|").map((part) => part.trim()).filter(Boolean);
 
   return (
-    <article className="rounded-xl border border-[#dbe7e1] bg-white p-5">
+    <article className="rounded-[1.45rem] border border-[#dbe7e1] bg-white p-5 shadow-[0_14px_34px_rgba(21,53,46,0.04)]">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-3">
@@ -279,6 +282,45 @@ export function FlashMessage({ tone, message }) {
   );
 }
 
+export function ToastStack({ toasts, onDismiss }) {
+  if (!toasts?.length) return null;
+
+  return (
+    <div className="pointer-events-none fixed right-4 top-24 z-[140] grid w-[min(92vw,380px)] gap-3">
+      {toasts.map((toast) => {
+        const error = toast.tone === "error";
+        return (
+          <div
+            key={toast.id}
+            className={`pointer-events-auto overflow-hidden rounded-[1.3rem] border shadow-[0_20px_50px_rgba(16,36,33,0.16)] ${
+              error
+                ? "border-[#f0cdc5] bg-[#fff7f5] text-[#9f3e2f]"
+                : "border-[#cfe1d8] bg-[#f4faf6] text-[#19564f]"
+            }`}
+          >
+            <div className="flex items-start justify-between gap-4 px-4 py-4">
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] opacity-70">
+                  {error ? "Action Error" : "Action Updated"}
+                </p>
+                <p className="mt-2 text-sm font-medium leading-6">{toast.message}</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => onDismiss(toast.id)}
+                className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-current/10 bg-white/70 text-base"
+              >
+                x
+              </button>
+            </div>
+            <div className={`h-1 w-full ${error ? "bg-[#e7b3aa]" : "bg-[#9bc9b2]"}`} />
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 export function ShowcaseCard({ label, value }) {
   return (
     <div className="rounded-[1.5rem] border border-[#dbe7e1] bg-[#f8fbf9] p-5">
@@ -311,8 +353,8 @@ export function SummaryTile({ label, value, note, emphasis = false, onClick }) {
 
 export function InfoStrip({ title, value, detail }) {
   return (
-    <div className="rounded-xl border border-[#dbe7e1] bg-white p-5">
-      <p className="inline-flex rounded-md bg-[#eef5f1] px-2.5 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#19564f]">
+    <div className="rounded-[1.4rem] border border-[#dbe7e1] bg-white p-5 shadow-[0_12px_32px_rgba(21,53,46,0.04)]">
+      <p className="inline-flex rounded-full bg-[#eef5f1] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#19564f]">
         {title}
       </p>
       <p className="mt-4 text-3xl font-semibold tracking-tight text-[#18332e]">{value}</p>
@@ -327,7 +369,7 @@ export function FormModal({ open, title, subtitle, onClose, children }) {
   return (
     <div className="fixed inset-0 z-[120] flex items-center justify-center bg-[rgba(16,36,33,0.36)] p-4 backdrop-blur-md">
       <div className="absolute inset-0" onClick={onClose} />
-      <div className="relative z-10 w-full max-w-3xl overflow-hidden rounded-2xl border border-[#dbe7e1] bg-white shadow-[0_20px_60px_rgba(16,36,33,0.18)]">
+      <div className="relative z-10 w-full max-w-3xl overflow-hidden rounded-[1.9rem] border border-[#dbe7e1] bg-white shadow-[0_24px_70px_rgba(16,36,33,0.18)]">
         <div className="flex items-start justify-between gap-4 border-b border-[#e3ece7] px-6 py-6 md:px-8">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#6d857e]">Editor</p>

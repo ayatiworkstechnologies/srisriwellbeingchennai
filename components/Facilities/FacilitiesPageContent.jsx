@@ -3,6 +3,7 @@
 import FacilitiesIntro from "./FacilitiesIntro";
 import FacilitiesSlider from "./FacilitiesSlider";
 import FacilitiesGrid from "./FacilitiesGrid";
+import FacilitiesStaySection from "./FacilitiesStaySection";
 import FacilitiesCTA from "./FacilitiesCTA";
 
 export default function FacilitiesPageContent() {
@@ -11,6 +12,7 @@ export default function FacilitiesPageContent() {
       <FacilitiesIntro />
       <FacilitiesSlider />
       <FacilitiesGrid />
+      <FacilitiesStaySection />
       <FacilitiesCTA />
     </main>
   );

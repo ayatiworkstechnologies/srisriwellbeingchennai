@@ -5,13 +5,16 @@ import {
   heroContent,
   treatments,
 } from "@/components/AlternativeTreatments/alternativeTreatmentsData";
+import { getPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title:
-    "Alternative Treatments | Holistic Healing Therapies | Sri Sri Wellbeing Chennai",
-  description:
-    "Explore our specialized alternative treatment modalities at Sri Sri Wellbeing Chennai — including Craniosacral Therapy, Osteopathy, Ozone Therapy, Marma, Meru Chikitsa, Reflexology, Live Blood Analysis, and more. Ancient wisdom meets modern science.",
-};
+export async function generateMetadata() {
+  return getPageMetadata("alternative-treatments", {
+    title:
+      "Alternative Treatments | Holistic Healing Therapies | Sri Sri Wellbeing Chennai",
+    description:
+      "Explore our specialized alternative treatment modalities at Sri Sri Wellbeing Chennai including Osteopathy, Ozone Therapy, Marma Chikitsa, Meru Chikitsa, Reflexology, Manual Lymphatic Drainage, and more. Ancient wisdom meets modern science.",
+  });
+}
 
 export default function AlternativeTreatmentsPage() {
   return (

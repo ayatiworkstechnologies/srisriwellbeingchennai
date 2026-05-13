@@ -18,7 +18,7 @@ const therapyCards = [
     image: "/images/ser-2.jpg",
   },
   {
-    title: "Marma Therapy",
+    title: "Marma Chikitsa",
     desc: "An Ayurvedic technique involving gentle stimulation of specific vital energy points on the body to improve energy flow, reduce stress, and support deep healing.",
     image: "/images/ser-3.jpg",
   },
@@ -45,7 +45,7 @@ const therapyCards = [
   {
     title: "Pain Management Therapies",
     desc: "Integrative treatments combining classical and contemporary therapies, including L&B pain management, to address chronic discomfort and restore natural mobility.",
-    image: "/images/ser-8.jpg",
+    image: "/images/heal/manual.png",
   },
 ];
 

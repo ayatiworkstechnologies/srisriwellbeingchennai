@@ -5,20 +5,20 @@ export const heroContent = {
     "Amidst modern science, today the wisdom of ancient Ayurveda and other Alternative Therapies have carved a niche for itself. These time-tested healing modalities form an integral part of our personalised treatment process.",
   ctaLabel: "Book a Consultation",
   ctaHref: "/contact",
-  image: "/banner/srisri-al-mob.png",
-  mobimage: "/banner/srisri-al-web.png",
+  image: "/banner/srisri-al-web.png",
+  mobimage: "/banner/srisri-al-mob.png",
   isOverlay: true,
 };
 
 export const highlights = [
   "Science-backed holistic therapies",
-  "14+ specialised treatment modalities",
+  "9+ specialised treatment modalities",
   "Personalised care plans for every patient",
 ];
 
 export const stats = [
   {
-    value: 14,
+    value: 9,
     suffix: "+",
     label: "Therapies",
     desc: "Specialised alternative\ntreatment modalities",
@@ -45,14 +45,6 @@ export const stats = [
 
 export const treatments = [
   {
-    id: "craniosacral",
-    name: "Craniosacral Therapy",
-    category: "Neurological",
-    shortDesc:
-      "A gentle hands-on approach that releases tensions deep in the body to relieve pain and dysfunction, improving whole-body health and performance.",
-    image: "/images/heal/craniosacral.png",
-  },
-  {
     id: "osteopathy",
     name: "Osteopathy",
     category: "Musculoskeletal",
@@ -67,22 +59,6 @@ export const treatments = [
     shortDesc:
       "A medical therapy that uses ozone gas to treat infections, wounds, and multiple diseases by inactivating bacteria, viruses, fungi, yeast, and protozoa.",
     image: "/images/heal/ozone.png",
-  },
-  {
-    id: "hydro-colon",
-    name: "Hydro Colon Therapy",
-    category: "Detoxification",
-    shortDesc:
-      "A safe and effective method for cleansing the colon of waste material by repeated gentle washings with warm filtered water, restoring digestive balance.",
-    image: "/images/heal/hydro.png",
-  },
-  {
-    id: "pdtr",
-    name: "P-DTR",
-    category: "Neuromuscular",
-    shortDesc:
-      "Proprioceptive Deep Tendon Reflex therapy addresses the sensory and neurological aspects of the body's functional dysfunctions for rapid pain relief and recovery.",
-    image: "/images/heal/p-dtr.png",
   },
   {
     id: "meru-chikitsa",
@@ -109,14 +85,6 @@ export const treatments = [
     image: "/images/heal/l&b.png",
   },
   {
-    id: "live-blood",
-    name: "Live Blood Analysis",
-    category: "Diagnostic",
-    shortDesc:
-      "A diagnostic technique using dark field microscopy to observe a single drop of live blood under a microscope, revealing the health of red and white blood cells.",
-    image: "/images/heal/live.png",
-  },
-  {
     id: "lymphatic",
     name: "Manual Lymphatic Drainage",
     category: "Lymphatic",
@@ -126,10 +94,10 @@ export const treatments = [
   },
   {
     id: "marma",
-    name: "Marma",
+    name: "Marma Chikitsa",
     category: "Ayurvedic",
     shortDesc:
-      "Marma therapy involves the stimulation of vital energy points on the body to activate the body's innate healing intelligence and restore the flow of prana.",
+      "Marma Chikitsa involves the stimulation of vital energy points on the body to activate the body's innate healing intelligence and restore the flow of prana.",
     image: "/images/heal/marma.png",
   },
   {
@@ -148,22 +116,9 @@ export const treatments = [
       "An innovative therapy that uses specific frequencies of light and sound to synchronise brain waves, reduce stress, and support mental and emotional wellness.",
     image: "/images/heal/light.png",
   },
-  {
-    id: "brain-dentistry",
-    name: "Brain Dentistry",
-    category: "Integrative",
-    shortDesc:
-      "An advanced approach that links dental health to brain and nervous system function, addressing neurological and physiological impacts of dental disorders on overall wellbeing.",
-    image: "/images/heal/brain.png",
-  },
 ];
 
 export const categoryColors = {
-  Neurological: {
-    bg: "bg-[#eef4fb]",
-    text: "text-[#2c6fad]",
-    border: "border-[#bed4ee]",
-  },
   Musculoskeletal: {
     bg: "bg-[#f3f0fb]",
     text: "text-[#6350c0]",
@@ -173,11 +128,6 @@ export const categoryColors = {
     bg: "bg-[#edfaf4]",
     text: "text-[#1e8a56]",
     border: "border-[#b5e5cd]",
-  },
-  Neuromuscular: {
-    bg: "bg-[#fef6e8]",
-    text: "text-[#b06b00]",
-    border: "border-[#f0d9a8]",
   },
   Ayurvedic: {
     bg: "bg-[#fdf4eb]",
@@ -194,11 +144,6 @@ export const categoryColors = {
     text: "text-[#1a7a6a]",
     border: "border-[#a8ddd6]",
   },
-  Diagnostic: {
-    bg: "bg-[#f5f5f5]",
-    text: "text-[#4a4a4a]",
-    border: "border-[#d0d0d0]",
-  },
   Lymphatic: {
     bg: "bg-[#ebf8fb]",
     text: "text-[#1a7a94]",
@@ -208,10 +153,5 @@ export const categoryColors = {
     bg: "bg-[#f0f0fb]",
     text: "text-[#4444bb]",
     border: "border-[#c0c0ef]",
-  },
-  Integrative: {
-    bg: "bg-[#fef4f4]",
-    text: "text-[#a03030]",
-    border: "border-[#ecc0c0]",
   },
 };

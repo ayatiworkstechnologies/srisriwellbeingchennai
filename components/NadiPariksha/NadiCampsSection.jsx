@@ -2,42 +2,45 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { FiSearch, FiPhone, FiCalendar } from "react-icons/fi";
+import { FiPhone, FiCalendar } from "react-icons/fi";
 import { SlLocationPin } from "react-icons/sl";
 import { FaChevronDown } from "react-icons/fa6";
 import { RiUserLocationLine } from "react-icons/ri";
 import RevealOnScroll from "../Main/RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
-
-import { camps } from "./nadiParikshaData";
+import { camps, featuredCities } from "./nadiParikshaData";
 
 const CampCard = ({ data }) => (
-  <div className="rounded-[20px] bg-white p-6 md:p-8 shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] h-fit">
+  <div className="h-fit rounded-[20px] bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] md:p-8">
     <h3 className="section-subtitle text-[#1f1a17]">{data.doctor}</h3>
-    <div className="mt-2 mb-6 h-[2px] w-[32px] bg-[#d0a93d]" />
+    <div className="mb-6 mt-2 h-[2px] w-[32px] bg-[#d0a93d]" />
 
     <div className="space-y-4">
       <div className="flex items-start gap-3">
-        <FiCalendar className="mt-0.5 text-[18px] text-[#d0a93d] shrink-0" />
+        <FiCalendar className="mt-0.5 shrink-0 text-[18px] text-[#d0a93d]" />
         <p className="small-text text-[#1f1a17]">{data.date}</p>
       </div>
 
       <div className="flex items-start gap-3">
-        <SlLocationPin className="mt-0.5 text-[18px] text-[#d0a93d] shrink-0" />
+        <SlLocationPin className="mt-0.5 shrink-0 text-[18px] text-[#d0a93d]" />
         <p className="small-text text-[#1f1a17]">{data.location}</p>
       </div>
 
       <div className="flex items-start gap-3">
-        <FiPhone className="mt-0.5 text-[18px] text-[#d0a93d] shrink-0" />
+        <FiPhone className="mt-0.5 shrink-0 text-[18px] text-[#d0a93d]" />
         <p className="small-text text-[#1f1a17]">{data.contact}</p>
       </div>
 
       <div className="flex items-start gap-3">
-        <RiUserLocationLine className="mt-0.5 text-[18px] text-[#d0a93d] shrink-0" />
-        <p className="small-text text-[#1f1a17] leading-relaxed">
+        <RiUserLocationLine className="mt-0.5 shrink-0 text-[18px] text-[#d0a93d]" />
+        <p className="small-text leading-relaxed text-[#1f1a17]">
           {data.address}
         </p>
       </div>
+    </div>
+
+    <div className="mt-6">
+      <WellnessButton href="/contact" label="Book Now" />
     </div>
   </div>
 );
@@ -63,9 +66,34 @@ export default function NadiCampsSection() {
   };
 
   return (
-    <section className="relative bg-[#f9f8f6] section-padding">
+    <section className="section-padding relative bg-[#f9f8f6]">
       <div className="container-width">
-        {/* Title */}
+        <RevealOnScroll className="mb-10 grid gap-4 md:grid-cols-2">
+          {featuredCities.map((city) => (
+            <div
+              key={city.name}
+              className="rounded-[24px] border border-[#eadfcf] bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)]"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <p className="text-xl font-semibold text-[#1f1a17]">
+                    {city.name}
+                  </p>
+                  <p className="mt-2 text-sm leading-relaxed text-[#6b6158]">
+                    {city.description}
+                  </p>
+                </div>
+                <span className="rounded-full bg-[#f5efe3] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#c79f31]">
+                  {city.tag}
+                </span>
+              </div>
+              <div className="mt-5">
+                <WellnessButton href="/contact" label="Book Now" />
+              </div>
+            </div>
+          ))}
+        </RevealOnScroll>
+
         <RevealOnScroll className="title-center mb-10 md:mb-12">
           <h2 className="section-title text-[#1f1a17]">
             Search Upcoming Nadi Camps
@@ -73,15 +101,13 @@ export default function NadiCampsSection() {
           <div className="mx-auto mt-4 h-[3px] w-[60px] rounded-full bg-[#d0a93d]" />
         </RevealOnScroll>
 
-        {/* Search Bar */}
         <RevealOnScroll delay={0.1}>
-          <div className="mx-auto max-w-[800px] mb-12 md:mb-16 flex flex-col md:flex-row items-center justify-center gap-4 md:gap-6">
-            {/* Dates Dropdown */}
+          <div className="mx-auto mb-12 flex max-w-[800px] flex-col items-center justify-center gap-4 md:mb-16 md:flex-row md:gap-6">
             <div className="relative w-full md:w-auto">
               <select
                 value={dateFilter}
                 onChange={(e) => setDateFilter(e.target.value)}
-                className="w-full appearance-none rounded-full border border-gray-200 bg-white px-6 py-3 md:py-3.5 pr-12 text-sm font-medium text-[#7a726c] shadow-sm outline-none focus:border-[#d0a93d] focus:ring-1 focus:ring-[#d0a93d]"
+                className="w-full appearance-none rounded-full border border-gray-200 bg-white px-6 py-3 pr-12 text-sm font-medium text-[#7a726c] shadow-sm outline-none focus:border-[#d0a93d] focus:ring-1 focus:ring-[#d0a93d] md:py-3.5"
               >
                 <option value="">All Dates</option>
                 <option value="today">Today</option>
@@ -89,41 +115,41 @@ export default function NadiCampsSection() {
                 <option value="this-month">This Month</option>
                 <option value="upcoming">Upcoming</option>
               </select>
-              <FaChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 text-[12px] text-[#d0a93d] pointer-events-none" />
+              <FaChevronDown className="pointer-events-none absolute right-6 top-1/2 -translate-y-1/2 text-[12px] text-[#d0a93d]" />
             </div>
 
-            {/* Search Input */}
             <div className="relative w-full md:flex-1">
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search Doctor, State, city..."
-                className="w-full rounded-full border border-gray-200 bg-white px-6 py-3 md:py-3.5 text-sm font-medium text-[#1f1a17] placeholder-[#7a726c] shadow-sm outline-none focus:border-[#d0a93d] focus:ring-1 focus:ring-[#d0a93d]"
+                placeholder="Search doctor, state, city..."
+                className="w-full rounded-full border border-gray-200 bg-white px-6 py-3 text-sm font-medium text-[#1f1a17] shadow-sm outline-none focus:border-[#d0a93d] focus:ring-1 focus:ring-[#d0a93d] placeholder-[#7a726c] md:py-3.5"
               />
             </div>
 
-            {/* Reset Button */}
             <button
               type="button"
               onClick={handleReset}
-              className="px-6 py-3 rounded-full bg-[#3b2218] text-white text-sm font-semibold hover:bg-[#c79f31] transition-colors duration-300"
+              className="rounded-full bg-[#3b2218] px-6 py-3 text-sm font-semibold text-white transition-colors duration-300 hover:bg-[#c79f31]"
             >
-              Reset ↺
+              Reset
             </button>
           </div>
         </RevealOnScroll>
 
-        {/* Grid Layout */}
         <div className="min-h-[400px]">
           <RevealOnScroll delay={0.2}>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start">
+            <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
               {filteredCamps.reduce((acc, card, index) => {
                 acc.push(<CampCard key={card.id} data={card} />);
-                // Add first image after 1st camp (position 2 in grid)
+
                 if (index === 0) {
                   acc.push(
-                    <div key="img-1" className="relative h-[280px] sm:h-[350px] w-full overflow-hidden rounded-[20px] shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+                    <div
+                      key="img-1"
+                      className="relative h-[280px] w-full overflow-hidden rounded-[20px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] sm:h-[350px]"
+                    >
                       <Image
                         src="/images/nadi/img-2.png"
                         alt="Nadi Pariksha Care"
@@ -134,10 +160,13 @@ export default function NadiCampsSection() {
                     </div>
                   );
                 }
-                // Add second image after 5th camp (position 8 in grid)
+
                 if (index === 5) {
                   acc.push(
-                    <div key="img-2" className="relative h-[280px] sm:h-[350px] w-full overflow-hidden rounded-[20px] shadow-[0_8px_30px_rgba(0,0,0,0.04)]">
+                    <div
+                      key="img-2"
+                      className="relative h-[280px] w-full overflow-hidden rounded-[20px] shadow-[0_8px_30px_rgba(0,0,0,0.04)] sm:h-[350px]"
+                    >
                       <Image
                         src="/images/nadi/img-6.png"
                         alt="Nadi Pariksha Wellness"
@@ -148,6 +177,7 @@ export default function NadiCampsSection() {
                     </div>
                   );
                 }
+
                 return acc;
               }, [])}
             </div>
@@ -155,8 +185,8 @@ export default function NadiCampsSection() {
         </div>
 
         {filteredCamps.length === 0 && (
-          <div className="text-center py-20">
-            <p className="text-[#7a726c] text-lg">
+          <div className="py-20 text-center">
+            <p className="text-lg text-[#7a726c]">
               No camps found matching your search.
             </p>
           </div>

@@ -6,8 +6,8 @@ export const heroContent = {
     "As per Ayurveda, Panchakarma is a foremost and vital detoxification process, which cleans the entire system. It is inclusive of Vamana, Virechana, Vasti, Nasya and Raktamokshana. The therapies help eliminate toxins, build the immune system, improve digestion, absorption, metabolism and vitality, and boost mental clarity.",
   ctaLabel: "Enquire Now",
   ctaHref: "/contact",
-  image: "/banner/srisri-panchakarma-mob.png",
-  mobimage: "/banner/srisri-panchakarma-web.png",
+  image: "/banner/srisri-panchakarma-web.png",
+  mobimage: "/banner/srisri-panchakarma-mob.png",
   isOverlay: true,
 };
 

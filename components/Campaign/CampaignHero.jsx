@@ -127,7 +127,7 @@ export default function CampaignHero() {
             </option>
             <option value="nadi-pariksha">Nadi Pariksha</option>
             <option value="panchakarma">Panchakarma Rituals</option>
-            <option value="marma-therapy">Marma Therapy</option>
+            <option value="marma-therapy">Marma Chikitsa</option>
             <option value="osteopathic">Osteopathic Therapy</option>
             <option value="ozone">Ozone Therapy</option>
             <option value="meru">Meru Therapy</option>

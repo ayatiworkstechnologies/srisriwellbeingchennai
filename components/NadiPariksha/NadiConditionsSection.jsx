@@ -28,9 +28,9 @@ export default function NadiConditionsSection() {
       </div>
 
       <div className="relative z-10 mx-auto w-[min(1100px,calc(100%-24px))] md:w-[min(1100px,calc(100%-40px))]">
-        <div className="flex flex-col items-center gap-12 md:flex-row md:items-center md:justify-between md:gap-16">
+        <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-center lg:justify-between lg:gap-16">
           {/* ── Left: Title + Conditions ── */}
-          <RevealOnScroll className="flex-shrink-0 pt-4 md:pt-0">
+          <RevealOnScroll className="w-full max-w-[640px] flex-shrink-0 pt-4 lg:max-w-none lg:pt-0">
             <h2 className="section-title leading-[1.2] text-white tracking-wide lg:text-[42px]">
               Find Ayurveda Solutions
               <br />
@@ -62,12 +62,33 @@ export default function NadiConditionsSection() {
           {/* ── Right: Stacked Cards ── */}
           <RevealOnScroll
             delay={0.2}
-            className="relative flex items-center justify-center mt-8 md:mt-0"
+            className="mt-8 flex w-full justify-center lg:mt-0 lg:w-auto"
           >
-            <div className="relative h-[340px] w-[300px] md:h-[400px] md:w-[360px]">
-              {/* Back card */}
+            <div className="grid w-full max-w-[760px] gap-5 md:grid-cols-2 lg:hidden">
+              {therapyCards.map((card) => (
+                <div
+                  key={card.title}
+                  className="overflow-hidden rounded-[20px] bg-white p-4 shadow-[0_18px_40px_rgba(0,0,0,0.24)]"
+                >
+                  <p className="section-subtitle mb-3 pl-1 text-left text-black">
+                    {card.title}
+                  </p>
+                  <div className="overflow-hidden rounded-[16px]">
+                    <Image
+                      src={card.image}
+                      alt={card.title}
+                      width={360}
+                      height={360}
+                      className="h-[250px] w-full object-cover object-center"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="relative hidden h-[400px] w-[360px] lg:block">
               <div
-                className="absolute top-0 right-0 z-10 transition-all duration-500 ease-out cursor-pointer"
+                className="absolute top-0 right-0 z-10 cursor-pointer transition-all duration-500 ease-out"
                 style={{
                   transform:
                     hoveredCard === 0
@@ -77,25 +98,24 @@ export default function NadiConditionsSection() {
                 onMouseEnter={() => setHoveredCard(0)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <div className="overflow-hidden rounded-[16px] bg-white p-3 shadow-[0_14px_44px_rgba(0,0,0,0.30)] md:rounded-[20px] md:p-4">
+                <div className="overflow-hidden rounded-[20px] bg-white p-4 shadow-[0_14px_44px_rgba(0,0,0,0.30)]">
                   <p className="section-subtitle mb-3 pl-1 text-left text-black">
                     {therapyCards[0].title}
                   </p>
-                  <div className="overflow-hidden rounded-[12px] md:rounded-[16px]">
+                  <div className="overflow-hidden rounded-[16px]">
                     <Image
                       src={therapyCards[0].image}
                       alt={therapyCards[0].title}
-                      width={280}
+                      width={320}
                       height={320}
-                      className="h-[260px] w-[260px] object-cover object-center md:h-[320px] md:w-[320px]"
+                      className="h-[320px] w-[320px] object-cover object-center"
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Front card */}
               <div
-                className="absolute top-[40px] left-0 z-20 transition-all duration-500 ease-out cursor-pointer md:top-[50px]"
+                className="absolute left-0 top-[50px] z-20 cursor-pointer transition-all duration-500 ease-out"
                 style={{
                   transform:
                     hoveredCard === 1
@@ -105,17 +125,17 @@ export default function NadiConditionsSection() {
                 onMouseEnter={() => setHoveredCard(1)}
                 onMouseLeave={() => setHoveredCard(null)}
               >
-                <div className="overflow-hidden rounded-[16px] bg-white p-3 shadow-[0_18px_50px_rgba(0,0,0,0.35)] md:rounded-[20px] md:p-4">
+                <div className="overflow-hidden rounded-[20px] bg-white p-4 shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
                   <p className="section-subtitle mb-3 pl-1 text-left text-black">
                     {therapyCards[1].title}
                   </p>
-                  <div className="overflow-hidden rounded-[12px] md:rounded-[16px]">
+                  <div className="overflow-hidden rounded-[16px]">
                     <Image
                       src={therapyCards[1].image}
                       alt={therapyCards[1].title}
-                      width={280}
+                      width={320}
                       height={320}
-                      className="h-[260px] w-[260px] object-cover object-center md:h-[320px] md:w-[320px]"
+                      className="h-[320px] w-[320px] object-cover object-center"
                     />
                   </div>
                 </div>

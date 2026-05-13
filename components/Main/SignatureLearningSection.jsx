@@ -27,7 +27,7 @@ const experiences = [
     title: "Marma Chikitsa",
     desc: "An ancient Ayurvedic science that stimulates vital energy points to enhance vitality and inner balance.",
     num: "03",
-    image: "/images/sig-3.jpg",
+    image: "/images/alt-marma.png",
     icon: "/images/ico-3.svg",
     accent: "#c29a2f",
   },
@@ -46,7 +46,7 @@ const experiences = [
 /* ------------------------------------------------------------------ */
 function HorizontalCard({ item }) {
   return (
-    <div className="w-[85vw] max-w-[1100px] flex-shrink-0 snap-center px-3 md:px-5">
+    <div className="w-[85vw] max-w-[1100px] flex-shrink-0 snap-center px-3 md:w-[82vw] md:px-4 xl:w-[76vw]">
       <div className="group relative grid h-[400px] w-full overflow-hidden rounded-[28px] bg-white shadow-[0_24px_60px_rgba(0,0,0,0.10)] md:h-[440px] md:grid-cols-[1.1fr_1fr]">
         {/* Left — Image */}
         <div className="relative h-[180px] overflow-hidden md:h-full">
@@ -203,7 +203,7 @@ export default function SignatureLearningSection() {
         <button
           onClick={scrollPrev}
           disabled={activeIndex === 0}
-          className="absolute left-2 top-1/2 z-30 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 disabled:opacity-30 md:flex md:h-12 md:w-12"
+          className="absolute left-3 top-1/2 z-30 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 disabled:opacity-30 lg:flex lg:h-12 lg:w-12"
           aria-label="Previous card"
         >
           <FaChevronLeft className="text-[16px] text-[#c29a2f]" />
@@ -212,7 +212,7 @@ export default function SignatureLearningSection() {
         <button
           onClick={scrollNext}
           disabled={activeIndex === totalCards - 1}
-          className="absolute right-2 top-1/2 z-30 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 disabled:opacity-30 md:flex md:h-12 md:w-12"
+          className="absolute right-3 top-1/2 z-30 hidden -translate-y-1/2 items-center justify-center rounded-full bg-white shadow-lg transition-all duration-300 hover:scale-110 disabled:opacity-30 lg:flex lg:h-12 lg:w-12"
           aria-label="Next card"
         >
           <FaChevronRight className="text-[16px] text-[#c29a2f]" />
@@ -221,7 +221,7 @@ export default function SignatureLearningSection() {
         {/* Scrollable container */}
         <div
           ref={scrollRef}
-          className="flex snap-x snap-mandatory gap-0 overflow-x-auto scroll-smooth pb-2 pl-[7.5vw] pr-[7.5vw] scrollbar-hide"
+          className="flex snap-x snap-mandatory gap-0 overflow-x-auto scroll-smooth pb-2 pl-[7.5vw] pr-[7.5vw] scrollbar-hide md:pl-[6vw] md:pr-[6vw] xl:pl-[8vw] xl:pr-[8vw]"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {experiences.map((item) => (

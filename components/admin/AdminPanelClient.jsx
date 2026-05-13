@@ -8,6 +8,8 @@ import {
   API_BASE_URL,
   createAdminTherapist,
   deleteAdminBooking,
+  deleteAdminCategory,
+  deleteAdminNadiCamp,
   createAdminUser,
   deleteAdminTherapist,
   deleteAdminRelaxationTherapy,
@@ -16,6 +18,7 @@ import {
   loginAdmin,
   deleteAdminInquiry,
   getAdminEmailSettings,
+  getAdminPageMetaSettings,
   requestAdminPasswordReset,
   sendAdminBookingEmail,
   sendAdminInquiryEmail,
@@ -23,6 +26,7 @@ import {
   updateAdminInquiry,
   updateAdminBooking,
   updateAdminEmailSettings,
+  updateAdminPageMetaSetting,
   updateAdminUser,
 } from "@/lib/api";
 
@@ -35,24 +39,28 @@ import {
   formatTime,
   getUniqueInquirySources,
   loadAdminData,
+  parseAdminDate,
   refreshAdminData,
   submitEntity,
   toTitleCase,
 } from "./admin-data";
 import {
   advancedBookingStatusOptions,
+  initialNadiCampForm,
+  contentCategoryOptions,
+  initialCategoryForm,
   initialAdminUserForm,
   initialCredentials,
   initialRelaxationTherapyForm,
   initialServiceForm,
   initialTeamForm,
   initialTherapistForm,
+  nadiCampStatusOptions,
 } from "./admin-form-defaults";
 import {
   EntityPanel,
   Field,
   FieldInline,
-  FlashMessage,
   FormModal,
   InfoStrip,
   PanelCard,
@@ -60,6 +68,7 @@ import {
   RecordCard,
   StatCard,
   SummaryTile,
+  ToastStack,
   ToggleRow,
   inputClass,
   primaryButtonClass,
@@ -96,6 +105,11 @@ function normalizeListValue(value) {
   }
 
   return [];
+}
+
+function normalizeContentCategory(value, fallback) {
+  const normalized = normalizeTextValue(value, fallback).toLowerCase();
+  return normalized || fallback;
 }
 
 function splitEmailInput(value) {
@@ -158,20 +172,28 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
   const [isInitializing, setIsInitializing] = useState(true);
   const [inquiries, setInquiries] = useState([]);
   const [services, setServices] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [nadiCamps, setNadiCamps] = useState([]);
   const [relaxationTherapies, setRelaxationTherapies] = useState([]);
   const [therapists, setTherapists] = useState([]);
   const [adminUsers, setAdminUsers] = useState([]);
   const [bookings, setBookings] = useState([]);
   const [serviceForm, setServiceForm] = useState(initialServiceForm);
+  const [categoryForm, setCategoryForm] = useState(initialCategoryForm);
+  const [nadiCampForm, setNadiCampForm] = useState(initialNadiCampForm);
   const [relaxationTherapyForm, setRelaxationTherapyForm] = useState(initialRelaxationTherapyForm);
   const [therapistForm, setTherapistForm] = useState(initialTherapistForm);
   const [adminUserForm, setAdminUserForm] = useState(initialAdminUserForm);
   const [teamForm, setTeamForm] = useState(initialTeamForm);
   const [editingServiceId, setEditingServiceId] = useState(null);
+  const [editingCategoryId, setEditingCategoryId] = useState(null);
+  const [editingNadiCampId, setEditingNadiCampId] = useState(null);
   const [editingRelaxationTherapyId, setEditingRelaxationTherapyId] = useState(null);
   const [editingTherapistId, setEditingTherapistId] = useState(null);
   const [editingAdminUserId, setEditingAdminUserId] = useState(null);
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
+  const [isNadiCampModalOpen, setIsNadiCampModalOpen] = useState(false);
   const [isRelaxationTherapyModalOpen, setIsRelaxationTherapyModalOpen] = useState(false);
   const [isTherapistModalOpen, setIsTherapistModalOpen] = useState(false);
   const [isAdminUserModalOpen, setIsAdminUserModalOpen] = useState(false);
@@ -179,10 +201,13 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
   const [statusFilter, setStatusFilter] = useState("all");
   const [inquiryStatusFilter, setInquiryStatusFilter] = useState("all");
   const [inquirySourceFilter, setInquirySourceFilter] = useState("all");
+  const [serviceCategoryFilter, setServiceCategoryFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [toasts, setToasts] = useState([]);
+  const [confirmAction, setConfirmAction] = useState(null);
   const [lastLoadedAt, setLastLoadedAt] = useState(null);
   const [isEmailModalOpen, setIsEmailModalOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
@@ -197,7 +222,14 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     booking_to_emails: "",
     booking_cc_emails: "",
     booking_bcc_emails: "",
+    inquiry_to_emails: "",
+    inquiry_cc_emails: "",
+    inquiry_bcc_emails: "",
+    inquiry_auto_reply_enabled: true,
+    inquiry_auto_reply_subject: "",
+    inquiry_auto_reply_message: "",
   });
+  const [pageMetaSettings, setPageMetaSettings] = useState([]);
   const [inquiryEmailForm, setInquiryEmailForm] = useState({
     to: "",
     cc: "",
@@ -257,6 +289,57 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     () => adminUsers.filter((item) => item.role === "doctor" || item.role === "therapist"),
     [adminUsers]
   );
+  const filteredServices = useMemo(() => {
+    if (serviceCategoryFilter === "all") {
+      return services;
+    }
+    return services.filter((item) => (item.category || "main") === serviceCategoryFilter);
+  }, [serviceCategoryFilter, services]);
+  const categoryOptions = useMemo(() => {
+    if (categories.length > 0) {
+      return categories.map((item) => ({ value: item.slug, label: item.label }));
+    }
+    return contentCategoryOptions;
+  }, [categories]);
+
+  useEffect(() => {
+    if (!errorMessage && !successMessage) return;
+
+    const activeMessage = errorMessage || successMessage;
+    const tone = errorMessage ? "error" : "success";
+    const toastId = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    setToasts((current) => [...current.slice(-3), { id: toastId, tone, message: activeMessage }]);
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    const timeout = window.setTimeout(() => {
+      setToasts((current) => current.filter((toast) => toast.id !== toastId));
+    }, 4500);
+
+    return () => window.clearTimeout(timeout);
+  }, [errorMessage, successMessage]);
+
+  const dismissToast = (toastId) => {
+    setToasts((current) => current.filter((toast) => toast.id !== toastId));
+  };
+
+  const closeConfirmModal = () => {
+    setConfirmAction(null);
+  };
+
+  const openConfirmModal = ({ title, subtitle, message, confirmLabel = "Yes", tone = "danger", onConfirm }) => {
+    setConfirmAction({ title, subtitle, message, confirmLabel, tone, onConfirm });
+  };
+  const serviceCategoryCounts = useMemo(() => {
+    const counts = {
+      all: services.length,
+    };
+    categoryOptions.forEach((option) => {
+      counts[option.value] = services.filter((item) => (item.category || "main") === option.value).length;
+    });
+    return counts;
+  }, [categoryOptions, services]);
 
   useEffect(() => {
     const savedToken = window.localStorage.getItem("ssw-admin-token");
@@ -288,6 +371,8 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       inquirySourceFilter,
       setInquiries,
       setServices,
+      setCategories,
+      setNadiCamps,
       setRelaxationTherapies,
       setTherapists,
       setAdminUsers: userProfile?.role === "super_admin" ? setAdminUsers : null,
@@ -308,10 +393,26 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
           booking_to_emails: joinEmailList(settings.booking_to_emails),
           booking_cc_emails: joinEmailList(settings.booking_cc_emails),
           booking_bcc_emails: joinEmailList(settings.booking_bcc_emails),
+          inquiry_to_emails: joinEmailList(settings.inquiry_to_emails),
+          inquiry_cc_emails: joinEmailList(settings.inquiry_cc_emails),
+          inquiry_bcc_emails: joinEmailList(settings.inquiry_bcc_emails),
+          inquiry_auto_reply_enabled: Boolean(settings.inquiry_auto_reply_enabled),
+          inquiry_auto_reply_subject: settings.inquiry_auto_reply_subject || "",
+          inquiry_auto_reply_message: settings.inquiry_auto_reply_message || "",
         });
       })
       .catch((error) => {
         setErrorMessage(error.message || "Unable to load email settings.");
+      });
+  }, [token, userProfile?.role]);
+
+  useEffect(() => {
+    if (!token || userProfile?.role !== "super_admin") return;
+
+    getAdminPageMetaSettings(token)
+      .then((items) => setPageMetaSettings(items || []))
+      .catch((error) => {
+        setErrorMessage(error.message || "Unable to load page meta settings.");
       });
   }, [token, userProfile?.role]);
 
@@ -325,6 +426,8 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       inquirySourceFilter,
       setInquiries,
       setServices,
+      setCategories,
+      setNadiCamps,
       setRelaxationTherapies,
       setTherapists,
       setAdminUsers: userProfile?.role === "super_admin" ? setAdminUsers : null,
@@ -483,6 +586,20 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     }
   };
 
+  const requestBookingLifecycleChange = (id, payload, message) => {
+    openConfirmModal({
+      title: "Update booking status",
+      subtitle: "Confirm this booking change before continuing.",
+      message,
+      confirmLabel: "Yes, update",
+      tone: "success",
+      onConfirm: async () => {
+        closeConfirmModal();
+        await handleBookingLifecycleChange(id, payload);
+      },
+    });
+  };
+
   const handleEmailSettingsSubmit = async (event) => {
     event.preventDefault();
     setIsSubmitting(true);
@@ -494,11 +611,23 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
         booking_to_emails: splitEmailInput(emailSettingsForm.booking_to_emails),
         booking_cc_emails: splitEmailInput(emailSettingsForm.booking_cc_emails),
         booking_bcc_emails: splitEmailInput(emailSettingsForm.booking_bcc_emails),
+        inquiry_to_emails: splitEmailInput(emailSettingsForm.inquiry_to_emails),
+        inquiry_cc_emails: splitEmailInput(emailSettingsForm.inquiry_cc_emails),
+        inquiry_bcc_emails: splitEmailInput(emailSettingsForm.inquiry_bcc_emails),
+        inquiry_auto_reply_enabled: Boolean(emailSettingsForm.inquiry_auto_reply_enabled),
+        inquiry_auto_reply_subject: emailSettingsForm.inquiry_auto_reply_subject,
+        inquiry_auto_reply_message: emailSettingsForm.inquiry_auto_reply_message,
       });
       setEmailSettingsForm({
         booking_to_emails: joinEmailList(settings.booking_to_emails),
         booking_cc_emails: joinEmailList(settings.booking_cc_emails),
         booking_bcc_emails: joinEmailList(settings.booking_bcc_emails),
+        inquiry_to_emails: joinEmailList(settings.inquiry_to_emails),
+        inquiry_cc_emails: joinEmailList(settings.inquiry_cc_emails),
+        inquiry_bcc_emails: joinEmailList(settings.inquiry_bcc_emails),
+        inquiry_auto_reply_enabled: Boolean(settings.inquiry_auto_reply_enabled),
+        inquiry_auto_reply_subject: settings.inquiry_auto_reply_subject || "",
+        inquiry_auto_reply_message: settings.inquiry_auto_reply_message || "",
       });
       setSuccessMessage("Email notification settings updated.");
     } catch (error) {
@@ -520,6 +649,46 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handlePageMetaSettingChange = (id, field, value) => {
+    setPageMetaSettings((current) =>
+      current.map((item) => (item.id === id ? { ...item, [field]: value } : item))
+    );
+  };
+
+  const handlePageMetaSettingSave = async (item) => {
+    setIsSubmitting(true);
+    setErrorMessage("");
+    try {
+      const updated = await updateAdminPageMetaSetting(token, item.id, {
+        page_key: item.page_key,
+        page_path: item.page_path,
+        title: item.title,
+        description: item.description,
+        is_active: Boolean(item.is_active),
+      });
+      setPageMetaSettings((current) => current.map((entry) => (entry.id === item.id ? updated : entry)));
+      setSuccessMessage(`Meta updated for ${item.page_path}.`);
+    } catch (error) {
+      setErrorMessage(error.message || "Unable to update page meta.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const requestInquiryStatusChange = (id, status) => {
+    openConfirmModal({
+      title: "Update enquiry status",
+      subtitle: "Confirm this enquiry status change before continuing.",
+      message: `Change enquiry status to ${toTitleCase(status)}?`,
+      confirmLabel: "Yes, update",
+      tone: "success",
+      onConfirm: async () => {
+        closeConfirmModal();
+        await handleInquiryStatusChange(id, status);
+      },
+    });
   };
 
   const makeSubmitHandler = ({
@@ -572,6 +741,47 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       initialForm: initialServiceForm,
       setEditingId: setEditingServiceId,
       label: "Service",
+    });
+  }
+
+  const handleCategorySubmit = handleCategorySubmitInternal();
+  function handleCategorySubmitInternal() {
+    return makeSubmitHandler({
+      editingId: editingCategoryId,
+      type: "categories",
+      form: categoryForm,
+      transformPayload: (payload) => ({
+        ...payload,
+        slug: normalizeTextValue(payload.slug).toLowerCase(),
+        label: normalizeTextValue(payload.label),
+        description: normalizeTextValue(payload.description),
+      }),
+      setForm: setCategoryForm,
+      initialForm: initialCategoryForm,
+      setEditingId: setEditingCategoryId,
+      label: "Category",
+    });
+  }
+
+  const handleNadiCampSubmit = handleNadiCampSubmitInternal();
+  function handleNadiCampSubmitInternal() {
+    return makeSubmitHandler({
+      editingId: editingNadiCampId,
+      type: "nadi-camps",
+      form: nadiCampForm,
+      transformPayload: (payload) => ({
+        ...payload,
+        doctor: normalizeTextValue(payload.doctor),
+        camp_date: normalizeTextValue(payload.camp_date),
+        location: normalizeTextValue(payload.location),
+        contact: normalizeTextValue(payload.contact),
+        address: normalizeTextValue(payload.address),
+        status: normalizeTextValue(payload.status, "active"),
+      }),
+      setForm: setNadiCampForm,
+      initialForm: initialNadiCampForm,
+      setEditingId: setEditingNadiCampId,
+      label: "Nadi camp",
     });
   }
 
@@ -722,15 +932,24 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     }
   };
 
-  const handleDelete = async (deleteFn, id, label) => {
-    if (!window.confirm(`Are you sure you want to delete this ${label}?`)) return;
-    try {
-      await deleteFn(token, id);
-      setSuccessMessage(`${label} deleted successfully.`);
-      refresh();
-    } catch (error) {
-      setErrorMessage(error.message || `Failed to delete ${label}.`);
-    }
+  const handleDelete = (deleteFn, id, label) => {
+    openConfirmModal({
+      title: `Delete ${label}`,
+      subtitle: "This action removes the selected item from the admin system.",
+      message: `Are you sure you want to delete this ${label.toLowerCase()}? This action cannot be undone.`,
+      confirmLabel: "Yes, delete",
+      tone: "danger",
+      onConfirm: async () => {
+        closeConfirmModal();
+        try {
+          await deleteFn(token, id);
+          setSuccessMessage(`${label} deleted successfully.`);
+          refresh();
+        } catch (error) {
+          setErrorMessage(error.message || `Failed to delete ${label}.`);
+        }
+      },
+    });
   };
 
   const closeServiceModal = () => {
@@ -739,16 +958,41 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     setServiceForm(initialServiceForm);
   };
 
+  const closeCategoryModal = () => {
+    setIsCategoryModalOpen(false);
+    setEditingCategoryId(null);
+    setCategoryForm(initialCategoryForm);
+  };
+
+  const closeNadiCampModal = () => {
+    setIsNadiCampModalOpen(false);
+    setEditingNadiCampId(null);
+    setNadiCampForm(initialNadiCampForm);
+  };
+
   const openServiceCreateModal = () => {
     setEditingServiceId(null);
     setServiceForm(initialServiceForm);
     setIsServiceModalOpen(true);
   };
 
+  const openCategoryCreateModal = () => {
+    setEditingCategoryId(null);
+    setCategoryForm(initialCategoryForm);
+    setIsCategoryModalOpen(true);
+  };
+
+  const openNadiCampCreateModal = () => {
+    setEditingNadiCampId(null);
+    setNadiCampForm(initialNadiCampForm);
+    setIsNadiCampModalOpen(true);
+  };
+
   const openServiceEditModal = (item) => {
     setEditingServiceId(item.id);
     setServiceForm({
       title: normalizeTextValue(item.title),
+      category: normalizeContentCategory(item.category, initialServiceForm.category),
       short_description: normalizeTextValue(item.short_description ?? item.shortDescription),
       description: normalizeTextValue(item.description),
       benefits: normalizeListValue(item.benefits).length ? [...normalizeListValue(item.benefits)] : [""],
@@ -757,6 +1001,33 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       is_active: Boolean(item.is_active),
     });
     setIsServiceModalOpen(true);
+  };
+
+  const openCategoryEditModal = (item) => {
+    setEditingCategoryId(item.id);
+    setCategoryForm({
+      slug: normalizeTextValue(item.slug),
+      label: normalizeTextValue(item.label),
+      description: normalizeTextValue(item.description),
+      sort_order: item.sort_order ?? 0,
+      is_active: Boolean(item.is_active),
+    });
+    setIsCategoryModalOpen(true);
+  };
+
+  const openNadiCampEditModal = (item) => {
+    setEditingNadiCampId(item.id);
+    setNadiCampForm({
+      doctor: normalizeTextValue(item.doctor),
+      camp_date: normalizeTextValue(item.camp_date),
+      location: normalizeTextValue(item.location),
+      contact: normalizeTextValue(item.contact),
+      address: normalizeTextValue(item.address),
+      status: normalizeTextValue(item.status, initialNadiCampForm.status),
+      sort_order: item.sort_order ?? 0,
+      is_active: Boolean(item.is_active),
+    });
+    setIsNadiCampModalOpen(true);
   };
 
   const updateServiceBenefit = (index, value) => {
@@ -896,6 +1167,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     setEditingRelaxationTherapyId(item.id);
     setRelaxationTherapyForm({
       title: normalizeTextValue(item.title),
+      category: normalizeContentCategory(item.category, initialRelaxationTherapyForm.category),
       duration: normalizeTextValue(item.duration),
       short_description: normalizeTextValue(item.short_description ?? item.shortDescription),
       details: normalizeTextValue(item.details),
@@ -935,6 +1207,8 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     inquiries: inquiries.length,
     bookings: bookings.length,
     services: services.length,
+    categories: categories.length,
+    "nadi-camps": nadiCamps.length,
     team: therapists.length + adminUsers.length,
     "relaxation-therapies": relaxationTherapies.length,
   };
@@ -965,6 +1239,41 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
         />
       ) : (
         <div ref={contentRef} className="animate-in fade-in duration-700">
+          <ToastStack toasts={toasts} onDismiss={dismissToast} />
+          <FormModal
+            open={Boolean(confirmAction)}
+            title={confirmAction?.title || "Confirm action"}
+            subtitle={confirmAction?.subtitle || "Please confirm this action before continuing."}
+            onClose={closeConfirmModal}
+          >
+            <div className="grid gap-6">
+              <div
+                className={`rounded-[1.4rem] px-5 py-4 text-sm leading-6 ${
+                  confirmAction?.tone === "success"
+                    ? "border border-[#cfe1d8] bg-[#f4faf6] text-[#19564f]"
+                    : "border border-[#f0d6d1] bg-[#fff7f5] text-[#8c4a3d]"
+                }`}
+              >
+                {confirmAction?.message || "Are you sure you want to continue?"}
+              </div>
+              <div className="flex flex-wrap justify-end gap-3">
+                <button type="button" onClick={closeConfirmModal} className={secondaryButtonClass}>
+                  No
+                </button>
+                <button
+                  type="button"
+                  onClick={() => confirmAction?.onConfirm?.()}
+                  className={`inline-flex h-11 items-center justify-center rounded-lg px-5 text-sm font-semibold text-white ${
+                    confirmAction?.tone === "success"
+                      ? "bg-[#1f6b5c] hover:bg-[#175245]"
+                      : "border border-[#efb8ac] bg-[#b35342] hover:bg-[#9f3e2f]"
+                  }`}
+                >
+                  {confirmAction?.confirmLabel || "Yes"}
+                </button>
+              </div>
+            </div>
+          </FormModal>
           <div className="flex flex-col gap-8">
             {/* Header Section */}
             <div className="rounded-2xl border border-[#dbe7e1] bg-white p-6 shadow-sm">
@@ -999,10 +1308,6 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
               <InfoStrip title="Expert Network" value={therapists.length} detail="Qualified experts available for therapy assignments." />
             </div>
 
-            {/* Alerts */}
-            {errorMessage ? <FlashMessage tone="error" message={errorMessage} /> : null}
-            {successMessage ? <FlashMessage tone="success" message={successMessage} /> : null}
-
             {/* Main Content Area */}
             <div className="pt-4">
               {resolvedSection === "inquiries" ? (
@@ -1017,6 +1322,14 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                   handleDelete={handleDelete}
                   openInquiryEmailModal={openInquiryEmailModal}
                   downloadInquiriesCsv={downloadInquiriesCsv}
+                />
+              ) : null}
+
+              {resolvedSection === "dashboard" ? (
+                <DashboardPanel
+                  bookings={bookings}
+                  therapists={therapists}
+                  role={userProfile?.role}
                 />
               ) : null}
 
@@ -1046,13 +1359,98 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                   onAction={openServiceCreateModal}
                   saveLabel="Service"
                   listingTitle="Service Catalog"
-                  listingSubtitle={`Total of ${services.length} services managed.`}
-                  items={services}
+                  listingSubtitle={`Showing ${filteredServices.length} of ${services.length} services.`}
+                  items={filteredServices}
+                  headerContent={(
+                    <div className="grid gap-5">
+                      <div className="flex flex-wrap items-center justify-between gap-3 rounded-[1.4rem] border border-[#dbe7e1] bg-[linear-gradient(180deg,#fbfdfc,#f4faf6)] p-4">
+                        <div>
+                          <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#7d948c]">Category management</p>
+                          <p className="mt-2 text-sm text-[#5f726c]">
+                            Create category tabs here, then use them in services and therapy records.
+                          </p>
+                        </div>
+                        <div className="flex flex-wrap gap-3">
+                          <button
+                            type="button"
+                            onClick={openCategoryCreateModal}
+                            className={secondaryButtonClass}
+                          >
+                            Add Category
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => router.push("/admin/categories")}
+                            className={primaryButtonClass}
+                          >
+                            Open Category CRUD
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                        {categoryOptions.map((option) => {
+                          const categoryItem = categories.find((item) => item.slug === option.value);
+                          return (
+                            <button
+                              key={option.value}
+                              type="button"
+                              onClick={() => {
+                                setServiceCategoryFilter(option.value);
+                                if (categoryItem) {
+                                  openCategoryEditModal(categoryItem);
+                                }
+                              }}
+                              className="rounded-[1.3rem] border border-[#dbe7e1] bg-white px-4 py-4 text-left transition hover:bg-[#f8fbf9]"
+                            >
+                              <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-[#7d948c]">
+                                {option.label}
+                              </p>
+                              <p className="mt-2 text-2xl font-semibold tracking-tight text-[#18332e]">
+                                {serviceCategoryCounts[option.value] || 0}
+                              </p>
+                              <p className="mt-2 text-xs leading-5 text-[#60746e]">
+                                {categoryItem?.description || `Filter services in ${option.label}.`}
+                              </p>
+                            </button>
+                          );
+                        })}
+                      </div>
+
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setServiceCategoryFilter("all")}
+                          className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                            serviceCategoryFilter === "all"
+                              ? "border-[#1f6b5c] bg-[#eef8f4] text-[#19564f]"
+                              : "border-[#dbe7e1] bg-white text-[#4e635d] hover:bg-[#f8fbf9]"
+                          }`}
+                        >
+                          All ({serviceCategoryCounts.all || 0})
+                        </button>
+                        {categoryOptions.map((option) => (
+                          <button
+                            key={option.value}
+                            type="button"
+                            onClick={() => setServiceCategoryFilter(option.value)}
+                            className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                              serviceCategoryFilter === option.value
+                                ? "border-[#1f6b5c] bg-[#eef8f4] text-[#19564f]"
+                                : "border-[#dbe7e1] bg-white text-[#4e635d] hover:bg-[#f8fbf9]"
+                            }`}
+                          >
+                            {option.label} ({serviceCategoryCounts[option.value] || 0})
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                   renderItem={(item) => (
                     <RecordCard
                       key={item.id}
                       title={item.title}
-                      meta={`Order ${item.sort_order} | ${item.is_active ? "Published" : "Draft"}`}
+                      meta={`${toTitleCase(item.category || "main")} | Order ${item.sort_order} | ${item.is_active ? "Published" : "Draft"}`}
                       body={`${item.short_description || item.shortDescription || ""}\n\n${item.description || ""}\n\nBenefits:\n${normalizeListValue(item.benefits).map((benefit) => `- ${benefit}`).join("\n") || "- Not added"}`}
                       extra={item.image}
                       onEdit={() => openServiceEditModal(item)}
@@ -1079,6 +1477,22 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                         className={inputClass}
                         required
                       />
+                    </Field>
+                    <Field label="Category">
+                      <select
+                        value={serviceForm.category}
+                        onChange={(event) =>
+                          setServiceForm((current) => ({ ...current, category: event.target.value }))
+                        }
+                        className={selectClass}
+                        required
+                      >
+                        {categoryOptions.map((option) => (
+                          <option key={option.value} value={option.value}>
+                            {option.label}
+                          </option>
+                        ))}
+                      </select>
                     </Field>
                     <Field label="Image Asset">
                       <input
@@ -1175,6 +1589,191 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                     </div>
                   </form>
                 </FormModal>
+                </>
+              ) : null}
+
+              {resolvedSection === "categories" ? (
+                <>
+                  <EntityPanel
+                    eyebrow="Content API"
+                    title={editingCategoryId ? "Edit Category" : "New Category"}
+                    subtitle="Create and maintain frontend content categories used in service and therapy modules."
+                    hideForm
+                    actionLabel="Add Category"
+                    onAction={openCategoryCreateModal}
+                    saveLabel="Category"
+                    listingTitle="Category Catalog"
+                    listingSubtitle={`Total of ${categories.length} categories managed.`}
+                    items={categories}
+                    renderItem={(item) => (
+                      <RecordCard
+                        key={item.id}
+                        title={item.label}
+                        meta={`${item.slug} | Order ${item.sort_order} | ${item.is_active ? "Active" : "Inactive"}`}
+                        body={item.description || "No description added"}
+                        extra={`Slug: ${item.slug}`}
+                        onEdit={() => openCategoryEditModal(item)}
+                        onDelete={() => handleDelete(deleteAdminCategory, item.id, "Category")}
+                      />
+                    )}
+                  />
+                  <FormModal
+                    open={isCategoryModalOpen}
+                    title={editingCategoryId ? "Edit category" : "Add category"}
+                    subtitle="Create or update a content category shown in admin filters and dropdowns."
+                    onClose={closeCategoryModal}
+                  >
+                    <form
+                      onSubmit={async (event) => {
+                        const success = await handleCategorySubmit(event);
+                        if (success) closeCategoryModal();
+                      }}
+                      className="grid gap-5"
+                    >
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <Field label="Category Label">
+                          <input
+                            value={categoryForm.label}
+                            onChange={(event) =>
+                              setCategoryForm((current) => ({ ...current, label: event.target.value }))
+                            }
+                            className={inputClass}
+                            required
+                          />
+                        </Field>
+                        <Field label="Slug">
+                          <input
+                            value={categoryForm.slug}
+                            onChange={(event) =>
+                              setCategoryForm((current) => ({ ...current, slug: event.target.value }))
+                            }
+                            className={inputClass}
+                            placeholder="main"
+                            required
+                          />
+                        </Field>
+                      </div>
+                      <Field label="Description">
+                        <textarea
+                          value={categoryForm.description}
+                          onChange={(event) =>
+                            setCategoryForm((current) => ({ ...current, description: event.target.value }))
+                          }
+                          className={textAreaClass}
+                          rows="4"
+                        />
+                      </Field>
+                      <Field label="Sort Order">
+                        <input
+                          type="number"
+                          min="0"
+                          value={categoryForm.sort_order}
+                          onChange={(event) =>
+                            setCategoryForm((current) => ({ ...current, sort_order: event.target.value }))
+                          }
+                          className={inputClass}
+                          required
+                        />
+                      </Field>
+                      <ToggleRow
+                        checked={categoryForm.is_active}
+                        onChange={(value) => setCategoryForm((current) => ({ ...current, is_active: value }))}
+                        label="Active category"
+                      />
+                      <div className="flex flex-wrap gap-4 pt-2">
+                        <button type="submit" disabled={isSubmitting} className={primaryButtonClass}>
+                          {isSubmitting ? "Saving..." : editingCategoryId ? "Update Category" : "Create Category"}
+                        </button>
+                        <button type="button" onClick={closeCategoryModal} className={secondaryButtonClass}>
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  </FormModal>
+                </>
+              ) : null}
+
+              {resolvedSection === "nadi-camps" ? (
+                <>
+                  <EntityPanel
+                    eyebrow="Content API"
+                    title={editingNadiCampId ? "Edit Nadi Camp" : "New Nadi Camp"}
+                    subtitle="Manage doctor visits, camp dates, locations, contacts, and lifecycle status for upcoming Nadi camps."
+                    hideForm
+                    actionLabel="Add Nadi Camp"
+                    onAction={openNadiCampCreateModal}
+                    saveLabel="Nadi Camp"
+                    listingTitle="Upcoming Nadi Camps"
+                    listingSubtitle={`Total of ${nadiCamps.length} camp records managed.`}
+                    items={nadiCamps}
+                    renderItem={(item) => (
+                      <RecordCard
+                        key={item.id}
+                        title={item.doctor}
+                        meta={`${toTitleCase(item.status || "active")} | ${item.location} | Order ${item.sort_order} | ${item.is_active ? "Visible" : "Hidden"}`}
+                        body={`Date: ${item.camp_date}\nContact: ${item.contact}\n\nAddress:\n${item.address}`}
+                        extra={item.location}
+                        onEdit={() => openNadiCampEditModal(item)}
+                        onDelete={() => handleDelete(deleteAdminNadiCamp, item.id, "Nadi camp")}
+                      />
+                    )}
+                  />
+                  <FormModal
+                    open={isNadiCampModalOpen}
+                    title={editingNadiCampId ? "Edit Nadi camp" : "Add Nadi camp"}
+                    subtitle="Create or update a public Nadi camp listing."
+                    onClose={closeNadiCampModal}
+                  >
+                    <form onSubmit={async (event) => {
+                      const success = await handleNadiCampSubmit(event);
+                      if (success) closeNadiCampModal();
+                    }} className="grid gap-5">
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <Field label="Doctor">
+                          <input value={nadiCampForm.doctor} onChange={(event) => setNadiCampForm((current) => ({ ...current, doctor: event.target.value }))} className={inputClass} required />
+                        </Field>
+                        <Field label="Camp Date">
+                          <input value={nadiCampForm.camp_date} onChange={(event) => setNadiCampForm((current) => ({ ...current, camp_date: event.target.value }))} className={inputClass} placeholder="20/05/2026" required />
+                        </Field>
+                      </div>
+                      <Field label="Location">
+                        <input value={nadiCampForm.location} onChange={(event) => setNadiCampForm((current) => ({ ...current, location: event.target.value }))} className={inputClass} required />
+                      </Field>
+                      <Field label="Contact">
+                        <input value={nadiCampForm.contact} onChange={(event) => setNadiCampForm((current) => ({ ...current, contact: event.target.value }))} className={inputClass} required />
+                      </Field>
+                      <Field label="Address">
+                        <textarea value={nadiCampForm.address} onChange={(event) => setNadiCampForm((current) => ({ ...current, address: event.target.value }))} className={textAreaClass} rows="4" required />
+                      </Field>
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <Field label="Camp Status">
+                          <select value={nadiCampForm.status} onChange={(event) => setNadiCampForm((current) => ({ ...current, status: event.target.value }))} className={selectClass} required>
+                            {nadiCampStatusOptions.map((option) => (
+                              <option key={option} value={option}>
+                                {toTitleCase(option)}
+                              </option>
+                            ))}
+                          </select>
+                        </Field>
+                        <Field label="Sort Order">
+                          <input type="number" min="0" value={nadiCampForm.sort_order} onChange={(event) => setNadiCampForm((current) => ({ ...current, sort_order: event.target.value }))} className={inputClass} required />
+                        </Field>
+                      </div>
+                      <ToggleRow
+                        checked={nadiCampForm.is_active}
+                        onChange={(value) => setNadiCampForm((current) => ({ ...current, is_active: value }))}
+                        label="Publish to public website"
+                      />
+                      <div className="flex flex-wrap gap-4 pt-2">
+                        <button type="submit" disabled={isSubmitting} className={primaryButtonClass}>
+                          {isSubmitting ? "Saving..." : editingNadiCampId ? "Update Nadi Camp" : "Create Nadi Camp"}
+                        </button>
+                        <button type="button" onClick={closeNadiCampModal} className={secondaryButtonClass}>
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  </FormModal>
                 </>
               ) : null}
 
@@ -1286,7 +1885,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                     <RecordCard
                       key={item.id}
                       title={item.title}
-                      meta={`${item.duration} | Order ${item.sort_order} | ${item.is_active ? "Published" : "Draft"}`}
+                      meta={`${toTitleCase(item.category || "relax")} | ${item.duration} | Order ${item.sort_order} | ${item.is_active ? "Published" : "Draft"}`}
                       body={`${item.short_description || item.shortDescription || ""}\n\n${item.details || ""}\n\nBenefits:\n${normalizeListValue(item.benefits).map((benefit) => `- ${benefit}`).join("\n") || "- Not added"}`}
                       extra={item.image}
                       onEdit={() => openRelaxationTherapyEditModal(item)}
@@ -1324,6 +1923,27 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                           required
                         />
                       </Field>
+                      <Field label="Category">
+                        <select
+                          value={relaxationTherapyForm.category}
+                          onChange={(event) =>
+                            setRelaxationTherapyForm((current) => ({
+                              ...current,
+                              category: event.target.value,
+                            }))
+                          }
+                          className={selectClass}
+                          required
+                        >
+                          {categoryOptions.map((option) => (
+                            <option key={option.value} value={option.value}>
+                              {option.label}
+                            </option>
+                          ))}
+                        </select>
+                      </Field>
+                    </div>
+                    <div className="grid gap-5 md:grid-cols-2">
                       <Field label="Duration">
                         <input
                           value={relaxationTherapyForm.duration}
@@ -1337,8 +1957,6 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                           required
                         />
                       </Field>
-                    </div>
-                    <div className="grid gap-5 md:grid-cols-2">
                       <Field label="Cover Image">
                         <input
                           value={relaxationTherapyForm.image}
@@ -1445,6 +2063,9 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                 <EmailSettingsPanel
                   emailSettingsForm={emailSettingsForm}
                   setEmailSettingsForm={setEmailSettingsForm}
+                  pageMetaSettings={pageMetaSettings}
+                  onPageMetaChange={handlePageMetaSettingChange}
+                  onPageMetaSave={handlePageMetaSettingSave}
                   onSubmit={handleEmailSettingsSubmit}
                   isSubmitting={isSubmitting}
                 />
@@ -1597,7 +2218,7 @@ function BookingsPanel({
 
   return (
     <section className="grid gap-5">
-      <div className="overflow-hidden rounded-[1.6rem] border border-[#dbe7e1] bg-white shadow-[0_18px_48px_rgba(21,53,46,0.06)]">
+      <div className="overflow-hidden rounded-[1.75rem] border border-[#dbe7e1] bg-white shadow-[0_18px_48px_rgba(21,53,46,0.06)]">
         <div className="flex flex-col gap-5 border-b border-[#e5eee9] bg-[linear-gradient(180deg,#f9fcfa,#f2f8f4)] p-5 lg:flex-row lg:items-end lg:justify-between">
           <div className="min-w-0">
             <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#6d857e]">Booking Engine</p>
@@ -1607,32 +2228,44 @@ function BookingsPanel({
 
           <div className="grid gap-2 sm:grid-cols-[minmax(0,220px)_auto] sm:items-end">
             <FieldInline label="Filter status">
-            <select
-              value={statusFilter}
-              onChange={(event) => setStatusFilter(event.target.value)}
+              <select
+                value={statusFilter}
+                onChange={(event) => setStatusFilter(event.target.value)}
                 className={`${selectClass} w-full`}
-            >
+              >
                 <option value="all">All bookings</option>
-              {advancedBookingStatusOptions.map((option) => (
-                <option key={option} value={option}>
-                  {toTitleCase(option)}
-                </option>
-              ))}
-            </select>
-          </FieldInline>
-            <div className="rounded-lg border border-[#dbe7e1] bg-white px-4 py-3 text-sm font-semibold text-[#23403b]">
+                {advancedBookingStatusOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {toTitleCase(option)}
+                  </option>
+                ))}
+              </select>
+            </FieldInline>
+            <div className="rounded-xl border border-[#dbe7e1] bg-white px-4 py-3 text-sm font-semibold text-[#23403b]">
               {isLoading ? "Refreshing..." : `${bookings.length} loaded`}
             </div>
           </div>
         </div>
 
-        <div className="grid gap-3 p-5 sm:grid-cols-2 lg:grid-cols-6">
+        <div className="grid gap-3 border-b border-[#edf3ef] p-5 sm:grid-cols-2 xl:grid-cols-7">
+          <button
+            type="button"
+            onClick={() => setStatusFilter("all")}
+            className={`rounded-[1.2rem] border p-4 text-left transition ${
+              statusFilter === "all"
+                ? "border-[#1f6b5c] bg-[#eef8f4]"
+                : "border-[#dbe7e1] bg-white hover:bg-[#f8fbf9]"
+            }`}
+          >
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#7d948c]">All</p>
+            <p className="mt-2 text-2xl font-semibold text-[#18332e]">{bookings.length}</p>
+          </button>
           {advancedBookingStatusOptions.map((status) => (
             <button
               key={status}
               type="button"
               onClick={() => setStatusFilter(status)}
-              className={`rounded-xl border p-3 text-left transition ${
+              className={`rounded-[1.2rem] border p-4 text-left transition ${
                 statusFilter === status
                   ? "border-[#1f6b5c] bg-[#eef8f4]"
                   : "border-[#dbe7e1] bg-white hover:bg-[#f8fbf9]"
@@ -1651,90 +2284,260 @@ function BookingsPanel({
         </div>
       ) : (
         <div className="grid gap-5">
-          {bookings.map((booking) => (
-            <article
-              key={booking.id}
-              className="overflow-hidden rounded-[1.5rem] border border-[#dbe7e1] bg-white shadow-[0_14px_36px_rgba(21,53,46,0.05)]"
-            >
-              <div className="flex flex-col gap-4 border-b border-[#edf3ef] bg-[#fbfdfc] px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="hidden xl:block overflow-hidden rounded-[1.75rem] border border-[#dbe7e1] bg-white shadow-[0_18px_48px_rgba(21,53,46,0.06)]">
+            <div className="grid grid-cols-[1.2fr_0.95fr_0.95fr_0.95fr_0.85fr_1.2fr] gap-4 border-b border-[#e3ece7] bg-[linear-gradient(180deg,#f9fcfa,#f2f8f4)] px-6 py-4 text-[11px] font-bold uppercase tracking-[0.22em] text-[#7d948c]">
+              <span>Booking</span>
+              <span>Contact</span>
+              <span>Schedule</span>
+              <span>Expert</span>
+              <span>Status</span>
+              <span>Actions</span>
+            </div>
+            {bookings.map((booking) => (
+              <div
+                key={booking.id}
+                className="grid grid-cols-[1.2fr_0.95fr_0.95fr_0.95fr_0.85fr_1.2fr] gap-4 border-b border-[#edf3ef] px-6 py-5 last:border-b-0"
+              >
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
                     <span className="inline-flex items-center justify-center rounded-lg bg-[#eef5f1] px-2.5 py-1 text-xs font-bold text-[#19564f]">
-                          {booking.reference_code}
-                        </span>
-                    <BookingStatusPill status={booking.status} />
-                    <span className="text-xs font-medium text-[#8ba098]">
-                          Created {formatDate(booking.created_at)}
+                      #{booking.id}
+                    </span>
+                    <span className="inline-flex items-center justify-center rounded-lg bg-[#f4f7f5] px-2.5 py-1 text-xs font-semibold text-[#4e635d]">
+                      {booking.reference_code}
                     </span>
                   </div>
-                  <h3 className="mt-3 text-xl font-semibold tracking-tight text-[#18332e]">
-                        {booking.customer_name}
-                      </h3>
-                  <p className="mt-1 text-sm text-[#4e635d]">
-                    {booking.therapy_name}
-                      </p>
-                    </div>
-                <div className="grid gap-2 sm:grid-cols-2">
+                  <p className="mt-3 text-base font-semibold text-[#18332e]">{booking.customer_name}</p>
+                  <p className="mt-1 text-sm text-[#4e635d]">{booking.therapy_name}</p>
+                  <p className="mt-2 text-xs text-[#8ba098]">Created {formatDate(booking.created_at)}</p>
+                </div>
+                <div className="min-w-0 text-sm text-[#4e635d]">
+                  <p className="font-medium text-[#18332e]">{booking.phone}</p>
+                  <p className="mt-1 break-words text-[#60746e]">{booking.email}</p>
+                </div>
+                <div className="text-sm text-[#4e635d]">
+                  <p className="font-medium text-[#18332e]">{formatDateOnly(booking.booking_date)}</p>
+                  <p className="mt-1">{formatTime(booking.start_time)} - {formatTime(booking.end_time)}</p>
+                  <p className="mt-2 line-clamp-2 text-xs text-[#7b8f88]">{booking.notes || "No notes"}</p>
+                </div>
+                <div className="text-sm text-[#4e635d]">
+                  <p className={`font-medium ${booking.therapist_id ? "text-[#18332e]" : "text-[#9a6c12]"}`}>
+                    {booking.therapist_name || "Unassigned"}
+                  </p>
+                  <p className="mt-1 text-xs text-[#7b8f88]">
+                    {booking.therapist_id ? `ID ${booking.therapist_id}` : "Assign before approval"}
+                  </p>
+                  {canAssignTherapist ? (
+                    <select
+                      value={booking.therapist_id || ""}
+                      onChange={(event) =>
+                        handleBookingLifecycleChange(booking.id, {
+                          therapist_id: event.target.value ? Number(event.target.value) : null,
+                        })
+                      }
+                      className={`${selectClass} mt-3 w-full`}
+                    >
+                      <option value="">Unassigned</option>
+                      {therapists.map((therapist) => (
+                        <option key={therapist.id} value={therapist.id}>
+                          {therapist.full_name}
+                        </option>
+                      ))}
+                    </select>
+                  ) : null}
+                </div>
+                <div className="grid gap-3">
+                  <BookingStatusPill status={booking.status} />
+                  <select
+                    value={booking.status}
+                    onChange={(event) =>
+                      requestBookingLifecycleChange(
+                        booking.id,
+                        {
+                          status: event.target.value,
+                        },
+                        `Change booking ${booking.reference_code} status to ${toTitleCase(event.target.value)}?`
+                      )
+                    }
+                    className={`${selectClass} w-full`}
+                  >
+                    {advancedBookingStatusOptions.map((option) => (
+                      <option key={option} value={option}>
+                        {toTitleCase(option)}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                <div className="grid gap-2">
                   <button
                     type="button"
                     onClick={() => openBookingEmailModal(booking)}
-                    className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-4 text-sm font-semibold text-[#18332e] hover:bg-[#f2f6f4]"
+                    className="inline-flex h-10 items-center justify-center rounded-xl border border-[#d6e2dc] bg-white px-4 text-sm font-semibold text-[#18332e] hover:bg-[#f2f6f4]"
                   >
                     Send Mail
                   </button>
                   <button
                     type="button"
                     onClick={() =>
-                      handleBookingLifecycleChange(booking.id, {
-                        status: booking.status === "confirmed" ? "completed" : "confirmed",
-                      })
+                      requestBookingLifecycleChange(
+                        booking.id,
+                        {
+                          status: booking.status === "confirmed" ? "completed" : "confirmed",
+                        },
+                        booking.status === "confirmed"
+                          ? `Mark booking ${booking.reference_code} as Completed?`
+                          : `Approve booking ${booking.reference_code} and mark it as Confirmed?`
+                      )
                     }
-                    className="inline-flex h-10 items-center justify-center rounded-lg bg-[#1f6b5c] px-4 text-sm font-semibold text-white hover:bg-[#175245]"
+                    className="inline-flex h-10 items-center justify-center rounded-xl bg-[#1f6b5c] px-4 text-sm font-semibold text-white hover:bg-[#175245]"
                   >
                     {booking.status === "confirmed" ? "Complete" : "Approve"}
                   </button>
+                  <div className="grid grid-cols-2 gap-2">
+                    <button
+                      type="button"
+                      onClick={() =>
+                        requestBookingLifecycleChange(
+                          booking.id,
+                          {
+                            status: "completed",
+                          },
+                          `Mark booking ${booking.reference_code} as Completed?`
+                        )
+                      }
+                      className="inline-flex h-10 items-center justify-center rounded-xl border border-[#d6e2dc] bg-white px-3 text-sm font-medium text-[#18332e] hover:bg-[#f2f6f4]"
+                    >
+                      Done
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        requestBookingLifecycleChange(
+                          booking.id,
+                          {
+                            status: "cancelled",
+                          },
+                          `Cancel booking ${booking.reference_code}?`
+                        )
+                      }
+                      className="inline-flex h-10 items-center justify-center rounded-xl border border-[#f0cdc5] bg-white px-3 text-sm font-medium text-[#b35342] hover:bg-[#fff4f2]"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                  {role === "super_admin" ? (
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(deleteAdminBooking, booking.id, "Booking")}
+                      className="inline-flex h-10 items-center justify-center rounded-xl border border-[#efb8ac] bg-[#fff7f5] px-3 text-sm font-medium text-[#9f3e2f] hover:bg-[#ffece8]"
+                    >
+                      Delete
+                    </button>
+                  ) : null}
                 </div>
               </div>
+            ))}
+          </div>
 
-              <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_320px]">
-                <div className="grid gap-4 p-5 md:grid-cols-2 xl:grid-cols-4">
-                  <BookingInfoBlock label="Contact" value={booking.phone} note={booking.email} />
-                  <BookingInfoBlock
-                    label="Schedule"
-                    value={formatDateOnly(booking.booking_date)}
-                    note={`${formatTime(booking.start_time)} - ${formatTime(booking.end_time)}`}
-                  />
-                  <BookingInfoBlock
-                    label="Expert"
-                    value={booking.therapist_name || "Unassigned"}
-                    note={booking.therapist_id ? `ID ${booking.therapist_id}` : "Assign expert before approval"}
-                    attention={!booking.therapist_id}
-                  />
-                  <BookingInfoBlock label="Notes" value={booking.notes || "No notes"} />
+          <div className="grid gap-5 xl:hidden">
+            {bookings.map((booking) => (
+              <article
+                key={booking.id}
+                className="overflow-hidden rounded-[1.5rem] border border-[#dbe7e1] bg-white shadow-[0_14px_36px_rgba(21,53,46,0.05)]"
+              >
+                <div className="flex flex-col gap-4 border-b border-[#edf3ef] bg-[#fbfdfc] px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="min-w-0">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-flex items-center justify-center rounded-lg bg-[#eef5f1] px-2.5 py-1 text-xs font-bold text-[#19564f]">
+                        {booking.reference_code}
+                      </span>
+                      <BookingStatusPill status={booking.status} />
+                      <span className="text-xs font-medium text-[#8ba098]">
+                        Created {formatDate(booking.created_at)}
+                      </span>
+                    </div>
+                    <h3 className="mt-3 text-xl font-semibold tracking-tight text-[#18332e]">
+                      {booking.customer_name}
+                    </h3>
+                    <p className="mt-1 text-sm text-[#4e635d]">
+                      {booking.therapy_name}
+                    </p>
+                  </div>
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    <button
+                      type="button"
+                      onClick={() => openBookingEmailModal(booking)}
+                      className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-4 text-sm font-semibold text-[#18332e] hover:bg-[#f2f6f4]"
+                    >
+                      Send Mail
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        requestBookingLifecycleChange(
+                          booking.id,
+                          {
+                            status: booking.status === "confirmed" ? "completed" : "confirmed",
+                          },
+                          booking.status === "confirmed"
+                            ? `Mark booking ${booking.reference_code} as Completed?`
+                            : `Approve booking ${booking.reference_code} and mark it as Confirmed?`
+                        )
+                      }
+                      className="inline-flex h-10 items-center justify-center rounded-lg bg-[#1f6b5c] px-4 text-sm font-semibold text-white hover:bg-[#175245]"
+                    >
+                      {booking.status === "confirmed" ? "Complete" : "Approve"}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_320px]">
+                  <div className="grid gap-4 p-5 md:grid-cols-2 xl:grid-cols-4">
+                    <BookingInfoBlock label="Contact" value={booking.phone} note={booking.email} />
+                    <BookingInfoBlock
+                      label="Schedule"
+                      value={formatDateOnly(booking.booking_date)}
+                      note={`${formatTime(booking.start_time)} - ${formatTime(booking.end_time)}`}
+                    />
+                    <BookingInfoBlock
+                      label="Expert"
+                      value={booking.therapist_name || "Unassigned"}
+                      note={booking.therapist_id ? `ID ${booking.therapist_id}` : "Assign expert before approval"}
+                      attention={!booking.therapist_id}
+                    />
+                    <BookingInfoBlock label="Notes" value={booking.notes || "No notes"} />
                   </div>
 
-                <div className="border-t border-[#edf3ef] bg-[#f8fbf9] p-5 lg:border-l lg:border-t-0">
-                  <div className="grid gap-4">
-                    <div className="grid grid-cols-2 gap-2">
+                  <div className="border-t border-[#edf3ef] bg-[#f8fbf9] p-5 lg:border-l lg:border-t-0">
+                    <div className="grid gap-4">
+                      <div className="grid grid-cols-2 gap-2">
                         <button
                           type="button"
                           onClick={() =>
-                            handleBookingLifecycleChange(booking.id, {
-                              status: "completed",
-                            })
+                            requestBookingLifecycleChange(
+                              booking.id,
+                              {
+                                status: "completed",
+                              },
+                              `Mark booking ${booking.reference_code} as Completed?`
+                            )
                           }
-                        className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-3 text-sm font-medium text-[#18332e] hover:bg-[#f2f6f4]"
+                          className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-3 text-sm font-medium text-[#18332e] hover:bg-[#f2f6f4]"
                         >
                           Complete
                         </button>
                         <button
                           type="button"
                           onClick={() =>
-                            handleBookingLifecycleChange(booking.id, {
-                              status: "cancelled",
-                            })
+                            requestBookingLifecycleChange(
+                              booking.id,
+                              {
+                                status: "cancelled",
+                              },
+                              `Cancel booking ${booking.reference_code}?`
+                            )
                           }
-                        className="inline-flex h-10 items-center justify-center rounded-lg border border-[#f0cdc5] bg-white px-3 text-sm font-medium text-[#b35342] hover:bg-[#fff4f2]"
+                          className="inline-flex h-10 items-center justify-center rounded-lg border border-[#f0cdc5] bg-white px-3 text-sm font-medium text-[#b35342] hover:bg-[#fff4f2]"
                         >
                           Cancel
                         </button>
@@ -1742,67 +2545,300 @@ function BookingsPanel({
                           <button
                             type="button"
                             onClick={() => handleDelete(deleteAdminBooking, booking.id, "Booking")}
-                          className="col-span-2 inline-flex h-10 items-center justify-center rounded-lg border border-[#efb8ac] bg-[#fff7f5] px-3 text-sm font-medium text-[#9f3e2f] hover:bg-[#ffece8]"
+                            className="col-span-2 inline-flex h-10 items-center justify-center rounded-lg border border-[#efb8ac] bg-[#fff7f5] px-3 text-sm font-medium text-[#9f3e2f] hover:bg-[#ffece8]"
                           >
                             Delete
                           </button>
                         ) : null}
                       </div>
 
-                    <FieldInline label="Lifecycle Status">
-                      <select
-                        value={booking.status}
-                        onChange={(event) =>
-                          handleBookingLifecycleChange(booking.id, {
-                            status: event.target.value,
-                          })
-                        }
-                        className={`${selectClass} w-full`}
-                      >
-                        {advancedBookingStatusOptions.map((option) => (
-                          <option key={option} value={option}>
-                            {toTitleCase(option)}
-                          </option>
-                        ))}
-                      </select>
-                    </FieldInline>
-
-                    {canAssignTherapist ? (
-                      <FieldInline label="Assign Therapist">
+                      <FieldInline label="Lifecycle Status">
                         <select
-                          value={booking.therapist_id || ""}
+                          value={booking.status}
                           onChange={(event) =>
-                            handleBookingLifecycleChange(booking.id, {
-                              therapist_id: event.target.value ? Number(event.target.value) : null,
-                            })
+                            requestBookingLifecycleChange(
+                              booking.id,
+                              {
+                                status: event.target.value,
+                              },
+                              `Change booking ${booking.reference_code} status to ${toTitleCase(event.target.value)}?`
+                            )
                           }
                           className={`${selectClass} w-full`}
                         >
-                          <option value="">
-                            Unassigned
-                          </option>
-                          {therapists.map((therapist) => (
-                            <option key={therapist.id} value={therapist.id}>
-                              {therapist.full_name}
+                          {advancedBookingStatusOptions.map((option) => (
+                            <option key={option} value={option}>
+                              {toTitleCase(option)}
                             </option>
                           ))}
                         </select>
                       </FieldInline>
-                    ) : (
-                      <BookingInfoBlock
-                        label="Assignment"
-                        value={booking.therapist_name || "Pending admin assignment"}
-                        note="Therapist assignment is managed by admin."
-                        attention={!booking.therapist_id}
-                      />
-                    )}
+
+                      {canAssignTherapist ? (
+                        <FieldInline label="Assign Therapist">
+                          <select
+                            value={booking.therapist_id || ""}
+                            onChange={(event) =>
+                              handleBookingLifecycleChange(booking.id, {
+                                therapist_id: event.target.value ? Number(event.target.value) : null,
+                              })
+                            }
+                            className={`${selectClass} w-full`}
+                          >
+                            <option value="">
+                              Unassigned
+                            </option>
+                            {therapists.map((therapist) => (
+                              <option key={therapist.id} value={therapist.id}>
+                                {therapist.full_name}
+                              </option>
+                            ))}
+                          </select>
+                        </FieldInline>
+                      ) : (
+                        <BookingInfoBlock
+                          label="Assignment"
+                          value={booking.therapist_name || "Pending admin assignment"}
+                          note="Therapist assignment is managed by admin."
+                          attention={!booking.therapist_id}
+                        />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      )}
+    </section>
+  );
+}
+
+function DashboardPanel({ bookings, therapists, role }) {
+  const [monthFilter, setMonthFilter] = useState(() => {
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
+  });
+  const [statusFilter, setStatusFilter] = useState("all");
+  const [therapistFilter, setTherapistFilter] = useState("all");
+  const [selectedDate, setSelectedDate] = useState("");
+
+  const filteredBookings = useMemo(() => {
+    return bookings.filter((booking) => {
+      const dateKey = getBookingDateKey(booking.booking_date);
+      if (!dateKey.startsWith(monthFilter)) return false;
+      if (statusFilter !== "all" && booking.status !== statusFilter) return false;
+      if (therapistFilter !== "all" && String(booking.therapist_id || "") !== therapistFilter) return false;
+      return true;
+    });
+  }, [bookings, monthFilter, statusFilter, therapistFilter]);
+
+  const dailyBookings = useMemo(() => {
+    return filteredBookings.reduce((accumulator, booking) => {
+      const dateKey = getBookingDateKey(booking.booking_date);
+      if (!accumulator[dateKey]) {
+        accumulator[dateKey] = [];
+      }
+      accumulator[dateKey].push(booking);
+      return accumulator;
+    }, {});
+  }, [filteredBookings]);
+
+  const monthStatusCounts = advancedBookingStatusOptions.reduce((counts, status) => {
+    counts[status] = filteredBookings.filter((booking) => booking.status === status).length;
+    return counts;
+  }, {});
+
+  const [year, month] = monthFilter.split("-").map(Number);
+  const firstDay = new Date(year, (month || 1) - 1, 1);
+  const daysInMonth = new Date(year, month || 1, 0).getDate();
+  const startOffset = (firstDay.getDay() + 6) % 7;
+  const cells = Array.from({ length: startOffset + daysInMonth }, (_, index) => {
+    if (index < startOffset) return null;
+    const dayNumber = index - startOffset + 1;
+    const dateKey = `${year}-${String(month).padStart(2, "0")}-${String(dayNumber).padStart(2, "0")}`;
+    return {
+      dayNumber,
+      dateKey,
+      bookings: dailyBookings[dateKey] || [],
+    };
+  });
+
+  const selectedBookings = selectedDate ? dailyBookings[selectedDate] || [] : [];
+  const visibleList = selectedDate ? selectedBookings : filteredBookings.slice(0, 12);
+  const dashboardTitle = role === "doctor" ? "Doctor calendar dashboard" : role === "therapist" ? "Therapist calendar dashboard" : "Booking calendar dashboard";
+
+  return (
+    <section className="grid gap-5">
+      <div className="overflow-hidden rounded-[1.6rem] border border-[#dbe7e1] bg-white shadow-[0_18px_48px_rgba(21,53,46,0.06)]">
+        <div className="flex flex-col gap-5 border-b border-[#e5eee9] bg-[linear-gradient(180deg,#f9fcfa,#f2f8f4)] p-5 lg:flex-row lg:items-end lg:justify-between">
+          <div className="min-w-0">
+            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#6d857e]">Booking Dashboard</p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[#18332e]">{dashboardTitle}</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-[#5f726c]">
+              Track bookings by day, see status totals, and hover any date to preview the booking list.
+            </p>
+          </div>
+
+          <div className="grid gap-3 md:grid-cols-3">
+            <FieldInline label="Month">
+              <input
+                type="month"
+                value={monthFilter}
+                onChange={(event) => {
+                  setMonthFilter(event.target.value);
+                  setSelectedDate("");
+                }}
+                className={inputClass}
+              />
+            </FieldInline>
+            <FieldInline label="Status">
+              <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} className={selectClass}>
+                <option value="all">All statuses</option>
+                {advancedBookingStatusOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {toTitleCase(option)}
+                  </option>
+                ))}
+              </select>
+            </FieldInline>
+            <FieldInline label="Therapist">
+              <select value={therapistFilter} onChange={(event) => setTherapistFilter(event.target.value)} className={selectClass}>
+                <option value="all">All therapists</option>
+                {therapists.map((therapist) => (
+                  <option key={therapist.id} value={String(therapist.id)}>
+                    {therapist.full_name}
+                  </option>
+                ))}
+              </select>
+            </FieldInline>
+          </div>
+        </div>
+
+        <div className="grid gap-3 border-b border-[#edf3ef] p-5 sm:grid-cols-2 xl:grid-cols-5">
+          <BookingDashboardMetric label="Total" value={filteredBookings.length} />
+          <BookingDashboardMetric label="Pending" value={monthStatusCounts.pending || 0} tone="warning" />
+          <BookingDashboardMetric label="Confirmed" value={monthStatusCounts.confirmed || 0} tone="success" />
+          <BookingDashboardMetric label="Completed" value={monthStatusCounts.completed || 0} tone="neutral" />
+          <BookingDashboardMetric label="Cancelled" value={monthStatusCounts.cancelled || 0} tone="danger" />
+        </div>
+
+        <div className="grid grid-cols-7 gap-px bg-[#e6efea]">
+          {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
+            <div key={day} className="bg-[#f7fbf9] px-3 py-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-[#7d948c]">
+              {day}
+            </div>
+          ))}
+          {cells.map((cell, index) => {
+            if (!cell) {
+              return <div key={`empty-${index}`} className="min-h-[126px] bg-white" />;
+            }
+
+            const isSelected = selectedDate === cell.dateKey;
+            const pendingCount = cell.bookings.filter((booking) => booking.status === "pending").length;
+            const confirmedCount = cell.bookings.filter((booking) => booking.status === "confirmed").length;
+            const completedCount = cell.bookings.filter((booking) => booking.status === "completed").length;
+            return (
+              <button
+                key={cell.dateKey}
+                type="button"
+                onClick={() => setSelectedDate((current) => (current === cell.dateKey ? "" : cell.dateKey))}
+                className={`group relative min-h-[126px] bg-white p-3 text-left transition hover:bg-[#f7fbf9] ${isSelected ? "ring-2 ring-inset ring-[#1f6b5c]" : ""}`}
+              >
+                <div className="flex items-center justify-between gap-3">
+                  <span className="text-sm font-semibold text-[#18332e]">{cell.dayNumber}</span>
+                  {cell.bookings.length ? (
+                    <span className="rounded-full bg-[#eef5f1] px-2 py-1 text-xs font-bold text-[#19564f]">
+                      {cell.bookings.length}
+                    </span>
+                  ) : null}
+                </div>
+                {cell.bookings.length ? (
+                  <div className="mt-3 grid gap-1">
+                    {pendingCount ? <CalendarCountPill label="Pending" value={pendingCount} tone="warning" /> : null}
+                    {confirmedCount ? <CalendarCountPill label="Confirmed" value={confirmedCount} tone="success" /> : null}
+                    {completedCount ? <CalendarCountPill label="Done" value={completedCount} tone="neutral" /> : null}
+                  </div>
+                ) : null}
+
+                {cell.bookings.length ? (
+                  <div className="pointer-events-none absolute left-3 top-full z-20 hidden w-72 rounded-2xl border border-[#dbe7e1] bg-white p-4 text-left shadow-[0_18px_40px_rgba(21,53,46,0.16)] group-hover:block">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#7d948c]">
+                      {formatDateOnly(cell.dateKey)} | {cell.bookings.length} bookings
+                    </p>
+                    <div className="mt-3 grid gap-2">
+                      {cell.bookings.slice(0, 5).map((booking) => (
+                        <div key={booking.id} className="rounded-xl border border-[#e3ece7] bg-[#fbfdfc] px-3 py-2">
+                          <p className="text-sm font-semibold text-[#18332e]">
+                            #{booking.id} {booking.customer_name}
+                          </p>
+                          <p className="mt-1 text-xs text-[#60746e]">
+                            {booking.reference_code} | {booking.therapy_name}
+                          </p>
+                        </div>
+                      ))}
+                      {cell.bookings.length > 5 ? (
+                        <p className="text-xs font-medium text-[#60746e]">
+                          +{cell.bookings.length - 5} more bookings
+                        </p>
+                      ) : null}
+                    </div>
+                  </div>
+                ) : null}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="overflow-hidden rounded-[1.6rem] border border-[#dbe7e1] bg-white shadow-[0_18px_48px_rgba(21,53,46,0.06)]">
+        <div className="border-b border-[#edf3ef] bg-[#fbfdfc] px-5 py-4">
+          <h3 className="text-xl font-semibold text-[#18332e]">
+            {selectedDate ? `Bookings for ${formatDateOnly(selectedDate)}` : "Monthly booking list"}
+          </h3>
+          <p className="mt-1 text-sm text-[#5f726c]">
+            {selectedDate
+              ? "Selected date bookings are shown below."
+              : "Showing the first bookings from the selected month and filters."}
+          </p>
+        </div>
+
+        {visibleList.length === 0 ? (
+          <div className="px-5 py-16 text-center text-sm text-[#60746e]">
+            No bookings match the selected dashboard filters.
+          </div>
+        ) : (
+          <div className="grid gap-3 p-5">
+            {visibleList.map((booking) => (
+              <div key={booking.id} className="rounded-2xl border border-[#e3ece7] bg-[#fbfdfc] p-4">
+                <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="inline-flex items-center justify-center rounded-lg bg-[#eef5f1] px-2.5 py-1 text-xs font-bold text-[#19564f]">
+                        #{booking.id}
+                      </span>
+                      <span className="inline-flex items-center justify-center rounded-lg bg-[#f4f7f5] px-2.5 py-1 text-xs font-semibold text-[#4e635d]">
+                        {booking.reference_code}
+                      </span>
+                      <BookingStatusPill status={booking.status} />
+                    </div>
+                    <p className="mt-3 text-lg font-semibold text-[#18332e]">{booking.customer_name}</p>
+                    <p className="mt-1 text-sm text-[#4e635d]">
+                      {booking.therapy_name} | {formatDateOnly(booking.booking_date)} | {formatTime(booking.start_time)} - {formatTime(booking.end_time)}
+                    </p>
+                  </div>
+                  <div className="text-sm text-[#60746e]">
+                    <p>{booking.email}</p>
+                    <p className="mt-1">{booking.phone}</p>
+                    <p className="mt-1">{booking.therapist_name || "Unassigned"}</p>
                   </div>
                 </div>
               </div>
-            </article>
-          ))}
-        </div>
-      )}
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   );
 }
@@ -1819,6 +2855,49 @@ function BookingInfoBlock({ label, value, note, attention = false }) {
       <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#7d948c]">{label}</p>
       <p className="mt-2 break-words text-sm font-semibold leading-6 text-[#18332e]">{value}</p>
       {note ? <p className="mt-1 break-words text-xs leading-5 text-[#60746e]">{note}</p> : null}
+    </div>
+  );
+}
+
+function getBookingDateKey(value) {
+  const parsed = parseAdminDate(value);
+  if (!parsed) return "";
+  return `${parsed.getFullYear()}-${String(parsed.getMonth() + 1).padStart(2, "0")}-${String(parsed.getDate()).padStart(2, "0")}`;
+}
+
+function BookingDashboardMetric({ label, value, active = false, tone = "default", onClick }) {
+  const tones = {
+    default: active ? "border-[#1f6b5c] bg-[#eef8f4] text-[#18332e]" : "border-[#dbe7e1] bg-white text-[#18332e]",
+    warning: active ? "border-[#c9921d] bg-[#fff7df] text-[#7d560c]" : "border-[#f0e1b9] bg-[#fffaf0] text-[#7d560c]",
+    success: active ? "border-[#2f8a59] bg-[#edf8f1] text-[#21603d]" : "border-[#cfe6d8] bg-[#f6fcf8] text-[#21603d]",
+    neutral: active ? "border-[#777069] bg-[#f4f1ee] text-[#4e4842]" : "border-[#e0dad2] bg-[#fbf9f7] text-[#4e4842]",
+    danger: active ? "border-[#c05d53] bg-[#fff1ef] text-[#9f3e2f]" : "border-[#f0c6bf] bg-[#fff8f6] text-[#9f3e2f]",
+  };
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`rounded-xl border p-4 text-left transition hover:translate-y-[-1px] ${tones[tone] || tones.default}`}
+    >
+      <p className="text-[10px] font-bold uppercase tracking-[0.18em] opacity-70">{label}</p>
+      <p className="mt-2 text-3xl font-semibold tracking-tight">{value}</p>
+    </button>
+  );
+}
+
+function CalendarCountPill({ label, value, tone = "default" }) {
+  const toneClass = {
+    default: "bg-[#eef5f1] text-[#19564f]",
+    warning: "bg-[#fff4da] text-[#9a6c12]",
+    success: "bg-[#e8f6ee] text-[#1f7a44]",
+    neutral: "bg-[#f1efec] text-[#5b554e]",
+  };
+
+  return (
+    <div className={`inline-flex items-center justify-between rounded-lg px-2.5 py-1 text-xs font-semibold ${toneClass[tone] || toneClass.default}`}>
+      <span>{label}</span>
+      <span>{value}</span>
     </div>
   );
 }
@@ -1968,7 +3047,7 @@ function InquiriesPanel({
                   <select
                     value={inquiry.status}
                     onChange={(event) =>
-                      handleInquiryStatusChange(inquiry.id, event.target.value)
+                      requestInquiryStatusChange(inquiry.id, event.target.value)
                     }
                     className={selectClass}
                   >
@@ -2027,7 +3106,7 @@ function InquiriesPanel({
                     <select
                       value={inquiry.status}
                       onChange={(event) =>
-                        handleInquiryStatusChange(inquiry.id, event.target.value)
+                        requestInquiryStatusChange(inquiry.id, event.target.value)
                       }
                       className={selectClass}
                     >
@@ -2063,70 +3142,210 @@ function InquiriesPanel({
 function EmailSettingsPanel({
   emailSettingsForm,
   setEmailSettingsForm,
+  pageMetaSettings,
+  onPageMetaChange,
+  onPageMetaSave,
   onSubmit,
   isSubmitting,
 }) {
   return (
-    <PanelCard
-      eyebrow="Admin Settings"
-      title="Booking Email Notifications"
-      subtitle="These recipients receive internal booking notification emails whenever a customer creates or updates a booking."
-    >
-      <form onSubmit={onSubmit} className="grid gap-5">
-        <Field label="Booking notification To">
-          <textarea
-            value={emailSettingsForm.booking_to_emails}
-            onChange={(event) =>
-              setEmailSettingsForm((current) => ({
-                ...current,
-                booking_to_emails: event.target.value,
-              }))
-            }
-            className={textAreaClass}
-            rows="5"
-            placeholder="admin@srisriwellbeingchennai.com"
-          />
-        </Field>
-        <div className="grid gap-5 lg:grid-cols-2">
-          <Field label="Booking notification CC">
-            <textarea
-              value={emailSettingsForm.booking_cc_emails}
-              onChange={(event) =>
+    <div className="grid gap-6">
+      <PanelCard
+        eyebrow="Admin Settings"
+        title="Email Notifications"
+        subtitle="Control where booking and enquiry emails go, and what customers receive automatically after they contact the website."
+      >
+        <form onSubmit={onSubmit} className="grid gap-6">
+          <div className="grid gap-5">
+            <h3 className="text-lg font-semibold text-[#18332e]">Booking Notifications</h3>
+            <Field label="Booking notification To">
+              <textarea
+                value={emailSettingsForm.booking_to_emails}
+                onChange={(event) =>
+                  setEmailSettingsForm((current) => ({
+                    ...current,
+                    booking_to_emails: event.target.value,
+                  }))
+                }
+                className={textAreaClass}
+                rows="4"
+                placeholder="admin@srisriwellbeingchennai.com"
+              />
+            </Field>
+            <div className="grid gap-5 lg:grid-cols-2">
+              <Field label="Booking notification CC">
+                <textarea
+                  value={emailSettingsForm.booking_cc_emails}
+                  onChange={(event) =>
+                    setEmailSettingsForm((current) => ({
+                      ...current,
+                      booking_cc_emails: event.target.value,
+                    }))
+                  }
+                  className={textAreaClass}
+                  rows="4"
+                  placeholder="manager@example.com"
+                />
+              </Field>
+              <Field label="Booking notification BCC">
+                <textarea
+                  value={emailSettingsForm.booking_bcc_emails}
+                  onChange={(event) =>
+                    setEmailSettingsForm((current) => ({
+                      ...current,
+                      booking_bcc_emails: event.target.value,
+                    }))
+                  }
+                  className={textAreaClass}
+                  rows="4"
+                  placeholder="audit@example.com"
+                />
+              </Field>
+            </div>
+          </div>
+
+          <div className="grid gap-5 rounded-[1.4rem] border border-[#dbe7e1] bg-[#f8fbf9] p-5">
+            <h3 className="text-lg font-semibold text-[#18332e]">Enquiry Notifications</h3>
+            <Field label="Enquiry notification To">
+              <textarea
+                value={emailSettingsForm.inquiry_to_emails}
+                onChange={(event) =>
+                  setEmailSettingsForm((current) => ({
+                    ...current,
+                    inquiry_to_emails: event.target.value,
+                  }))
+                }
+                className={textAreaClass}
+                rows="4"
+                placeholder="sales@example.com"
+              />
+            </Field>
+            <div className="grid gap-5 lg:grid-cols-2">
+              <Field label="Enquiry notification CC">
+                <textarea
+                  value={emailSettingsForm.inquiry_cc_emails}
+                  onChange={(event) =>
+                    setEmailSettingsForm((current) => ({
+                      ...current,
+                      inquiry_cc_emails: event.target.value,
+                    }))
+                  }
+                  className={textAreaClass}
+                  rows="4"
+                  placeholder="manager@example.com"
+                />
+              </Field>
+              <Field label="Enquiry notification BCC">
+                <textarea
+                  value={emailSettingsForm.inquiry_bcc_emails}
+                  onChange={(event) =>
+                    setEmailSettingsForm((current) => ({
+                      ...current,
+                      inquiry_bcc_emails: event.target.value,
+                    }))
+                  }
+                  className={textAreaClass}
+                  rows="4"
+                  placeholder="audit@example.com"
+                />
+              </Field>
+            </div>
+            <ToggleRow
+              checked={emailSettingsForm.inquiry_auto_reply_enabled}
+              onChange={(value) =>
                 setEmailSettingsForm((current) => ({
                   ...current,
-                  booking_cc_emails: event.target.value,
+                  inquiry_auto_reply_enabled: value,
                 }))
               }
-              className={textAreaClass}
-              rows="5"
-              placeholder="manager@example.com"
+              label="Send automatic thank-you email to enquiry customer"
             />
-          </Field>
-          <Field label="Booking notification BCC">
-            <textarea
-              value={emailSettingsForm.booking_bcc_emails}
-              onChange={(event) =>
-                setEmailSettingsForm((current) => ({
-                  ...current,
-                  booking_bcc_emails: event.target.value,
-                }))
-              }
-              className={textAreaClass}
-              rows="5"
-              placeholder="audit@example.com"
-            />
-          </Field>
+            <Field label="Auto reply subject">
+              <input
+                value={emailSettingsForm.inquiry_auto_reply_subject}
+                onChange={(event) =>
+                  setEmailSettingsForm((current) => ({
+                    ...current,
+                    inquiry_auto_reply_subject: event.target.value,
+                  }))
+                }
+                className={inputClass}
+                required
+              />
+            </Field>
+            <Field label="Auto reply message">
+              <textarea
+                value={emailSettingsForm.inquiry_auto_reply_message}
+                onChange={(event) =>
+                  setEmailSettingsForm((current) => ({
+                    ...current,
+                    inquiry_auto_reply_message: event.target.value,
+                  }))
+                }
+                className={textAreaClass}
+                rows="5"
+                required
+              />
+            </Field>
+          </div>
+
+          <p className="rounded-xl border border-[#dbe7e1] bg-[#f7fbf8] px-4 py-3 text-sm leading-6 text-[#60746e]">
+            Add one email per line or separate emails with commas. Enquiry customers can receive an automatic thank-you email such as “We received your enquiry and will contact you within 48 hours.”
+          </p>
+          <div className="flex flex-wrap gap-3">
+            <button type="submit" disabled={isSubmitting} className={primaryButtonClass}>
+              {isSubmitting ? "Saving..." : "Save Email Settings"}
+            </button>
+          </div>
+        </form>
+      </PanelCard>
+
+      <PanelCard
+        eyebrow="Admin Settings"
+        title="Page Meta Tags"
+        subtitle="Edit SEO titles and descriptions for the main public pages."
+      >
+        <div className="grid gap-4">
+          {pageMetaSettings.map((item) => (
+            <div key={item.id} className="rounded-[1.4rem] border border-[#dbe7e1] bg-[#fbfdfc] p-5">
+              <div className="grid gap-5 lg:grid-cols-[minmax(0,180px)_1fr] lg:items-start">
+                <div>
+                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#7d948c]">{item.page_key}</p>
+                  <p className="mt-2 text-sm font-semibold text-[#18332e]">{item.page_path}</p>
+                </div>
+                <div className="grid gap-4">
+                  <Field label="Meta Title">
+                    <input
+                      value={item.title}
+                      onChange={(event) => onPageMetaChange(item.id, "title", event.target.value)}
+                      className={inputClass}
+                    />
+                  </Field>
+                  <Field label="Meta Description">
+                    <textarea
+                      value={item.description}
+                      onChange={(event) => onPageMetaChange(item.id, "description", event.target.value)}
+                      className={textAreaClass}
+                      rows="4"
+                    />
+                  </Field>
+                  <ToggleRow
+                    checked={Boolean(item.is_active)}
+                    onChange={(value) => onPageMetaChange(item.id, "is_active", value)}
+                    label="Use this meta on the site"
+                  />
+                  <div className="flex flex-wrap gap-3">
+                    <button type="button" disabled={isSubmitting} onClick={() => onPageMetaSave(item)} className={primaryButtonClass}>
+                      {isSubmitting ? "Saving..." : "Save Meta"}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
-        <p className="rounded-xl border border-[#dbe7e1] bg-[#f7fbf8] px-4 py-3 text-sm leading-6 text-[#60746e]">
-          Add one email per line or separate emails with commas. The customer booking email is always sent to the customer email from the booking form.
-        </p>
-        <div className="flex flex-wrap gap-3">
-          <button type="submit" disabled={isSubmitting} className={primaryButtonClass}>
-            {isSubmitting ? "Saving..." : "Save Email Settings"}
-          </button>
-        </div>
-      </form>
-    </PanelCard>
+      </PanelCard>
+    </div>
   );
 }
 

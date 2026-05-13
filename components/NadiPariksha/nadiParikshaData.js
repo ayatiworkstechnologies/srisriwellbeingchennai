@@ -4,10 +4,25 @@ export const heroContent = {
     "Nadi Pariksha is an ancient, non-invasive pulse diagnosis technique rooted in Ayurveda. By analysing your pulse, it reveals imbalances in your doshas, assesses organ health, and provides deep insights into your physical, emotional, and mental wellbeing.",
     "It helps identify potential health concerns early and the Ayurveda Nadi Vaidya can guide the right diet, lifestyle changes, Ayurvedic supplements, and treatments personalised just for you.",
   ],
-  image: "/banner/nadi-mob.png",
-  mobimage: "/banner/nadi-web.png",
+  image: "/banner/nadi-web.png",
+  mobimage: "/banner/nadi-mob.png",
   isOverlay: true,
 };
+
+export const featuredCities = [
+  {
+    name: "Chennai",
+    tag: "Daily access",
+    description:
+      "Book a Nadi Pariksha consultation with local support, guided follow-up, and easy access to therapies.",
+  },
+  {
+    name: "Pondicherry",
+    tag: "Camp access",
+    description:
+      "Reserve your spot for upcoming Nadi camps and connect with the team for schedule-based appointments.",
+  },
+];
 
 export const stats = [
   {
@@ -103,9 +118,9 @@ export const camps = [
     id: 2,
     doctor: "Dr. S Meenakshi",
     date: "15/05/2026",
-    location: "Madurai, Tamil Nadu",
+    location: "Pondicherry",
     contact: "Saravanan (9843210987)",
-    address: "Sri Sri Wellness Center, KK Nagar",
+    address: "Sri Auro Wellness Hall, Heritage Town",
     type: "this-month",
   },
   {

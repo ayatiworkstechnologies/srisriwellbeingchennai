@@ -16,12 +16,15 @@ import {
   eyeExercises,
   eyeDisorders,
 } from "@/components/NetraTejas/netraTejasData";
+import { getPageMetadata } from "@/lib/seo";
 
-export const metadata = {
-  title: "Sri Sri Netra Tejas | Ayurvedic Eye Care | Sri Sri Wellbeing Chennai",
-  description:
-    "Discover Sri Sri Netra Tejas – natural Ayurvedic eye care therapies for holistic vision health. Treatments for eye strain, retinal support, and visual wellbeing at Sri Sri Wellbeing Chennai.",
-};
+export async function generateMetadata() {
+  return getPageMetadata("netra-tejas", {
+    title: "Sri Sri Netra Tejas | Ayurvedic Eye Care | Sri Sri Wellbeing Chennai",
+    description:
+      "Discover Sri Sri Netra Tejas - natural Ayurvedic eye care therapies for holistic vision health. Treatments for eye strain, retinal support, and visual wellbeing at Sri Sri Wellbeing Chennai.",
+  });
+}
 
 export default function NetraTejasPage() {
   return (

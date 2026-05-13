@@ -2,69 +2,43 @@
 
 import Image from "next/image";
 import RevealOnScroll from "@/components/Main/RevealOnScroll";
-import { 
-  FaWheelchair, 
-  FaCar, 
-  FaClock, 
-  FaUserDoctor, 
-  FaPersonPraying, 
-  FaLeaf, 
-  FaMortarPestle, 
-  FaHouseMedical, 
-  FaUsers, 
-  FaStar, 
-  FaSpa, 
-  FaHeartPulse 
-} from "react-icons/fa6";
 
 const facilityPoints = [
   {
-    title: "Elder-friendly and wheelchair-accessible spaces",
-    icon: FaWheelchair,
+    title: "Accessible Arrival",
+    description:
+      "Elder-friendly access, wheelchair support, and comfortable movement through key care areas.",
+    image: "/images/facilities/facilities-1.png",
   },
   {
-    title: "Ample car parking for visitors and patients",
-    icon: FaCar,
+    title: "Parking & Entry",
+    description:
+      "Ample parking and easy arrival flow for guests, patients, families, and wellness visitors.",
+    image: "/images/facilities/facilities-2.png",
   },
   {
-    title: "24/7 wellness and care support",
-    icon: FaClock,
+    title: "Wellness Support",
+    description:
+      "Structured day support, guided assistance, and responsive coordination through your visit.",
+    image: "/images/facilities/facilities-3.png",
   },
   {
-    title: "In-house Ayurveda doctors and consultation support",
-    icon: FaUserDoctor,
+    title: "Ayurveda Consultation",
+    description:
+      "In-house doctors, consultation spaces, and treatment planning support in one place.",
+    image: "/images/facilities/facilities-4.png",
   },
   {
-    title: "Yoga and meditation studio for holistic well being",
-    icon: FaPersonPraying,
+    title: "Yoga & Meditation",
+    description:
+      "Dedicated spaces for guided breathwork, yoga sessions, and calm restorative practices.",
+    image: "/images/facilities/facilities-5.png",
   },
   {
-    title: "Green landscaped surroundings with a calming atmosphere",
-    icon: FaLeaf,
-  },
-  {
-    title: "Ayurveda pharmacy and wellness essentials",
-    icon: FaMortarPestle,
-  },
-  {
-    title: "Daycare and wellness observation facilities",
-    icon: FaHouseMedical,
-  },
-  {
-    title: "Community-focused wellness environment",
-    icon: FaUsers,
-  },
-  {
-    title: "Clean, peaceful, and patient-friendly infrastructure",
-    icon: FaStar,
-  },
-  {
-    title: "Dedicated relaxation and healing spaces",
-    icon: FaSpa,
-  },
-  {
-    title: "Integrated support for long-term wellness programs",
-    icon: FaHeartPulse,
+    title: "Green Healing Ambience",
+    description:
+      "Natural surroundings and quiet visual relief that support focus, rest, and emotional ease.",
+    image: "/images/facilities/facilities-6.png",
   },
 ];
 
@@ -81,28 +55,27 @@ export default function FacilitiesGrid() {
           <div className="mx-auto mt-5 h-1 w-20 bg-[#d4af37]" />
         </RevealOnScroll>
 
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-10 md:mt-12">
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-10 md:mt-12">
           {facilityPoints.map((point, index) => {
-            const IconComponent = point.icon;
             return (
               <RevealOnScroll key={index} delay={index * 0.05}>
-                <div className="group relative h-full rounded-[24px] border border-[#eadfce] bg-white p-6 shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(212,175,55,0.15)] hover:border-[#d4af37] flex flex-col items-center text-center overflow-hidden z-10">
-                  
-                  {/* Decorative expanding circle */}
-                  <div className="absolute -right-6 -top-6 h-24 w-24 rounded-full bg-[#d4af37]/5 transition-transform duration-700 ease-out group-hover:scale-[3] -z-10" />
-
-                  {/* Animated Icon Container */}
-                  <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-2xl bg-[#fdf8ef] text-[#c29a2f] transition-all duration-500 ease-out group-hover:-translate-y-1 group-hover:bg-[#d4af37] group-hover:text-white group-hover:shadow-[0_8px_20px_rgba(212,175,55,0.4)]">
-                    <IconComponent className="h-7 w-7 transition-transform duration-500 group-hover:scale-110" />
+                <div className="group overflow-hidden rounded-[24px] border border-[#eadfce] bg-white shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(212,175,55,0.15)] hover:border-[#d4af37]">
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <Image
+                      src={point.image}
+                      alt={point.title}
+                      fill
+                      className="object-cover transition duration-700 group-hover:scale-[1.04]"
+                    />
                   </div>
-                  
-                  {/* Text */}
-                  <p className="text-[15px] font-bold leading-relaxed text-[#4f443c] transition-colors duration-300 group-hover:text-[#23130d]">
-                    {point.title}
-                  </p>
-                  
-                  {/* Bottom animated border line */}
-                  <div className="absolute bottom-0 left-1/2 h-1 w-0 -translate-x-1/2 bg-[#d4af37] transition-all duration-500 ease-out group-hover:w-1/2 rounded-t-full" />
+                  <div className="p-6">
+                    <p className="text-lg font-bold leading-relaxed text-[#23130d]">
+                      {point.title}
+                    </p>
+                    <p className="mt-3 text-sm leading-7 text-[#5e5751]">
+                      {point.description}
+                    </p>
+                  </div>
                 </div>
               </RevealOnScroll>
             );

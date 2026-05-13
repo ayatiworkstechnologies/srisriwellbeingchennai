@@ -1,9 +1,15 @@
 import {
+  createAdminCategory,
+  createAdminNadiCamp,
   getAdminBootstrap,
+  listAdminCategories,
+  listAdminNadiCamps,
   listAdminUsers,
   createAdminRelaxationTherapy,
   createAdminService,
   listAdminInquiries,
+  updateAdminCategory,
+  updateAdminNadiCamp,
   updateAdminRelaxationTherapy,
   updateAdminService,
 } from "@/lib/api";
@@ -82,6 +88,8 @@ export async function loadAdminData({
   inquirySourceFilter,
   setInquiries,
   setServices,
+  setCategories,
+  setNadiCamps,
   setRelaxationTherapies,
   setTherapists,
   setAdminUsers,
@@ -98,6 +106,12 @@ export async function loadAdminData({
       const bootstrap = await getAdminBootstrap(token, statusFilter);
       setInquiries([]);
       setServices([]);
+      if (setCategories) {
+        setCategories([]);
+      }
+      if (setNadiCamps) {
+        setNadiCamps([]);
+      }
       setRelaxationTherapies([]);
       setTherapists([]);
       if (setAdminUsers) {
@@ -108,14 +122,22 @@ export async function loadAdminData({
       return;
     }
 
-    const [inquiryData, bootstrapData, adminUserData] = await Promise.all([
+    const [inquiryData, bootstrapData, adminUserData, nadiCampData, categoryData] = await Promise.all([
       listAdminInquiries(token, { status: inquiryStatusFilter, source: inquirySourceFilter }),
       getAdminBootstrap(token, statusFilter),
       setAdminUsers ? listAdminUsers(token) : Promise.resolve(null),
+      setNadiCamps ? listAdminNadiCamps(token) : Promise.resolve([]),
+      setCategories ? listAdminCategories(token).catch(() => []) : Promise.resolve([]),
     ]);
 
     setInquiries(inquiryData || []);
     setServices(bootstrapData?.services || []);
+    if (setCategories) {
+      setCategories(categoryData || []);
+    }
+    if (setNadiCamps) {
+      setNadiCamps(nadiCampData || bootstrapData?.nadi_camps || []);
+    }
     setRelaxationTherapies(bootstrapData?.relaxation_therapies || []);
     setTherapists(bootstrapData?.therapists || []);
     if (setAdminUsers) {
@@ -139,6 +161,14 @@ export const adminCrudModules = {
   services: {
     createEntity: createAdminService,
     updateEntity: updateAdminService,
+  },
+  categories: {
+    createEntity: createAdminCategory,
+    updateEntity: updateAdminCategory,
+  },
+  "nadi-camps": {
+    createEntity: createAdminNadiCamp,
+    updateEntity: updateAdminNadiCamp,
   },
   "relaxation-therapies": {
     createEntity: createAdminRelaxationTherapy,
@@ -209,7 +239,7 @@ export function getUniqueInquirySources(items) {
   );
 }
 
-function parseAdminDate(value) {
+export function parseAdminDate(value) {
   if (!value) return null;
   if (value instanceof Date && !Number.isNaN(value.getTime())) return value;
 

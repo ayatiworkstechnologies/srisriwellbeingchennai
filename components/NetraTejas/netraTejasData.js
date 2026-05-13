@@ -5,8 +5,8 @@ export const heroContent = {
     "Treatments offered at Sri Sri Netratejas are effective not only for overall eye health, but also mental wellbeing. These remedies have no side effects as they are based on Ayurveda and Naturopathy. Natural therapies are used to heal several eye issues, and medicinal concoctions used in these therapies are free from contaminants and retain the essence of nature. Besides, highly effective eye exercises are synergised with natural ocular therapies and internal medicines, to strengthen eye muscles, optimise retinal function and correct refractive errors.",
   ctaLabel: "Book an appointment",
   ctaHref: "/contact",
-  image: "/banner/srisri-eye-mob.png",
-  mobimage: "/banner/srisri-eye-web.png",
+  image: "/banner/srisri-eye-web.png",
+  mobimage: "/banner/srisri-eye-mob.png",
   isOverlay: true,
 };
 

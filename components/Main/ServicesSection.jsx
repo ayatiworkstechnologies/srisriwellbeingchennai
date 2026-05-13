@@ -9,6 +9,22 @@ import TherapyModal from "../Relax/TherapyModal";
 import { AnimatePresence } from "framer-motion";
 import { listPublicServices } from "@/lib/api";
 
+function normalizeServiceTitle(title = "") {
+  if (title.trim().toLowerCase() === "marma therapy") {
+    return "Marma Chikitsa";
+  }
+
+  return title;
+}
+
+function normalizeServiceImage(title = "", image = "") {
+  if (title.trim().toLowerCase() === "pain management therapies") {
+    return "/images/heal/manual.png";
+  }
+
+  return image;
+}
+
 function normalizeBenefits(value) {
   if (Array.isArray(value)) {
     return value.map((item) => (typeof item === "string" ? item.trim() : "")).filter(Boolean);
@@ -45,11 +61,11 @@ export default function ServicesSection() {
         setTherapyCards(
           (result || []).map((item) => ({
             id: item.id,
-            title: item.title,
+            title: normalizeServiceTitle(item.title),
             shortDescription: item.short_description || item.shortDescription || "",
             desc: item.short_description || item.shortDescription || "",
             details: item.description,
-            image: item.image,
+            image: normalizeServiceImage(item.title, item.image),
             rating: item.rating,
             benefits: normalizeBenefits(item.benefits),
           }))
@@ -134,7 +150,7 @@ export default function ServicesSection() {
             type="button"
             onClick={() => canGoPrev && setPage(currentPage - 1)}
             disabled={!canGoPrev}
-            className="absolute left-[8px] top-1/2 z-20 group flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:left-[-22px] md:h-14 md:w-14"
+            className="absolute left-2 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:flex md:h-12 md:w-12 lg:left-[-22px] lg:h-14 lg:w-14"
             aria-label="Previous services"
           >
             {/* Ripple Rings — animate on hover/click only */}
@@ -158,7 +174,7 @@ export default function ServicesSection() {
             type="button"
             onClick={() => canGoNext && setPage(currentPage + 1)}
             disabled={!canGoNext}
-            className="absolute right-[8px] top-1/2 z-20 group flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:right-[-22px] md:h-14 md:w-14"
+            className="absolute right-2 top-1/2 z-20 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#d0a93d] shadow-lg transition-all duration-300 hover:scale-110 disabled:cursor-not-allowed disabled:opacity-40 md:flex md:h-12 md:w-12 lg:right-[-22px] lg:h-14 lg:w-14"
             aria-label="Next services"
           >
             {/* Ripple Rings — animate on hover/click only */}
