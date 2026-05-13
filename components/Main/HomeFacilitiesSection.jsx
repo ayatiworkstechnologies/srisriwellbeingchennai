@@ -6,22 +6,22 @@ import WellnessButton from "../layouts/WellnessButton";
 
 const facilityHighlights = [
   {
-    title: "Therapy Suites",
+    title: "Consultation & Therapy Rooms",
     description:
-      "Calm treatment rooms designed for Ayurveda consultations, therapies, and guided healing sessions.",
-    image: "/images/facilities/facilities-4.png",
+      "Private doctor consultation spaces and prepared therapy rooms for calm, personalised Ayurvedic care.",
+    image: "/images/facilities/fac-2.png",
   },
   {
-    title: "Stay Spaces",
+    title: "Rest & Recovery Spaces",
     description:
-      "Comfortable stay rooms that support longer healing journeys, post-therapy rest, and wellness immersion.",
-    image: "/images/facilities/facilities-1.png",
+      "Comfortable rooms and quiet areas that support post-therapy rest, longer programmes, and recovery.",
+    image: "/images/facilities/fac-5.png",
   },
   {
-    title: "Work From Stay",
+    title: "Pharmacy & Guest Support",
     description:
-      "Quiet corners, seamless support, and restorative surroundings for guests who want to balance work and wellbeing.",
-    image: "/images/facilities/facilities-5.png",
+      "On-site care coordination, product support, and a smoother visit flow for guests and families.",
+    image: "/images/facilities/fac-7.png",
   },
 ];
 
@@ -32,13 +32,13 @@ export default function HomeFacilitiesSection() {
         <RevealOnScroll className="title-center mx-auto mb-10 max-w-3xl md:mb-14">
           <p className="eyebrow-text mb-3 text-[#c79f31]">Facilities</p>
           <h2 className="section-title text-[#1f1a17]">
-            Healing Spaces Built Around Comfort
+            Facilities That Support Every Step Of Care
           </h2>
           <div className="mx-auto mt-4 h-[3px] w-[78px] rounded-full bg-[#c79f31]" />
           <p className="para-text mx-auto mt-5 max-w-2xl text-[#6b6158]">
-            From therapy suites to stay-friendly wellness spaces, every part of
-            Sri Sri Wellbeing is shaped to make healing feel calm, organised,
-            and restorative.
+            From consultation rooms and therapy suites to rest spaces and
+            pharmacy support, the centre is arranged for calm, accessible, and
+            well-coordinated wellness visits.
           </p>
         </RevealOnScroll>
 

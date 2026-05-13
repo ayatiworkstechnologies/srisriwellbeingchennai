@@ -20,10 +20,12 @@ export default function NadiConditionsSection() {
     <section className="section-padding relative overflow-hidden">
       {/* Background pattern */}
       <div className="absolute inset-0">
-        <img
+        <Image
           src="/images/sec-1.svg"
           alt=""
-          className="w-full h-full object-cover"
+          fill
+          sizes="100vw"
+          className="object-cover"
         />
       </div>
 

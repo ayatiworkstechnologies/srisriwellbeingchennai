@@ -9,13 +9,13 @@ npm install
 npm run dev
 ```
 
-The frontend now proxies API requests through Next.js at `/api/backend/...` by default.
+The frontend now proxies API requests through Next.js at `/api/...` by default.
 
 Optional environment variables:
 
 ```env
 BACKEND_API_URL=https://srisriwellbeingchennai-backend.onrender.com
-NEXT_PUBLIC_API_BASE_URL=/api/backend
+NEXT_PUBLIC_API_BASE_URL=/api
 ```
 
 - Use `BACKEND_API_URL` to tell the Next.js proxy which backend to call.

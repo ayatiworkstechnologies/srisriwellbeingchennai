@@ -1,15 +1,18 @@
 "use client";
 
+import Image from "next/image";
 import RevealOnScroll from "@/components/Main/RevealOnScroll";
 
 export default function FacilitiesIntro() {
   return (
     <section className="section-padding  relative overflow-hidden">
       <div className="absolute inset-0">
-        <img
+        <Image
           src="/images/sec-1.svg"
           alt=""
-          className="w-full h-full object-cover"
+          fill
+          sizes="100vw"
+          className="object-cover"
         />
       </div>
       <div className="absolute inset-x-0 top-0 h-32 bg-[radial-gradient(circle_at_top,rgba(212,175,55,0.08),transparent_70%)]" />

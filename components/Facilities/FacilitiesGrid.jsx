@@ -5,40 +5,76 @@ import RevealOnScroll from "@/components/Main/RevealOnScroll";
 
 const facilityPoints = [
   {
-    title: "Accessible Arrival",
+    title: "Reception & Guest Guidance",
     description:
-      "Elder-friendly access, wheelchair support, and comfortable movement through key care areas.",
-    image: "/images/facilities/facilities-1.png",
+      "A calm first point of contact where guests are welcomed, guided, and supported through their visit.",
+    image: "/images/facilities/fac-1.png",
   },
   {
-    title: "Parking & Entry",
+    title: "Ayurveda Consultation Rooms",
     description:
-      "Ample parking and easy arrival flow for guests, patients, families, and wellness visitors.",
-    image: "/images/facilities/facilities-2.png",
+      "Private consultation spaces for pulse reading, doctor guidance, therapy planning, and follow-up care.",
+    image: "/images/facilities/fac-2.png",
   },
   {
-    title: "Wellness Support",
+    title: "Therapy Suites",
     description:
-      "Structured day support, guided assistance, and responsive coordination through your visit.",
-    image: "/images/facilities/facilities-3.png",
+      "Clean, quiet treatment rooms prepared for Ayurvedic therapies, relaxation rituals, and restorative care.",
+    image: "/images/facilities/fac-3.png",
   },
   {
-    title: "Ayurveda Consultation",
+    title: "Panchakarma Care Spaces",
     description:
-      "In-house doctors, consultation spaces, and treatment planning support in one place.",
-    image: "/images/facilities/facilities-4.png",
+      "Dedicated areas that support deeper cleansing programmes with privacy, hygiene, and attentive care.",
+    image: "/images/facilities/fac-4.png",
   },
   {
-    title: "Yoga & Meditation",
+    title: "Rest & Recovery Rooms",
     description:
-      "Dedicated spaces for guided breathwork, yoga sessions, and calm restorative practices.",
-    image: "/images/facilities/facilities-5.png",
+      "Comfortable rooms for post-therapy rest, longer wellness stays, and unhurried recovery time.",
+    image: "/images/facilities/fac-5.png",
   },
   {
-    title: "Green Healing Ambience",
+    title: "Yoga & Breathwork Areas",
     description:
-      "Natural surroundings and quiet visual relief that support focus, rest, and emotional ease.",
-    image: "/images/facilities/facilities-6.png",
+      "Peaceful spaces for gentle movement, breath practices, meditation, and whole-person wellbeing.",
+    image: "/images/facilities/fac-6.png",
+  },
+  {
+    title: "Pharmacy & Product Support",
+    description:
+      "Easy access to recommended Ayurvedic products, supplements, and care essentials after consultation.",
+    image: "/images/facilities/fac-7.png",
+  },
+  {
+    title: "Family Waiting Lounges",
+    description:
+      "Warm waiting areas for family members and guests, designed for comfort during consultations or therapy.",
+    image: "/images/facilities/fac-8.png",
+  },
+  {
+    title: "Elder-Friendly Movement",
+    description:
+      "Thoughtful layouts that make movement easier for elders, patients, and visitors needing extra support.",
+    image: "/images/facilities/fac-9.png",
+  },
+  {
+    title: "Parking & Arrival Flow",
+    description:
+      "A smoother visit experience with convenient arrival support for appointments, stays, and follow-ups.",
+    image: "/images/facilities/fac-10.png",
+  },
+  {
+    title: "Work From Stay Corners",
+    description:
+      "Quiet corners for guests balancing wellness stays with light work, calls, and daily routines.",
+    image: "/images/facilities/fac-11.png",
+  },
+  {
+    title: "Healing Ambience",
+    description:
+      "A soothing environment shaped around cleanliness, calm, natural textures, and restorative energy.",
+    image: "/images/facilities/fac-12.png",
   },
 ];
 
@@ -51,8 +87,14 @@ export default function FacilitiesGrid() {
       
       <div className="container-width relative z-10">
         <RevealOnScroll className="title-center mb-10 max-w-3xl mx-auto">
-          <h2 className="section-title text-[#23130d]">Designed for Comfort, Care & Everyday Wellness</h2>
+          <p className="eyebrow-text mb-3 text-[#c79f31]">Inside The Centre</p>
+          <h2 className="section-title text-[#23130d]">Facilities Built For A Complete Healing Visit</h2>
           <div className="mx-auto mt-5 h-1 w-20 bg-[#d4af37]" />
+          <p className="para-text mx-auto mt-5 max-w-2xl text-[#6b6158]">
+            From consultation and therapy rooms to rest spaces, pharmacy support,
+            and stay-friendly corners, every facility is arranged to make care feel
+            calm, accessible, and well coordinated.
+          </p>
         </RevealOnScroll>
 
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 mt-10 md:mt-12">

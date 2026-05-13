@@ -1,16 +1,62 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
+import { AnimatePresence } from "framer-motion";
 import { FiPhone, FiCalendar } from "react-icons/fi";
 import { SlLocationPin } from "react-icons/sl";
 import { FaChevronDown } from "react-icons/fa6";
 import { RiUserLocationLine } from "react-icons/ri";
 import RevealOnScroll from "../Main/RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
-import { camps, featuredCities } from "./nadiParikshaData";
+import BookingModal from "../booking/BookingModal";
+import { camps } from "./nadiParikshaData";
+import { listPublicNadiCamps } from "@/lib/api";
 
-const CampCard = ({ data }) => (
+function parseCampDate(value = "") {
+  const [day, month, year] = value.split("/").map(Number);
+  if (!day || !month || !year) return null;
+  return new Date(year, month - 1, day);
+}
+
+function campDateToISO(value = "") {
+  const [day, month, year] = value.split("/").map(Number);
+  if (!day || !month || !year) return "";
+  return `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+}
+
+function getCampType(campDate) {
+  const date = parseCampDate(campDate);
+  if (!date) return "upcoming";
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  date.setHours(0, 0, 0, 0);
+
+  const diffDays = Math.round((date.getTime() - today.getTime()) / 86400000);
+
+  if (diffDays === 0) return "today";
+  if (diffDays >= 0 && diffDays <= 7) return "this-week";
+  if (date.getMonth() === today.getMonth() && date.getFullYear() === today.getFullYear()) {
+    return "this-month";
+  }
+  return "upcoming";
+}
+
+function normalizeCamp(item) {
+  const date = item.camp_date || item.date || "";
+  return {
+    id: item.id,
+    doctor: item.doctor,
+    date,
+    location: item.location,
+    contact: item.contact,
+    address: item.address,
+    type: item.type || getCampType(date),
+  };
+}
+
+const CampCard = ({ data, onBook }) => (
   <div className="h-fit rounded-[20px] bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)] transition-all duration-300 hover:shadow-[0_12px_40px_rgba(0,0,0,0.08)] md:p-8">
     <h3 className="section-subtitle text-[#1f1a17]">{data.doctor}</h3>
     <div className="mb-6 mt-2 h-[2px] w-[32px] bg-[#d0a93d]" />
@@ -40,7 +86,7 @@ const CampCard = ({ data }) => (
     </div>
 
     <div className="mt-6">
-      <WellnessButton href="/contact" label="Book Now" />
+      <WellnessButton label="Book Now" onClick={() => onBook(data)} />
     </div>
   </div>
 );
@@ -48,8 +94,32 @@ const CampCard = ({ data }) => (
 export default function NadiCampsSection() {
   const [searchQuery, setSearchQuery] = useState("");
   const [dateFilter, setDateFilter] = useState("");
+  const [campItems, setCampItems] = useState(() => camps.map(normalizeCamp));
+  const [selectedCamp, setSelectedCamp] = useState(null);
 
-  const filteredCamps = camps.filter((camp) => {
+  useEffect(() => {
+    let active = true;
+
+    async function loadCamps() {
+      try {
+        const items = await listPublicNadiCamps();
+        if (!active || !Array.isArray(items) || items.length === 0) return;
+        setCampItems(items.map(normalizeCamp));
+      } catch {
+        if (active) {
+          setCampItems(camps.map(normalizeCamp));
+        }
+      }
+    }
+
+    loadCamps();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const filteredCamps = useMemo(() => campItems.filter((camp) => {
     const matchesSearch =
       camp.doctor.toLowerCase().includes(searchQuery.toLowerCase()) ||
       camp.location.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -58,42 +128,34 @@ export default function NadiCampsSection() {
     const matchesDate = dateFilter === "" || camp.type === dateFilter;
 
     return matchesSearch && matchesDate;
-  });
+  }), [campItems, dateFilter, searchQuery]);
 
   const handleReset = () => {
     setSearchQuery("");
     setDateFilter("");
   };
 
+  const selectedCampOffering = selectedCamp
+    ? {
+        title: `Nadi Pariksha Camp - ${selectedCamp.location}`,
+        bookingTitle: "Nadi Pariksha",
+        detailsTitle: "Camp Details",
+        image: "/images/nadi/img-2.png",
+        duration: selectedCamp.date,
+        summary: `${selectedCamp.doctor} | ${selectedCamp.location}`,
+        description: `Book your Nadi Pariksha consultation with ${selectedCamp.doctor} at ${selectedCamp.address}. Our team will confirm your live slot after you choose an available time.`,
+        benefits: [
+          "Ayurvedic pulse diagnosis consultation",
+          "Local camp support and guided follow-up",
+          "Easy access to recommended therapies",
+          `Contact support: ${selectedCamp.contact}`,
+        ],
+      }
+    : null;
+
   return (
     <section className="section-padding relative bg-[#f9f8f6]">
       <div className="container-width">
-        <RevealOnScroll className="mb-10 grid gap-4 md:grid-cols-2">
-          {featuredCities.map((city) => (
-            <div
-              key={city.name}
-              className="rounded-[24px] border border-[#eadfcf] bg-white p-6 shadow-[0_8px_30px_rgba(0,0,0,0.04)]"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-xl font-semibold text-[#1f1a17]">
-                    {city.name}
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-[#6b6158]">
-                    {city.description}
-                  </p>
-                </div>
-                <span className="rounded-full bg-[#f5efe3] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#c79f31]">
-                  {city.tag}
-                </span>
-              </div>
-              <div className="mt-5">
-                <WellnessButton href="/contact" label="Book Now" />
-              </div>
-            </div>
-          ))}
-        </RevealOnScroll>
-
         <RevealOnScroll className="title-center mb-10 md:mb-12">
           <h2 className="section-title text-[#1f1a17]">
             Search Upcoming Nadi Camps
@@ -142,7 +204,13 @@ export default function NadiCampsSection() {
           <RevealOnScroll delay={0.2}>
             <div className="grid grid-cols-1 items-start gap-6 md:grid-cols-2 md:gap-8 lg:grid-cols-3">
               {filteredCamps.reduce((acc, card, index) => {
-                acc.push(<CampCard key={card.id} data={card} />);
+                acc.push(
+                  <CampCard
+                    key={card.id}
+                    data={card}
+                    onBook={setSelectedCamp}
+                  />
+                );
 
                 if (index === 0) {
                   acc.push(
@@ -192,6 +260,18 @@ export default function NadiCampsSection() {
           </div>
         )}
       </div>
+
+      <AnimatePresence>
+        {selectedCamp && selectedCampOffering ? (
+          <BookingModal
+            offering={selectedCampOffering}
+            initialDate={campDateToISO(selectedCamp.date)}
+            lockedDate
+            initialNotes={`Nadi camp: ${selectedCamp.doctor}, ${selectedCamp.location}, ${selectedCamp.address}. Contact: ${selectedCamp.contact}.`}
+            onClose={() => setSelectedCamp(null)}
+          />
+        ) : null}
+      </AnimatePresence>
     </section>
   );
 }

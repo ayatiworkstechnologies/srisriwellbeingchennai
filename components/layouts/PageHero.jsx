@@ -1,4 +1,4 @@
-"use client";
+import Image from "next/image";
 
 /**
  * PageHero - a clean, full-width banner image placed immediately after the Header.
@@ -26,23 +26,32 @@ export default function PageHero({
             <source src={videoSrc} type="video/mp4" />
           </video>
         ) : mobileImage ? (
-          <picture className="absolute inset-0 block h-full w-full">
-            <source media="(max-width: 767px)" srcSet={mobileImage} />
-            <img
+          <>
+            <Image
+              src={mobileImage}
+              alt={heroImageAlt}
+              fill
+              priority
+              sizes="100vw"
+              className={`block md:hidden ${imageClassName}`}
+            />
+            <Image
               src={heroImage || mobileImage}
               alt={heroImageAlt}
-              className={`h-full w-full ${imageClassName}`}
-              loading="eager"
-              fetchPriority="high"
+              fill
+              priority
+              sizes="100vw"
+              className={`hidden md:block ${imageClassName}`}
             />
-          </picture>
+          </>
         ) : heroImage ? (
-          <img
+          <Image
             src={heroImage}
             alt={heroImageAlt}
-            className={`absolute inset-0 h-full w-full ${imageClassName}`}
-            loading="eager"
-            fetchPriority="high"
+            fill
+            priority
+            sizes="100vw"
+            className={imageClassName}
           />
         ) : null}
       </section>

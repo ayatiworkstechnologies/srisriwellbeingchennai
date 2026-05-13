@@ -9,7 +9,7 @@ const staySections = [
     title: "Stay Rooms",
     description:
       "Private rooms planned for extended wellness stays, post-therapy recovery, and a calm day-to-day healing rhythm.",
-    image: "/images/facilities/facilities-1.png",
+    image: "/images/facilities/fac-5.png",
     points: [
       "Comfortable rest and recovery setup",
       "Easy access to therapies and consultations",
@@ -20,7 +20,7 @@ const staySections = [
     title: "Work From Stay",
     description:
       "A balanced stay format for guests who need to remain productive while continuing their Ayurveda programme.",
-    image: "/images/facilities/facilities-5.png",
+    image: "/images/facilities/fac-11.png",
     points: [
       "Peaceful surroundings for focused work",
       "Flexible wellness schedule through the day",

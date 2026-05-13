@@ -4,6 +4,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { createPublicLead } from "@/lib/api";
 import {
   FaArrowRight,
   FaClock,
@@ -26,33 +27,17 @@ export default function ContactPageRedesign() {
 
     const formData = new FormData(e.target);
     const payload = {
-      data: {
-        name: formData.get("name"),
-        phone: formData.get("phone"),
-        email: formData.get("email"),
-        topic: formData.get("topic"),
-        message: formData.get("message"),
-      },
+      name: formData.get("name"),
+      phone: formData.get("phone"),
+      email: formData.get("email"),
+      topic: formData.get("topic"),
+      message: formData.get("message"),
+      source: "contact-page",
+      page_path: "/contact",
     };
 
     try {
-      const response = await fetch(
-        "https://api.ayatiworks.com/api/v1/public/srisriwelbeing-chennai/contact_us/records",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-Key": "cdbdf7f07d5395cdeac637f9c65d2925d04cf5cdd7a7d6a93f892daed491c46a",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        console.error("API Error Response:", errorData);
-        throw new Error(`Failed to submit form. Status: ${response.status}`);
-      }
+      await createPublicLead(payload);
 
       setIsSuccess(true);
       e.target.reset();

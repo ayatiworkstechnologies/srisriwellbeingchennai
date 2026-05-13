@@ -11,10 +11,12 @@ export default function ThankYouPage() {
     <div className="relative min-h-screen flex flex-col font-secondary overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
-        <img
+        <Image
           src="/images/bg.svg"
           alt="Premium Ayurvedic spa treatment"
-          className="w-full h-full object-cover object-center"
+          fill
+          sizes="100vw"
+          className="object-cover object-center"
         />
         <div className="absolute inset-0 bg-white/10" />
       </div>

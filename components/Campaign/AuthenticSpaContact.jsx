@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FaLocationDot, FaPhone, FaEnvelope, FaClock } from "react-icons/fa6";
 import RevealOnScroll from "@/components/Main/RevealOnScroll";
+import { createPublicLead } from "@/lib/api";
 
 export default function AuthenticSpaContact() {
   const router = useRouter();
@@ -28,23 +29,17 @@ export default function AuthenticSpaContact() {
     setLoading(true);
 
     try {
-      const response = await fetch(
-        "https://api.ayatiworks.com/api/v1/public/srisriwelbeing-chennai/sri_sri_campain/records",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "X-API-Key": "cdbdf7f07d5395cdeac637f9c65d2925d04cf5cdd7a7d6a93f892daed491c46a",
-          },
-          body: JSON.stringify({ data: formData }),
-        }
-      );
-
-      if (response.ok) {
-        router.push("/ayurvedic-spa/thank-you");
-      } else {
-        alert("Something went wrong. Please try again.");
-      }
+      await createPublicLead({
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        topic: "Ayurvedic spa campaign",
+        service_interest: formData.service,
+        message: formData.message || "Campaign consultation request",
+        source: "ayurvedic-spa-contact",
+        page_path: "/ayurvedic-spa",
+      });
+      router.push("/ayurvedic-spa/thank-you");
     } catch (error) {
       console.error("Submission error:", error);
       alert("Network error. Please check your connection.");

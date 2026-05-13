@@ -7,7 +7,7 @@ function getBackendBaseUrl() {
 function buildTargetUrl(request, pathSegments) {
   const backendBaseUrl = getBackendBaseUrl();
   const incomingUrl = new URL(request.url);
-  const joinedPath = pathSegments.join("/");
+  const joinedPath = ["api", ...pathSegments].filter(Boolean).join("/");
   const targetUrl = new URL(`${backendBaseUrl}/${joinedPath}`);
 
   incomingUrl.searchParams.forEach((value, key) => {

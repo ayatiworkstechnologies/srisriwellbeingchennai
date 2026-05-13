@@ -111,7 +111,7 @@ export default function AdminTopbar({
             <div className="flex flex-wrap items-center gap-2 text-xs text-[#60746e]">
               <div className="inline-flex h-10 max-w-full items-center gap-2 rounded-xl border border-[#d9e3de] bg-[#f7faf8] px-3">
                 <Wifi className="h-4 w-4 text-[#1f6b5c]" aria-hidden="true" />
-                <span className="truncate">{apiBaseUrl || "/api/backend"}</span>
+                <span className="truncate">{apiBaseUrl || "/api"}</span>
               </div>
               <div className="inline-flex h-10 items-center rounded-xl border border-[#d9e3de] bg-white px-3">
                 Last sync: {lastLoadedLabel}

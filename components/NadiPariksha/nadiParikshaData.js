@@ -9,21 +9,6 @@ export const heroContent = {
   isOverlay: true,
 };
 
-export const featuredCities = [
-  {
-    name: "Chennai",
-    tag: "Daily access",
-    description:
-      "Book a Nadi Pariksha consultation with local support, guided follow-up, and easy access to therapies.",
-  },
-  {
-    name: "Pondicherry",
-    tag: "Camp access",
-    description:
-      "Reserve your spot for upcoming Nadi camps and connect with the team for schedule-based appointments.",
-  },
-];
-
 export const stats = [
   {
     value: 380,

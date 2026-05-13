@@ -1,11 +1,12 @@
 import "./globals.css";
-import { Rubik } from "next/font/google";
 import localFont from "next/font/local";
+import { Rubik } from "next/font/google";
 import { Suspense } from "react";
 import Script from "next/script";
 
 const rubik = Rubik({
   subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
   display: "swap",
   variable: "--font-rubik",
 });

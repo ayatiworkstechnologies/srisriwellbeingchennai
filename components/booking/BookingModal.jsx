@@ -37,16 +37,29 @@ function formatTimeLabel(value) {
   }).format(date);
 }
 
-export default function BookingModal({ offering, onClose, theme = "gold" }) {
+function getInitialMonth(initialDate) {
+  if (!initialDate) return new Date();
+  const date = new Date(initialDate);
+  return Number.isNaN(date.getTime()) ? new Date() : date;
+}
+
+export default function BookingModal({
+  offering,
+  onClose,
+  theme = "gold",
+  initialDate = "",
+  lockedDate = false,
+  initialNotes = "",
+}) {
   const [mounted, setMounted] = useState(false);
   const [step, setStep] = useState(1);
-  const [currentMonth, setCurrentMonth] = useState(new Date());
+  const [currentMonth, setCurrentMonth] = useState(() => getInitialMonth(initialDate));
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
     email: "",
-    notes: "",
-    date: "",
+    notes: initialNotes,
+    date: initialDate,
   });
   const [availability, setAvailability] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
@@ -83,7 +96,7 @@ export default function BookingModal({ offering, onClose, theme = "gold" }) {
       setSelectedSlot(null);
       try {
         const result = await getBookingAvailability({
-          therapyName: offering.title,
+          therapyName: offering.bookingTitle || offering.title,
           bookingDate: formData.date,
         });
         if (!active) return;
@@ -107,7 +120,7 @@ export default function BookingModal({ offering, onClose, theme = "gold" }) {
     return () => {
       active = false;
     };
-  }, [formData.date, offering.title]);
+  }, [formData.date, offering.bookingTitle, offering.title]);
 
   const calendarDays = useMemo(() => {
     const year = currentMonth.getFullYear();
@@ -129,17 +142,19 @@ export default function BookingModal({ offering, onClose, theme = "gold" }) {
       const value = `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
       const isPast = normalizedDate < today;
       const isSelected = formData.date === value;
+      const isLockedOut = lockedDate && value !== initialDate;
+      const isDisabled = isLockedOut || (isPast && !isSelected);
 
       days.push(
         <button
           key={value}
           type="button"
-          disabled={isPast}
+          disabled={isDisabled}
           onClick={() => setFormData((current) => ({ ...current, date: value }))}
           className={`h-10 w-full rounded-full text-sm transition-all ${
             isSelected
               ? "bg-[#c29a2f] font-bold text-white shadow-md"
-              : isPast
+              : isDisabled
                 ? "cursor-not-allowed text-black/20"
                 : "font-medium text-[#1f1a17] hover:bg-white hover:text-[#c29a2f]"
           }`}
@@ -150,7 +165,7 @@ export default function BookingModal({ offering, onClose, theme = "gold" }) {
     }
 
     return days;
-  }, [currentMonth, formData.date]);
+  }, [currentMonth, formData.date, initialDate, lockedDate]);
 
   if (!mounted || !offering) return null;
 
@@ -179,7 +194,7 @@ export default function BookingModal({ offering, onClose, theme = "gold" }) {
     setSubmitError("");
     try {
       const result = await createBookingAppointment({
-        therapy_name: offering.title,
+        therapy_name: offering.bookingTitle || offering.title,
         customer_name: formData.name,
         phone: formData.phone,
         email: formData.email,
@@ -280,7 +295,9 @@ export default function BookingModal({ offering, onClose, theme = "gold" }) {
                 exit={{ opacity: 0, x: -20 }}
                 className="flex h-full flex-col"
               >
-                <h4 className="mb-6 text-2xl font-bold text-[#1f1a17]">Therapy Details</h4>
+                <h4 className="mb-6 text-2xl font-bold text-[#1f1a17]">
+                  {offering.detailsTitle || "Therapy Details"}
+                </h4>
                 <div className="flex-1 space-y-6">
                   <p className="text-[15px] leading-relaxed text-[#5c544f]">{offering.description}</p>
                   {offering.benefits?.length ? (
