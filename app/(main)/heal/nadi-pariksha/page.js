@@ -26,7 +26,7 @@ export default function NadiParikshaPage() {
       />
       <NadiIntroSection />
       <NadiStatsSection />
-      <NadiConditionsSection />
+      {/* <NadiConditionsSection /> */}
       <TestimoniesSection category="nadi" />
       <NadiCampsSection />
       <NadiFAQSection />

@@ -8,6 +8,8 @@ import {
   coreTherapies,
   otherTreatments,
 } from "@/components/Panchakarma/panchakarmaData";
+import NadiConditionsSection from "@/components/NadiPariksha/NadiConditionsSection";
+
 import { getPageMetadata } from "@/lib/seo";
 
 export async function generateMetadata() {
@@ -31,6 +33,8 @@ export default function PanchakarmaPage() {
       <PKFindAyurvedaSection />
       <PKCoreTherapies coreTherapies={coreTherapies} />
       <PKOtherTreatments treatments={otherTreatments} />
+            <NadiConditionsSection />
+      
       <PKFAQSection />
     </>
   );
