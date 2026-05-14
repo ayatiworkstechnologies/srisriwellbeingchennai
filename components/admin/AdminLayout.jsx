@@ -18,12 +18,10 @@ export default function AdminLayout({
 }) {
   if (isInitializing) {
     return (
-      <div className="min-h-screen bg-[#f6f7f8] px-4 py-10">
-        <div className="mx-auto flex min-h-[70vh] max-w-md items-center justify-center">
-          <div className="w-full rounded-lg border border-[#e5e7eb] bg-white p-8 text-center shadow-sm">
-            <div className="mx-auto h-10 w-10 animate-spin rounded-full border-2 border-[#e5e7eb] border-t-[#2563eb]" />
-            <p className="mt-4 text-sm text-[#667085]">Loading admin...</p>
-          </div>
+      <div className="flex min-h-screen items-center justify-center bg-[#f8fafc]">
+        <div className="flex flex-col items-center gap-3">
+          <div className="h-8 w-8 animate-spin rounded-full border-2 border-[#e2e8f0] border-t-[#1a6b4a]" />
+          <p className="text-sm text-[#64748b]">Loading…</p>
         </div>
       </div>
     );
@@ -31,14 +29,14 @@ export default function AdminLayout({
 
   if (!token) {
     return (
-      <div className="min-h-screen bg-[#f6f7f8] text-[#101828]">
+      <div className="min-h-screen bg-[#f8fafc] text-[#1e293b]">
         <main className="mx-auto max-w-6xl px-4 py-8 md:px-6">{children}</main>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-[#f6f7f8] text-[#101828]">
+    <div className="min-h-screen bg-[#f8fafc] text-[#1e293b]">
       <AdminTopbar
         adminSections={adminSections}
         currentSection={currentSection}
@@ -50,7 +48,7 @@ export default function AdminLayout({
         lastLoadedAt={lastLoadedAt}
         onRefresh={onRefresh}
       />
-      <main className="mx-auto max-w-[1500px] px-4 py-7 md:px-6 xl:px-8">{children}</main>
+      <main className="mx-auto max-w-[1500px] px-4 py-6 md:px-6 xl:px-8">{children}</main>
     </div>
   );
 }

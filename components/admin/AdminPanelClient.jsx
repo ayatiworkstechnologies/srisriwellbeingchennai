@@ -1371,48 +1371,87 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
               </div>
             </div>
           </FormModal>
-          <div className="flex flex-col gap-7">
-            {/* Header Section */}
-            <div className="overflow-hidden rounded-lg border border-[#e5e7eb] bg-white shadow-sm">
-              <div className="border-b border-[#eaecf0] bg-[#f9fafb] px-6 py-5">
-                <div className="flex flex-wrap items-center gap-3">
-                  <span className="rounded-md bg-[#eff6ff] px-2.5 py-1 text-xs font-semibold text-[#2563eb]">
+          <div className="flex flex-col gap-5">
+            {/* Page Header Banner */}
+            <div className="flex flex-col gap-4 rounded-xl border border-[#e5e7eb] bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+              <div className="min-w-0">
+                <div className="mb-1.5 flex flex-wrap items-center gap-2">
+                  <span className="inline-flex rounded-md bg-[#f0faf5] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#1a6b4a]">
                     {effectiveSectionMeta.eyebrow}
                   </span>
-                  <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[#667085]">
+                  <span className="text-[10px] font-semibold uppercase tracking-widest text-[#94a3b8]">
                     {effectiveSectionMeta.group || "Admin"}
                   </span>
                 </div>
+                <h1 className="text-2xl font-bold text-[#0f172a]">{effectiveSectionMeta.title}</h1>
+                <p className="mt-1 max-w-2xl text-sm text-[#64748b]">{effectiveSectionMeta.description}</p>
               </div>
-              <div className="flex flex-col gap-6 px-6 py-7 lg:flex-row lg:items-end lg:justify-between">
+              <div className="flex shrink-0 gap-3">
+                <div className="flex flex-col items-center rounded-xl border border-[#f0faf5] bg-[#f8fdfb] px-5 py-3 text-center">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">Action Needed</span>
+                  <span className="mt-1 text-2xl font-bold text-[#1a6b4a]">{newInquiries + pendingBookings}</span>
+                </div>
+                <div className="flex flex-col items-center rounded-xl border border-[#e5e7eb] bg-[#f8fafc] px-5 py-3 text-center">
+                  <span className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">Last Sync</span>
+                  <span className="mt-1 text-2xl font-bold text-[#1e293b]">{lastLoadedAt ? formatTime(lastLoadedAt) : "--"}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* KPI Cards Row */}
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+              <div className="flex flex-col justify-between rounded-xl border border-[#1a6b4a] bg-[#1a6b4a] p-4 text-white">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-white/60">New Enquiries</p>
+                <p className="mt-3 text-4xl font-bold">{newInquiries}</p>
+                <p className="mt-2 text-xs text-white/60">Awaiting follow-up</p>
+              </div>
+              <div className="flex flex-col justify-between rounded-xl border border-[#e5e7eb] bg-white p-4">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">Total Bookings</p>
+                <p className="mt-3 text-4xl font-bold text-[#0f172a]">{bookings.length}</p>
+                <p className="mt-2 text-xs text-[#94a3b8]">All time</p>
+              </div>
+              <div className="flex flex-col justify-between rounded-xl border border-[#fef3c7] bg-[#fffbeb] p-4">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#92400e]">Pending Approval</p>
+                <p className="mt-3 text-4xl font-bold text-[#92400e]">{pendingBookings}</p>
+                <p className="mt-2 text-xs text-[#92400e]/70">Needs review</p>
+              </div>
+              <div className="flex flex-col justify-between rounded-xl border border-[#dcfce7] bg-[#f0fdf4] p-4">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#166534]">Confirmed Sessions</p>
+                <p className="mt-3 text-4xl font-bold text-[#166534]">{confirmedBookings}</p>
+                <p className="mt-2 text-xs text-[#166534]/70">Ready to go</p>
+              </div>
+              <div className="flex flex-col justify-between rounded-xl border border-[#e5e7eb] bg-white p-4">
+                <p className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">Total Content</p>
+                <p className="mt-3 text-4xl font-bold text-[#0f172a]">{countActive(services) + countActive(relaxationTherapies) + countActive(testimonials)}</p>
+                <p className="mt-2 text-xs text-[#94a3b8]">Published items</p>
+              </div>
+            </div>
+
+            {/* Quick Stats Strip */}
+            <div className="grid gap-3 sm:grid-cols-3">
+              <div className="flex items-center gap-3 rounded-xl border border-[#e5e7eb] bg-white px-4 py-3.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f0faf5] text-base">&#128233;</div>
                 <div>
-                  <h1 className="text-3xl font-semibold text-[#101828] md:text-4xl">{effectiveSectionMeta.title}</h1>
-                  <p className="mt-3 max-w-3xl text-sm leading-7 text-[#667085]">
-                    {effectiveSectionMeta.description}
-                  </p>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">CRM Queue</p>
+                  <p className="text-xl font-bold text-[#0f172a]">{inquiries.length} <span className="text-xs font-normal text-[#64748b]">lead enquiries</span></p>
                 </div>
-                <div className="grid min-w-[220px] grid-cols-2 gap-3 rounded-lg border border-[#eaecf0] bg-[#f9fafb] p-3">
-                  <SummaryTile label="Open" value={newInquiries + pendingBookings} note="Need action" emphasis />
-                  <SummaryTile label="Synced" value={lastLoadedAt ? formatTime(lastLoadedAt) : "--"} note="Latest pull" />
+              </div>
+              <div className="flex items-center gap-3 rounded-xl border border-[#e5e7eb] bg-white px-4 py-3.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f0faf5] text-base">&#10024;</div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">Service API</p>
+                  <p className="text-xl font-bold text-[#0f172a]">{services.length} <span className="text-xs font-normal text-[#64748b]">active services</span></p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3 rounded-xl border border-[#e5e7eb] bg-white px-4 py-3.5">
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[#f0faf5] text-base">&#11088;</div>
+                <div>
+                  <p className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">Testimonials</p>
+                  <p className="text-xl font-bold text-[#0f172a]">{testimonials.length} <span className="text-xs font-normal text-[#64748b]">reviews</span></p>
                 </div>
               </div>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
-              <StatCard label="New Enquiries" value={newInquiries} tone="dark" />
-              <StatCard label="Total Bookings" value={bookings.length} />
-              <StatCard label="Pending Approval" value={pendingBookings} />
-              <StatCard label="Confirmed Sessions" value={confirmedBookings} />
-              <StatCard label="Total Content" value={countActive(services) + countActive(relaxationTherapies) + countActive(testimonials)} />
-            </div>
-
-            {/* Quick Metrics */}
-            <div className="grid gap-4 md:grid-cols-3">
-              <InfoStrip title="CRM Queue" value={inquiries.length} detail="Contact and lead enquiries captured from the website." />
-              <InfoStrip title="Service API" value={services.length} detail="Active service cards distributed to the public frontend." />
-              <InfoStrip title="Testimonials" value={testimonials.length} detail="Page reviews served by category to public pages." />
-            </div>
 
             {/* Main Content Area */}
             <div>
@@ -2473,274 +2512,261 @@ function BookingsPanel({
 }) {
   const isDoctorRole = role === "doctor";
   const isTherapistRole = role === "therapist";
-  const panelTitle = isDoctorRole
-    ? "Doctor Bookings"
-    : isTherapistRole
-      ? "Therapist Bookings"
-      : "Bookings";
-  const panelSubtitle = isDoctorRole
-    ? "Review consultations assigned to your doctor profile and keep statuses updated."
-    : isTherapistRole
-      ? "Review therapies assigned to your profile and keep statuses updated."
-      : "Review requests and approve quickly.";
-  const statusCounts = advancedBookingStatusOptions.reduce((counts, status) => {
-    counts[status] = bookings.filter((booking) => booking.status === status).length;
-    return counts;
-  }, {});
   const confirmBookingLifecycleChange = requestBookingLifecycleChange || handleBookingLifecycleChange;
 
   return (
-    <section className="grid gap-5">
-      <div className="overflow-hidden rounded-[1.75rem] border border-[#dbe7e1] bg-white shadow-[0_18px_48px_rgba(21,53,46,0.06)]">
-        <div className="flex flex-col gap-5 border-b border-[#e5eee9] bg-[linear-gradient(180deg,#f9fcfa,#f2f8f4)] p-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="min-w-0">
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#6d857e]">Booking Engine</p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[#18332e]">{panelTitle}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[#5f726c]">{panelSubtitle}</p>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-4 rounded-xl border border-[#e5e7eb] bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <div className="mb-1 flex items-center gap-2">
+            <span className="inline-flex rounded-md bg-[#f0faf5] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#1a6b4a]">
+              Booking Engine
+            </span>
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-[#94a3b8]">
+              Appointment Management
+            </span>
           </div>
-
-          <div className="grid gap-2 sm:grid-cols-[minmax(0,220px)_auto] sm:items-end">
-            <FieldInline label="Filter status">
-              <select
-                value={statusFilter}
-                onChange={(event) => setStatusFilter(event.target.value)}
-                className={`${selectClass} w-full`}
-              >
-                <option value="all">All bookings</option>
-                {advancedBookingStatusOptions.map((option) => (
-                  <option key={option} value={option}>
-                    {toTitleCase(option)}
-                  </option>
-                ))}
-              </select>
-            </FieldInline>
-            <div className="rounded-xl border border-[#dbe7e1] bg-white px-4 py-3 text-sm font-semibold text-[#23403b]">
-              {isLoading ? "Refreshing..." : `${bookings.length} loaded`}
-            </div>
-          </div>
+          <h2 className="text-xl font-bold text-[#0f172a]">Active Bookings</h2>
+          <p className="text-sm text-[#64748b]">Review requests, assign experts, and manage appointment lifecycles.</p>
         </div>
-
-        <div className="grid gap-3 border-b border-[#edf3ef] p-5 sm:grid-cols-2 xl:grid-cols-7">
-          <button
-            type="button"
-            onClick={() => setStatusFilter("all")}
-            className={`rounded-[1.2rem] border p-4 text-left transition ${
-              statusFilter === "all"
-                ? "border-[#1f6b5c] bg-[#eef8f4]"
-                : "border-[#dbe7e1] bg-white hover:bg-[#f8fbf9]"
-            }`}
-          >
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#7d948c]">All</p>
-            <p className="mt-2 text-2xl font-semibold text-[#18332e]">{bookings.length}</p>
-          </button>
-          {advancedBookingStatusOptions.map((status) => (
-            <button
-              key={status}
-              type="button"
-              onClick={() => setStatusFilter(status)}
-              className={`rounded-[1.2rem] border p-4 text-left transition ${
-                statusFilter === status
-                  ? "border-[#1f6b5c] bg-[#eef8f4]"
-                  : "border-[#dbe7e1] bg-white hover:bg-[#f8fbf9]"
-              }`}
-            >
-              <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#7d948c]">{toTitleCase(status)}</p>
-              <p className="mt-2 text-2xl font-semibold text-[#18332e]">{statusCounts[status] || 0}</p>
-            </button>
-          ))}
+        <div className="flex shrink-0 items-center gap-3">
+          <div className="rounded-lg bg-[#f0faf5] px-4 py-2.5 text-center">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#1a6b4a]">Volume</span>
+            <p className="text-xl font-bold text-[#1a6b4a]">{bookings.length}</p>
+          </div>
         </div>
       </div>
 
-      {bookings.length === 0 ? (
-        <div className="rounded-[1.6rem] border border-dashed border-[#cfddd6] bg-[linear-gradient(180deg,#f9fcfa,#f1f7f3)] px-5 py-20 text-center">
-          <p className="text-sm text-[#60746e]">No bookings found for the current filter.</p>
+      <div className="flex flex-wrap items-center gap-4 rounded-xl border border-[#f1f5f9] bg-[#fafafa] p-4">
+        <div className="w-full sm:w-[200px]">
+          <p className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">Status Filter</p>
+          <select
+            value={statusFilter}
+            onChange={(event) => setStatusFilter(event.target.value)}
+            className={selectClass}
+          >
+            <option value="all">All statuses</option>
+            {advancedBookingStatusOptions.map((option) => (
+              <option key={option} value={option}>
+                {toTitleCase(option)}
+              </option>
+            ))}
+          </select>
+        </div>
+        <button
+          onClick={() => setStatusFilter("pending")}
+          className={`h-10 rounded-lg px-4 text-xs font-bold uppercase tracking-widest transition ${
+            statusFilter === "pending"
+              ? "bg-[#1a6b4a] text-white"
+              : "bg-white border border-[#e2e8f0] text-[#64748b] hover:bg-[#f8fafc]"
+          }`}
+        >
+          Pending Only
+        </button>
+      </div>
+
+      {isLoading ? (
+        <div className="py-20 text-center">
+          <div className="inline-block h-8 w-8 animate-spin rounded-full border-2 border-[#1a6b4a] border-t-transparent"></div>
+          <p className="mt-4 text-sm font-medium text-[#64748b]">Syncing bookings...</p>
+        </div>
+      ) : bookings.length === 0 ? (
+        <div className="rounded-xl border border-dashed border-[#e2e8f0] bg-[#fafafa] px-5 py-12 text-center text-sm text-[#94a3b8]">
+          No bookings found for the current filter.
         </div>
       ) : (
-        <div className="grid gap-5">
-          <div className="hidden xl:block overflow-hidden rounded-[1.75rem] border border-[#dbe7e1] bg-white shadow-[0_18px_48px_rgba(21,53,46,0.06)]">
-            <div className="grid grid-cols-[1.2fr_0.95fr_0.95fr_0.95fr_0.85fr_1.2fr] gap-4 border-b border-[#e3ece7] bg-[linear-gradient(180deg,#f9fcfa,#f2f8f4)] px-6 py-4 text-[11px] font-bold uppercase tracking-[0.22em] text-[#7d948c]">
-              <span>Booking</span>
-              <span>Contact</span>
-              <span>Schedule</span>
-              <span>Expert</span>
-              <span>Status</span>
-              <span>Actions</span>
-            </div>
+        <div className="flex flex-col gap-6">
+          <div className="hidden lg:grid gap-4">
             {bookings.map((booking) => (
               <div
                 key={booking.id}
-                className="grid grid-cols-[1.2fr_0.95fr_0.95fr_0.95fr_0.85fr_1.2fr] gap-4 border-b border-[#edf3ef] px-6 py-5 last:border-b-0"
+                className="overflow-hidden rounded-xl border border-[#e5e7eb] bg-white shadow-sm transition duration-200 hover:border-[#cbd5e1] hover:shadow-md"
               >
-                <div className="min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="inline-flex items-center justify-center rounded-lg bg-[#eef5f1] px-2.5 py-1 text-xs font-bold text-[#19564f]">
-                      #{booking.id}
-                    </span>
-                    <span className="inline-flex items-center justify-center rounded-lg bg-[#f4f7f5] px-2.5 py-1 text-xs font-semibold text-[#4e635d]">
-                      {booking.reference_code}
-                    </span>
+                <div className="grid grid-cols-[1.2fr_1fr_1fr_0.8fr_1fr] gap-4 p-5">
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="text-[10px] font-bold text-[#94a3b8] uppercase tracking-widest">#{booking.id}</span>
+                      <span className="text-[10px] font-bold text-[#64748b] uppercase tracking-widest">{booking.reference_code}</span>
+                      <BookingStatusPill status={booking.status} />
+                    </div>
+                    <p className="text-lg font-bold text-[#0f172a]">{booking.customer_name}</p>
+                    <p className="mt-0.5 text-sm font-medium text-[#1a6b4a]">{booking.therapy_name}</p>
+                    <div className="mt-3 flex items-center gap-2 text-xs text-[#64748b]">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#1a6b4a]"></span>
+                      Created {formatDate(booking.created_at)}
+                    </div>
                   </div>
-                  <p className="mt-3 text-base font-semibold text-[#18332e]">{booking.customer_name}</p>
-                  <p className="mt-1 text-sm text-[#4e635d]">{booking.therapy_name}</p>
-                  <p className="mt-2 text-xs text-[#8ba098]">Created {formatDate(booking.created_at)}</p>
-                </div>
-                <div className="min-w-0 text-sm text-[#4e635d]">
-                  <p className="font-medium text-[#18332e]">{booking.phone}</p>
-                  <p className="mt-1 break-words text-[#60746e]">{booking.email}</p>
-                </div>
-                <div className="text-sm text-[#4e635d]">
-                  <p className="font-medium text-[#18332e]">{formatDateOnly(booking.booking_date)}</p>
-                  <p className="mt-1">{formatTime(booking.start_time)} - {formatTime(booking.end_time)}</p>
-                  <p className="mt-2 line-clamp-2 text-xs text-[#7b8f88]">{booking.notes || "No notes"}</p>
-                </div>
-                <div className="text-sm text-[#4e635d]">
-                  <p className={`font-medium ${booking.therapist_id ? "text-[#18332e]" : "text-[#9a6c12]"}`}>
-                    {booking.therapist_name || "Unassigned"}
-                  </p>
-                  <p className="mt-1 text-xs text-[#7b8f88]">
-                    {booking.therapist_id ? `ID ${booking.therapist_id}` : "Assign before approval"}
-                  </p>
-                  {canAssignTherapist ? (
+
+                  <div className="min-w-0 text-sm">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8] mb-1.5">Schedule</p>
+                    <p className="font-bold text-[#0f172a]">{formatDateOnly(booking.booking_date)}</p>
+                    <p className="mt-1 text-[#64748b] font-medium">{formatTime(booking.start_time)} - {formatTime(booking.end_time)}</p>
+                  </div>
+
+                  <div className="min-w-0 text-sm">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8] mb-1.5">Expert Assignment</p>
+                    {canAssignTherapist ? (
+                      <select
+                        value={booking.therapist_id || ""}
+                        onChange={(event) =>
+                          handleBookingLifecycleChange(booking.id, {
+                            therapist_id: event.target.value ? Number(event.target.value) : null,
+                          })
+                        }
+                        className="h-9 w-full rounded-lg border border-[#e2e8f0] bg-white px-2 text-xs font-semibold text-[#0f172a] focus:ring-1 focus:ring-[#1a6b4a]"
+                      >
+                        <option value="">Unassigned</option>
+                        {therapists.map((therapist) => (
+                          <option key={therapist.id} value={therapist.id}>
+                            {therapist.full_name}
+                          </option>
+                        ))}
+                      </select>
+                    ) : (
+                      <div className="flex items-center gap-2 font-semibold text-[#0f172a]">
+                        <span className={`h-1.5 w-1.5 rounded-full ${booking.therapist_id ? "bg-[#1a6b4a]" : "bg-[#f59e0b]"}`}></span>
+                        {booking.therapist_name || "Pending Admin"}
+                      </div>
+                    )}
+                    {!booking.therapist_id && (
+                      <p className="mt-1.5 text-[10px] font-bold text-[#b45309] uppercase">Assignment Required</p>
+                    )}
+                  </div>
+
+                  <div className="min-w-0 text-sm">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8] mb-1.5">Lifecycle Control</p>
                     <select
-                      value={booking.therapist_id || ""}
+                      value={booking.status}
                       onChange={(event) =>
-                        handleBookingLifecycleChange(booking.id, {
-                          therapist_id: event.target.value ? Number(event.target.value) : null,
-                        })
+                        confirmBookingLifecycleChange(
+                          booking.id,
+                          {
+                            status: event.target.value,
+                          },
+                          `Change booking ${booking.reference_code} status to ${toTitleCase(event.target.value)}?`
+                        )
                       }
-                      className={`${selectClass} mt-3 w-full`}
+                      className="h-9 w-full rounded-lg border border-[#e2e8f0] bg-white px-2 text-xs font-semibold text-[#0f172a] focus:ring-1 focus:ring-[#1a6b4a]"
                     >
-                      <option value="">Unassigned</option>
-                      {therapists.map((therapist) => (
-                        <option key={therapist.id} value={therapist.id}>
-                          {therapist.full_name}
+                      {advancedBookingStatusOptions.map((option) => (
+                        <option key={option} value={option}>
+                          {toTitleCase(option)}
                         </option>
                       ))}
                     </select>
-                  ) : null}
-                </div>
-                <div className="grid gap-3">
-                  <BookingStatusPill status={booking.status} />
-                  <select
-                    value={booking.status}
-                    onChange={(event) =>
-                      confirmBookingLifecycleChange(
-                        booking.id,
-                        {
-                          status: event.target.value,
-                        },
-                        `Change booking ${booking.reference_code} status to ${toTitleCase(event.target.value)}?`
-                      )
-                    }
-                    className={`${selectClass} w-full`}
-                  >
-                    {advancedBookingStatusOptions.map((option) => (
-                      <option key={option} value={option}>
-                        {toTitleCase(option)}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <div className="grid gap-2">
-                  <button
-                    type="button"
-                    onClick={() => openBookingEmailModal(booking)}
-                    className="inline-flex h-10 items-center justify-center rounded-xl border border-[#d6e2dc] bg-white px-4 text-sm font-semibold text-[#18332e] hover:bg-[#f2f6f4]"
-                  >
-                    Send Mail
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() =>
-                      confirmBookingLifecycleChange(
-                        booking.id,
-                        {
-                          status: booking.status === "confirmed" ? "completed" : "confirmed",
-                        },
-                        booking.status === "confirmed"
-                          ? `Mark booking ${booking.reference_code} as Completed?`
-                          : `Approve booking ${booking.reference_code} and mark it as Confirmed?`
-                      )
-                    }
-                    className="inline-flex h-10 items-center justify-center rounded-xl bg-[#1f6b5c] px-4 text-sm font-semibold text-white hover:bg-[#175245]"
-                  >
-                    {booking.status === "confirmed" ? "Complete" : "Approve"}
-                  </button>
-                  <div className="grid grid-cols-2 gap-2">
-                    <button
-                      type="button"
-                      onClick={() =>
-                        confirmBookingLifecycleChange(
-                          booking.id,
-                          {
-                            status: "completed",
-                          },
-                          `Mark booking ${booking.reference_code} as Completed?`
-                        )
-                      }
-                      className="inline-flex h-10 items-center justify-center rounded-xl border border-[#d6e2dc] bg-white px-3 text-sm font-medium text-[#18332e] hover:bg-[#f2f6f4]"
-                    >
-                      Done
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() =>
-                        confirmBookingLifecycleChange(
-                          booking.id,
-                          {
-                            status: "cancelled",
-                          },
-                          `Cancel booking ${booking.reference_code}?`
-                        )
-                      }
-                      className="inline-flex h-10 items-center justify-center rounded-xl border border-[#f0cdc5] bg-white px-3 text-sm font-medium text-[#b35342] hover:bg-[#fff4f2]"
-                    >
-                      Cancel
-                    </button>
                   </div>
-                  {role === "super_admin" ? (
-                    <button
-                      type="button"
-                      onClick={() => handleDelete(deleteAdminBooking, booking.id, "Booking")}
-                      className="inline-flex h-10 items-center justify-center rounded-xl border border-[#efb8ac] bg-[#fff7f5] px-3 text-sm font-medium text-[#9f3e2f] hover:bg-[#ffece8]"
-                    >
-                      Delete
-                    </button>
-                  ) : null}
+
+                  <div className="flex flex-col gap-2">
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() => openBookingEmailModal(booking)}
+                        className="flex-1 h-9 items-center justify-center rounded-lg border border-[#e2e8f0] bg-white text-[10px] font-bold uppercase tracking-widest text-[#64748b] transition hover:bg-[#f8fafc]"
+                      >
+                        Mail
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          confirmBookingLifecycleChange(
+                            booking.id,
+                            {
+                              status: booking.status === "confirmed" ? "completed" : "confirmed",
+                            },
+                            booking.status === "confirmed"
+                              ? `Mark as Completed?`
+                              : `Approve and mark as Confirmed?`
+                          )
+                        }
+                        className="flex-1 h-9 items-center justify-center rounded-lg bg-[#1a6b4a] text-[10px] font-bold uppercase tracking-widest text-white transition hover:bg-black"
+                      >
+                        {booking.status === "confirmed" ? "Complete" : "Approve"}
+                      </button>
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          confirmBookingLifecycleChange(
+                            booking.id,
+                            { status: "cancelled" },
+                            `Cancel booking ${booking.reference_code}?`
+                          )
+                        }
+                        className="flex-1 h-9 items-center justify-center rounded-lg border border-[#fee2e2] bg-white text-[10px] font-bold uppercase tracking-widest text-[#dc2626] transition hover:bg-[#fef2f2]"
+                      >
+                        Cancel
+                      </button>
+                      {role === "super_admin" && (
+                        <button
+                          type="button"
+                          onClick={() => handleDelete(deleteAdminBooking, booking.id, "Booking")}
+                          className="flex-1 h-9 items-center justify-center rounded-lg bg-[#dc2626] text-[10px] font-bold uppercase tracking-widest text-white transition hover:bg-black"
+                        >
+                          Delete
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </div>
+                {booking.notes && (
+                  <div className="border-t border-[#f1f5f9] bg-[#fafafa] px-5 py-3">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8] mb-1">Notes from customer</p>
+                    <p className="text-xs text-[#64748b] leading-relaxed">{booking.notes}</p>
+                  </div>
+                )}
+                <div className="border-t border-[#f1f5f9] px-5 py-3 flex items-center justify-between bg-white">
+                  <div className="flex gap-4">
+                    <div className="text-xs">
+                      <span className="text-[#94a3b8] font-medium">Email:</span> <span className="text-[#0f172a] font-semibold">{booking.email}</span>
+                    </div>
+                    <div className="text-xs">
+                      <span className="text-[#94a3b8] font-medium">Phone:</span> <span className="text-[#0f172a] font-semibold">{booking.phone}</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
-          <div className="grid gap-5 xl:hidden">
+          <div className="grid gap-5 lg:hidden">
             {bookings.map((booking) => (
               <article
                 key={booking.id}
-                className="overflow-hidden rounded-[1.5rem] border border-[#dbe7e1] bg-white shadow-[0_14px_36px_rgba(21,53,46,0.05)]"
+                className="overflow-hidden rounded-xl border border-[#e5e7eb] bg-white shadow-sm"
               >
-                <div className="flex flex-col gap-4 border-b border-[#edf3ef] bg-[#fbfdfc] px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
-                  <div className="min-w-0">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center justify-center rounded-lg bg-[#eef5f1] px-2.5 py-1 text-xs font-bold text-[#19564f]">
-                        {booking.reference_code}
-                      </span>
+                <div className="flex flex-col gap-4 border-b border-[#f1f5f9] px-5 py-4">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-bold text-[#94a3b8] uppercase tracking-widest">{booking.reference_code}</span>
                       <BookingStatusPill status={booking.status} />
-                      <span className="text-xs font-medium text-[#8ba098]">
-                        Created {formatDate(booking.created_at)}
-                      </span>
                     </div>
-                    <h3 className="mt-3 text-xl font-semibold tracking-tight text-[#18332e]">
-                      {booking.customer_name}
-                    </h3>
-                    <p className="mt-1 text-sm text-[#4e635d]">
-                      {booking.therapy_name}
-                    </p>
+                    <p className="text-[10px] font-bold text-[#94a3b8] uppercase">#{booking.id}</p>
                   </div>
-                  <div className="grid gap-2 sm:grid-cols-2">
+                  <div>
+                    <h3 className="text-xl font-bold text-[#0f172a]">{booking.customer_name}</h3>
+                    <p className="mt-0.5 text-sm font-medium text-[#1a6b4a]">{booking.therapy_name}</p>
+                  </div>
+                </div>
+
+                <div className="grid gap-4 p-5">
+                  <div className="grid gap-3">
+                    <div className="rounded-lg border border-[#f1f5f9] bg-[#fafafa] p-3">
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-[#94a3b8]">Schedule</p>
+                      <p className="mt-1 text-sm font-bold text-[#0f172a]">{formatDateOnly(booking.booking_date)}</p>
+                      <p className="text-xs text-[#64748b]">{formatTime(booking.start_time)} - {formatTime(booking.end_time)}</p>
+                    </div>
+                    <div className="rounded-lg border border-[#f1f5f9] bg-[#fafafa] p-3">
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-[#94a3b8]">Expert</p>
+                      <p className="mt-1 text-sm font-bold text-[#0f172a]">{booking.therapist_name || "Unassigned"}</p>
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col gap-2">
                     <button
                       type="button"
                       onClick={() => openBookingEmailModal(booking)}
-                      className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-4 text-sm font-semibold text-[#18332e] hover:bg-[#f2f6f4]"
+                      className="inline-flex h-10 items-center justify-center rounded-lg border border-[#e2e8f0] bg-white text-xs font-bold uppercase tracking-widest text-[#64748b]"
                     >
                       Send Mail
                     </button>
@@ -2749,134 +2775,14 @@ function BookingsPanel({
                       onClick={() =>
                         confirmBookingLifecycleChange(
                           booking.id,
-                          {
-                            status: booking.status === "confirmed" ? "completed" : "confirmed",
-                          },
-                          booking.status === "confirmed"
-                            ? `Mark booking ${booking.reference_code} as Completed?`
-                            : `Approve booking ${booking.reference_code} and mark it as Confirmed?`
+                          { status: booking.status === "confirmed" ? "completed" : "confirmed" },
+                          booking.status === "confirmed" ? "Mark as Completed?" : "Approve Booking?"
                         )
                       }
-                      className="inline-flex h-10 items-center justify-center rounded-lg bg-[#1f6b5c] px-4 text-sm font-semibold text-white hover:bg-[#175245]"
+                      className="inline-flex h-10 items-center justify-center rounded-lg bg-[#1a6b4a] text-xs font-bold uppercase tracking-widest text-white"
                     >
                       {booking.status === "confirmed" ? "Complete" : "Approve"}
                     </button>
-                  </div>
-                </div>
-
-                <div className="grid gap-0 lg:grid-cols-[minmax(0,1fr)_320px]">
-                  <div className="grid gap-4 p-5 md:grid-cols-2 xl:grid-cols-4">
-                    <BookingInfoBlock label="Contact" value={booking.phone} note={booking.email} />
-                    <BookingInfoBlock
-                      label="Schedule"
-                      value={formatDateOnly(booking.booking_date)}
-                      note={`${formatTime(booking.start_time)} - ${formatTime(booking.end_time)}`}
-                    />
-                    <BookingInfoBlock
-                      label="Expert"
-                      value={booking.therapist_name || "Unassigned"}
-                      note={booking.therapist_id ? `ID ${booking.therapist_id}` : "Assign expert before approval"}
-                      attention={!booking.therapist_id}
-                    />
-                    <BookingInfoBlock label="Notes" value={booking.notes || "No notes"} />
-                  </div>
-
-                  <div className="border-t border-[#edf3ef] bg-[#f8fbf9] p-5 lg:border-l lg:border-t-0">
-                    <div className="grid gap-4">
-                      <div className="grid grid-cols-2 gap-2">
-                        <button
-                          type="button"
-                          onClick={() =>
-                            confirmBookingLifecycleChange(
-                              booking.id,
-                              {
-                                status: "completed",
-                              },
-                              `Mark booking ${booking.reference_code} as Completed?`
-                            )
-                          }
-                          className="inline-flex h-10 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-3 text-sm font-medium text-[#18332e] hover:bg-[#f2f6f4]"
-                        >
-                          Complete
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            confirmBookingLifecycleChange(
-                              booking.id,
-                              {
-                                status: "cancelled",
-                              },
-                              `Cancel booking ${booking.reference_code}?`
-                            )
-                          }
-                          className="inline-flex h-10 items-center justify-center rounded-lg border border-[#f0cdc5] bg-white px-3 text-sm font-medium text-[#b35342] hover:bg-[#fff4f2]"
-                        >
-                          Cancel
-                        </button>
-                        {role === "super_admin" ? (
-                          <button
-                            type="button"
-                            onClick={() => handleDelete(deleteAdminBooking, booking.id, "Booking")}
-                            className="col-span-2 inline-flex h-10 items-center justify-center rounded-lg border border-[#efb8ac] bg-[#fff7f5] px-3 text-sm font-medium text-[#9f3e2f] hover:bg-[#ffece8]"
-                          >
-                            Delete
-                          </button>
-                        ) : null}
-                      </div>
-
-                      <FieldInline label="Lifecycle Status">
-                        <select
-                          value={booking.status}
-                          onChange={(event) =>
-                            confirmBookingLifecycleChange(
-                              booking.id,
-                              {
-                                status: event.target.value,
-                              },
-                              `Change booking ${booking.reference_code} status to ${toTitleCase(event.target.value)}?`
-                            )
-                          }
-                          className={`${selectClass} w-full`}
-                        >
-                          {advancedBookingStatusOptions.map((option) => (
-                            <option key={option} value={option}>
-                              {toTitleCase(option)}
-                            </option>
-                          ))}
-                        </select>
-                      </FieldInline>
-
-                      {canAssignTherapist ? (
-                        <FieldInline label="Assign Therapist">
-                          <select
-                            value={booking.therapist_id || ""}
-                            onChange={(event) =>
-                              handleBookingLifecycleChange(booking.id, {
-                                therapist_id: event.target.value ? Number(event.target.value) : null,
-                              })
-                            }
-                            className={`${selectClass} w-full`}
-                          >
-                            <option value="">
-                              Unassigned
-                            </option>
-                            {therapists.map((therapist) => (
-                              <option key={therapist.id} value={therapist.id}>
-                                {therapist.full_name}
-                              </option>
-                            ))}
-                          </select>
-                        </FieldInline>
-                      ) : (
-                        <BookingInfoBlock
-                          label="Assignment"
-                          value={booking.therapist_name || "Pending admin assignment"}
-                          note="Therapist assignment is managed by admin."
-                          attention={!booking.therapist_id}
-                        />
-                      )}
-                    </div>
                   </div>
                 </div>
               </article>
@@ -2884,10 +2790,9 @@ function BookingsPanel({
           </div>
         </div>
       )}
-    </section>
+    </div>
   );
 }
-
 function DashboardPanel({ bookings, therapists, role }) {
   const [monthFilter, setMonthFilter] = useState(() => {
     const now = new Date();
@@ -2944,14 +2849,12 @@ function DashboardPanel({ bookings, therapists, role }) {
 
   return (
     <section className="grid gap-5">
-      <div className="overflow-hidden rounded-[1.6rem] border border-[#dbe7e1] bg-white shadow-[0_18px_48px_rgba(21,53,46,0.06)]">
-        <div className="flex flex-col gap-5 border-b border-[#e5eee9] bg-[linear-gradient(180deg,#f9fcfa,#f2f8f4)] p-5 lg:flex-row lg:items-end lg:justify-between">
+      <div className="overflow-hidden rounded-xl border border-[#e5e7eb] bg-white shadow-sm">
+        <div className="flex flex-col gap-4 border-b border-[#f1f5f9] bg-[#fafafa] px-5 py-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="min-w-0">
-            <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#6d857e]">Booking Dashboard</p>
-            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-[#18332e]">{dashboardTitle}</h2>
-            <p className="mt-2 max-w-2xl text-sm leading-6 text-[#5f726c]">
-              Track bookings by day, see status totals, and hover any date to preview the booking list.
-            </p>
+            <span className="inline-flex rounded-md bg-[#f0faf5] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#1a6b4a]">Booking Dashboard</span>
+            <h2 className="mt-2 text-xl font-bold text-[#0f172a]">{dashboardTitle}</h2>
+            <p className="mt-0.5 text-sm text-[#64748b]">Track bookings by day, hover dates to preview, and filter by status or therapist.</p>
           </div>
 
           <div className="grid gap-3 md:grid-cols-3">
@@ -2989,7 +2892,7 @@ function DashboardPanel({ bookings, therapists, role }) {
           </div>
         </div>
 
-        <div className="grid gap-3 border-b border-[#edf3ef] p-5 sm:grid-cols-2 xl:grid-cols-5">
+        <div className="grid gap-2 border-b border-[#f1f5f9] px-4 py-3 sm:grid-cols-2 xl:grid-cols-5">
           <BookingDashboardMetric label="Total" value={filteredBookings.length} />
           <BookingDashboardMetric label="Pending" value={monthStatusCounts.pending || 0} tone="warning" />
           <BookingDashboardMetric label="Confirmed" value={monthStatusCounts.confirmed || 0} tone="success" />
@@ -2997,9 +2900,9 @@ function DashboardPanel({ bookings, therapists, role }) {
           <BookingDashboardMetric label="Cancelled" value={monthStatusCounts.cancelled || 0} tone="danger" />
         </div>
 
-        <div className="grid grid-cols-7 gap-px bg-[#e6efea]">
+        <div className="grid grid-cols-7 gap-px bg-[#e5e7eb]">
           {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((day) => (
-            <div key={day} className="bg-[#f7fbf9] px-3 py-3 text-center text-xs font-bold uppercase tracking-[0.18em] text-[#7d948c]">
+            <div key={day} className="bg-[#f8fafc] px-2 py-2 text-center text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">
               {day}
             </div>
           ))}
@@ -3012,21 +2915,27 @@ function DashboardPanel({ bookings, therapists, role }) {
             const pendingCount = cell.bookings.filter((booking) => booking.status === "pending").length;
             const confirmedCount = cell.bookings.filter((booking) => booking.status === "confirmed").length;
             const completedCount = cell.bookings.filter((booking) => booking.status === "completed").length;
+            
             return (
               <button
                 key={cell.dateKey}
                 type="button"
                 onClick={() => setSelectedDate((current) => (current === cell.dateKey ? "" : cell.dateKey))}
-                className={`group relative min-h-[126px] bg-white p-3 text-left transition hover:bg-[#f7fbf9] ${isSelected ? "ring-2 ring-inset ring-[#1f6b5c]" : ""}`}
+                className={`group relative min-h-[126px] bg-white p-3 text-left transition duration-200 hover:bg-[#f8fafc] ${
+                  isSelected ? "ring-2 ring-inset ring-[#1a6b4a] z-10" : ""
+                }`}
               >
                 <div className="flex items-center justify-between gap-3">
-                  <span className="text-sm font-semibold text-[#18332e]">{cell.dayNumber}</span>
+                  <span className={`text-sm font-bold ${cell.bookings.length ? "text-[#0f172a]" : "text-[#94a3b8]"}`}>
+                    {cell.dayNumber}
+                  </span>
                   {cell.bookings.length ? (
-                    <span className="rounded-full bg-[#eef5f1] px-2 py-1 text-xs font-bold text-[#19564f]">
+                    <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#f0faf5] text-[10px] font-bold text-[#1a6b4a]">
                       {cell.bookings.length}
                     </span>
                   ) : null}
                 </div>
+                
                 {cell.bookings.length ? (
                   <div className="mt-3 grid gap-1">
                     {pendingCount ? <CalendarCountPill label="Pending" value={pendingCount} tone="warning" /> : null}
@@ -3035,25 +2944,29 @@ function DashboardPanel({ bookings, therapists, role }) {
                   </div>
                 ) : null}
 
+                {/* Hover Popover */}
                 {cell.bookings.length ? (
-                  <div className="pointer-events-none absolute left-3 top-full z-20 hidden w-72 rounded-2xl border border-[#dbe7e1] bg-white p-4 text-left shadow-[0_18px_40px_rgba(21,53,46,0.16)] group-hover:block">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#7d948c]">
-                      {formatDateOnly(cell.dateKey)} | {cell.bookings.length} bookings
-                    </p>
-                    <div className="mt-3 grid gap-2">
+                  <div className="pointer-events-none absolute left-3 top-full z-20 hidden w-72 rounded-xl border border-[#e2e8f0] bg-white p-4 text-left shadow-2xl group-hover:block animate-in fade-in zoom-in duration-200">
+                    <div className="mb-3 border-b border-[#f1f5f9] pb-2">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">
+                        {formatDateOnly(cell.dateKey)}
+                      </p>
+                      <p className="mt-0.5 text-xs font-semibold text-[#1a6b4a]">{cell.bookings.length} bookings scheduled</p>
+                    </div>
+                    <div className="grid gap-2">
                       {cell.bookings.slice(0, 5).map((booking) => (
-                        <div key={booking.id} className="rounded-xl border border-[#e3ece7] bg-[#fbfdfc] px-3 py-2">
-                          <p className="text-sm font-semibold text-[#18332e]">
-                            #{booking.id} {booking.customer_name}
+                        <div key={booking.id} className="rounded-lg border border-[#f1f5f9] bg-[#fafafa] px-3 py-2">
+                          <p className="text-xs font-bold text-[#0f172a] truncate">
+                            {booking.customer_name}
                           </p>
-                          <p className="mt-1 text-xs text-[#60746e]">
+                          <p className="mt-0.5 text-[10px] text-[#64748b]">
                             {booking.reference_code} | {booking.therapy_name}
                           </p>
                         </div>
                       ))}
                       {cell.bookings.length > 5 ? (
-                        <p className="text-xs font-medium text-[#60746e]">
-                          +{cell.bookings.length - 5} more bookings
+                        <p className="mt-1 text-[10px] font-medium text-center text-[#94a3b8]">
+                          + {cell.bookings.length - 5} more bookings
                         </p>
                       ) : null}
                     </div>
@@ -3065,46 +2978,56 @@ function DashboardPanel({ bookings, therapists, role }) {
         </div>
       </div>
 
-      <div className="overflow-hidden rounded-[1.6rem] border border-[#dbe7e1] bg-white shadow-[0_18px_48px_rgba(21,53,46,0.06)]">
-        <div className="border-b border-[#edf3ef] bg-[#fbfdfc] px-5 py-4">
-          <h3 className="text-xl font-semibold text-[#18332e]">
-            {selectedDate ? `Bookings for ${formatDateOnly(selectedDate)}` : "Monthly booking list"}
-          </h3>
-          <p className="mt-1 text-sm text-[#5f726c]">
-            {selectedDate
-              ? "Selected date bookings are shown below."
-              : "Showing the first bookings from the selected month and filters."}
-          </p>
+      <div className="overflow-hidden rounded-xl border border-[#e5e7eb] bg-white shadow-sm">
+        <div className="flex items-center justify-between border-b border-[#f1f5f9] bg-[#fafafa] px-5 py-3.5">
+          <div>
+            <h3 className="text-base font-bold text-[#0f172a]">
+              {selectedDate ? `Bookings for ${formatDateOnly(selectedDate)}` : "Monthly booking list"}
+            </h3>
+            <p className="text-xs text-[#64748b]">
+              {selectedDate
+                ? "Selected date bookings are shown below."
+                : "Showing the first bookings from the selected month and filters."}
+            </p>
+          </div>
         </div>
 
         {visibleList.length === 0 ? (
-          <div className="px-5 py-16 text-center text-sm text-[#60746e]">
+          <div className="px-5 py-12 text-center text-sm text-[#94a3b8]">
             No bookings match the selected dashboard filters.
           </div>
         ) : (
-          <div className="grid gap-3 p-5">
+          <div className="grid gap-2 p-4">
             {visibleList.map((booking) => (
-              <div key={booking.id} className="rounded-2xl border border-[#e3ece7] bg-[#fbfdfc] p-4">
-                <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-                  <div>
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-flex items-center justify-center rounded-lg bg-[#eef5f1] px-2.5 py-1 text-xs font-bold text-[#19564f]">
-                        #{booking.id}
-                      </span>
-                      <span className="inline-flex items-center justify-center rounded-lg bg-[#f4f7f5] px-2.5 py-1 text-xs font-semibold text-[#4e635d]">
-                        {booking.reference_code}
-                      </span>
-                      <BookingStatusPill status={booking.status} />
+              <div key={booking.id} className="rounded-xl border border-[#e5e7eb] bg-white p-4 transition duration-200 hover:border-[#cbd5e1] hover:shadow-sm">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f0faf5] text-xs font-bold text-[#1a6b4a]">
+                      {booking.customer_name.charAt(0)}
                     </div>
-                    <p className="mt-3 text-lg font-semibold text-[#18332e]">{booking.customer_name}</p>
-                    <p className="mt-1 text-sm text-[#4e635d]">
-                      {booking.therapy_name} | {formatDateOnly(booking.booking_date)} | {formatTime(booking.start_time)} - {formatTime(booking.end_time)}
-                    </p>
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">
+                          #{booking.id}
+                        </span>
+                        <span className="text-[10px] font-bold uppercase tracking-widest text-[#64748b]">
+                          {booking.reference_code}
+                        </span>
+                        <BookingStatusPill status={booking.status} />
+                      </div>
+                      <p className="mt-1 text-base font-bold text-[#0f172a]">{booking.customer_name}</p>
+                      <p className="mt-0.5 text-sm text-[#64748b]">
+                        {booking.therapy_name} • {formatDateOnly(booking.booking_date)} • {formatTime(booking.start_time)} - {formatTime(booking.end_time)}
+                      </p>
+                    </div>
                   </div>
-                  <div className="text-sm text-[#60746e]">
-                    <p>{booking.email}</p>
+                  <div className="flex flex-col text-right text-xs text-[#64748b]">
+                    <p className="font-semibold text-[#0f172a]">{booking.email}</p>
                     <p className="mt-1">{booking.phone}</p>
-                    <p className="mt-1">{booking.therapist_name || "Unassigned"}</p>
+                    <p className="mt-1 flex items-center justify-end gap-1.5">
+                      <span className="h-1.5 w-1.5 rounded-full bg-[#1a6b4a]"></span>
+                      {booking.therapist_name || "Unassigned"}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -3140,21 +3063,21 @@ function getBookingDateKey(value) {
 
 function BookingDashboardMetric({ label, value, active = false, tone = "default", onClick }) {
   const tones = {
-    default: active ? "border-[#1f6b5c] bg-[#eef8f4] text-[#18332e]" : "border-[#dbe7e1] bg-white text-[#18332e]",
-    warning: active ? "border-[#c9921d] bg-[#fff7df] text-[#7d560c]" : "border-[#f0e1b9] bg-[#fffaf0] text-[#7d560c]",
-    success: active ? "border-[#2f8a59] bg-[#edf8f1] text-[#21603d]" : "border-[#cfe6d8] bg-[#f6fcf8] text-[#21603d]",
-    neutral: active ? "border-[#777069] bg-[#f4f1ee] text-[#4e4842]" : "border-[#e0dad2] bg-[#fbf9f7] text-[#4e4842]",
-    danger: active ? "border-[#c05d53] bg-[#fff1ef] text-[#9f3e2f]" : "border-[#f0c6bf] bg-[#fff8f6] text-[#9f3e2f]",
+    default: "border-[#e5e7eb] bg-white text-[#0f172a]",
+    warning: "border-[#fef3c7] bg-[#fffbeb] text-[#92400e]",
+    success: "border-[#dcfce7] bg-[#f0fdf4] text-[#166534]",
+    neutral: "border-[#e5e7eb] bg-[#f8fafc] text-[#374151]",
+    danger: "border-[#fee2e2] bg-[#fef2f2] text-[#dc2626]",
   };
 
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-xl border p-4 text-left transition hover:translate-y-[-1px] ${tones[tone] || tones.default}`}
+      className={`rounded-lg border p-3 text-left transition hover:shadow-sm ${tones[tone] || tones.default}`}
     >
-      <p className="text-[10px] font-bold uppercase tracking-[0.18em] opacity-70">{label}</p>
-      <p className="mt-2 text-3xl font-semibold tracking-tight">{value}</p>
+      <p className="text-[9px] font-bold uppercase tracking-widest opacity-60">{label}</p>
+      <p className="mt-1.5 text-2xl font-bold tracking-tight">{value}</p>
     </button>
   );
 }
@@ -3188,153 +3111,153 @@ function InquiriesPanel({
   downloadInquiriesCsv,
 }) {
   return (
-    <PanelCard
-      eyebrow="Admin CRM"
-      title="Recent Enquiries"
-      subtitle="Real-time therapy requests from the website with quick filtering and status actions."
-    >
-      <div className="flex flex-col gap-4 rounded-[1.8rem] border border-[#dbe7e1] bg-[linear-gradient(180deg,#f9fcfa,#f2f8f4)] p-5">
-        <div className="flex flex-col gap-2 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <h3 className="font-serif text-2xl font-semibold tracking-tight text-[#18332e]">
-              Recent Enquiries
-            </h3>
-            <p className="mt-1 text-sm font-medium text-[#5f726c]">
-              Real-time therapy requests from the website.
-            </p>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-col gap-4 rounded-xl border border-[#e5e7eb] bg-white px-5 py-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <div className="mb-1 flex items-center gap-2">
+            <span className="inline-flex rounded-md bg-[#f0faf5] px-2.5 py-1 text-[10px] font-bold uppercase tracking-widest text-[#1a6b4a]">
+              Admin CRM
+            </span>
+            <span className="text-[10px] font-semibold uppercase tracking-widest text-[#94a3b8]">
+              Lead Management
+            </span>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
-            <button
-              type="button"
-              onClick={() => downloadInquiriesCsv(inquiries)}
-              disabled={inquiries.length === 0}
-              className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#cfded6] bg-white px-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#19564f] transition-all duration-300 hover:bg-[#f1f8f4] disabled:cursor-not-allowed disabled:opacity-50"
-            >
-              Download CSV
-            </button>
-            <div className="rounded-2xl border border-[#dbe7e1] bg-white/90 px-4 py-3 text-sm font-semibold text-[#23403b] shadow-[0_10px_24px_rgba(21,53,46,0.05)]">
-              {inquiries.length} enquiries loaded
-            </div>
+          <h2 className="text-xl font-bold text-[#0f172a]">Recent Enquiries</h2>
+          <p className="text-sm text-[#64748b]">Real-time therapy requests from the website with quick actions.</p>
+        </div>
+        <div className="flex shrink-0 items-center gap-3">
+          <button
+            type="button"
+            onClick={() => downloadInquiriesCsv(inquiries)}
+            disabled={inquiries.length === 0}
+            className="inline-flex h-10 items-center justify-center rounded-lg border border-[#e2e8f0] bg-white px-4 text-xs font-bold uppercase tracking-widest text-[#64748b] transition hover:bg-[#f8fafc] disabled:opacity-50"
+          >
+            Download CSV
+          </button>
+          <div className="rounded-lg bg-[#f0faf5] px-4 py-2.5 text-center">
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#1a6b4a]">Count</span>
+            <p className="text-xl font-bold text-[#1a6b4a]">{inquiries.length}</p>
           </div>
         </div>
+      </div>
 
-        <div className="grid gap-4 md:grid-cols-[minmax(0,220px)_minmax(0,220px)_1fr] md:items-end">
-          <FieldInline label="Filter status">
-            <select
-              value={inquiryStatusFilter}
-              onChange={(event) => setInquiryStatusFilter(event.target.value)}
-              className={selectClass}
-            >
-              <option value="all">All statuses</option>
-              <option value="new">New</option>
-              <option value="contacted">Contacted</option>
-              <option value="closed">Closed</option>
-            </select>
-          </FieldInline>
-          <FieldInline label="Filter source">
-            <select
-              value={inquirySourceFilter}
-              onChange={(event) => setInquirySourceFilter(event.target.value)}
-              className={selectClass}
-            >
-              <option value="all">All sources</option>
-              {inquirySources.map((source) => (
-                <option key={source} value={source}>
-                  {source}
-                </option>
-              ))}
-            </select>
-          </FieldInline>
-          <div className="hidden md:block" />
+      <div className="flex flex-wrap items-center gap-4 rounded-xl border border-[#f1f5f9] bg-[#fafafa] p-4">
+        <div className="w-full sm:w-[200px]">
+          <p className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">Status Filter</p>
+          <select
+            value={inquiryStatusFilter}
+            onChange={(event) => setInquiryStatusFilter(event.target.value)}
+            className={selectClass}
+          >
+            <option value="all">All statuses</option>
+            <option value="new">New</option>
+            <option value="contacted">Contacted</option>
+            <option value="closed">Closed</option>
+          </select>
+        </div>
+        <div className="w-full sm:w-[200px]">
+          <p className="mb-1.5 text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">Source Filter</p>
+          <select
+            value={inquirySourceFilter}
+            onChange={(event) => setInquirySourceFilter(event.target.value)}
+            className={selectClass}
+          >
+            <option value="all">All sources</option>
+            {inquirySources.map((source) => (
+              <option key={source} value={source}>
+                {source}
+              </option>
+            ))}
+          </select>
         </div>
       </div>
 
       {inquiries.length === 0 ? (
-        <div className="mt-6 rounded-[1.6rem] border border-dashed border-[#cfddd6] bg-[linear-gradient(180deg,#f9fcfa,#f1f7f3)] px-5 py-14 text-center text-sm text-[#60746e]">
-          No enquiries found for the current filter.
+        <div className="rounded-xl border border-dashed border-[#e2e8f0] bg-[#fafafa] px-5 py-12 text-center text-sm text-[#94a3b8]">
+          No enquiries found matching the selected filters.
         </div>
       ) : (
-        <div className="mt-6 overflow-hidden rounded-[2rem] border border-[#dbe7e1] bg-white shadow-[0_18px_48px_rgba(21,53,46,0.06)]">
+        <div className="overflow-hidden rounded-xl border border-[#e5e7eb] bg-white shadow-sm">
           <div className="hidden lg:block">
-            <div className="grid grid-cols-[1.1fr_1fr_0.9fr_0.8fr_0.9fr_1fr] gap-4 border-b border-[#e3ece7] bg-[linear-gradient(180deg,#f9fcfa,#f2f8f4)] px-6 py-4 text-[11px] font-bold uppercase tracking-[0.22em] text-[#7d948c]">
-              <span>Guest</span>
-              <span>Contact</span>
-              <span>Service</span>
+            <div className="grid grid-cols-[1.2fr_1fr_1fr_0.7fr_0.7fr_1.2fr] gap-4 border-b border-[#f1f5f9] bg-[#fafafa] px-6 py-3 text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">
+              <span>Guest Details</span>
+              <span>Contact Info</span>
+              <span>Interest</span>
               <span>Source</span>
               <span>Status</span>
-              <span>Actions</span>
+              <span className="text-right">Actions</span>
             </div>
 
             {inquiries.map((inquiry) => (
               <div
                 key={inquiry.id}
-                className="grid grid-cols-[1.1fr_1fr_0.9fr_0.8fr_0.9fr_1fr] gap-4 border-b border-[#edf3ef] px-6 py-5 last:border-b-0"
+                className="grid grid-cols-[1.2fr_1fr_1fr_0.7fr_0.7fr_1.2fr] gap-4 border-b border-[#f1f5f9] px-6 py-5 transition hover:bg-[#fafafa] last:border-b-0"
               >
                 <div className="min-w-0">
-                  <p className="font-semibold text-[#18332e]">{inquiry.name}</p>
-                  <p className="mt-1 text-sm text-[#60746e]">
+                  <p className="font-bold text-[#0f172a]">{inquiry.name}</p>
+                  <p className="mt-0.5 text-xs text-[#64748b] truncate">
                     {inquiry.topic || "General enquiry"}
                   </p>
-                  <p className="mt-2 line-clamp-2 text-sm leading-6 text-[#4e635d]">
+                  <p className="mt-2 text-xs leading-5 text-[#64748b] line-clamp-2">
                     {inquiry.message}
                   </p>
-                  <p className="mt-2 text-xs font-medium text-[#8ba098]">
+                  <p className="mt-2 text-[10px] font-bold text-[#94a3b8]">
                     {formatDate(inquiry.created_at)}
                   </p>
                 </div>
 
-                <div className="min-w-0 text-sm text-[#4e635d]">
-                  <p className="font-medium">{inquiry.phone || "No phone"}</p>
-                  <p className="mt-1 break-words text-[#60746e]">
-                    {inquiry.email || "No email"}
+                <div className="min-w-0 text-xs">
+                  <p className="font-bold text-[#0f172a]">{inquiry.phone || "--"}</p>
+                  <p className="mt-1 break-words text-[#64748b]">
+                    {inquiry.email || "--"}
                   </p>
                 </div>
 
-                <div className="min-w-0 text-sm text-[#4e635d]">
-                  <p className="font-medium">
-                    {inquiry.service_interest || "General enquiry"}
+                <div className="min-w-0 text-xs">
+                  <p className="font-bold text-[#1a6b4a]">
+                    {inquiry.service_interest || "General"}
                   </p>
-                  <p className="mt-1 break-words text-[#60746e]">
-                    {inquiry.page_path || "No page path"}
-                  </p>
-                </div>
-
-                <div className="text-sm text-[#4e635d]">
-                  <p className="font-semibold uppercase tracking-[0.16em] text-[#19564f]">
-                    {inquiry.source || "Website"}
+                  <p className="mt-1 break-words text-[#94a3b8] italic">
+                    {inquiry.page_path || "/"}
                   </p>
                 </div>
 
-                <div className="pt-1">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-[#94a3b8]">
+                  {inquiry.source || "Website"}
+                </div>
+
+                <div className="pt-0.5">
                   <BookingStatusPill status={inquiry.status} />
                 </div>
 
-                <div className="grid gap-3">
-                  <button
-                    type="button"
-                    onClick={() => openInquiryEmailModal(inquiry)}
-                    className="inline-flex h-11 items-center justify-center rounded-2xl bg-[#18332e] px-4 text-[11px] font-bold uppercase tracking-[0.2em] text-white transition-all duration-300 hover:bg-[#22544b]"
-                  >
-                    Send Mail
-                  </button>
+                <div className="flex flex-col gap-2 text-right">
+                  <div className="flex items-center justify-end gap-2">
+                    <button
+                      type="button"
+                      onClick={() => openInquiryEmailModal(inquiry)}
+                      className="inline-flex h-8 items-center justify-center rounded-lg bg-[#0f172a] px-3 text-[10px] font-bold uppercase tracking-widest text-white transition hover:bg-black"
+                    >
+                      Mail
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => handleDelete(deleteAdminInquiry, inquiry.id, "Enquiry")}
+                      className="inline-flex h-8 items-center justify-center rounded-lg border border-[#fee2e2] bg-white px-3 text-[10px] font-bold uppercase tracking-widest text-[#dc2626] transition hover:bg-[#fef2f2]"
+                    >
+                      Delete
+                    </button>
+                  </div>
                   <select
                     value={inquiry.status}
                     onChange={(event) =>
                       requestInquiryStatusChange(inquiry.id, event.target.value)
                     }
-                    className={selectClass}
+                    className="h-8 rounded-lg border border-[#e2e8f0] bg-white px-2 text-[10px] font-bold text-[#0f172a] focus:ring-1 focus:ring-[#1a6b4a]"
                   >
-                    <option value="new">New</option>
-                    <option value="contacted">Contacted</option>
-                    <option value="closed">Closed</option>
+                    <option value="new">Mark New</option>
+                    <option value="contacted">Mark Contacted</option>
+                    <option value="closed">Mark Closed</option>
                   </select>
-                  <button
-                    type="button"
-                    onClick={() => handleDelete(deleteAdminInquiry, inquiry.id, "Enquiry")}
-                    className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#f0cdc5] bg-white px-4 text-[11px] font-bold uppercase tracking-[0.2em] text-[#b35342] transition-all duration-300 hover:bg-[#fff4f2]"
-                  >
-                    Delete
-                  </button>
                 </div>
               </div>
             ))}
@@ -3408,7 +3331,7 @@ function InquiriesPanel({
           </div>
         </div>
       )}
-    </PanelCard>
+    </div>
   );
 }
 

@@ -32,120 +32,131 @@ export default function AdminLogin({
   };
 
   return (
-    <div className="flex min-h-[80vh] items-center justify-center">
-      <div className="w-full max-w-md overflow-hidden rounded-lg border border-[#e5e7eb] bg-white shadow-sm">
-        <div className="border-b border-[#eaecf0] bg-[#f9fafb] px-8 py-7">
-          <div className="flex items-center gap-3">
-            <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-[#e5e7eb] bg-white p-2">
-              <Image
-                src="/logo.svg"
-                alt="Sri Sri Wellbeing"
-                width={30}
-                height={30}
-                style={{ width: "auto", height: "auto" }}
-                className="object-contain"
-                priority
-              />
-            </div>
-            <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#667085]">
-                Sri Sri Wellbeing
-              </p>
-              <h2 className="mt-1 text-xl font-semibold text-[#101828]">
-                {mode === "login" ? "Admin Login" : "Forgot Password"}
-              </h2>
-              <p className="text-sm text-[#667085]">
-                {mode === "login" ? "Sign in to continue" : "We will send a reset link to your email"}
-              </p>
-            </div>
+    <div className="flex min-h-[80vh] items-center justify-center px-4">
+      <div className="w-full max-w-sm">
+        {/* Logo / Brand */}
+        <div className="mb-8 flex flex-col items-center text-center">
+          <div className="mb-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#f0faf5] border border-[#c3e6d5] shadow-sm">
+            <Image
+              src="/logo.svg"
+              alt="Sri Sri Wellbeing"
+              width={32}
+              height={32}
+              style={{ width: "auto", height: "auto" }}
+              className="object-contain"
+              priority
+            />
           </div>
+          <h1 className="text-xl font-semibold text-[#0f172a]">
+            {mode === "login" ? "Welcome back" : "Reset password"}
+          </h1>
+          <p className="mt-1 text-sm text-[#64748b]">
+            {mode === "login"
+              ? "Sign in to the Sri Sri Wellbeing portal"
+              : "Enter your email to receive a reset link"}
+          </p>
         </div>
 
-        {mode === "login" ? (
-          <form onSubmit={handleLogin} className="space-y-4 px-8 py-7">
-            {errorMessage ? <FlashMessage tone="error" message={errorMessage} /> : null}
-            {successMessage ? <FlashMessage tone="success" message={successMessage} /> : null}
+        {/* Card */}
+        <div className="rounded-2xl border border-[#e2e8f0] bg-white p-6 shadow-sm">
+          {mode === "login" ? (
+            <form onSubmit={handleLogin} className="space-y-4">
+              {errorMessage ? <FlashMessage tone="error" message={errorMessage} /> : null}
+              {successMessage ? <FlashMessage tone="success" message={successMessage} /> : null}
 
-            <label className="grid gap-2">
-              <span className="text-sm font-semibold text-[#344054]">Email</span>
-              <input
-                type="email"
-                value={credentials.email}
-                onChange={(event) =>
-                  setCredentials((current) => ({ ...current, email: event.target.value }))
-                }
-                required
-                className="h-11 rounded-md border border-[#d0d5dd] px-4 text-sm outline-none focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/15"
-                placeholder="admin@srisriwellbeingchennai.com"
-              />
-            </label>
+              <div className="space-y-1.5">
+                <label className="block text-sm font-medium text-[#374151]" htmlFor="login-email">
+                  Email address
+                </label>
+                <input
+                  id="login-email"
+                  type="email"
+                  value={credentials.email}
+                  onChange={(event) =>
+                    setCredentials((current) => ({ ...current, email: event.target.value }))
+                  }
+                  required
+                  className="h-10 w-full rounded-lg border border-[#d1d5db] px-3 text-sm text-[#111827] outline-none transition placeholder:text-[#9ca3af] focus:border-[#1a6b4a] focus:ring-2 focus:ring-[#1a6b4a]/15"
+                  placeholder="admin@srisriwellbeing.com"
+                />
+              </div>
 
-            <label className="grid gap-2">
-              <span className="text-sm font-semibold text-[#344054]">Password</span>
-              <PasswordInput
-                value={credentials.password}
-                onChange={(event) =>
-                  setCredentials((current) => ({ ...current, password: event.target.value }))
-                }
-                required
-                autoComplete="current-password"
-                placeholder="Enter your password"
-              />
-            </label>
+              <div className="space-y-1.5">
+                <label className="block text-sm font-medium text-[#374151]" htmlFor="login-password">
+                  Password
+                </label>
+                <PasswordInput
+                  value={credentials.password}
+                  onChange={(event) =>
+                    setCredentials((current) => ({ ...current, password: event.target.value }))
+                  }
+                  required
+                  autoComplete="current-password"
+                  placeholder="Enter your password"
+                />
+              </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-[#2563eb] px-4 text-sm font-semibold text-white hover:bg-[#1d4ed8] disabled:opacity-70"
-            >
-              {isSubmitting ? "Signing In..." : "Login"}
-            </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="mt-2 inline-flex h-10 w-full items-center justify-center rounded-lg bg-[#1a6b4a] px-4 text-sm font-semibold text-white transition hover:bg-[#15573c] disabled:opacity-60"
+              >
+                {isSubmitting ? "Signing in…" : "Sign in"}
+              </button>
 
-            <button
-              type="button"
-              onClick={() => {
-                setMode("forgot");
-                setForgotEmail(credentials.email);
-              }}
-              className="w-full text-sm font-semibold text-[#2563eb]"
-            >
-              Forgot password?
-            </button>
-          </form>
-        ) : (
-          <form onSubmit={submitForgotPassword} className="space-y-4 px-8 py-7">
-            {forgotError ? <FlashMessage tone="error" message={forgotError} /> : null}
-            {forgotMessage ? <FlashMessage tone="success" message={forgotMessage} /> : null}
+              <button
+                type="button"
+                onClick={() => {
+                  setMode("forgot");
+                  setForgotEmail(credentials.email);
+                }}
+                className="w-full text-center text-sm text-[#1a6b4a] transition hover:underline"
+              >
+                Forgot your password?
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={submitForgotPassword} className="space-y-4">
+              {forgotError ? <FlashMessage tone="error" message={forgotError} /> : null}
+              {forgotMessage ? <FlashMessage tone="success" message={forgotMessage} /> : null}
 
-            <label className="grid gap-2">
-              <span className="text-sm font-semibold text-[#344054]">Email</span>
-              <input
-                type="email"
-                value={forgotEmail}
-                onChange={(event) => setForgotEmail(event.target.value)}
-                required
-                className="h-11 rounded-md border border-[#d0d5dd] px-4 text-sm outline-none focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/15"
-                placeholder="admin@srisriwellbeingchennai.com"
-              />
-            </label>
+              <div className="space-y-1.5">
+                <label className="block text-sm font-medium text-[#374151]" htmlFor="reset-email">
+                  Email address
+                </label>
+                <input
+                  id="reset-email"
+                  type="email"
+                  value={forgotEmail}
+                  onChange={(event) => setForgotEmail(event.target.value)}
+                  required
+                  className="h-10 w-full rounded-lg border border-[#d1d5db] px-3 text-sm text-[#111827] outline-none transition placeholder:text-[#9ca3af] focus:border-[#1a6b4a] focus:ring-2 focus:ring-[#1a6b4a]/15"
+                  placeholder="admin@srisriwellbeing.com"
+                />
+              </div>
 
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-[#2563eb] px-4 text-sm font-semibold text-white hover:bg-[#1d4ed8] disabled:opacity-70"
-            >
-              {isSubmitting ? "Sending..." : "Send Reset Link"}
-            </button>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="inline-flex h-10 w-full items-center justify-center rounded-lg bg-[#1a6b4a] px-4 text-sm font-semibold text-white transition hover:bg-[#15573c] disabled:opacity-60"
+              >
+                {isSubmitting ? "Sending…" : "Send reset link"}
+              </button>
 
-            <button
-              type="button"
-              onClick={() => setMode("login")}
-              className="w-full text-sm font-semibold text-[#2563eb]"
-            >
-              Back to login
-            </button>
-          </form>
-        )}
+              <button
+                type="button"
+                onClick={() => setMode("login")}
+                className="w-full text-center text-sm text-[#64748b] transition hover:text-[#1e293b]"
+              >
+                ← Back to sign in
+              </button>
+            </form>
+          )}
+        </div>
+
+        <p className="mt-6 text-center text-xs text-[#94a3b8]">
+          Sri Sri Wellbeing Chennai · Admin Portal
+        </p>
       </div>
     </div>
   );
