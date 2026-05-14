@@ -10,7 +10,6 @@ import {
   heroContent,
   overviewCard,
   overviewHighlights,
-  testimonials,
   therapies,
   youngEyesFactors,
   eyeExercises,
@@ -35,7 +34,7 @@ export default function NetraTejasPage() {
       <NetraTejasExercises data={eyeExercises} />
       <NetraTejasSupport youngEyesFactors={youngEyesFactors} eyeDisorders={eyeDisorders} />
       <NetraTejasLocations featuredDoctor={featuredDoctor} />
-      <TestimoniesSection data={testimonials} />
+      <TestimoniesSection category="netra" />
     </>
   );
 }

@@ -66,6 +66,7 @@ export default function ServicesSection() {
             desc: item.short_description || item.shortDescription || "",
             details: item.description,
             image: normalizeServiceImage(item.title, item.image),
+            duration: item.duration,
             rating: item.rating,
             benefits: normalizeBenefits(item.benefits),
           }))

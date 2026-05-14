@@ -6,13 +6,49 @@ import { FaChevronRight, FaXmark } from "react-icons/fa6";
 import { motion, AnimatePresence } from "framer-motion";
 import RevealOnScroll from "../Main/RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
-import { categoryColors } from "./alternativeTreatmentsData";
+import { categoryColors, treatments as fallbackTreatments } from "./alternativeTreatmentsData";
+import { listPublicAlternativeTreatments } from "@/lib/api";
 
 const ALL_CATEGORIES = "All";
+
+function normalizeTreatment(item) {
+  return {
+    id: item.id || item.item_id,
+    name: item.name,
+    category: item.category,
+    shortDesc: item.shortDesc || item.short_desc,
+    image: item.image,
+  };
+}
 
 export default function AltTreatmentsGrid({ treatments }) {
   const [activeCategory, setActiveCategory] = useState(ALL_CATEGORIES);
   const [selectedTreatment, setSelectedTreatment] = useState(null);
+  const [apiTreatments, setApiTreatments] = useState(null);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadTreatments() {
+      try {
+        const result = await listPublicAlternativeTreatments("alternative");
+        if (!active || !Array.isArray(result) || result.length === 0) return;
+        setApiTreatments(result.map((item) => normalizeTreatment(item)));
+      } catch {
+        if (active) {
+          setApiTreatments(null);
+        }
+      }
+    }
+
+    loadTreatments();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const treatmentItems = apiTreatments || treatments || fallbackTreatments;
 
   // Prevent scroll when modal is open
   useEffect(() => {
@@ -29,13 +65,13 @@ export default function AltTreatmentsGrid({ treatments }) {
   // Build unique category list
   const categories = [
     ALL_CATEGORIES,
-    ...Array.from(new Set(treatments.map((t) => t.category))),
+    ...Array.from(new Set(treatmentItems.map((t) => t.category))),
   ];
 
   const filtered =
     activeCategory === ALL_CATEGORIES
-      ? treatments
-      : treatments.filter((t) => t.category === activeCategory);
+      ? treatmentItems
+      : treatmentItems.filter((t) => t.category === activeCategory);
 
   return (
     <section className="section-padding bg-[#f8f6f2] relative overflow-hidden">

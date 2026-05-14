@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
+import { listPublicTestimonials } from "@/lib/api";
 
 const defaultTestimonies = [
   {
@@ -33,13 +34,42 @@ const defaultTestimonies = [
 ];
 
 export default function TestimoniesSection({
-  data = defaultTestimonies,
+  data,
+  category = "home",
   title = "Voices of Wellbeing",
   subtitle = "Journeys of Restoration",
   className = "bg-[#f6f3ee]",
 }) {
+  const [fetchedTestimonies, setFetchedTestimonies] = useState(null);
   const [current, setCurrent] = useState(0);
   const [isAnimating, setIsAnimating] = useState(false);
+  const testimonies = data || fetchedTestimonies || defaultTestimonies;
+
+  useEffect(() => {
+    if (data) {
+      return;
+    }
+
+    let active = true;
+
+    async function loadTestimonials() {
+      try {
+        const result = await listPublicTestimonials(category);
+        if (!active || !Array.isArray(result) || result.length === 0) return;
+        setFetchedTestimonies(result);
+      } catch {
+        if (active) {
+          setFetchedTestimonies(null);
+        }
+      }
+    }
+
+    loadTestimonials();
+
+    return () => {
+      active = false;
+    };
+  }, [category, data]);
 
   const goTo = useCallback(
     (index) => {
@@ -52,25 +82,26 @@ export default function TestimoniesSection({
   );
 
   const goNext = useCallback(() => {
-    if (!data || data.length <= 1) return;
-    goTo((current + 1) % data.length);
-  }, [current, goTo, data]);
+    if (!testimonies || testimonies.length <= 1) return;
+    goTo((current + 1) % testimonies.length);
+  }, [current, goTo, testimonies]);
 
   const goPrev = useCallback(() => {
-    if (!data || data.length <= 1) return;
-    goTo((current - 1 + data.length) % data.length);
-  }, [current, goTo, data]);
+    if (!testimonies || testimonies.length <= 1) return;
+    goTo((current - 1 + testimonies.length) % testimonies.length);
+  }, [current, goTo, testimonies]);
 
   // Auto-advance
   useEffect(() => {
-    if (!data || data.length <= 1) return;
+    if (!testimonies || testimonies.length <= 1) return;
     const timer = setInterval(goNext, 6000);
     return () => clearInterval(timer);
-  }, [goNext, data]);
+  }, [goNext, testimonies]);
 
-  if (!data || data.length === 0) return null;
+  if (!testimonies || testimonies.length === 0) return null;
 
-  const t = data[current];
+  const safeCurrent = current % testimonies.length;
+  const t = testimonies[safeCurrent] || testimonies[0];
 
   return (
     <section className={`section-padding relative ${className}`}>
@@ -90,7 +121,7 @@ export default function TestimoniesSection({
         <div className="relative">
           <div
             className="mx-auto max-w-[720px] rounded-[24px] bg-white px-6 py-8 shadow-[0_12px_40px_rgba(0,0,0,0.06)] transition-all duration-500 md:px-10 md:py-10"
-            key={current}
+            key={safeCurrent}
           >
             {/* Quote mark */}
             <div className="text-5xl leading-none text-[#d0a93d]/30 font-serif mb-2">
@@ -137,7 +168,7 @@ export default function TestimoniesSection({
           </div>
 
           {/* Navigation Arrows */}
-          {data.length > 1 && (
+          {testimonies.length > 1 && (
             <>
               <button
                 type="button"
@@ -177,15 +208,15 @@ export default function TestimoniesSection({
         </div>
 
         {/* Dots */}
-        {data.length > 1 && (
+        {testimonies.length > 1 && (
           <div className="mt-8 flex items-center justify-center gap-2.5">
-            {data.map((_, idx) => (
+            {testimonies.map((_, idx) => (
               <button
                 key={idx}
                 type="button"
                 onClick={() => goTo(idx)}
                 className={`h-2.5 rounded-full transition-all duration-300 ${
-                  idx === current
+                  idx === safeCurrent
                     ? "w-8 bg-[#c79f31]"
                     : "w-2.5 bg-[#c79f31]/25"
                 }`}

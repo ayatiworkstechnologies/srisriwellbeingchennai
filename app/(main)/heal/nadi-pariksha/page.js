@@ -5,7 +5,7 @@ import NadiConditionsSection from "@/components/NadiPariksha/NadiConditionsSecti
 import TestimoniesSection from "@/components/Main/TestimoniesSection";
 import NadiCampsSection from "@/components/NadiPariksha/NadiCampsSection";
 import NadiFAQSection from "@/components/NadiPariksha/NadiFAQSection";
-import { heroContent, testimonials } from "@/components/NadiPariksha/nadiParikshaData";
+import { heroContent } from "@/components/NadiPariksha/nadiParikshaData";
 import { getPageMetadata } from "@/lib/seo";
 
 export async function generateMetadata() {
@@ -27,7 +27,7 @@ export default function NadiParikshaPage() {
       <NadiIntroSection />
       <NadiStatsSection />
       <NadiConditionsSection />
-      <TestimoniesSection data={testimonials} />
+      <TestimoniesSection category="nadi" />
       <NadiCampsSection />
       <NadiFAQSection />
     </>

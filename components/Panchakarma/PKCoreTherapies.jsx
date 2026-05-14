@@ -1,13 +1,20 @@
-import Image from "next/image";
+import { Droplets, Leaf, Recycle, ShieldPlus, Wind } from "lucide-react";
 import RevealOnScroll from "../Main/RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
 import LeafGlyph from "../ui/LeafGlyph";
+
+const therapyIcons = {
+  vamana: Wind,
+  virechana: Leaf,
+  vasti: Recycle,
+  nasya: Droplets,
+  raktamokshana: ShieldPlus,
+};
 
 export default function PKCoreTherapies({ coreTherapies }) {
   return (
     <section className="section-padding bg-[#f5f2ec]">
       <div className="container-width">
-        {/* Heading */}
         <RevealOnScroll className="title-center mb-14 md:mb-18">
           <p className="eyebrow-text text-[#d0a93d]">The Five Pillars</p>
           <h2 className="section-title mt-4 text-[#1f1a17] tracking-wide">
@@ -20,84 +27,64 @@ export default function PKCoreTherapies({ coreTherapies }) {
           </p>
         </RevealOnScroll>
 
-        {/* Therapies — alternating layout */}
-        <div className="flex flex-col gap-10 md:gap-14">
+        <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
           {coreTherapies.map((therapy, index) => {
-            const isEven = index % 2 === 0;
-            return (
-              <RevealOnScroll key={therapy.id} delay={0.05}>
-                <div
-                  className={`overflow-hidden rounded-[24px] bg-white shadow-[0_12px_40px_rgba(31,23,20,0.08)] md:flex ${
-                    isEven ? "" : "md:flex-row-reverse"
-                  }`}
-                >
-                  {/* Image */}
-                  <div className="relative min-h-[260px] md:w-[42%] md:min-h-[340px] flex-shrink-0">
-                    <Image
-                      src={therapy.image}
-                      alt={therapy.name}
-                      fill
-                      className="object-cover object-center"
-                      sizes="(max-width: 768px) 100vw, 42vw"
-                    />
+            const Icon = therapyIcons[therapy.id] || Leaf;
 
+            return (
+              <RevealOnScroll key={therapy.id} delay={index * 0.05}>
+                <article className="flex h-full flex-col rounded-[24px] border border-[#eadfce] bg-white p-6 shadow-[0_12px_34px_rgba(31,23,20,0.06)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_18px_44px_rgba(31,23,20,0.10)] md:p-7">
+                  <div className="flex items-start justify-between gap-4">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#f7efd9] text-[#b88621]">
+                      <Icon className="h-7 w-7" strokeWidth={1.8} />
+                    </div>
+
+                    {therapy.duration ? (
+                      <span className="rounded-full border border-[#eadfce] bg-[#fbf8f1] px-3 py-1 text-xs font-semibold uppercase tracking-[0.12em] text-[#8a7b6e]">
+                        {therapy.duration}
+                      </span>
+                    ) : null}
                   </div>
 
-                  {/* Content */}
-                  <div className="flex flex-col justify-center p-7 md:p-10 lg:p-12">
-                    {/* Duration badge */}
-                    {therapy.duration && (
-                      <div className="flex flex-wrap items-center gap-3">
-                        <span className="inline-flex items-center gap-1.5 rounded-full bg-[#f6f3ee] px-4 py-1.5 text-sm font-medium text-[#c29a2f]">
-                          <span className="text-[11px] uppercase tracking-wider text-[#857b72] font-semibold">Duration:</span> {therapy.duration}
-                        </span>
-                      </div>
-                    )}
+                  <h3 className="mt-6 text-2xl font-bold tracking-tight text-[#1b1714]">
+                    {therapy.name}
+                  </h3>
+                  <div className="mt-3 h-[2px] w-[40px] bg-[#d0a93d]" />
 
-                    <h3 className="section-title mt-4 text-[#1b1714]">
-                      {therapy.name}
-                    </h3>
-                    <div className="mt-3 h-[2px] w-[40px] bg-[#d0a93d]" />
+                  <p className="mt-5 line-clamp-5 text-[15px] leading-relaxed text-[#5f5550]">
+                    {therapy.shortDesc}
+                  </p>
 
-                    <p className="para-text mt-5 text-[#5f5550] leading-relaxed">
-                      {therapy.shortDesc}
-                    </p>
-
-                    {/* Benefits */}
-                    <div className="mt-6">
-                      <h4 className="text-sm font-semibold text-[#1b1714] mb-3">Key Benefits</h4>
-                      <ul className="space-y-3">
-                        {therapy.benefits.map((b) => (
-                          <li key={b} className="flex items-start gap-3">
-                          <LeafGlyph
-                            className="mt-0.5 h-6 w-6 flex-shrink-0"
-                          />
-                          <span className="small-text text-[#5f5550]">{b}</span>
+                  <div className="mt-6">
+                    <h4 className="mb-3 text-sm font-semibold text-[#1b1714]">
+                      Key Benefits
+                    </h4>
+                    <ul className="space-y-3">
+                      {therapy.benefits.slice(0, 4).map((benefit) => (
+                        <li key={benefit} className="flex items-start gap-3">
+                          <LeafGlyph className="mt-0.5 h-6 w-6 flex-shrink-0" />
+                          <span className="small-text text-[#5f5550]">
+                            {benefit}
+                          </span>
                         </li>
                       ))}
-                      </ul>
-                    </div>
+                    </ul>
+                  </div>
 
-                    {/* Enquiry Button */}
-                    <div className="mt-8 pt-6 border-t border-[#f2eee9]">
-                      <div className="w-full sm:w-fit">
-                        <WellnessButton href="/contact" label="Enquire Now" />
-                      </div>
+                  <div className="mt-auto pt-7">
+                    <div className="border-t border-[#f2eee9] pt-6">
+                      <WellnessButton href="/contact" label="Enquire Now" />
                     </div>
                   </div>
-                </div>
+                </article>
               </RevealOnScroll>
             );
           })}
         </div>
 
-        {/* CTA after core therapies */}
         <RevealOnScroll delay={0.1}>
-          <div className="mt-14 md:mt-18 text-center">
-            <WellnessButton
-              href="/contact"
-              label="Enquire About Panchakarma"
-            />
+          <div className="mt-14 text-center md:mt-18">
+            <WellnessButton href="/contact" label="Enquire About Panchakarma" />
           </div>
         </RevealOnScroll>
       </div>

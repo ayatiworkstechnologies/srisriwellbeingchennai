@@ -40,6 +40,16 @@ export const adminSections = [
     group: "Content API",
   },
   {
+    id: "testimonials",
+    href: "/admin/testimonials",
+    label: "Testimonials",
+    shortLabel: "Reviews",
+    eyebrow: "Content API",
+    title: "Page testimonials",
+    description: "Manage category-based testimonials for home, relaxation, Nadi, and other public pages.",
+    group: "Content API",
+  },
+  {
     id: "categories",
     href: "/admin/categories",
     label: "Categories",

@@ -8,7 +8,9 @@ import WellnessButton from "../layouts/WellnessButton";
 import TherapyModal from "./TherapyModal";
 import { listPublicRelaxationTherapies } from "@/lib/api";
 
-const RENEWAL_THERAPY_IDS = new Set(["shirolepa", "keshavarna", "mukhalepa"]);
+function normalizeCategory(value) {
+  return typeof value === "string" ? value.trim().toLowerCase() : "";
+}
 
 function normalizeRelaxationTherapy(item) {
   const title = item.title?.trim() || "";
@@ -20,6 +22,7 @@ function normalizeRelaxationTherapy(item) {
 
   return {
     id: item.id,
+    category: normalizeCategory(item.category),
     title:
       lowered === "foot reflexology"
         ? "Reflexology"
@@ -27,11 +30,25 @@ function normalizeRelaxationTherapy(item) {
           ? "Body Wrap"
           : title,
     duration: item.duration,
-    shortDescription: item.short_description,
+    shortDescription: item.short_description || item.shortDescription,
     details: item.details,
     benefits: item.benefits,
     image: lowered === "mukhalepa" ? "/images/relax/mukhalepa.png" : item.image,
   };
+}
+
+function therapiesForCategory(items, category) {
+  const normalizedCategory = normalizeCategory(category);
+
+  return (items || [])
+    .filter((therapy) => normalizeCategory(therapy.category) === normalizedCategory)
+    .map((therapy) => normalizeRelaxationTherapy(therapy))
+    .filter(Boolean);
+}
+
+async function loadTherapyCategory(category) {
+  const items = await listPublicRelaxationTherapies(category);
+  return therapiesForCategory(items, category);
 }
 
 function TherapySection({
@@ -114,7 +131,8 @@ function TherapySection({
 
 export default function RelaxationTherapies() {
   const [selectedTherapy, setSelectedTherapy] = useState(null);
-  const [relaxationTherapies, setRelaxationTherapies] = useState([]);
+  const [featuredTherapies, setFeaturedTherapies] = useState([]);
+  const [renewalTherapies, setRenewalTherapies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -126,13 +144,18 @@ export default function RelaxationTherapies() {
       setErrorMessage("");
 
       try {
-        const result = await listPublicRelaxationTherapies();
+        const [relaxResult, relaxSubResult] = await Promise.allSettled([
+          loadTherapyCategory("relax"),
+          loadTherapyCategory("relax-sub"),
+        ]);
         if (!active) return;
-        setRelaxationTherapies(
-          (result || [])
-            .map((item) => normalizeRelaxationTherapy(item))
-            .filter(Boolean)
-        );
+        setFeaturedTherapies(relaxResult.status === "fulfilled" ? relaxResult.value : []);
+        setRenewalTherapies(relaxSubResult.status === "fulfilled" ? relaxSubResult.value : []);
+
+        if (relaxResult.status === "rejected" && relaxSubResult.status === "rejected") {
+          const message = relaxResult.reason?.message || relaxSubResult.reason?.message;
+          setErrorMessage(message || "Unable to load relaxation therapies right now.");
+        }
       } catch (error) {
         if (!active) return;
         setErrorMessage(error.message || "Unable to load relaxation therapies right now.");
@@ -150,12 +173,7 @@ export default function RelaxationTherapies() {
     };
   }, []);
 
-  const renewalTherapies = relaxationTherapies.filter((therapy) =>
-    RENEWAL_THERAPY_IDS.has(String(therapy.id).toLowerCase())
-  );
-  const featuredTherapies = relaxationTherapies.filter(
-    (therapy) => !RENEWAL_THERAPY_IDS.has(String(therapy.id).toLowerCase())
-  );
+  const hasTherapies = featuredTherapies.length > 0 || renewalTherapies.length > 0;
 
   return (
     <>
@@ -172,7 +190,7 @@ export default function RelaxationTherapies() {
             <div className="rounded-[28px] border border-red-200 bg-red-50 px-6 py-16 text-center text-sm text-red-700">
               {errorMessage}
             </div>
-          ) : relaxationTherapies.length === 0 ? (
+          ) : !hasTherapies ? (
             <div className="rounded-[28px] border border-[#eadfcf] bg-[#fcfaf6] px-6 py-16 text-center text-sm text-[#7a726c]">
               No relaxation therapies available right now.
             </div>

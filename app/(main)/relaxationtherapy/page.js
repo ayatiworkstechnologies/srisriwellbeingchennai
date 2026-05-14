@@ -1,7 +1,7 @@
 import RelaxationTherapies from "@/components/Relax/RelaxationTherapies";
 import TestimoniesSection from "@/components/Main/TestimoniesSection";
 import PageHero from "@/components/layouts/PageHero";
-import { relaxHero, testimonials } from "@/components/Relax/relaxData";
+import { relaxHero } from "@/components/Relax/relaxData";
 import { getPageMetadata } from "@/lib/seo";
 
 export async function generateMetadata() {
@@ -23,7 +23,7 @@ export default function RelaxationTherapyPage() {
         imageClassName="object-cover object-center"
       />
       <RelaxationTherapies />
-      <TestimoniesSection data={testimonials} className="bg-white" />
+      <TestimoniesSection category="relax" className="bg-white" />
     </main>
   );
 }

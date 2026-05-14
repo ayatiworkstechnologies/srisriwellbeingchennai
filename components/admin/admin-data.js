@@ -7,11 +7,14 @@ import {
   listAdminUsers,
   createAdminRelaxationTherapy,
   createAdminService,
+  createAdminTestimonial,
   listAdminInquiries,
+  listAdminTestimonials,
   updateAdminCategory,
   updateAdminNadiCamp,
   updateAdminRelaxationTherapy,
   updateAdminService,
+  updateAdminTestimonial,
 } from "@/lib/api";
 
 async function runInBatches(tasks, batchSize = 2) {
@@ -90,6 +93,7 @@ export async function loadAdminData({
   setServices,
   setCategories,
   setNadiCamps,
+  setTestimonials,
   setRelaxationTherapies,
   setTherapists,
   setAdminUsers,
@@ -112,6 +116,9 @@ export async function loadAdminData({
       if (setNadiCamps) {
         setNadiCamps([]);
       }
+      if (setTestimonials) {
+        setTestimonials([]);
+      }
       setRelaxationTherapies([]);
       setTherapists([]);
       if (setAdminUsers) {
@@ -122,12 +129,13 @@ export async function loadAdminData({
       return;
     }
 
-    const [inquiryData, bootstrapData, adminUserData, nadiCampData, categoryData] = await Promise.all([
+    const [inquiryData, bootstrapData, adminUserData, nadiCampData, categoryData, testimonialData] = await Promise.all([
       listAdminInquiries(token, { status: inquiryStatusFilter, source: inquirySourceFilter }),
       getAdminBootstrap(token, statusFilter),
       setAdminUsers ? listAdminUsers(token) : Promise.resolve(null),
       setNadiCamps ? listAdminNadiCamps(token) : Promise.resolve([]),
       setCategories ? listAdminCategories(token).catch(() => []) : Promise.resolve([]),
+      setTestimonials ? listAdminTestimonials(token).catch(() => []) : Promise.resolve([]),
     ]);
 
     setInquiries(inquiryData || []);
@@ -137,6 +145,9 @@ export async function loadAdminData({
     }
     if (setNadiCamps) {
       setNadiCamps(nadiCampData || bootstrapData?.nadi_camps || []);
+    }
+    if (setTestimonials) {
+      setTestimonials(testimonialData || []);
     }
     setRelaxationTherapies(bootstrapData?.relaxation_therapies || []);
     setTherapists(bootstrapData?.therapists || []);
@@ -173,6 +184,10 @@ export const adminCrudModules = {
   "relaxation-therapies": {
     createEntity: createAdminRelaxationTherapy,
     updateEntity: updateAdminRelaxationTherapy,
+  },
+  testimonials: {
+    createEntity: createAdminTestimonial,
+    updateEntity: updateAdminTestimonial,
   },
 };
 

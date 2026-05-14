@@ -63,6 +63,14 @@ async function forwardRequest(request, context) {
     responseHeaders.set("content-type", responseContentType);
   }
 
+  if ([204, 205, 304].includes(response.status)) {
+    return new Response(null, {
+      status: response.status,
+      statusText: response.statusText,
+      headers: responseHeaders,
+    });
+  }
+
   return new Response(responseBody, {
     status: response.status,
     statusText: response.statusText,

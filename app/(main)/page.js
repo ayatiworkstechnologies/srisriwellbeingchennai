@@ -34,7 +34,7 @@ export default function HomePage() {
       <HomeFacilitiesSection />
       <ServicesSection />
       <NadiCampsSection />
-      <ExperienceSection />
+      {/* <ExperienceSection /> */}
       <SignatureLearningSection />
       <TestimoniesSection />
     </>

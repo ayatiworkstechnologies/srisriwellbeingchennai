@@ -13,6 +13,7 @@ export const relaxHero = {
 export const relaxationTherapies = [
   {
     id: "abhyanga",
+    category: "relax",
     title: "Abhyanga",
     duration: "45 mins",
     shortDescription:
@@ -34,6 +35,7 @@ export const relaxationTherapies = [
   },
   {
     id: "uzhichil",
+    category: "relax",
     title: "Uzhichil",
     duration: "45 mins",
     shortDescription:
@@ -51,6 +53,7 @@ export const relaxationTherapies = [
   },
   {
     id: "foot-massage",
+    category: "relax",
     title: "Reflexology",
     duration: "30 mins",
     shortDescription:
@@ -70,6 +73,7 @@ export const relaxationTherapies = [
   },
   {
     id: "shirolepa",
+    category: "relax-sub",
     title: "Shirolepa",
     duration: "45 mins",
     shortDescription:
@@ -87,6 +91,7 @@ export const relaxationTherapies = [
   },
   {
     id: "chlorophyll-body-wrap",
+    category: "relax",
     title: "Body Wrap",
     duration: "90 mins",
     shortDescription:
@@ -104,6 +109,7 @@ export const relaxationTherapies = [
   },
   {
     id: "shirodhara",
+    category: "relax",
     title: "Shirodhara",
     duration: "45 mins",
     shortDescription:
@@ -122,6 +128,7 @@ export const relaxationTherapies = [
   },
   {
     id: "head-massage",
+    category: "relax",
     title: "Head Massage",
     duration: "45 mins",
     shortDescription:
@@ -139,6 +146,7 @@ export const relaxationTherapies = [
   },
   {
     id: "head-foot-massage",
+    category: "relax",
     title: "Head & Foot Massage",
     duration: "45 mins",
     shortDescription:
@@ -156,6 +164,7 @@ export const relaxationTherapies = [
   },
   {
     id: "keshavarna",
+    category: "relax-sub",
     title: "Keshavarna",
     duration: "45 mins",
     shortDescription:
@@ -171,6 +180,7 @@ export const relaxationTherapies = [
   },
   {
     id: "mukhalepa",
+    category: "relax-sub",
     title: "Mukhalepa",
     duration: "45 mins",
     shortDescription:

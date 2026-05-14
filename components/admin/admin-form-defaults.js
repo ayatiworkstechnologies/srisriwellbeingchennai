@@ -16,11 +16,19 @@ export const initialServiceForm = {
   description: "",
   benefits: [""],
   image: "/images/ser-1.jpg",
+  duration: "",
+  rating: "",
   sort_order: 0,
   is_active: true,
 };
 
-export const initialTestimonialForm = { name: "", review: "", sort_order: 0, is_active: true };
+export const initialTestimonialForm = {
+  name: "",
+  category: "home",
+  review: "",
+  sort_order: 0,
+  is_active: true,
+};
 
 export const initialNadiCampForm = {
   doctor: "",
@@ -156,7 +164,14 @@ export const nadiCampStatusOptions = ["active", "done", "inactive"];
 export const contentCategoryOptions = [
   { value: "main", label: "Main" },
   { value: "relax", label: "Relax" },
+  { value: "relax-sub", label: "Relax Sub" },
   { value: "panchakarma", label: "Panchakarma" },
+];
+export const testimonialCategoryOptions = [
+  { value: "home", label: "Home" },
+  { value: "relax", label: "Relax" },
+  { value: "nadi", label: "Nadi" },
+  { value: "netra", label: "Netra" },
 ];
 export const weekdayOptions = [
   { value: 0, label: "Monday" },

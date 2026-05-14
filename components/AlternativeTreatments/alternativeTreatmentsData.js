@@ -119,6 +119,16 @@ export const treatments = [
 ];
 
 export const categoryColors = {
+  Alternative: {
+    bg: "bg-[#fdf4eb]",
+    text: "text-[#9a5c1f]",
+    border: "border-[#ead3ad]",
+  },
+  alternative: {
+    bg: "bg-[#fdf4eb]",
+    text: "text-[#9a5c1f]",
+    border: "border-[#ead3ad]",
+  },
   Musculoskeletal: {
     bg: "bg-[#f3f0fb]",
     text: "text-[#6350c0]",

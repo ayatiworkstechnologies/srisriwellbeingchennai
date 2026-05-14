@@ -10,6 +10,7 @@ import {
   deleteAdminBooking,
   deleteAdminCategory,
   deleteAdminNadiCamp,
+  deleteAdminTestimonial,
   createAdminUser,
   deleteAdminTherapist,
   deleteAdminRelaxationTherapy,
@@ -53,9 +54,11 @@ import {
   initialCredentials,
   initialRelaxationTherapyForm,
   initialServiceForm,
+  initialTestimonialForm,
   initialTeamForm,
   initialTherapistForm,
   nadiCampStatusOptions,
+  testimonialCategoryOptions,
 } from "./admin-form-defaults";
 import {
   EntityPanel,
@@ -174,6 +177,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
   const [services, setServices] = useState([]);
   const [categories, setCategories] = useState([]);
   const [nadiCamps, setNadiCamps] = useState([]);
+  const [testimonials, setTestimonials] = useState([]);
   const [relaxationTherapies, setRelaxationTherapies] = useState([]);
   const [therapists, setTherapists] = useState([]);
   const [adminUsers, setAdminUsers] = useState([]);
@@ -181,6 +185,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
   const [serviceForm, setServiceForm] = useState(initialServiceForm);
   const [categoryForm, setCategoryForm] = useState(initialCategoryForm);
   const [nadiCampForm, setNadiCampForm] = useState(initialNadiCampForm);
+  const [testimonialForm, setTestimonialForm] = useState(initialTestimonialForm);
   const [relaxationTherapyForm, setRelaxationTherapyForm] = useState(initialRelaxationTherapyForm);
   const [therapistForm, setTherapistForm] = useState(initialTherapistForm);
   const [adminUserForm, setAdminUserForm] = useState(initialAdminUserForm);
@@ -188,12 +193,14 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
   const [editingServiceId, setEditingServiceId] = useState(null);
   const [editingCategoryId, setEditingCategoryId] = useState(null);
   const [editingNadiCampId, setEditingNadiCampId] = useState(null);
+  const [editingTestimonialId, setEditingTestimonialId] = useState(null);
   const [editingRelaxationTherapyId, setEditingRelaxationTherapyId] = useState(null);
   const [editingTherapistId, setEditingTherapistId] = useState(null);
   const [editingAdminUserId, setEditingAdminUserId] = useState(null);
   const [isServiceModalOpen, setIsServiceModalOpen] = useState(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState(false);
   const [isNadiCampModalOpen, setIsNadiCampModalOpen] = useState(false);
+  const [isTestimonialModalOpen, setIsTestimonialModalOpen] = useState(false);
   const [isRelaxationTherapyModalOpen, setIsRelaxationTherapyModalOpen] = useState(false);
   const [isTherapistModalOpen, setIsTherapistModalOpen] = useState(false);
   const [isAdminUserModalOpen, setIsAdminUserModalOpen] = useState(false);
@@ -202,6 +209,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
   const [inquiryStatusFilter, setInquiryStatusFilter] = useState("all");
   const [inquirySourceFilter, setInquirySourceFilter] = useState("all");
   const [serviceCategoryFilter, setServiceCategoryFilter] = useState("all");
+  const [testimonialCategoryFilter, setTestimonialCategoryFilter] = useState("all");
   const [isLoading, setIsLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -295,12 +303,42 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     }
     return services.filter((item) => (item.category || "main") === serviceCategoryFilter);
   }, [serviceCategoryFilter, services]);
-  const categoryOptions = useMemo(() => {
-    if (categories.length > 0) {
-      return categories.map((item) => ({ value: item.slug, label: item.label }));
+  const filteredTestimonials = useMemo(() => {
+    if (testimonialCategoryFilter === "all") {
+      return testimonials;
     }
-    return contentCategoryOptions;
-  }, [categories]);
+    return testimonials.filter((item) => (item.category || "home") === testimonialCategoryFilter);
+  }, [testimonialCategoryFilter, testimonials]);
+  const categoryOptions = useMemo(() => {
+    const optionMap = new Map(
+      contentCategoryOptions.map((option) => [option.value, option])
+    );
+
+    categories.forEach((item) => {
+      optionMap.set(item.slug, { value: item.slug, label: item.label });
+    });
+
+    [...services, ...relaxationTherapies].forEach((item) => {
+      const value = item.category;
+      if (value && !optionMap.has(value)) {
+        optionMap.set(value, { value, label: toTitleCase(value) });
+      }
+    });
+
+    return [...optionMap.values()];
+  }, [categories, relaxationTherapies, services]);
+  const reviewCategoryOptions = useMemo(() => {
+    const optionMap = new Map(testimonialCategoryOptions.map((option) => [option.value, option]));
+
+    testimonials.forEach((item) => {
+      const value = item.category || "home";
+      if (!optionMap.has(value)) {
+        optionMap.set(value, { value, label: toTitleCase(value) });
+      }
+    });
+
+    return [...optionMap.values()];
+  }, [testimonials]);
 
   useEffect(() => {
     if (!errorMessage && !successMessage) return;
@@ -340,6 +378,15 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     });
     return counts;
   }, [categoryOptions, services]);
+  const testimonialCategoryCounts = useMemo(() => {
+    const counts = {
+      all: testimonials.length,
+    };
+    reviewCategoryOptions.forEach((option) => {
+      counts[option.value] = testimonials.filter((item) => (item.category || "home") === option.value).length;
+    });
+    return counts;
+  }, [reviewCategoryOptions, testimonials]);
 
   useEffect(() => {
     const savedToken = window.localStorage.getItem("ssw-admin-token");
@@ -373,6 +420,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       setServices,
       setCategories,
       setNadiCamps,
+      setTestimonials,
       setRelaxationTherapies,
       setTherapists,
       setAdminUsers: userProfile?.role === "super_admin" ? setAdminUsers : null,
@@ -428,6 +476,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       setServices,
       setCategories,
       setNadiCamps,
+      setTestimonials,
       setRelaxationTherapies,
       setTherapists,
       setAdminUsers: userProfile?.role === "super_admin" ? setAdminUsers : null,
@@ -735,6 +784,8 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
         shortDescription: normalizeTextValue(payload.short_description),
         description: normalizeTextValue(payload.description) || normalizeTextValue(payload.short_description),
         image: normalizeTextValue(payload.image),
+        duration: normalizeTextValue(payload.duration),
+        rating: payload.rating === "" || payload.rating == null ? null : Number(payload.rating),
         benefits: normalizeListValue(payload.benefits),
       }),
       setForm: setServiceForm,
@@ -782,6 +833,25 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       initialForm: initialNadiCampForm,
       setEditingId: setEditingNadiCampId,
       label: "Nadi camp",
+    });
+  }
+
+  const handleTestimonialSubmit = handleTestimonialSubmitInternal();
+  function handleTestimonialSubmitInternal() {
+    return makeSubmitHandler({
+      editingId: editingTestimonialId,
+      type: "testimonials",
+      form: testimonialForm,
+      transformPayload: (payload) => ({
+        ...payload,
+        name: normalizeTextValue(payload.name),
+        category: normalizeTextValue(payload.category, initialTestimonialForm.category).toLowerCase(),
+        review: normalizeTextValue(payload.review),
+      }),
+      setForm: setTestimonialForm,
+      initialForm: initialTestimonialForm,
+      setEditingId: setEditingTestimonialId,
+      label: "Testimonial",
     });
   }
 
@@ -970,6 +1040,12 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     setNadiCampForm(initialNadiCampForm);
   };
 
+  const closeTestimonialModal = () => {
+    setIsTestimonialModalOpen(false);
+    setEditingTestimonialId(null);
+    setTestimonialForm(initialTestimonialForm);
+  };
+
   const openServiceCreateModal = () => {
     setEditingServiceId(null);
     setServiceForm(initialServiceForm);
@@ -988,6 +1064,12 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     setIsNadiCampModalOpen(true);
   };
 
+  const openTestimonialCreateModal = () => {
+    setEditingTestimonialId(null);
+    setTestimonialForm(initialTestimonialForm);
+    setIsTestimonialModalOpen(true);
+  };
+
   const openServiceEditModal = (item) => {
     setEditingServiceId(item.id);
     setServiceForm({
@@ -997,6 +1079,8 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       description: normalizeTextValue(item.description),
       benefits: normalizeListValue(item.benefits).length ? [...normalizeListValue(item.benefits)] : [""],
       image: normalizeTextValue(item.image),
+      duration: normalizeTextValue(item.duration),
+      rating: item.rating ?? "",
       sort_order: item.sort_order ?? 0,
       is_active: Boolean(item.is_active),
     });
@@ -1028,6 +1112,18 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
       is_active: Boolean(item.is_active),
     });
     setIsNadiCampModalOpen(true);
+  };
+
+  const openTestimonialEditModal = (item) => {
+    setEditingTestimonialId(item.id);
+    setTestimonialForm({
+      name: normalizeTextValue(item.name),
+      category: normalizeTextValue(item.category, initialTestimonialForm.category).toLowerCase(),
+      review: normalizeTextValue(item.review),
+      sort_order: item.sort_order ?? 0,
+      is_active: Boolean(item.is_active),
+    });
+    setIsTestimonialModalOpen(true);
   };
 
   const updateServiceBenefit = (index, value) => {
@@ -1207,6 +1303,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
     inquiries: inquiries.length,
     bookings: bookings.length,
     services: services.length,
+    testimonials: testimonials.length,
     categories: categories.length,
     "nadi-camps": nadiCamps.length,
     team: therapists.length + adminUsers.length,
@@ -1298,14 +1395,14 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
               <StatCard label="Total Bookings" value={bookings.length} />
               <StatCard label="Pending Approval" value={pendingBookings} />
               <StatCard label="Confirmed Sessions" value={confirmedBookings} />
-              <StatCard label="Total Content" value={countActive(services) + countActive(relaxationTherapies)} />
+              <StatCard label="Total Content" value={countActive(services) + countActive(relaxationTherapies) + countActive(testimonials)} />
             </div>
 
             {/* Quick Metrics */}
             <div className="grid gap-4 md:grid-cols-3">
               <InfoStrip title="CRM Queue" value={inquiries.length} detail="Contact and lead enquiries captured from the website." />
               <InfoStrip title="Service API" value={services.length} detail="Active service cards distributed to the public frontend." />
-              <InfoStrip title="Expert Network" value={therapists.length} detail="Qualified experts available for therapy assignments." />
+              <InfoStrip title="Testimonials" value={testimonials.length} detail="Page reviews served by category to public pages." />
             </div>
 
             {/* Main Content Area */}
@@ -1450,7 +1547,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                     <RecordCard
                       key={item.id}
                       title={item.title}
-                      meta={`${toTitleCase(item.category || "main")} | Order ${item.sort_order} | ${item.is_active ? "Published" : "Draft"}`}
+                      meta={`${toTitleCase(item.category || "main")} | ${item.duration || "No duration"} | ${item.rating ? `${Number(item.rating).toFixed(1)} rating` : "No rating"} | Order ${item.sort_order} | ${item.is_active ? "Published" : "Draft"}`}
                       body={`${item.short_description || item.shortDescription || ""}\n\n${item.description || ""}\n\nBenefits:\n${normalizeListValue(item.benefits).map((benefit) => `- ${benefit}`).join("\n") || "- Not added"}`}
                       extra={item.image}
                       onEdit={() => openServiceEditModal(item)}
@@ -1504,6 +1601,32 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                         required
                       />
                     </Field>
+                    <div className="grid gap-5 md:grid-cols-2">
+                      <Field label="Therapy Minutes">
+                        <input
+                          value={serviceForm.duration}
+                          onChange={(event) =>
+                            setServiceForm((current) => ({ ...current, duration: event.target.value }))
+                          }
+                          className={inputClass}
+                          placeholder="45 mins"
+                        />
+                      </Field>
+                      <Field label="Rating">
+                        <input
+                          type="number"
+                          min="0"
+                          max="5"
+                          step="0.1"
+                          value={serviceForm.rating}
+                          onChange={(event) =>
+                            setServiceForm((current) => ({ ...current, rating: event.target.value }))
+                          }
+                          className={inputClass}
+                          placeholder="4.8"
+                        />
+                      </Field>
+                    </div>
                     <Field label="Display Priority">
                       <input
                         type="number"
@@ -1589,6 +1712,144 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                     </div>
                   </form>
                 </FormModal>
+                </>
+              ) : null}
+
+              {resolvedSection === "testimonials" ? (
+                <>
+                  <EntityPanel
+                    eyebrow="Content API"
+                    title={editingTestimonialId ? "Edit Testimonial" : "New Testimonial"}
+                    subtitle="Manage page-specific testimonials shown on the public website."
+                    hideForm
+                    actionLabel="Add Testimonial"
+                    onAction={openTestimonialCreateModal}
+                    saveLabel="Testimonial"
+                    listingTitle="Testimonial Library"
+                    listingSubtitle={`Showing ${filteredTestimonials.length} of ${testimonials.length} testimonials.`}
+                    items={filteredTestimonials}
+                    headerContent={(
+                      <div className="flex flex-wrap gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setTestimonialCategoryFilter("all")}
+                          className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                            testimonialCategoryFilter === "all"
+                              ? "border-[#1f6b5c] bg-[#eef8f4] text-[#19564f]"
+                              : "border-[#dbe7e1] bg-white text-[#4e635d] hover:bg-[#f8fbf9]"
+                          }`}
+                        >
+                          All ({testimonialCategoryCounts.all || 0})
+                        </button>
+                        {reviewCategoryOptions.map((option) => (
+                          <button
+                            key={option.value}
+                            type="button"
+                            onClick={() => setTestimonialCategoryFilter(option.value)}
+                            className={`rounded-full border px-4 py-2 text-sm font-semibold transition ${
+                              testimonialCategoryFilter === option.value
+                                ? "border-[#1f6b5c] bg-[#eef8f4] text-[#19564f]"
+                                : "border-[#dbe7e1] bg-white text-[#4e635d] hover:bg-[#f8fbf9]"
+                            }`}
+                          >
+                            {option.label} ({testimonialCategoryCounts[option.value] || 0})
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                    renderItem={(item) => (
+                      <RecordCard
+                        key={item.id}
+                        title={item.name}
+                        meta={`${toTitleCase(item.category || "home")} | Order ${item.sort_order} | ${item.is_active ? "Published" : "Draft"}`}
+                        body={item.review || "No review added"}
+                        extra={`Category: ${item.category || "home"}`}
+                        onEdit={() => openTestimonialEditModal(item)}
+                        onDelete={() => handleDelete(deleteAdminTestimonial, item.id, "Testimonial")}
+                      />
+                    )}
+                  />
+                  <FormModal
+                    open={isTestimonialModalOpen}
+                    title={editingTestimonialId ? "Edit testimonial" : "Add testimonial"}
+                    subtitle="Create or update a testimonial for category-based page sections."
+                    onClose={closeTestimonialModal}
+                  >
+                    <form
+                      onSubmit={async (event) => {
+                        const success = await handleTestimonialSubmit(event);
+                        if (success) closeTestimonialModal();
+                      }}
+                      className="grid gap-5"
+                    >
+                      <div className="grid gap-5 md:grid-cols-2">
+                        <Field label="Person Name">
+                          <input
+                            value={testimonialForm.name}
+                            onChange={(event) =>
+                              setTestimonialForm((current) => ({ ...current, name: event.target.value }))
+                            }
+                            className={inputClass}
+                            required
+                          />
+                        </Field>
+                        <Field label="Page Category">
+                          <select
+                            value={testimonialForm.category}
+                            onChange={(event) =>
+                              setTestimonialForm((current) => ({ ...current, category: event.target.value }))
+                            }
+                            className={selectClass}
+                            required
+                          >
+                            {reviewCategoryOptions.map((option) => (
+                              <option key={option.value} value={option.value}>
+                                {option.label}
+                              </option>
+                            ))}
+                          </select>
+                        </Field>
+                      </div>
+                      <Field label="Review">
+                        <textarea
+                          value={testimonialForm.review}
+                          onChange={(event) =>
+                            setTestimonialForm((current) => ({ ...current, review: event.target.value }))
+                          }
+                          className={textAreaClass}
+                          rows="6"
+                          required
+                        />
+                      </Field>
+                      <Field label="Sort Order">
+                        <input
+                          type="number"
+                          min="0"
+                          value={testimonialForm.sort_order}
+                          onChange={(event) =>
+                            setTestimonialForm((current) => ({ ...current, sort_order: event.target.value }))
+                          }
+                          className={inputClass}
+                          required
+                        />
+                      </Field>
+                      <ToggleRow
+                        checked={testimonialForm.is_active}
+                        onChange={(value) =>
+                          setTestimonialForm((current) => ({ ...current, is_active: value }))
+                        }
+                        label="Publish to public website"
+                      />
+                      <div className="flex flex-wrap gap-4 pt-2">
+                        <button type="submit" disabled={isSubmitting} className={primaryButtonClass}>
+                          {isSubmitting ? "Saving..." : editingTestimonialId ? "Update Testimonial" : "Create Testimonial"}
+                        </button>
+                        <button type="button" onClick={closeTestimonialModal} className={secondaryButtonClass}>
+                          Cancel
+                        </button>
+                      </div>
+                    </form>
+                  </FormModal>
                 </>
               ) : null}
 
