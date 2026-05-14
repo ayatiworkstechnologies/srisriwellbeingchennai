@@ -36,6 +36,21 @@ export const stats = [
   },
 ];
 
+export const featuredCities = [
+  {
+    name: "Chennai",
+    description:
+      "Consult with our Ayurveda Nadi Vaidya at Sri Sri Wellbeing Chennai for personalised pulse diagnosis and wellness guidance.",
+    tag: "Centre",
+  },
+  {
+    name: "Pondicherry",
+    description:
+      "Book Nadi Pariksha appointments during scheduled practitioner visits and wellness camp availability.",
+    tag: "Camp",
+  },
+];
+
 import { GiKidneys, GiHeartOrgan, GiLungs, GiStomach, GiBrain, GiLiver, GiJoint, GiButterfly, GiNightSleep } from "react-icons/gi";
 import { FaTint, FaEye, FaUserAlt, FaBone, FaNotesMedical, FaVial, FaBed, FaWeight, FaHandHoldingHeart, FaToilet, FaHeadSideCough, FaVenusMars } from "react-icons/fa";
 
