@@ -33,36 +33,41 @@ export default function AdminLogin({
 
   return (
     <div className="flex min-h-[80vh] items-center justify-center">
-      <div className="w-full max-w-md rounded-2xl border border-[#d9e3de] bg-white p-8 shadow-sm">
-        <div className="mb-6 flex items-center gap-3">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#d9e3de] bg-[#f7faf8] p-2">
-            <Image
-              src="/logo.svg"
-              alt="Sri Sri Wellbeing"
-              width={30}
-              height={30}
-              style={{ width: "auto", height: "auto" }}
-              className="object-contain"
-              priority
-            />
-          </div>
-          <div>
-            <h2 className="text-xl font-semibold text-[#1d2a26]">
-              {mode === "login" ? "Admin Login" : "Forgot Password"}
-            </h2>
-            <p className="text-sm text-[#667872]">
-              {mode === "login" ? "Sign in to continue" : "We will send a reset link to your email"}
-            </p>
+      <div className="w-full max-w-md overflow-hidden rounded-lg border border-[#e5e7eb] bg-white shadow-sm">
+        <div className="border-b border-[#eaecf0] bg-[#f9fafb] px-8 py-7">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-lg border border-[#e5e7eb] bg-white p-2">
+              <Image
+                src="/logo.svg"
+                alt="Sri Sri Wellbeing"
+                width={30}
+                height={30}
+                style={{ width: "auto", height: "auto" }}
+                className="object-contain"
+                priority
+              />
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#667085]">
+                Sri Sri Wellbeing
+              </p>
+              <h2 className="mt-1 text-xl font-semibold text-[#101828]">
+                {mode === "login" ? "Admin Login" : "Forgot Password"}
+              </h2>
+              <p className="text-sm text-[#667085]">
+                {mode === "login" ? "Sign in to continue" : "We will send a reset link to your email"}
+              </p>
+            </div>
           </div>
         </div>
 
         {mode === "login" ? (
-          <form onSubmit={handleLogin} className="space-y-4">
+          <form onSubmit={handleLogin} className="space-y-4 px-8 py-7">
             {errorMessage ? <FlashMessage tone="error" message={errorMessage} /> : null}
             {successMessage ? <FlashMessage tone="success" message={successMessage} /> : null}
 
             <label className="grid gap-2">
-              <span className="text-sm font-medium text-[#33423d]">Email</span>
+              <span className="text-sm font-semibold text-[#344054]">Email</span>
               <input
                 type="email"
                 value={credentials.email}
@@ -70,13 +75,13 @@ export default function AdminLogin({
                   setCredentials((current) => ({ ...current, email: event.target.value }))
                 }
                 required
-                className="h-11 rounded-lg border border-[#d6e0db] px-4 text-sm outline-none focus:border-[#1f6b5c]"
+                className="h-11 rounded-md border border-[#d0d5dd] px-4 text-sm outline-none focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/15"
                 placeholder="admin@srisriwellbeingchennai.com"
               />
             </label>
 
             <label className="grid gap-2">
-              <span className="text-sm font-medium text-[#33423d]">Password</span>
+              <span className="text-sm font-semibold text-[#344054]">Password</span>
               <PasswordInput
                 value={credentials.password}
                 onChange={(event) =>
@@ -91,7 +96,7 @@ export default function AdminLogin({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#1f6b5c] px-4 text-sm font-semibold text-white hover:bg-[#175245] disabled:opacity-70"
+              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-[#2563eb] px-4 text-sm font-semibold text-white hover:bg-[#1d4ed8] disabled:opacity-70"
             >
               {isSubmitting ? "Signing In..." : "Login"}
             </button>
@@ -102,24 +107,24 @@ export default function AdminLogin({
                 setMode("forgot");
                 setForgotEmail(credentials.email);
               }}
-              className="w-full text-sm font-medium text-[#1f6b5c]"
+              className="w-full text-sm font-semibold text-[#2563eb]"
             >
               Forgot password?
             </button>
           </form>
         ) : (
-          <form onSubmit={submitForgotPassword} className="space-y-4">
+          <form onSubmit={submitForgotPassword} className="space-y-4 px-8 py-7">
             {forgotError ? <FlashMessage tone="error" message={forgotError} /> : null}
             {forgotMessage ? <FlashMessage tone="success" message={forgotMessage} /> : null}
 
             <label className="grid gap-2">
-              <span className="text-sm font-medium text-[#33423d]">Email</span>
+              <span className="text-sm font-semibold text-[#344054]">Email</span>
               <input
                 type="email"
                 value={forgotEmail}
                 onChange={(event) => setForgotEmail(event.target.value)}
                 required
-                className="h-11 rounded-lg border border-[#d6e0db] px-4 text-sm outline-none focus:border-[#1f6b5c]"
+                className="h-11 rounded-md border border-[#d0d5dd] px-4 text-sm outline-none focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/15"
                 placeholder="admin@srisriwellbeingchennai.com"
               />
             </label>
@@ -127,7 +132,7 @@ export default function AdminLogin({
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-[#1f6b5c] px-4 text-sm font-semibold text-white hover:bg-[#175245] disabled:opacity-70"
+              className="inline-flex h-11 w-full items-center justify-center rounded-md bg-[#2563eb] px-4 text-sm font-semibold text-white hover:bg-[#1d4ed8] disabled:opacity-70"
             >
               {isSubmitting ? "Sending..." : "Send Reset Link"}
             </button>
@@ -135,7 +140,7 @@ export default function AdminLogin({
             <button
               type="button"
               onClick={() => setMode("login")}
-              className="w-full text-sm font-medium text-[#1f6b5c]"
+              className="w-full text-sm font-semibold text-[#2563eb]"
             >
               Back to login
             </button>

@@ -34,10 +34,10 @@ function NavLink({ section, currentSection, count }) {
   return (
     <Link
       href={section.href}
-      className={`inline-flex h-10 shrink-0 items-center gap-2 rounded-lg px-3 text-sm font-medium transition ${
+      className={`inline-flex h-10 shrink-0 items-center gap-2 rounded-md px-3 text-sm font-semibold transition ${
         active
-          ? "bg-[#1f6b5c] !text-white"
-          : "text-[#33423d] hover:bg-[#eef4f1]"
+          ? "bg-[#2563eb] !text-white"
+          : "text-[#475467] hover:bg-[#f2f4f7] hover:text-[#101828]"
       }`}
       title={section.label}
     >
@@ -46,7 +46,7 @@ function NavLink({ section, currentSection, count }) {
       {count > 0 ? (
         <span
           className={`inline-flex min-w-[20px] items-center justify-center rounded-full px-1.5 py-0.5 text-[11px] font-semibold ${
-            active ? "bg-white/20 !text-white" : "bg-white text-[#1f6b5c]"
+            active ? "bg-white/20 !text-white" : "bg-[#eef4ff] text-[#2563eb]"
           }`}
         >
           {count}
@@ -86,12 +86,12 @@ export default function AdminTopbar({
     : "Not loaded";
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#d9e3de] bg-[rgba(255,255,255,0.92)] backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-[#e5e7eb] bg-white/95 backdrop-blur">
       <div className="mx-auto max-w-[1500px] px-4 py-4 md:px-6 xl:px-8">
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between">
             <Link href="/admin" className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-[#d9e3de] bg-[linear-gradient(180deg,#ffffff,#f2f7f4)] p-2 shadow-[0_10px_24px_rgba(21,53,46,0.06)]">
+              <div className="flex h-11 w-11 items-center justify-center rounded-lg border border-[#e5e7eb] bg-white p-2">
                 <Image
                   src="/logo.svg"
                   alt="Sri Sri Wellbeing"
@@ -102,27 +102,27 @@ export default function AdminTopbar({
                 />
               </div>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[#6d817a]">
+                <p className="text-xs font-semibold uppercase tracking-[0.14em] text-[#667085]">
                   {roleLabel}
                 </p>
-                <h1 className="text-lg font-semibold text-[#1d2a26]">{subLabel}</h1>
-                <p className="mt-0.5 text-sm text-[#70827c]">{profileName}</p>
+                <h1 className="text-lg font-semibold text-[#101828]">{subLabel}</h1>
+                <p className="mt-0.5 text-sm text-[#667085]">{profileName}</p>
               </div>
             </Link>
 
-            <div className="flex flex-wrap items-center gap-2 text-xs text-[#60746e]">
-              <div className="inline-flex h-10 max-w-full items-center gap-2 rounded-xl border border-[#d9e3de] bg-[#f7faf8] px-3">
-                <Wifi className="h-4 w-4 text-[#1f6b5c]" aria-hidden="true" />
+            <div className="flex flex-wrap items-center gap-2 text-xs text-[#667085]">
+              <div className="inline-flex h-10 max-w-full items-center gap-2 rounded-md border border-[#e5e7eb] bg-[#f9fafb] px-3">
+                <Wifi className="h-4 w-4 text-[#2563eb]" aria-hidden="true" />
                 <span className="truncate">{apiBaseUrl || "/api"}</span>
               </div>
-              <div className="inline-flex h-10 items-center rounded-xl border border-[#d9e3de] bg-white px-3">
+              <div className="inline-flex h-10 items-center rounded-md border border-[#e5e7eb] bg-white px-3">
                 Last sync: {lastLoadedLabel}
               </div>
               <button
                 type="button"
                 onClick={onRefresh}
                 disabled={isLoading}
-                className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#d9e3de] bg-white px-3 text-sm font-medium text-[#33423d] hover:bg-[#f7faf8] disabled:opacity-60"
+                className="inline-flex h-10 items-center gap-2 rounded-md border border-[#e5e7eb] bg-white px-3 text-sm font-semibold text-[#344054] hover:bg-[#f9fafb] disabled:opacity-60"
                 title="Refresh admin data"
               >
                 <RefreshCw className={`h-4 w-4 ${isLoading ? "animate-spin" : ""}`} aria-hidden="true" />
@@ -131,7 +131,7 @@ export default function AdminTopbar({
               <button
                 type="button"
                 onClick={handleLogout}
-                className="inline-flex h-10 items-center gap-2 rounded-xl border border-[#d9e3de] px-3 text-sm font-medium text-[#33423d] hover:bg-[#f7faf8]"
+                className="inline-flex h-10 items-center gap-2 rounded-md border border-[#e5e7eb] px-3 text-sm font-semibold text-[#344054] hover:bg-[#f9fafb]"
                 title={`Logout ${profileName}`}
               >
                 <LogOut className="h-4 w-4" aria-hidden="true" />
@@ -141,7 +141,7 @@ export default function AdminTopbar({
           </div>
 
           <nav className="-mx-4 overflow-x-auto px-4 md:mx-0 md:px-0" aria-label="Admin sections">
-            <div className="flex min-w-max items-center gap-2 rounded-[1.25rem] border border-[#dbe7e1] bg-white/90 p-2 shadow-[0_10px_28px_rgba(21,53,46,0.04)]">
+            <div className="flex min-w-max items-center gap-2 rounded-lg border border-[#e5e7eb] bg-white p-2">
               {adminSections.map((section) => (
                 <NavLink
                   key={section.id}

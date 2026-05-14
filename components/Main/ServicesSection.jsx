@@ -59,17 +59,19 @@ export default function ServicesSection() {
         const result = await listPublicServices();
         if (!active) return;
         setTherapyCards(
-          (result || []).map((item) => ({
-            id: item.id,
-            title: normalizeServiceTitle(item.title),
-            shortDescription: item.short_description || item.shortDescription || "",
-            desc: item.short_description || item.shortDescription || "",
-            details: item.description,
-            image: normalizeServiceImage(item.title, item.image),
-            duration: item.duration,
-            rating: item.rating,
-            benefits: normalizeBenefits(item.benefits),
-          }))
+          (result || [])
+            .filter((item) => (item.category || "main").toLowerCase() === "main")
+            .map((item) => ({
+              id: item.id,
+              title: normalizeServiceTitle(item.title),
+              shortDescription: item.short_description || item.shortDescription || "",
+              desc: item.short_description || item.shortDescription || "",
+              details: item.description,
+              image: normalizeServiceImage(item.title, item.image),
+              duration: item.duration,
+              rating: item.rating,
+              benefits: normalizeBenefits(item.benefits),
+            }))
         );
       } catch (error) {
         if (!active) return;

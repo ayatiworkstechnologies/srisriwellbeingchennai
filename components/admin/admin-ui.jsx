@@ -102,22 +102,22 @@ export function EntityPanel({
 
 function EmptyState({ message }) {
   return (
-    <div className="mt-6 rounded-[2rem] border border-dashed border-[#cfddd6] bg-[linear-gradient(180deg,#f9fcfa,#f1f7f3)] px-5 py-20 text-center">
-      <p className="text-sm text-[#60746e]">{message}</p>
+    <div className="mt-6 rounded-lg border border-dashed border-[#d0d5dd] bg-[#f9fafb] px-5 py-14 text-center">
+      <p className="text-sm text-[#667085]">{message}</p>
     </div>
   );
 }
 
 export function PanelCard({ eyebrow, title, subtitle, children }) {
   return (
-    <section className="rounded-[1.75rem] border border-[#dbe7e1] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(248,251,249,0.94))] p-6 shadow-[0_18px_48px_rgba(21,53,46,0.06)] md:p-7">
-      <p className="inline-flex rounded-full border border-[#d7e5de] bg-[#eef4f1] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#5f746d]">
+    <section className="rounded-lg border border-[#e5e7eb] bg-white p-6 shadow-sm md:p-7">
+      <p className="inline-flex rounded-md border border-[#dbeafe] bg-[#eff6ff] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#2563eb]">
         {eyebrow}
       </p>
-      <h3 className="mt-4 text-2xl font-semibold leading-tight text-[#1d2a26]">
+      <h3 className="mt-4 text-2xl font-semibold leading-tight text-[#101828]">
         {title}
       </h3>
-      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#61736d]">{subtitle}</p>
+      <p className="mt-2 max-w-2xl text-sm leading-relaxed text-[#667085]">{subtitle}</p>
       <div className="mt-6">{children}</div>
     </section>
   );
@@ -128,16 +128,16 @@ export function StatCard({ label, value, tone = "light" }) {
 
   return (
     <div
-      className={`rounded-[1.4rem] border p-5 shadow-[0_12px_32px_rgba(21,53,46,0.04)] ${
+      className={`rounded-lg border p-5 shadow-sm ${
         dark
-          ? "border-[#1f6b5c] bg-[linear-gradient(180deg,#1f6b5c,#184f45)] text-white"
-          : "border-[#dbe7e1] bg-white"
+          ? "border-[#2563eb] bg-[#2563eb] text-white"
+          : "border-[#e5e7eb] bg-white"
       }`}
     >
-      <p className={`text-[10px] font-bold uppercase tracking-[0.3em] ${dark ? "text-white/70" : "text-[#7d948c]"}`}>
+      <p className={`text-[10px] font-bold uppercase tracking-[0.18em] ${dark ? "text-white/75" : "text-[#667085]"}`}>
         {label}
       </p>
-      <p className={`mt-3 text-3xl font-semibold tracking-tight ${dark ? "text-white" : "text-[#18332e]"}`}>
+      <p className={`mt-3 text-3xl font-semibold tracking-tight ${dark ? "text-white" : "text-[#101828]"}`}>
         {value}
       </p>
     </div>
@@ -148,24 +148,24 @@ export function RecordCard({ title, meta, body, extra, onEdit, onDelete }) {
   const metaParts = meta.split("|").map((part) => part.trim()).filter(Boolean);
 
   return (
-    <article className="rounded-[1.45rem] border border-[#dbe7e1] bg-white p-5 shadow-[0_14px_34px_rgba(21,53,46,0.04)]">
+    <article className="rounded-lg border border-[#e5e7eb] bg-white p-5 shadow-sm">
       <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-3">
-            <h4 className="text-xl font-semibold tracking-tight text-[#18332e]">{title}</h4>
+            <h4 className="text-xl font-semibold tracking-tight text-[#101828]">{title}</h4>
             {metaParts[0] ? (
-              <span className="rounded-md bg-[#eef5f1] px-2 py-1 text-[11px] font-medium text-[#19564f]">
+              <span className="rounded-md bg-[#eff6ff] px-2 py-1 text-[11px] font-semibold text-[#2563eb]">
                 {metaParts[0]}
               </span>
             ) : null}
           </div>
           {metaParts.length > 1 ? (
-            <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.22em] text-[#8ba098]">
+            <p className="mt-2 text-[11px] font-bold uppercase tracking-[0.16em] text-[#667085]">
               {metaParts.slice(1).join(" | ")}
             </p>
           ) : null}
           {extra ? (
-            <div className="mt-4 inline-flex max-w-full items-center rounded-md border border-[#dbe7e1] bg-[#f7fbf8] px-3 py-2 text-xs text-[#60746e]">
+            <div className="mt-4 inline-flex max-w-full items-center rounded-md border border-[#e5e7eb] bg-[#f9fafb] px-3 py-2 text-xs text-[#667085]">
               <span className="truncate">{extra}</span>
             </div>
           ) : null}
@@ -178,15 +178,15 @@ export function RecordCard({ title, meta, body, extra, onEdit, onDelete }) {
           <button
             type="button"
             onClick={onDelete}
-            className="inline-flex h-11 items-center justify-center rounded-2xl border border-[#f0cdc5] bg-white px-5 text-[11px] font-bold uppercase tracking-[0.2em] text-[#b35342] transition-all duration-300 hover:bg-[#fff4f2]"
+            className="inline-flex h-11 items-center justify-center rounded-md border border-[#fecaca] bg-white px-5 text-sm font-semibold text-[#b42318] transition hover:bg-[#fef3f2]"
           >
             Delete
           </button>
         </div>
       </div>
 
-      <div className="mt-5 border-t border-[#e7efeb] pt-4">
-        <p className="whitespace-pre-line text-sm leading-relaxed text-[#4e635d]">{body}</p>
+      <div className="mt-5 border-t border-[#eaecf0] pt-4">
+        <p className="whitespace-pre-line text-sm leading-relaxed text-[#475467]">{body}</p>
       </div>
     </article>
   );
@@ -195,7 +195,7 @@ export function RecordCard({ title, meta, body, extra, onEdit, onDelete }) {
 export function Field({ label, children }) {
   return (
     <label className="grid gap-2.5">
-      <span className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#6d857e]">{label}</span>
+      <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#667085]">{label}</span>
       {children}
     </label>
   );
@@ -204,7 +204,7 @@ export function Field({ label, children }) {
 export function FieldInline({ label, children }) {
   return (
     <label className="grid gap-2.5">
-      <span className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#7d948c]">{label}</span>
+      <span className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#667085]">{label}</span>
       {children}
     </label>
   );
@@ -235,7 +235,7 @@ export function PasswordInput({
       <button
         type="button"
         onClick={() => setVisible((current) => !current)}
-        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold uppercase tracking-[0.14em] text-[#5f746d]"
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-[#2563eb]"
       >
         {visible ? "Hide" : "Show"}
       </button>
@@ -248,12 +248,12 @@ export function ToggleRow({ checked, onChange, label }) {
     <label
       className={`flex cursor-pointer items-center justify-between gap-4 rounded-lg border p-4 ${
         checked
-          ? "border-[#b8d0c6] bg-[#f4faf6]"
-          : "border-[#dbe7e1] bg-[#fbfdfc]"
+          ? "border-[#bfdbfe] bg-[#eff6ff]"
+          : "border-[#e5e7eb] bg-[#f9fafb]"
       }`}
     >
-      <span className="text-sm font-semibold text-[#18332e]">{label}</span>
-      <div className={`relative h-6 w-11 rounded-full transition-colors duration-300 ${checked ? "bg-[#19564f]" : "bg-[#c6d6d0]"}`}>
+      <span className="text-sm font-semibold text-[#101828]">{label}</span>
+      <div className={`relative h-6 w-11 rounded-full transition-colors duration-300 ${checked ? "bg-[#2563eb]" : "bg-[#d0d5dd]"}`}>
         <input
           type="checkbox"
           checked={checked}
@@ -273,8 +273,8 @@ export function FlashMessage({ tone, message }) {
     <div
       className={`rounded-lg border px-4 py-3 text-sm font-medium ${
         error
-          ? "border-[#f0cdc5] bg-[#fff5f3] text-[#a54938]"
-          : "border-[#cfe1d8] bg-[#f4faf6] text-[#19564f]"
+          ? "border-[#fecaca] bg-[#fef3f2] text-[#b42318]"
+          : "border-[#bfdbfe] bg-[#eff6ff] text-[#1d4ed8]"
       }`}
     >
       {message}
@@ -294,8 +294,8 @@ export function ToastStack({ toasts, onDismiss }) {
             key={toast.id}
             className={`pointer-events-auto overflow-hidden rounded-[1.3rem] border shadow-[0_20px_50px_rgba(16,36,33,0.16)] ${
               error
-                ? "border-[#f0cdc5] bg-[#fff7f5] text-[#9f3e2f]"
-                : "border-[#cfe1d8] bg-[#f4faf6] text-[#19564f]"
+                ? "border-[#fecaca] bg-[#fef3f2] text-[#b42318]"
+                : "border-[#bfdbfe] bg-[#eff6ff] text-[#1d4ed8]"
             }`}
           >
             <div className="flex items-start justify-between gap-4 px-4 py-4">
@@ -313,7 +313,7 @@ export function ToastStack({ toasts, onDismiss }) {
                 x
               </button>
             </div>
-            <div className={`h-1 w-full ${error ? "bg-[#e7b3aa]" : "bg-[#9bc9b2]"}`} />
+            <div className={`h-1 w-full ${error ? "bg-[#fda29b]" : "bg-[#2563eb]"}`} />
           </div>
         );
       })}
@@ -323,9 +323,9 @@ export function ToastStack({ toasts, onDismiss }) {
 
 export function ShowcaseCard({ label, value }) {
   return (
-    <div className="rounded-[1.5rem] border border-[#dbe7e1] bg-[#f8fbf9] p-5">
-      <p className="text-[10px] font-bold uppercase tracking-[0.24em] text-[#7d948c]">{label}</p>
-      <p className="mt-3 text-sm font-semibold text-[#18332e]">{value}</p>
+    <div className="rounded-lg border border-[#e5e7eb] bg-[#f9fafb] p-5">
+      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#667085]">{label}</p>
+      <p className="mt-3 text-sm font-semibold text-[#101828]">{value}</p>
     </div>
   );
 }
@@ -334,31 +334,31 @@ export function SummaryTile({ label, value, note, emphasis = false, onClick }) {
   return (
     <div
       onClick={onClick}
-      className={`rounded-xl border p-4 ${
-        onClick ? "cursor-pointer hover:bg-[#f8fbf9]" : ""
+      className={`rounded-lg border p-4 ${
+        onClick ? "cursor-pointer hover:bg-[#f9fafb]" : ""
       } ${
         emphasis
-          ? "border-[#cfe1d8] bg-[#f4faf6]"
-          : "border-[#dbe7e1] bg-white/90"
+          ? "border-[#bfdbfe] bg-[#eff6ff]"
+          : "border-[#e5e7eb] bg-white"
       }`}
     >
-      <p className="text-[9px] font-bold uppercase tracking-[0.3em] text-[#7d948c]">{label}</p>
-      <p className={`mt-2 tracking-tight text-[#18332e] ${emphasis ? "text-2xl font-semibold" : "text-lg font-semibold"}`}>
+      <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-[#667085]">{label}</p>
+      <p className={`mt-2 tracking-tight text-[#101828] ${emphasis ? "text-2xl font-semibold" : "text-lg font-semibold"}`}>
         {value}
       </p>
-      {note ? <p className="mt-2 text-xs leading-relaxed text-[#7d948c]">{note}</p> : null}
+      {note ? <p className="mt-2 text-xs leading-relaxed text-[#667085]">{note}</p> : null}
     </div>
   );
 }
 
 export function InfoStrip({ title, value, detail }) {
   return (
-    <div className="rounded-[1.4rem] border border-[#dbe7e1] bg-white p-5 shadow-[0_12px_32px_rgba(21,53,46,0.04)]">
-      <p className="inline-flex rounded-full bg-[#eef5f1] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.14em] text-[#19564f]">
+    <div className="rounded-lg border border-[#e5e7eb] bg-white p-5 shadow-sm">
+      <p className="inline-flex rounded-md bg-[#eff6ff] px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.12em] text-[#2563eb]">
         {title}
       </p>
-      <p className="mt-4 text-3xl font-semibold tracking-tight text-[#18332e]">{value}</p>
-      <p className="mt-2 text-sm leading-relaxed text-[#60746e]">{detail}</p>
+      <p className="mt-4 text-3xl font-semibold tracking-tight text-[#101828]">{value}</p>
+      <p className="mt-2 text-sm leading-relaxed text-[#667085]">{detail}</p>
     </div>
   );
 }
@@ -367,19 +367,19 @@ export function FormModal({ open, title, subtitle, onClose, children }) {
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-[120] flex items-center justify-center bg-[rgba(16,36,33,0.36)] p-4 backdrop-blur-md">
+    <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/35 p-4 backdrop-blur-sm">
       <div className="absolute inset-0" onClick={onClose} />
-      <div className="relative z-10 w-full max-w-3xl overflow-hidden rounded-[1.9rem] border border-[#dbe7e1] bg-white shadow-[0_24px_70px_rgba(16,36,33,0.18)]">
-        <div className="flex items-start justify-between gap-4 border-b border-[#e3ece7] px-6 py-6 md:px-8">
+      <div className="relative z-10 w-full max-w-3xl overflow-hidden rounded-lg border border-[#e5e7eb] bg-white shadow-xl">
+        <div className="flex items-start justify-between gap-4 border-b border-[#eaecf0] bg-[#f9fafb] px-6 py-6 md:px-8">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#6d857e]">Editor</p>
-            <h3 className="mt-2 font-serif text-3xl font-semibold tracking-tight text-[#18332e]">{title}</h3>
-            {subtitle ? <p className="mt-2 text-sm leading-relaxed text-[#60746e]">{subtitle}</p> : null}
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-[#667085]">Editor</p>
+            <h3 className="mt-2 text-3xl font-semibold tracking-tight text-[#101828]">{title}</h3>
+            {subtitle ? <p className="mt-2 text-sm leading-relaxed text-[#667085]">{subtitle}</p> : null}
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-[#dbe7e1] bg-white text-xl text-[#18332e] transition-all duration-300 hover:bg-[#f6faf8]"
+            className="inline-flex h-11 w-11 items-center justify-center rounded-md border border-[#e5e7eb] bg-white text-xl text-[#101828] transition hover:bg-[#f9fafb]"
           >
             x
           </button>
@@ -391,12 +391,12 @@ export function FormModal({ open, title, subtitle, onClose, children }) {
 }
 
 export const inputClass =
-  "h-11 w-full rounded-lg border border-[#d6e2dc] bg-white px-4 text-sm text-[#18332e] outline-none placeholder:text-[#9aaea8] focus:border-[#19564f]";
+  "h-11 w-full rounded-md border border-[#d0d5dd] bg-white px-4 text-sm text-[#101828] outline-none placeholder:text-[#98a2b3] focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/15";
 export const textAreaClass =
-  "w-full rounded-lg border border-[#d6e2dc] bg-white px-4 py-3 text-sm text-[#18332e] outline-none placeholder:text-[#9aaea8] focus:border-[#19564f]";
+  "w-full rounded-md border border-[#d0d5dd] bg-white px-4 py-3 text-sm text-[#101828] outline-none placeholder:text-[#98a2b3] focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/15";
 export const selectClass =
-  "h-11 rounded-lg border border-[#d6e2dc] bg-white px-3 text-sm text-[#18332e] outline-none focus:border-[#19564f] cursor-pointer";
+  "h-11 rounded-md border border-[#d0d5dd] bg-white px-3 text-sm text-[#101828] outline-none focus:border-[#2563eb] focus:ring-2 focus:ring-[#2563eb]/15 cursor-pointer";
 export const primaryButtonClass =
-  "inline-flex h-11 items-center justify-center rounded-lg bg-[#1f6b5c] px-5 text-sm font-semibold text-white hover:bg-[#175245] disabled:cursor-not-allowed disabled:opacity-70";
+  "inline-flex h-11 items-center justify-center rounded-md bg-[#2563eb] px-5 text-sm font-semibold text-white hover:bg-[#1d4ed8] disabled:cursor-not-allowed disabled:opacity-70";
 export const secondaryButtonClass =
-  "inline-flex h-11 items-center justify-center rounded-lg border border-[#d6e2dc] bg-white px-5 text-sm font-medium text-[#18332e] hover:bg-[#f6faf8]";
+  "inline-flex h-11 items-center justify-center rounded-md border border-[#d0d5dd] bg-white px-5 text-sm font-semibold text-[#344054] hover:bg-[#f9fafb]";

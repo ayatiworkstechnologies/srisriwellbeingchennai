@@ -1371,20 +1371,29 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
               </div>
             </div>
           </FormModal>
-          <div className="flex flex-col gap-8">
+          <div className="flex flex-col gap-7">
             {/* Header Section */}
-            <div className="rounded-2xl border border-[#dbe7e1] bg-white p-6 shadow-sm">
-              <div className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+            <div className="overflow-hidden rounded-lg border border-[#e5e7eb] bg-white shadow-sm">
+              <div className="border-b border-[#eaecf0] bg-[#f9fafb] px-6 py-5">
+                <div className="flex flex-wrap items-center gap-3">
+                  <span className="rounded-md bg-[#eff6ff] px-2.5 py-1 text-xs font-semibold text-[#2563eb]">
+                    {effectiveSectionMeta.eyebrow}
+                  </span>
+                  <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[#667085]">
+                    {effectiveSectionMeta.group || "Admin"}
+                  </span>
+                </div>
+              </div>
+              <div className="flex flex-col gap-6 px-6 py-7 lg:flex-row lg:items-end lg:justify-between">
                 <div>
-                  <div className="mb-3 flex items-center gap-3">
-                    <span className="rounded-md bg-[#eef4f1] px-2.5 py-1 text-xs font-medium text-[#1f6b5c]">
-                      {effectiveSectionMeta.eyebrow}
-                    </span>
-                  </div>
-                  <h1 className="text-3xl font-semibold text-[#1d2a26] md:text-4xl">{effectiveSectionMeta.title}</h1>
-                  <p className="mt-3 max-w-2xl text-sm leading-7 text-[#5f726c]">
+                  <h1 className="text-3xl font-semibold text-[#101828] md:text-4xl">{effectiveSectionMeta.title}</h1>
+                  <p className="mt-3 max-w-3xl text-sm leading-7 text-[#667085]">
                     {effectiveSectionMeta.description}
                   </p>
+                </div>
+                <div className="grid min-w-[220px] grid-cols-2 gap-3 rounded-lg border border-[#eaecf0] bg-[#f9fafb] p-3">
+                  <SummaryTile label="Open" value={newInquiries + pendingBookings} note="Need action" emphasis />
+                  <SummaryTile label="Synced" value={lastLoadedAt ? formatTime(lastLoadedAt) : "--"} note="Latest pull" />
                 </div>
               </div>
             </div>
@@ -1406,7 +1415,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
             </div>
 
             {/* Main Content Area */}
-            <div className="pt-4">
+            <div>
               {resolvedSection === "inquiries" ? (
                 <InquiriesPanel
                   inquiries={inquiries}
