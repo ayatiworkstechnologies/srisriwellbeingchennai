@@ -1440,6 +1440,7 @@ export default function AdminPanelClient({ currentSection = "bookings" }) {
                     canAssignTherapist={!isLimitedBookingRole}
                     role={userProfile?.role}
                     handleBookingLifecycleChange={handleBookingLifecycleChange}
+                    requestBookingLifecycleChange={requestBookingLifecycleChange}
                     openBookingEmailModal={openBookingEmailModal}
                     handleDelete={handleDelete}
                   />
@@ -2457,6 +2458,7 @@ function BookingsPanel({
   canAssignTherapist,
   role,
   handleBookingLifecycleChange,
+  requestBookingLifecycleChange,
   openBookingEmailModal,
   handleDelete,
 }) {
@@ -2476,6 +2478,7 @@ function BookingsPanel({
     counts[status] = bookings.filter((booking) => booking.status === status).length;
     return counts;
   }, {});
+  const confirmBookingLifecycleChange = requestBookingLifecycleChange || handleBookingLifecycleChange;
 
   return (
     <section className="grid gap-5">
@@ -2612,7 +2615,7 @@ function BookingsPanel({
                   <select
                     value={booking.status}
                     onChange={(event) =>
-                      requestBookingLifecycleChange(
+                      confirmBookingLifecycleChange(
                         booking.id,
                         {
                           status: event.target.value,
@@ -2640,7 +2643,7 @@ function BookingsPanel({
                   <button
                     type="button"
                     onClick={() =>
-                      requestBookingLifecycleChange(
+                      confirmBookingLifecycleChange(
                         booking.id,
                         {
                           status: booking.status === "confirmed" ? "completed" : "confirmed",
@@ -2658,7 +2661,7 @@ function BookingsPanel({
                     <button
                       type="button"
                       onClick={() =>
-                        requestBookingLifecycleChange(
+                        confirmBookingLifecycleChange(
                           booking.id,
                           {
                             status: "completed",
@@ -2673,7 +2676,7 @@ function BookingsPanel({
                     <button
                       type="button"
                       onClick={() =>
-                        requestBookingLifecycleChange(
+                        confirmBookingLifecycleChange(
                           booking.id,
                           {
                             status: "cancelled",
@@ -2735,7 +2738,7 @@ function BookingsPanel({
                     <button
                       type="button"
                       onClick={() =>
-                        requestBookingLifecycleChange(
+                        confirmBookingLifecycleChange(
                           booking.id,
                           {
                             status: booking.status === "confirmed" ? "completed" : "confirmed",
@@ -2775,7 +2778,7 @@ function BookingsPanel({
                         <button
                           type="button"
                           onClick={() =>
-                            requestBookingLifecycleChange(
+                            confirmBookingLifecycleChange(
                               booking.id,
                               {
                                 status: "completed",
@@ -2790,7 +2793,7 @@ function BookingsPanel({
                         <button
                           type="button"
                           onClick={() =>
-                            requestBookingLifecycleChange(
+                            confirmBookingLifecycleChange(
                               booking.id,
                               {
                                 status: "cancelled",
@@ -2817,7 +2820,7 @@ function BookingsPanel({
                         <select
                           value={booking.status}
                           onChange={(event) =>
-                            requestBookingLifecycleChange(
+                            confirmBookingLifecycleChange(
                               booking.id,
                               {
                                 status: event.target.value,

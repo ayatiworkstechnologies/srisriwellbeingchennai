@@ -129,7 +129,14 @@ export async function loadAdminData({
       return;
     }
 
-    const [inquiryData, bootstrapData, adminUserData, nadiCampData, categoryData, testimonialData] = await Promise.all([
+    const [
+      inquiryData,
+      bootstrapData,
+      adminUserData,
+      nadiCampData,
+      categoryData,
+      testimonialData,
+    ] = await Promise.all([
       listAdminInquiries(token, { status: inquiryStatusFilter, source: inquirySourceFilter }),
       getAdminBootstrap(token, statusFilter),
       setAdminUsers ? listAdminUsers(token) : Promise.resolve(null),

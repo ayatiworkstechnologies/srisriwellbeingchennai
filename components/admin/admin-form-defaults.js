@@ -125,16 +125,6 @@ export const initialTherapistBlackoutForm = {
   is_active: true,
 };
 
-export const initialAlternativeTreatmentForm = {
-  item_id: "",
-  name: "",
-  category: "",
-  short_desc: "",
-  image: "/images/alt-hero.png",
-  sort_order: 0,
-  is_active: true,
-};
-
 export const initialPanchakarmaCoreForm = {
   item_id: "",
   name: "",
@@ -165,6 +155,7 @@ export const contentCategoryOptions = [
   { value: "main", label: "Main" },
   { value: "relax", label: "Relax" },
   { value: "relax-sub", label: "Relax Sub" },
+  { value: "alternative", label: "Alternative" },
   { value: "panchakarma", label: "Panchakarma" },
 ];
 export const testimonialCategoryOptions = [

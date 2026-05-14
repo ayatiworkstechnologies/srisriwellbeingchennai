@@ -7,17 +7,23 @@ import { motion, AnimatePresence } from "framer-motion";
 import RevealOnScroll from "../Main/RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
 import { categoryColors, treatments as fallbackTreatments } from "./alternativeTreatmentsData";
-import { listPublicAlternativeTreatments } from "@/lib/api";
+import { listPublicServices } from "@/lib/api";
 
 const ALL_CATEGORIES = "All";
+const fallbackTreatmentMap = new Map(
+  fallbackTreatments.map((treatment) => [treatment.name.toLowerCase(), treatment])
+);
 
 function normalizeTreatment(item) {
+  const title = item.title || item.name || "";
+  const fallbackTreatment = fallbackTreatmentMap.get(title.toLowerCase());
+
   return {
-    id: item.id || item.item_id,
-    name: item.name,
-    category: item.category,
-    shortDesc: item.shortDesc || item.short_desc,
-    image: item.image,
+    id: fallbackTreatment?.id || item.id || item.item_id,
+    name: item.name || title,
+    category: item.category === "alternative" ? fallbackTreatment?.category || "Alternative" : item.category,
+    shortDesc: item.shortDesc || item.short_desc || item.short_description || item.description,
+    image: item.image || fallbackTreatment?.image,
   };
 }
 
@@ -31,7 +37,7 @@ export default function AltTreatmentsGrid({ treatments }) {
 
     async function loadTreatments() {
       try {
-        const result = await listPublicAlternativeTreatments("alternative");
+        const result = await listPublicServices("alternative");
         if (!active || !Array.isArray(result) || result.length === 0) return;
         setApiTreatments(result.map((item) => normalizeTreatment(item)));
       } catch {

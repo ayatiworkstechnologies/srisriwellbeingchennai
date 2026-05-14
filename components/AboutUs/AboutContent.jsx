@@ -1,11 +1,61 @@
 "use client";
 
 import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 import RevealOnScroll from "../Main/RevealOnScroll";
 import { FaEye, FaHandHoldingHeart } from "react-icons/fa6";
 import LeafGlyph from "../ui/LeafGlyph";
+import { listPublicTeam } from "@/lib/api";
+
+function isDoctorProfile(profile) {
+  const role = `${profile.role_label || ""} ${profile.qualification || ""}`.toLowerCase();
+  return role.includes("doctor") || role.includes("physician") || role.includes("vaidya");
+}
+
+function normalizeProfile(profile) {
+  return {
+    id: profile.id,
+    fullName: profile.full_name || profile.fullName || "",
+    roleLabel: profile.role_label || profile.roleLabel || "Doctor",
+    qualification: profile.qualification || "",
+    experienceYears: profile.experience_years || profile.experienceYears || 0,
+    languages: Array.isArray(profile.languages) ? profile.languages : [],
+    image: profile.image || "/images/doctor-placeholder.png",
+    specialties: Array.isArray(profile.specialties) ? profile.specialties : [],
+    bio: profile.bio || "",
+  };
+}
 
 export default function AboutContent() {
+  const [teamProfiles, setTeamProfiles] = useState([]);
+
+  useEffect(() => {
+    let active = true;
+
+    async function loadTeam() {
+      try {
+        const result = await listPublicTeam();
+        if (!active || !Array.isArray(result)) return;
+        setTeamProfiles(result.map((item) => normalizeProfile(item)).filter((item) => item.fullName));
+      } catch {
+        if (active) {
+          setTeamProfiles([]);
+        }
+      }
+    }
+
+    loadTeam();
+
+    return () => {
+      active = false;
+    };
+  }, []);
+
+  const doctorProfiles = useMemo(() => {
+    const doctors = teamProfiles.filter((profile) => isDoctorProfile(profile));
+    return doctors.length ? doctors : teamProfiles;
+  }, [teamProfiles]);
+
   return (
     <section className="section-padding relative bg-[#fcfaf7] overflow-hidden">
       {/* Decorative Background */}
@@ -91,6 +141,76 @@ export default function AboutContent() {
             &ldquo;Sri Sri Wellbeing is where healing becomes an experience of grace, balance, and renewal.&rdquo;
           </p>
         </RevealOnScroll>
+
+        {doctorProfiles.length ? (
+          <div className="pt-16">
+            <RevealOnScroll className="mx-auto mb-12 max-w-4xl text-center">
+              <p className="mb-5 text-[11px] font-extrabold uppercase tracking-[0.42em] text-[#c29a2f] md:text-sm">
+                Expert Care
+              </p>
+              <h2 className="text-4xl font-black leading-tight tracking-normal text-black md:text-5xl">
+                Meet Our Doctors
+              </h2>
+              <div className="mx-auto mt-7 h-[3px] w-20 rounded-full bg-[#d4af37]" />
+            </RevealOnScroll>
+
+            <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
+              {doctorProfiles.map((profile, index) => (
+                <RevealOnScroll key={profile.id || profile.fullName} delay={(index % 3) * 0.08}>
+                  <article className="group h-full overflow-hidden rounded-[30px] border border-[#eadfce] bg-white shadow-[0_16px_45px_rgba(59,34,24,0.08)] transition-all duration-500 hover:-translate-y-2 hover:border-[#d4af37]">
+                    <div className="relative h-[320px] overflow-hidden bg-[#f5ede1]">
+                      <Image
+                        src={profile.image}
+                        alt={profile.fullName}
+                        fill
+                        className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-[#1a0f0a]/55 via-transparent to-transparent" />
+                      <div className="absolute bottom-5 left-5 right-5">
+                        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#f5d67d]">
+                          {profile.roleLabel}
+                        </p>
+                        <h3 className="mt-2 text-2xl font-bold text-white">
+                          {profile.fullName}
+                        </h3>
+                      </div>
+                    </div>
+                    <div className="p-6">
+                      {profile.qualification ? (
+                        <p className="text-sm font-semibold uppercase tracking-[0.16em] text-[#9a741d]">
+                          {profile.qualification}
+                        </p>
+                      ) : null}
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {profile.experienceYears ? (
+                          <span className="rounded-full bg-[#fdf8ef] px-3 py-1 text-xs font-semibold text-[#6f4b1b]">
+                            {profile.experienceYears}+ years
+                          </span>
+                        ) : null}
+                        {profile.languages.slice(0, 3).map((language) => (
+                          <span key={language} className="rounded-full bg-[#f8f3e9] px-3 py-1 text-xs font-semibold text-[#6f4b1b]">
+                            {language}
+                          </span>
+                        ))}
+                      </div>
+                      {profile.bio ? (
+                        <p className="mt-5 line-clamp-4 text-sm leading-7 text-[#5c4a41]">
+                          {profile.bio}
+                        </p>
+                      ) : null}
+                      {profile.specialties.length ? (
+                        <p className="mt-5 text-xs font-bold uppercase tracking-[0.18em] text-[#b88621]">
+                          {profile.specialties.slice(0, 3).join(" | ")}
+                        </p>
+                      ) : null}
+                    </div>
+                  </article>
+                </RevealOnScroll>
+              ))}
+            </div>
+          </div>
+        ) : null}
 
       </div>
     </section>
