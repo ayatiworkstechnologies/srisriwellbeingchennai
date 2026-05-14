@@ -1,7 +1,9 @@
 const DEFAULT_BACKEND_URL = "https://srisriwellbeingchennai-backend.onrender.com";
 
 function getBackendBaseUrl() {
-  return (process.env.BACKEND_API_URL || DEFAULT_BACKEND_URL).replace(/\/+$/, "");
+  return (process.env.BACKEND_API_URL || DEFAULT_BACKEND_URL)
+    .replace(/\/+$/, "")
+    .replace(/\/api$/i, "");
 }
 
 function buildTargetUrl(request, pathSegments) {
