@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
-import { FaChevronLeft, FaChevronRight, FaStar } from "react-icons/fa6";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa6";
 import RevealOnScroll from "./RevealOnScroll";
 import WellnessButton from "../layouts/WellnessButton";
 import TherapyModal from "../Relax/TherapyModal";
@@ -229,13 +229,6 @@ export default function ServicesSection() {
                     <h3 className="section-subtitle text-[#231c17]">
                       {card.title}
                     </h3>
-
-                    {card.rating ? (
-                      <div className="mt-2 flex items-center gap-1.5 text-sm font-semibold text-[#b88f28]">
-                        <FaStar className="text-[13px]" />
-                        <span>{Number(card.rating).toFixed(1)}</span>
-                      </div>
-                    ) : null}
 
                     <p className="para-text mt-3 text-[#7a726c]">
                       {card.desc}
