@@ -40,7 +40,9 @@ function formatTime(value) {
 
 function formatDate(value) {
   if (!value) return "";
-  return new Intl.DateTimeFormat("en-IN", { dateStyle: "medium" }).format(new Date(value));
+  return new Intl.DateTimeFormat("en-IN", { dateStyle: "medium" }).format(
+    new Date(value),
+  );
 }
 
 function dateOffsetValue(daysToAdd) {
@@ -50,7 +52,11 @@ function dateOffsetValue(daysToAdd) {
 }
 
 function normalizeText(value) {
-  return value.toLowerCase().replace(/[^a-z0-9 ]/g, " ").replace(/\s+/g, " ").trim();
+  return value
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 const quickActionPrompts = [
@@ -95,7 +101,10 @@ export default function SiteAssistant() {
   const [prompt, setPrompt] = useState("");
   const [therapies, setTherapies] = useState([]);
   const [hasLoadedTherapies, setHasLoadedTherapies] = useState(false);
-  const [therapyState, setTherapyState] = useState({ loading: false, error: "" });
+  const [therapyState, setTherapyState] = useState({
+    loading: false,
+    error: "",
+  });
   const [bookingForm, setBookingForm] = useState({
     therapy_name: "",
     customer_name: "",
@@ -106,23 +115,47 @@ export default function SiteAssistant() {
   });
   const [availability, setAvailability] = useState([]);
   const [selectedSlot, setSelectedSlot] = useState(null);
-  const [bookingState, setBookingState] = useState({ loading: false, message: "", error: "" });
-  const [lookupForm, setLookupForm] = useState({ reference_code: "", email: "" });
-  const [lookupState, setLookupState] = useState({ loading: false, booking: null, error: "" });
-  const [cancelForm, setCancelForm] = useState({ reference_code: "", email: "", reason: "" });
-  const [cancelState, setCancelState] = useState({ loading: false, message: "", error: "" });
+  const [bookingState, setBookingState] = useState({
+    loading: false,
+    message: "",
+    error: "",
+  });
+  const [lookupForm, setLookupForm] = useState({
+    reference_code: "",
+    email: "",
+  });
+  const [lookupState, setLookupState] = useState({
+    loading: false,
+    booking: null,
+    error: "",
+  });
+  const [cancelForm, setCancelForm] = useState({
+    reference_code: "",
+    email: "",
+    reason: "",
+  });
+  const [cancelState, setCancelState] = useState({
+    loading: false,
+    message: "",
+    error: "",
+  });
 
   const therapySummary = useMemo(
     () =>
       therapies
         .slice(0, 6)
-        .map((item) => `${item.title} (${item.duration || "duration shared by team"})`)
+        .map(
+          (item) =>
+            `${item.title} (${item.duration || "duration shared by team"})`,
+        )
         .join(", "),
-    [therapies]
+    [therapies],
   );
   const selectedTherapy = useMemo(
-    () => therapies.find((therapy) => therapy.title === bookingForm.therapy_name) || null,
-    [bookingForm.therapy_name, therapies]
+    () =>
+      therapies.find((therapy) => therapy.title === bookingForm.therapy_name) ||
+      null,
+    [bookingForm.therapy_name, therapies],
   );
 
   const addMessage = (role, text) => {
@@ -131,12 +164,17 @@ export default function SiteAssistant() {
 
   useEffect(() => {
     if (!isOpen || activeTool !== "ask") return;
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    messagesEndRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
   }, [activeTool, isOpen, messages]);
 
   const findMentionedTherapy = (text) => {
     const normalizedPrompt = normalizeText(text);
-    return therapies.find((therapy) => normalizedPrompt.includes(normalizeText(therapy.title)));
+    return therapies.find((therapy) =>
+      normalizedPrompt.includes(normalizeText(therapy.title)),
+    );
   };
 
   useEffect(() => {
@@ -157,7 +195,10 @@ export default function SiteAssistant() {
         }
       } catch (error) {
         setHasLoadedTherapies(true);
-        setTherapyState({ loading: false, error: error.message || "Unable to load therapies." });
+        setTherapyState({
+          loading: false,
+          error: error.message || "Unable to load therapies.",
+        });
       } finally {
         setTherapyState((current) => ({ ...current, loading: false }));
       }
@@ -207,7 +248,8 @@ export default function SiteAssistant() {
 
     const lower = normalizeText(userText);
     const mentionedTherapy = findMentionedTherapy(userText);
-    let reply = "I can help with therapy options, appointment booking, booking lookup, and cancellation.";
+    let reply =
+      "I can help with therapy options, appointment booking, booking lookup, and cancellation.";
     let showActions = false;
 
     if (mentionedTherapy) {
@@ -223,29 +265,48 @@ export default function SiteAssistant() {
       reply = `${mentionedTherapy.title} is selected. ${mentionedTherapy.duration ? `Duration: ${mentionedTherapy.duration}. ` : ""}Choose a date and available slot to complete the booking.`;
       setActiveTool("book");
     } else if (isGreeting(lower)) {
-      reply = "Hello. I can help you browse therapies, create a booking, check an existing booking, or cancel one. Choose an option below or type what you need.";
+      reply =
+        "Hello. I can help you browse therapies, create a booking, check an existing booking, or cancel one. Choose an option below or type what you need.";
       showActions = true;
-    } else if (lower.includes("therapy") || lower.includes("option") || lower.includes("show")) {
+    } else if (
+      lower.includes("therapy") ||
+      lower.includes("option") ||
+      lower.includes("show")
+    ) {
       reply = therapySummary
         ? `Current therapy options include: ${therapySummary}.`
         : "Open the therapy list in this assistant and I will load the available therapies from the backend.";
       setActiveTool("therapies");
     } else if (lower.includes("book")) {
       if (lower.includes("tomorrow")) {
-        setBookingForm((current) => ({ ...current, booking_date: dateOffsetValue(1) }));
+        setBookingForm((current) => ({
+          ...current,
+          booking_date: dateOffsetValue(1),
+        }));
       } else if (lower.includes("today")) {
-        setBookingForm((current) => ({ ...current, booking_date: todayValue() }));
+        setBookingForm((current) => ({
+          ...current,
+          booking_date: todayValue(),
+        }));
       }
-      reply = "Use the booking form below. Select therapy, date, slot, and enter your contact details.";
+      reply =
+        "Use the booking form below. Select therapy, date, slot, and enter your contact details.";
       setActiveTool("book");
     } else if (lower.includes("cancel")) {
-      reply = "Use your booking reference and email address to cancel a pending or confirmed booking.";
+      reply =
+        "Use your booking reference and email address to cancel a pending or confirmed booking.";
       setActiveTool("cancel");
-    } else if (lower.includes("check") || lower.includes("status") || lower.includes("reference")) {
-      reply = "Enter your booking reference and email to view appointment details.";
+    } else if (
+      lower.includes("check") ||
+      lower.includes("status") ||
+      lower.includes("reference")
+    ) {
+      reply =
+        "Enter your booking reference and email to view appointment details.";
       setActiveTool("lookup");
     } else {
-      reply = "I can help with therapies, booking, booking lookup, and cancellation. Choose an option below or type something like book appointment or check my booking.";
+      reply =
+        "I can help with therapies, booking, booking lookup, and cancellation. Choose an option below or type something like book appointment or check my booking.";
       showActions = true;
     }
 
@@ -260,7 +321,11 @@ export default function SiteAssistant() {
   const handleBookingSubmit = async (event) => {
     event.preventDefault();
     if (!selectedSlot) {
-      setBookingState({ loading: false, message: "", error: "Please choose an available slot." });
+      setBookingState({
+        loading: false,
+        message: "",
+        error: "Please choose an available slot.",
+      });
       return;
     }
 
@@ -285,13 +350,24 @@ export default function SiteAssistant() {
       });
       addMessage(
         "assistant",
-        `Booking requested for ${result.therapy_name}. Reference: ${result.reference_code}. Date: ${formatDate(result.booking_date)}, time: ${formatTime(result.start_time)}. Use this reference with your email to check or cancel later.`
+        `Booking requested for ${result.therapy_name}. Reference: ${result.reference_code}. Date: ${formatDate(result.booking_date)}, time: ${formatTime(result.start_time)}. Use this reference with your email to check or cancel later.`,
       );
-      setLookupForm({ reference_code: result.reference_code, email: result.email });
-      setCancelForm((current) => ({ ...current, reference_code: result.reference_code, email: result.email }));
+      setLookupForm({
+        reference_code: result.reference_code,
+        email: result.email,
+      });
+      setCancelForm((current) => ({
+        ...current,
+        reference_code: result.reference_code,
+        email: result.email,
+      }));
       setSelectedSlot(null);
     } catch (error) {
-      setBookingState({ loading: false, message: "", error: error.message || "Unable to create booking." });
+      setBookingState({
+        loading: false,
+        message: "",
+        error: error.message || "Unable to create booking.",
+      });
     }
   };
 
@@ -303,10 +379,14 @@ export default function SiteAssistant() {
       setLookupState({ loading: false, booking: result, error: "" });
       addMessage(
         "assistant",
-        `${result.reference_code}: ${result.therapy_name} is ${result.status}. Appointment: ${formatDate(result.booking_date)} at ${formatTime(result.start_time)}.`
+        `${result.reference_code}: ${result.therapy_name} is ${result.status}. Appointment: ${formatDate(result.booking_date)} at ${formatTime(result.start_time)}.`,
       );
     } catch (error) {
-      setLookupState({ loading: false, booking: null, error: error.message || "Unable to find booking." });
+      setLookupState({
+        loading: false,
+        booking: null,
+        error: error.message || "Unable to find booking.",
+      });
     }
   };
 
@@ -315,11 +395,22 @@ export default function SiteAssistant() {
     setCancelState({ loading: true, message: "", error: "" });
     try {
       const result = await cancelPublicBooking(cancelForm);
-      setCancelState({ loading: false, message: `${result.reference_code} has been cancelled.`, error: "" });
-      addMessage("assistant", `${result.reference_code} has been cancelled successfully.`);
+      setCancelState({
+        loading: false,
+        message: `${result.reference_code} has been cancelled.`,
+        error: "",
+      });
+      addMessage(
+        "assistant",
+        `${result.reference_code} has been cancelled successfully.`,
+      );
       setCancelForm({ reference_code: "", email: "", reason: "" });
     } catch (error) {
-      setCancelState({ loading: false, message: "", error: error.message || "Unable to cancel booking." });
+      setCancelState({
+        loading: false,
+        message: "",
+        error: error.message || "Unable to cancel booking.",
+      });
     }
   };
 
@@ -335,12 +426,23 @@ export default function SiteAssistant() {
                   <FaRobot className="text-[#e1bf6f]" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#e1bf6f]">AI Concierge</p>
-                  <h2 className="mt-1 text-base font-bold leading-tight text-white">Sri Sri booking assistant</h2>
-                  <p className="mt-1 text-xs leading-5 text-white/75">Find therapies, book a slot, or manage an existing booking.</p>
+                  <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-[#e1bf6f]">
+                    AI Concierge
+                  </p>
+                  <h2 className="mt-1 text-base font-bold leading-tight text-white">
+                    Sri Sri booking assistant
+                  </h2>
+                  <p className="mt-1 text-xs leading-5 text-white/75">
+                    Find therapies, book a slot, or manage an existing booking.
+                  </p>
                 </div>
               </div>
-              <button type="button" onClick={() => setIsOpen(false)} className="rounded-full bg-white/10 p-2 text-white hover:bg-white/15" aria-label="Close assistant">
+              <button
+                type="button"
+                onClick={() => setIsOpen(false)}
+                className="rounded-full bg-white/10 p-2 text-white hover:bg-white/15"
+                aria-label="Close assistant"
+              >
                 <FaTimes />
               </button>
             </div>
@@ -389,7 +491,9 @@ export default function SiteAssistant() {
                         }`}
                       >
                         {message.role === "assistant" ? (
-                          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#9a741d]">AMMU</p>
+                          <p className="mb-1 text-[10px] font-bold uppercase tracking-[0.16em] text-[#9a741d]">
+                            AMMU
+                          </p>
                         ) : null}
                         <p>{message.text}</p>
                         {message.role === "assistant" && message.showActions ? (
@@ -420,8 +524,8 @@ export default function SiteAssistant() {
                 >
                   <div className="flex items-end gap-3 rounded-[20px] border border-[#e4d7c6] bg-white p-2 shadow-sm">
                     <input
-                    value={prompt}
-                    onChange={(event) => setPrompt(event.target.value)}
+                      value={prompt}
+                      onChange={(event) => setPrompt(event.target.value)}
                       placeholder="Type your message"
                       className="h-11 min-w-0 flex-1 bg-transparent px-3 text-sm text-[#1f1a17] outline-none placeholder:text-[#9f9487]"
                     />
@@ -439,52 +543,86 @@ export default function SiteAssistant() {
 
             {activeTool === "therapies" ? (
               <div className="mt-4 rounded-[20px] border border-[#e8dccd] bg-white p-4">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#b88f28]">Therapy Data</p>
-                <p className="mt-2 text-sm leading-6 text-[#6f665f]">
-                  Select any therapy to move directly into booking with that therapy prefilled.
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#b88f28]">
+                  Therapy Data
                 </p>
-                {therapyState.loading ? <p className="mt-3 text-sm text-[#7a726c]">Loading therapies...</p> : null}
-                {therapyState.error ? <p className="mt-3 text-sm text-red-600">{therapyState.error}</p> : null}
+                <p className="mt-2 text-sm leading-6 text-[#6f665f]">
+                  Select any therapy to move directly into booking with that
+                  therapy prefilled.
+                </p>
+                {therapyState.loading ? (
+                  <p className="mt-3 text-sm text-[#7a726c]">
+                    Loading therapies...
+                  </p>
+                ) : null}
+                {therapyState.error ? (
+                  <p className="mt-3 text-sm text-red-600">
+                    {therapyState.error}
+                  </p>
+                ) : null}
                 <div className="mt-3 grid gap-3">
                   {therapies.map((therapy) => (
                     <button
                       key={therapy.id}
                       type="button"
                       onClick={() => {
-                        setBookingForm((current) => ({ ...current, therapy_name: therapy.title }));
+                        setBookingForm((current) => ({
+                          ...current,
+                          therapy_name: therapy.title,
+                        }));
                         setActiveTool("book");
                       }}
                       className="rounded-2xl border border-[#e8dccd] bg-[#fcfaf6] p-3 text-left hover:border-[#c29a2f]"
                     >
                       <div className="flex items-start justify-between gap-3">
-                        <p className="text-sm font-bold text-[#2f190f]">{therapy.title}</p>
-                        <span className="rounded-full bg-white px-2 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#9a741d]">Book</span>
+                        <p className="text-sm font-bold text-[#2f190f]">
+                          {therapy.title}
+                        </p>
+                        <span className="rounded-full bg-white px-2 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-[#9a741d]">
+                          Book
+                        </span>
                       </div>
-                      <p className="mt-1 text-xs text-[#7a726c]">{therapy.duration || "Duration shared by team"}</p>
+                      <p className="mt-1 text-xs text-[#7a726c]">
+                        {therapy.duration || "Duration shared by team"}
+                      </p>
                       {therapy.short_description ? (
-                        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#5f5650]">{therapy.short_description}</p>
+                        <p className="mt-2 line-clamp-2 text-xs leading-5 text-[#5f5650]">
+                          {therapy.short_description}
+                        </p>
                       ) : null}
                     </button>
                   ))}
                   {!therapyState.loading && !therapies.length ? (
-                    <p className="rounded-xl bg-[#fcfaf6] p-3 text-sm text-[#7a726c]">No therapy data is available right now.</p>
+                    <p className="rounded-xl bg-[#fcfaf6] p-3 text-sm text-[#7a726c]">
+                      No therapy data is available right now.
+                    </p>
                   ) : null}
                 </div>
               </div>
             ) : null}
 
             {activeTool === "book" ? (
-              <form onSubmit={handleBookingSubmit} className="mt-4 rounded-[20px] border border-[#e8dccd] bg-white p-4">
+              <form
+                onSubmit={handleBookingSubmit}
+                className="mt-4 rounded-[20px] border border-[#e8dccd] bg-white p-4"
+              >
                 <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#b88f28]">
                   <FaCalendarAlt /> Book Appointment
                 </p>
                 <select
                   value={bookingForm.therapy_name}
-                  onChange={(event) => setBookingForm((current) => ({ ...current, therapy_name: event.target.value }))}
+                  onChange={(event) =>
+                    setBookingForm((current) => ({
+                      ...current,
+                      therapy_name: event.target.value,
+                    }))
+                  }
                   className="mt-3 h-11 w-full rounded-full border border-[#e4d7c6] bg-[#fcfaf6] px-4 text-sm outline-none focus:border-[#c29a2f]"
                   required
                 >
-                  {!therapies.length ? <option value="">Loading therapies...</option> : null}
+                  {!therapies.length ? (
+                    <option value="">Loading therapies...</option>
+                  ) : null}
                   {therapies.map((therapy) => (
                     <option key={therapy.id} value={therapy.title}>
                       {therapy.title}
@@ -493,10 +631,16 @@ export default function SiteAssistant() {
                 </select>
                 {selectedTherapy ? (
                   <div className="mt-3 rounded-2xl border border-[#eadcc7] bg-[#fffaf2] p-3 text-sm text-[#5f5650]">
-                    <p className="font-bold text-[#2f190f]">{selectedTherapy.title}</p>
-                    <p className="mt-1 text-xs uppercase tracking-[0.14em] text-[#9a741d]">{selectedTherapy.duration || "Duration shared by team"}</p>
+                    <p className="font-bold text-[#2f190f]">
+                      {selectedTherapy.title}
+                    </p>
+                    <p className="mt-1 text-xs uppercase tracking-[0.14em] text-[#9a741d]">
+                      {selectedTherapy.duration || "Duration shared by team"}
+                    </p>
                     {selectedTherapy.short_description ? (
-                      <p className="mt-2 leading-6">{selectedTherapy.short_description}</p>
+                      <p className="mt-2 leading-6">
+                        {selectedTherapy.short_description}
+                      </p>
                     ) : null}
                   </div>
                 ) : null}
@@ -504,14 +648,20 @@ export default function SiteAssistant() {
                   type="date"
                   min={todayValue()}
                   value={bookingForm.booking_date}
-                  onChange={(event) => setBookingForm((current) => ({ ...current, booking_date: event.target.value }))}
+                  onChange={(event) =>
+                    setBookingForm((current) => ({
+                      ...current,
+                      booking_date: event.target.value,
+                    }))
+                  }
                   className="mt-3 h-11 w-full rounded-full border border-[#e4d7c6] bg-[#fcfaf6] px-4 text-sm outline-none focus:border-[#c29a2f]"
                   required
                 />
                 <div className="mt-3 grid max-h-44 gap-2 overflow-y-auto">
                   {availability.length ? (
                     <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9a741d]">
-                      {availability.length} live slot{availability.length === 1 ? "" : "s"} available
+                      {availability.length} live slot
+                      {availability.length === 1 ? "" : "s"} available
                     </p>
                   ) : null}
                   {availability.map((slot) => {
@@ -525,21 +675,32 @@ export default function SiteAssistant() {
                         type="button"
                         onClick={() => setSelectedSlot(slot)}
                         className={`rounded-2xl border px-3 py-2 text-left text-sm ${
-                          isSelected ? "border-[#c29a2f] bg-[#fff5df]" : "border-[#e8dccd] bg-[#fcfaf6]"
+                          isSelected
+                            ? "border-[#c29a2f] bg-[#fff5df]"
+                            : "border-[#e8dccd] bg-[#fcfaf6]"
                         }`}
                       >
-                        <span className="font-bold text-[#2f190f]">{formatTime(slot.start_time)} - {formatTime(slot.end_time)}</span>
+                        <span className="font-bold text-[#2f190f]">
+                          {formatTime(slot.start_time)} -{" "}
+                          {formatTime(slot.end_time)}
+                        </span>
                         <span className="mt-1 block text-xs text-[#7a726c]">
-                          {slot.therapist_name} | {slot.remaining_capacity} slot{slot.remaining_capacity === 1 ? "" : "s"} left
+                          {slot.therapist_name} | {slot.remaining_capacity} slot
+                          {slot.remaining_capacity === 1 ? "" : "s"} left
                         </span>
                       </button>
                     );
                   })}
-                  {!availability.length ? <p className="rounded-xl bg-[#fcfaf6] p-3 text-sm text-[#7a726c]">No slots loaded for this therapy/date.</p> : null}
+                  {!availability.length ? (
+                    <p className="rounded-xl bg-[#fcfaf6] p-3 text-sm text-[#7a726c]">
+                      No slots loaded for this therapy/date.
+                    </p>
+                  ) : null}
                 </div>
                 {selectedSlot ? (
                   <p className="mt-3 rounded-xl border border-[#eadcc7] bg-[#fff5df] px-3 py-2 text-sm font-semibold text-[#7b5d16]">
-                    Selected: {formatTime(selectedSlot.start_time)} with {selectedSlot.therapist_name}
+                    Selected: {formatTime(selectedSlot.start_time)} with{" "}
+                    {selectedSlot.therapist_name}
                   </p>
                 ) : null}
                 {[
@@ -551,7 +712,12 @@ export default function SiteAssistant() {
                     key={name}
                     type={type}
                     value={bookingForm[name]}
-                    onChange={(event) => setBookingForm((current) => ({ ...current, [name]: event.target.value }))}
+                    onChange={(event) =>
+                      setBookingForm((current) => ({
+                        ...current,
+                        [name]: event.target.value,
+                      }))
+                    }
                     placeholder={placeholder}
                     className="mt-3 h-11 w-full rounded-full border border-[#e4d7c6] bg-[#fcfaf6] px-4 text-sm outline-none focus:border-[#c29a2f]"
                     required
@@ -559,27 +725,52 @@ export default function SiteAssistant() {
                 ))}
                 <textarea
                   value={bookingForm.notes}
-                  onChange={(event) => setBookingForm((current) => ({ ...current, notes: event.target.value }))}
+                  onChange={(event) =>
+                    setBookingForm((current) => ({
+                      ...current,
+                      notes: event.target.value,
+                    }))
+                  }
                   placeholder="Health concern or notes"
                   rows={2}
                   className="mt-3 w-full rounded-[18px] border border-[#e4d7c6] bg-[#fcfaf6] px-4 py-3 text-sm outline-none focus:border-[#c29a2f]"
                 />
-                {bookingState.error ? <p className="mt-3 text-sm text-red-600">{bookingState.error}</p> : null}
-                {bookingState.message ? <p className="mt-3 text-sm text-green-700">{bookingState.message}</p> : null}
-                <button type="submit" disabled={bookingState.loading} className="mt-3 inline-flex h-11 items-center justify-center rounded-full bg-[#c29a2f] px-5 text-sm font-bold uppercase tracking-[0.14em] text-white transition hover:bg-[#a88528] disabled:opacity-60">
+                {bookingState.error ? (
+                  <p className="mt-3 text-sm text-red-600">
+                    {bookingState.error}
+                  </p>
+                ) : null}
+                {bookingState.message ? (
+                  <p className="mt-3 text-sm text-green-700">
+                    {bookingState.message}
+                  </p>
+                ) : null}
+                <button
+                  type="submit"
+                  disabled={bookingState.loading}
+                  className="mt-3 inline-flex h-11 items-center justify-center rounded-full bg-[#c29a2f] px-5 text-sm font-bold uppercase tracking-[0.14em] text-white transition hover:bg-[#a88528] disabled:opacity-60"
+                >
                   {bookingState.loading ? "Booking..." : "Create Booking"}
                 </button>
               </form>
             ) : null}
 
             {activeTool === "lookup" ? (
-              <form onSubmit={handleLookup} className="mt-4 rounded-[20px] border border-[#e8dccd] bg-white p-4">
+              <form
+                onSubmit={handleLookup}
+                className="mt-4 rounded-[20px] border border-[#e8dccd] bg-white p-4"
+              >
                 <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.22em] text-[#b88f28]">
                   <FaSearch /> Check Booking
                 </p>
                 <input
                   value={lookupForm.reference_code}
-                  onChange={(event) => setLookupForm((current) => ({ ...current, reference_code: event.target.value }))}
+                  onChange={(event) =>
+                    setLookupForm((current) => ({
+                      ...current,
+                      reference_code: event.target.value,
+                    }))
+                  }
                   placeholder="Booking reference"
                   className="mt-3 h-11 w-full rounded-full border border-[#e4d7c6] bg-[#fcfaf6] px-4 text-sm outline-none focus:border-[#c29a2f]"
                   required
@@ -587,19 +778,34 @@ export default function SiteAssistant() {
                 <input
                   type="email"
                   value={lookupForm.email}
-                  onChange={(event) => setLookupForm((current) => ({ ...current, email: event.target.value }))}
+                  onChange={(event) =>
+                    setLookupForm((current) => ({
+                      ...current,
+                      email: event.target.value,
+                    }))
+                  }
                   placeholder="Email address"
                   className="mt-3 h-11 w-full rounded-full border border-[#e4d7c6] bg-[#fcfaf6] px-4 text-sm outline-none focus:border-[#c29a2f]"
                   required
                 />
-                {lookupState.error ? <p className="mt-3 text-sm text-red-600">{lookupState.error}</p> : null}
+                {lookupState.error ? (
+                  <p className="mt-3 text-sm text-red-600">
+                    {lookupState.error}
+                  </p>
+                ) : null}
                 {lookupState.booking ? (
                   <div className="mt-3 rounded-2xl border border-[#e8dccd] bg-[#fcfaf6] p-3 text-sm text-[#4b413a]">
-                    <p className="font-bold text-[#2f190f]">{lookupState.booking.reference_code}</p>
+                    <p className="font-bold text-[#2f190f]">
+                      {lookupState.booking.reference_code}
+                    </p>
                     <p>{lookupState.booking.therapy_name}</p>
-                    <p>{formatDate(lookupState.booking.booking_date)} | {formatTime(lookupState.booking.start_time)}</p>
+                    <p>
+                      {formatDate(lookupState.booking.booking_date)} |{" "}
+                      {formatTime(lookupState.booking.start_time)}
+                    </p>
                     <p>Status: {lookupState.booking.status}</p>
-                    {lookupState.booking.status !== "cancelled" && lookupState.booking.status !== "completed" ? (
+                    {lookupState.booking.status !== "cancelled" &&
+                    lookupState.booking.status !== "completed" ? (
                       <button
                         type="button"
                         onClick={() => {
@@ -617,18 +823,32 @@ export default function SiteAssistant() {
                     ) : null}
                   </div>
                 ) : null}
-                <button type="submit" disabled={lookupState.loading} className="mt-3 inline-flex h-11 items-center justify-center rounded-full bg-[#c29a2f] px-5 text-sm font-bold uppercase tracking-[0.14em] text-white transition hover:bg-[#a88528] disabled:opacity-60">
+                <button
+                  type="submit"
+                  disabled={lookupState.loading}
+                  className="mt-3 inline-flex h-11 items-center justify-center rounded-full bg-[#c29a2f] px-5 text-sm font-bold uppercase tracking-[0.14em] text-white transition hover:bg-[#a88528] disabled:opacity-60"
+                >
                   {lookupState.loading ? "Checking..." : "Check Booking"}
                 </button>
               </form>
             ) : null}
 
             {activeTool === "cancel" ? (
-              <form onSubmit={handleCancel} className="mt-4 rounded-[20px] border border-[#e8dccd] bg-white p-4">
-                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#b88f28]">Cancel Booking</p>
+              <form
+                onSubmit={handleCancel}
+                className="mt-4 rounded-[20px] border border-[#e8dccd] bg-white p-4"
+              >
+                <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#b88f28]">
+                  Cancel Booking
+                </p>
                 <input
                   value={cancelForm.reference_code}
-                  onChange={(event) => setCancelForm((current) => ({ ...current, reference_code: event.target.value }))}
+                  onChange={(event) =>
+                    setCancelForm((current) => ({
+                      ...current,
+                      reference_code: event.target.value,
+                    }))
+                  }
                   placeholder="Booking reference"
                   className="mt-3 h-11 w-full rounded-full border border-[#e4d7c6] bg-[#fcfaf6] px-4 text-sm outline-none focus:border-[#c29a2f]"
                   required
@@ -636,31 +856,60 @@ export default function SiteAssistant() {
                 <input
                   type="email"
                   value={cancelForm.email}
-                  onChange={(event) => setCancelForm((current) => ({ ...current, email: event.target.value }))}
+                  onChange={(event) =>
+                    setCancelForm((current) => ({
+                      ...current,
+                      email: event.target.value,
+                    }))
+                  }
                   placeholder="Email address"
                   className="mt-3 h-11 w-full rounded-full border border-[#e4d7c6] bg-[#fcfaf6] px-4 text-sm outline-none focus:border-[#c29a2f]"
                   required
                 />
                 <textarea
                   value={cancelForm.reason}
-                  onChange={(event) => setCancelForm((current) => ({ ...current, reason: event.target.value }))}
+                  onChange={(event) =>
+                    setCancelForm((current) => ({
+                      ...current,
+                      reason: event.target.value,
+                    }))
+                  }
                   placeholder="Reason for cancellation"
                   rows={2}
                   className="mt-3 w-full rounded-[18px] border border-[#e4d7c6] bg-[#fcfaf6] px-4 py-3 text-sm outline-none focus:border-[#c29a2f]"
                 />
-                {cancelState.error ? <p className="mt-3 text-sm text-red-600">{cancelState.error}</p> : null}
-                {cancelState.message ? <p className="mt-3 text-sm text-green-700">{cancelState.message}</p> : null}
-                <button type="submit" disabled={cancelState.loading} className="mt-3 inline-flex h-11 items-center justify-center rounded-full border border-[#d7c29a] bg-[#fff5df] px-5 text-sm font-bold uppercase tracking-[0.14em] text-[#8a6510] transition hover:bg-[#f8ebcb] disabled:opacity-60">
+                {cancelState.error ? (
+                  <p className="mt-3 text-sm text-red-600">
+                    {cancelState.error}
+                  </p>
+                ) : null}
+                {cancelState.message ? (
+                  <p className="mt-3 text-sm text-green-700">
+                    {cancelState.message}
+                  </p>
+                ) : null}
+                <button
+                  type="submit"
+                  disabled={cancelState.loading}
+                  className="mt-3 inline-flex h-11 items-center justify-center rounded-full border border-[#d7c29a] bg-[#fff5df] px-5 text-sm font-bold uppercase tracking-[0.14em] text-[#8a6510] transition hover:bg-[#f8ebcb] disabled:opacity-60"
+                >
                   {cancelState.loading ? "Cancelling..." : "Cancel Booking"}
                 </button>
               </form>
             ) : null}
 
             <p className="mt-4 text-xs leading-5 text-[#7a726c]">
-              Need personal help? Visit the <Link href="/contact" className="font-semibold text-[#8a6510] underline">contact page</Link>.
+              Need personal help? Visit the{" "}
+              <Link
+                href="/contact"
+                className="font-semibold text-[#8a6510] underline"
+              >
+                contact page
+              </Link>
+              .
             </p>
             <p className="mt-4 border-t border-[#eadcc7] pt-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-[#9a8f84]">
-              Developed by Ayati Inteligents
+              Developed by Ayati Intelligence
             </p>
           </div>
         </div>
@@ -676,7 +925,9 @@ export default function SiteAssistant() {
           <FaComments />
           <span className="absolute right-0 top-0 h-2.5 w-2.5 rounded-full border border-[#2f190f] bg-[#5fd28f]" />
         </span>
-        <span className="hidden sm:inline">{isOpen ? "Close Concierge" : "AI Concierge"}</span>
+        <span className="hidden sm:inline">
+          {isOpen ? "Close Concierge" : "AI Concierge"}
+        </span>
       </button>
     </>
   );
