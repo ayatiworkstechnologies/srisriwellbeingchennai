@@ -27,7 +27,7 @@ const experiences = [
     title: "Marma Chikitsa",
     desc: "An ancient Ayurvedic science that stimulates vital energy points to enhance vitality and inner balance.",
     num: "03",
-    image: "/images/alt-marma.png",
+    image: "/images/sig-3.jpg",
     icon: "/images/ico-3.svg",
     accent: "#c29a2f",
   },
@@ -97,7 +97,7 @@ function HorizontalCard({ item }) {
               <span className="h-px flex-1 max-w-[40px] bg-[#c29a2f]/40" />
             </div>
 
-          <h3 className="section-title mb-3 text-[#1a1612] md:mb-4">
+            <h3 className="section-title mb-3 text-[#1a1612] md:mb-4">
               {item.title}
             </h3>
 

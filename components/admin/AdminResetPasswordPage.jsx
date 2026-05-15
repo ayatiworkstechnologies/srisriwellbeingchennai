@@ -1,12 +1,16 @@
 "use client";
 
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 import { resetAdminPassword } from "@/lib/api";
 import { FlashMessage, PasswordInput } from "@/components/admin/admin-ui";
 
-export default function AdminResetPasswordPage({ token = "" }) {
+export default function AdminResetPasswordPage() {
+  const searchParams = useSearchParams();
+  const token = searchParams.get("token") || "";
+
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");

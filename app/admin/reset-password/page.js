@@ -1,6 +1,10 @@
 import AdminResetPasswordPage from "@/components/admin/AdminResetPasswordPage";
+import { Suspense } from "react";
 
-export default async function ResetPasswordRoute({ searchParams }) {
-  const params = await searchParams;
-  return <AdminResetPasswordPage token={params?.token || ""} />;
+export default function ResetPasswordRoute() {
+  return (
+    <Suspense fallback={<div className="flex min-h-screen items-center justify-center">Loading...</div>}>
+      <AdminResetPasswordPage />
+    </Suspense>
+  );
 }

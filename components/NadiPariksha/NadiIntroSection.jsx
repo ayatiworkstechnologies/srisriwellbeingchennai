@@ -21,7 +21,7 @@ export default function NadiIntroSection() {
             <p className="text-[12px] font-bold uppercase tracking-[0.24em] text-[#b88f28]">
               Pulse Diagnosis
             </p>
-            <h2 className="mx-auto mt-4 max-w-4xl text-[28px] font-bold leading-tight text-[#2d1a12] md:text-[40px]">
+            <h2 className="mx-auto mt-4 max-w-4xl text-[28px] font-bold leading-tight text-white md:text-[40px]">
               Begin With A Clearer Understanding Of Your Body
             </h2>
             <div className="mx-auto mt-5 h-[3px] w-[72px] rounded-full bg-[#c79f31]" />
@@ -29,7 +29,7 @@ export default function NadiIntroSection() {
               {heroContent.description.map((paragraph) => (
                 <p
                   key={paragraph}
-                  className="text-[15px] font-medium leading-8 text-[#5f554e] md:text-[17px]"
+                  className="text-[15px] font-medium leading-8 text-white md:text-[17px]"
                 >
                   {paragraph}
                 </p>
