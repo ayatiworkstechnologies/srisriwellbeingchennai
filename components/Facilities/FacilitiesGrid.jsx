@@ -5,75 +5,51 @@ import RevealOnScroll from "@/components/Main/RevealOnScroll";
 
 const facilityPoints = [
   {
-    title: "Reception & Guest Guidance",
-    description:
-      "A calm first point of contact where guests are welcomed, guided, and supported through their visit.",
+    title: "Elder-Friendly & Wheelchair-Accessible Spaces",
     image: "/images/facilities/fac-1.png",
   },
   {
-    title: "Ayurveda Consultation Rooms",
-    description:
-      "Private consultation spaces for pulse reading, doctor guidance, therapy planning, and follow-up care.",
+    title: "Ample Car Parking for Visitors & Patients",
     image: "/images/facilities/fac-2.png",
   },
   {
-    title: "Therapy Suites",
-    description:
-      "Clean, quiet treatment rooms prepared for Ayurvedic therapies, relaxation rituals, and restorative care.",
+    title: "24/7 Wellness & Care Support",
     image: "/images/facilities/fac-3.png",
   },
   {
-    title: "Panchakarma Care Spaces",
-    description:
-      "Dedicated areas that support deeper cleansing programmes with privacy, hygiene, and attentive care.",
+    title: "In-House Ayurveda Doctors & Consultation Support",
     image: "/images/facilities/fac-4.png",
   },
   {
-    title: "Rest & Recovery Rooms",
-    description:
-      "Comfortable rooms for post-therapy rest, longer wellness stays, and unhurried recovery time.",
+    title: "Yoga & Meditation Studio for Holistic Well Being",
     image: "/images/facilities/fac-5.png",
   },
   {
-    title: "Yoga & Breathwork Areas",
-    description:
-      "Peaceful spaces for gentle movement, breath practices, meditation, and whole-person wellbeing.",
+    title: "Green Landscaped Surroundings with a Calming Atmosphere",
     image: "/images/facilities/fac-6.png",
   },
   {
-    title: "Pharmacy & Product Support",
-    description:
-      "Easy access to recommended Ayurvedic products, supplements, and care essentials after consultation.",
+    title: "Ayurveda Pharmacy & Wellness Essentials",
     image: "/images/facilities/fac-7.png",
   },
   {
-    title: "Family Waiting Lounges",
-    description:
-      "Warm waiting areas for family members and guests, designed for comfort during consultations or therapy.",
+    title: "Daycare & Wellness Observation Facilities",
     image: "/images/facilities/fac-8.png",
   },
   {
-    title: "Elder-Friendly Movement",
-    description:
-      "Thoughtful layouts that make movement easier for elders, patients, and visitors needing extra support.",
+    title: "Community-Focused Wellness Environment",
     image: "/images/facilities/fac-9.png",
   },
   {
-    title: "Parking & Arrival Flow",
-    description:
-      "A smoother visit experience with convenient arrival support for appointments, stays, and follow-ups.",
+    title: "Clean, Peaceful & Patient-Friendly Infrastructure",
     image: "/images/facilities/fac-10.png",
   },
   {
-    title: "Work From Stay Corners",
-    description:
-      "Quiet corners for guests balancing wellness stays with light work, calls, and daily routines.",
+    title: "Dedicated Relaxation & Healing Spaces",
     image: "/images/facilities/fac-11.png",
   },
   {
-    title: "Healing Ambience",
-    description:
-      "A soothing environment shaped around cleanliness, calm, natural textures, and restorative energy.",
+    title: "Integrated Support for Long-Term Wellness Programs",
     image: "/images/facilities/fac-12.png",
   },
 ];
@@ -101,7 +77,7 @@ export default function FacilitiesGrid() {
           {facilityPoints.map((point, index) => {
             return (
               <RevealOnScroll key={index} delay={index * 0.05}>
-                <div className="group overflow-hidden rounded-[24px] border border-[#eadfce] bg-white shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(212,175,55,0.15)] hover:border-[#d4af37]">
+                <div className="group h-full flex flex-col overflow-hidden rounded-[24px] border border-[#eadfce] bg-white shadow-sm transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_15px_30px_rgba(212,175,55,0.15)] hover:border-[#d4af37]">
                   <div className="relative aspect-[4/3] overflow-hidden">
                     <Image
                       src={point.image}
@@ -110,12 +86,9 @@ export default function FacilitiesGrid() {
                       className="object-cover transition duration-700 group-hover:scale-[1.04]"
                     />
                   </div>
-                  <div className="p-6">
+                  <div className="p-6 flex-1 flex items-center">
                     <p className="text-lg font-bold leading-relaxed text-[#23130d]">
                       {point.title}
-                    </p>
-                    <p className="mt-3 text-sm leading-7 text-[#5e5751]">
-                      {point.description}
                     </p>
                   </div>
                 </div>

@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { FaEnvelope, FaPhoneVolume, FaInstagram, FaFacebookF, FaLinkedinIn, FaChevronRight } from "react-icons/fa6";
+import { FaEnvelope, FaPhoneVolume, FaInstagram, FaFacebookF, FaYoutube, FaChevronRight } from "react-icons/fa6";
+import { SiThreads } from "react-icons/si";
 
 export default function Footer() {
   return (
@@ -125,7 +126,16 @@ export default function Footer() {
                   <FaInstagram className="text-[18px]" />
                 </a>
                 <a
-                  href="https://facebook.com/srisriwellbeingchennai"
+                  href="https://www.threads.com/@ssw_chennai"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white/80 transition hover:-translate-y-0.5 hover:text-[#d0a93d]"
+                  aria-label="Threads"
+                >
+                  <SiThreads className="text-[17px]" />
+                </a>
+                <a
+                  href="https://www.facebook.com/profile.php?id=61587415220007"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white/80 transition hover:-translate-y-0.5 hover:text-[#d0a93d]"
@@ -134,19 +144,19 @@ export default function Footer() {
                   <FaFacebookF className="text-[17px]" />
                 </a>
                 <a
-                  href="https://linkedin.com/company/srisriwellbeingchennai"
+                  href="https://www.youtube.com/@srisriwellbeing-chennai"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-white/80 transition hover:-translate-y-0.5 hover:text-[#d0a93d]"
-                  aria-label="LinkedIn"
+                  aria-label="YouTube"
                 >
-                  <FaLinkedinIn className="text-[18px]" />
+                  <FaYoutube className="text-[19px]" />
                 </a>
               </div>
 
               {/* Copyright - Center */}
               <p className="small-text text-center text-white/90">
-                Copyright &copy;2026 Sri Sri Well Being Chennai  - All right reserved
+                Copyright &copy;{" "}{new Date().getFullYear()}{" "}Sri Sri WellBeing Chennai &mdash; All Rights Reserved
               </p>
 
               {/* Developer Credit - Right */}

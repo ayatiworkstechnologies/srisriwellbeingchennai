@@ -6,22 +6,16 @@ import WellnessButton from "../layouts/WellnessButton";
 
 const facilityHighlights = [
   {
-    title: "Consultation & Therapy Rooms",
-    description:
-      "Private doctor consultation spaces and prepared therapy rooms for calm, personalised Ayurvedic care.",
+    title: "Elder-Friendly & Wheelchair-Accessible Spaces",
+    image: "/images/facilities/fac-1.png",
+  },
+  {
+    title: "Ample Car Parking for Visitors & Patients",
     image: "/images/facilities/fac-2.png",
   },
   {
-    title: "Rest & Recovery Spaces",
-    description:
-      "Comfortable rooms and quiet areas that support post-therapy rest, longer programmes, and recovery.",
-    image: "/images/facilities/fac-5.png",
-  },
-  {
-    title: "Pharmacy & Guest Support",
-    description:
-      "On-site care coordination, product support, and a smoother visit flow for guests and families.",
-    image: "/images/facilities/fac-7.png",
+    title: "24/7 Wellness & Care Support",
+    image: "/images/facilities/fac-3.png",
   },
 ];
 
@@ -45,7 +39,7 @@ export default function HomeFacilitiesSection() {
         <div className="grid gap-6 md:grid-cols-3">
           {facilityHighlights.map((item, index) => (
             <RevealOnScroll key={item.title} delay={index * 0.08}>
-              <div className="overflow-hidden rounded-[24px] border border-[#eadfce] bg-white shadow-[0_14px_34px_rgba(31,23,20,0.06)]">
+              <div className="h-full flex flex-col overflow-hidden rounded-[24px] border border-[#eadfce] bg-white shadow-[0_14px_34px_rgba(31,23,20,0.06)]">
                 <div className="relative aspect-[4/3] overflow-hidden">
                   <Image
                     src={item.image}
@@ -54,13 +48,10 @@ export default function HomeFacilitiesSection() {
                     className="object-cover transition duration-500 hover:scale-[1.04]"
                   />
                 </div>
-                <div className="p-6">
+                <div className="p-6 flex-1 flex items-center">
                   <h3 className="section-subtitle text-[#1f1a17]">
                     {item.title}
                   </h3>
-                  <p className="para-text mt-3 text-[#6b6158]">
-                    {item.description}
-                  </p>
                 </div>
               </div>
             </RevealOnScroll>
